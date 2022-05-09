@@ -1,0 +1,149 @@
+/* .signup{
+    margin-top: 15vh;
+    background-color: aliceblue;
+    width: 900px;
+    height: 600px;
+    margin-left: 40vh;
+}
+
+.form-title{
+    margin-left: -30px;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+}
+
+.register-form{
+
+}
+
+.form-group{
+    border-bottom-width: medium;
+    border-bottom-color:black;
+    border-bottom-style: solid;
+    width: 40px;
+}
+
+.form-label{
+    padding: 1.5vh;
+    margin-left: -30px;
+}
+
+.signup-content{
+    display: grid;
+    margin: auto;
+    padding: 1vmax;
+    justify-content: space-evenly;
+}
+
+input {
+    background-color: transparent;
+    border: 0px solid;
+    height: 20px;
+    width: 160px;
+    color: rgb(0, 0, 0);
+}
+ */
+
+ .signup{
+    margin-top: 10vh;
+    width: 900px;
+    height: 600px;
+    margin-left: 40vh;
+}
+
+
+.signup-form {
+    display: block;
+    text-align: center;
+    border-radius: 2px;
+    /* background-color: #f2f2f2; */
+    padding: 20px;
+}
+
+.signup-form form {
+    display: inline-block;
+    margin: 30px auto;
+    text-align: left;
+
+}
+/* .signup-form img {
+    display: inline-block;
+    width: 500px;
+    
+
+} */
+
+
+input[type=text], select, textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 2px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+input[type=email], select, textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 2px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+input[type=password], select, textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 2px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+input[type=number], select, textarea {
+    width: 100%; /* Full width */
+    padding: 12px; /* Some padding */
+    border: 1px solid #ccc; /* Gray border */
+    border-radius: 2px; /* Rounded borders */
+    box-sizing: border-box; /* Make sure that padding and width stays in place */
+    margin-top: 6px; /* Add a top margin */
+    margin-bottom: 16px; /* Bottom margin */
+    resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+input[type=submit] {
+    background-color: #5271F3;
+    width: 400px;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    align-items: center;
+}
+
+input[type=submit]:hover {
+    background-color: white;
+    color: gray;
+}
+
+.signup-content{
+    display: flex;
+}    
+
+.signup-content img {
+    width: 400px;
+    padding: 20px;
+    margin-top: 7vh;
+}
+
+.signup-image-link{
+    margin-left: 21vh;
+}

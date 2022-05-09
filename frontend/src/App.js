@@ -1,5 +1,6 @@
 
 import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import {BrowserRouter, Route} from 'react-router-dom';
 import Mid from './component/mid';
 
