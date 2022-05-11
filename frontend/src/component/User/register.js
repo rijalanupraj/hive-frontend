@@ -18,6 +18,7 @@ const register = () => {
                     <i class="zmdi zmdi-account zmdi-hc-lg"></i>
                   </label>
                   <input
+                    className="inputField"
                     type="text"
                     name="name"
                     id="name"
@@ -32,6 +33,7 @@ const register = () => {
                     <i class="zmdi zmdi-email zmdi-hc-lg"></i>
                   </label>
                   <input
+                    className="inputEmail"
                     type="email"
                     name="email"
                     id="email"
@@ -45,6 +47,7 @@ const register = () => {
                     <i class="zmdi zmdi-phone-in-talk zmdi-hc-lg"></i>
                   </label>
                   <input
+                    className="inputNumber"
                     type="number"
                     name="phone"
                     id="phone"
@@ -58,6 +61,7 @@ const register = () => {
                     <i class="zmdi zmdi-slideshow zmdi-hc-lg"></i>
                   </label>
                   <input
+                    className="inputField"
                     type="text"
                     name="work"
                     id="work"
@@ -71,6 +75,7 @@ const register = () => {
                     <i class="zmdi zmdi-lock zmdi-hc-lg"></i>
                   </label>
                   <input
+                    className="inputPassword"
                     type="password"
                     name="password"
                     id="password"
@@ -84,6 +89,7 @@ const register = () => {
                     <i class="zmdi zmdi-lock zmdi-hc-lg"></i>
                   </label>
                   <input
+                    className="inputPassword"
                     type="password"
                     name="cpassword"
                     id="cpassword"
@@ -94,10 +100,10 @@ const register = () => {
 
                 <div className="form-group form-button">
                   <input
+                    className="inputSubmit"
                     type="submit"
                     name="signup"
                     id="signup"
-                    className="form-submit"
                     value="register"
                   />
                 </div>
