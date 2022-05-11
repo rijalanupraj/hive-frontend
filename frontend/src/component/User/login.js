@@ -12,7 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
+import "./css/login.css";
 function Copyright(props) {
   return (
     <Typography
@@ -22,7 +22,10 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit">Samadhan</Link> {new Date().getFullYear()}
+      <Link color="inherit" style={{ textDecoration: "inherit" }}>
+        Samadhan
+      </Link>{" "}
+      {new Date().getFullYear()}
       {"."}
     </Typography>
   );
@@ -98,12 +101,20 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link
+                  href="#"
+                  style={{ textDecoration: "inherit" }}
+                  variant="body2"
+                >
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="register" variant="body2">
+                <Link
+                  href="register"
+                  variant="body2"
+                  style={{ textDecoration: "inherit" }}
+                >
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
