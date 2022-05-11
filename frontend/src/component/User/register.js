@@ -1,36 +1,105 @@
-import React from "react";
+import React, {Fragment, useRef, useState, useEffect} from "react";
 import "./css/register.css";
+import MetaData from "../MetaData";
 import { NavLink } from "react-router-dom";
 // import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import signpic from "../../images/register1.svg";
 
-const register = () => {
+
+import { useDispatch, useSelector } from "react-redux";
+// import { useAlert } from "react-alert";
+import { clearErrors, userLogin, userRegister } from "../../actions/userActions";
+
+// import { createBrowserHistory } from 'history';
+import { useNavigate } from "react-router-dom";
+
+
+const Register = () => {
+
+  const dispatch = useDispatch();
+  // const alert = useAlert();
+  const navigate = useNavigate();
+  const { error, loading, isAuthenticated } = useSelector((state)=>state.user);
+
+  const [user, setUser] = useState({
+      fullname: "",
+      username:"",
+      email: "",
+      password: "",
+    });
+
+  const { fullname, username, email, password } = user;
+
+  const registerSubmit = (e)=>{
+      e.preventDefault();
+      const JSON ={
+        fullname: fullname,
+        username: username,
+        email: email,
+        password: password,
+      }  
+      dispatch(userRegister(JSON));     
+  };
+  const registerDataChange = (e) => {
+          setUser({ ...user, [e.target.name]: e.target.value });
+  };
+  const redirect = window.location.search ? window.location.search.split("=")[1] : "/login";
+  useEffect(() => {
+      if(error){
+          // alert.error(error);
+          dispatch(clearErrors());
+      }
+      if(isAuthenticated){
+          navigate(redirect);
+      }  
+  }, [dispatch, error, navigate, isAuthenticated, redirect]);
+
   return (
-    <>
+
+    <Fragment>
+      <MetaData title="Register" />
       <section className="signup">
         <div className="container mt-3">
           <div className="signup-content">
             <div className="signup-form">
               <h2 className="form-title">Sign Up</h2>
-              <form className="register-form" id="register-form">
+              <form className="register-form" id="register-form" onSubmit={registerSubmit}>
                 <div className="form-group">
-                  <label htmlFor="name" className="form-label">
-                    <i class="zmdi zmdi-account zmdi-hc-lg"></i>
+                  <label htmlFor="fullname" className="form-label">
+                    <i className="zmdi zmdi-account zmdi-hc-lg"></i>
                   </label>
                   <input
                     className="inputField"
                     type="text"
-                    name="name"
-                    id="name"
+                    name="fullname"
+                    id="fullname"
                     autoComplete="off"
-                    placeholder="Your Name"
+                    placeholder="Full Name"
                     size="40"
+                    onChange={registerDataChange}
+                    value={fullname} 
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="name" className="form-label">
+                    <i className="zmdi zmdi-slideshow zmdi-hc-lg"></i>
+                  </label>
+                  <input
+                    className="inputField"
+                    type="text"
+                    name="username"
+                    id="username"
+                    autoComplete="off"
+                    placeholder="User Name"
+                    onChange={registerDataChange}
+                    value={username} 
                   />
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="email" className="form-label">
-                    <i class="zmdi zmdi-email zmdi-hc-lg"></i>
+                    <i className="zmdi zmdi-email zmdi-hc-lg"></i>
                   </label>
                   <input
                     className="inputEmail"
@@ -39,40 +108,14 @@ const register = () => {
                     id="email"
                     autoComplete="off"
                     placeholder="Your Email"
+                    onChange={registerDataChange}
+                    value={email}
                   />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="phone" className="form-label">
-                    <i class="zmdi zmdi-phone-in-talk zmdi-hc-lg"></i>
-                  </label>
-                  <input
-                    className="inputNumber"
-                    type="number"
-                    name="phone"
-                    id="phone"
-                    autoComplete="off"
-                    placeholder="Your Phone No."
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="work" className="form-label">
-                    <i class="zmdi zmdi-slideshow zmdi-hc-lg"></i>
-                  </label>
-                  <input
-                    className="inputField"
-                    type="text"
-                    name="work"
-                    id="work"
-                    autoComplete="off"
-                    placeholder="Your Profession"
-                  />
-                </div>
+                </div>             
 
                 <div className="form-group">
                   <label htmlFor="password" className="form-label">
-                    <i class="zmdi zmdi-lock zmdi-hc-lg"></i>
+                    <i className="zmdi zmdi-lock zmdi-hc-lg"></i>
                   </label>
                   <input
                     className="inputPassword"
@@ -81,20 +124,8 @@ const register = () => {
                     id="password"
                     autoComplete="off"
                     placeholder="Password"
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="cpassword" className="form-label">
-                    <i class="zmdi zmdi-lock zmdi-hc-lg"></i>
-                  </label>
-                  <input
-                    className="inputPassword"
-                    type="password"
-                    name="cpassword"
-                    id="cpassword"
-                    autoComplete="off"
-                    placeholder="Conform Password"
+                    onChange={registerDataChange}
+                    value={password}
                   />
                 </div>
 
@@ -121,8 +152,9 @@ const register = () => {
           </div>
         </div>
       </section>
-    </>
+    </Fragment>
+ 
   );
 };
 
-export default register;
+export default Register;
