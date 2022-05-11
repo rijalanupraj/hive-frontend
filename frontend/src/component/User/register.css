@@ -1,5 +1,4 @@
 
-
  .signup{
     margin-top: 10vh;
     width: 900px;
@@ -31,7 +30,7 @@
 
 
 
-input[type=text], select, textarea {
+.inputField {
     /* width: 100%; Full width */
     width: 90%;
     padding: 12px; /* Some padding */
@@ -44,7 +43,7 @@ input[type=text], select, textarea {
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
 }
 
-input[type=email], select, textarea {
+.inputEmail {
     /* width: 100%; Full width */
     width: 90%; 
     padding: 12px; /* Some padding */
@@ -57,7 +56,7 @@ input[type=email], select, textarea {
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
 }
 
-input[type=password], select, textarea {
+.inputPassword {
     /* width: 100%; Full width */
     width: 90%;
     margin-left: 3vh;
@@ -70,7 +69,7 @@ input[type=password], select, textarea {
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
 }
 
-input[type=number], select, textarea {
+.inputNumber{
     /* width: 100%; Full width */
     width: 90%;
     margin-left: 3vh;
@@ -83,7 +82,7 @@ input[type=number], select, textarea {
     resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
 }
 
-input[type=submit] {
+.inputSubmit {
     background-color: #5271F3;
     width: 400px;
     color: white;
@@ -94,7 +93,7 @@ input[type=submit] {
     align-items: center;
 }
 
-input[type=submit]:hover {
+.inputSubmit:hover {
     background-color: rgb(162, 162, 161);
     transition: all 1s;
     color: rgb(18, 17, 17);
@@ -138,15 +137,15 @@ input[type=submit]:hover {
         height: 600px;
         margin-left: 2vh;
     }
-    input[type=text], select, textarea {
+    .inputField {
         /* width: 100%; Full width */
         width: 89%;  
     }
-    input[type=email], select, textarea {
+    .inputEmail{
         /* width: 100%; Full width */
         width: 89%;        
     }
-    input[type=number], select, textarea {
+    .inputPassword{
         /* width: 100%; Full width */
         width: 89%;
     }

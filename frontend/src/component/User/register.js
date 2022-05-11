@@ -18,46 +18,46 @@ const register = () => {
                     <label htmlFor="name" className='form-label'>
                       <i class="zmdi zmdi-account zmdi-hc-lg"></i>
                     </label>
-                    <input type="text" name='name' id='name' autoComplete='off' placeholder='Your Name' size="40"/>
+                    <input className='inputField' type="text" name='name' id='name' autoComplete='off' placeholder='Your Name' size="40"/>
                   </div>
                  
                   <div className='form-group'>
                     <label htmlFor="email" className='form-label'>
                       <i class="zmdi zmdi-email zmdi-hc-lg"></i>
                     </label>
-                    <input type="email" name='email' id='email' autoComplete='off' placeholder='Your Email'/>
+                    <input className='inputEmail' type="email" name='email' id='email' autoComplete='off' placeholder='Your Email'/>
                   </div>
 
                   <div className='form-group'>
                     <label htmlFor="phone" className='form-label'>
                       <i class="zmdi zmdi-phone-in-talk zmdi-hc-lg"></i>
                     </label>
-                    <input type="number" name='phone' id='phone' autoComplete='off' placeholder='Your Phone No.'/>
+                    <input className='inputNumber' type="number" name='phone' id='phone' autoComplete='off' placeholder='Your Phone No.'/>
                   </div>
 
                   <div className='form-group'>
                     <label htmlFor="work" className='form-label'>
                       <i class="zmdi zmdi-slideshow zmdi-hc-lg"></i>
                     </label>
-                    <input type="text" name='work' id='work' autoComplete='off' placeholder='Your Profession'/>
+                    <input className='inputField' type="text" name='work' id='work' autoComplete='off' placeholder='Your Profession'/>
                   </div>
 
                   <div className='form-group'>
                     <label htmlFor="password" className='form-label'>
                       <i class="zmdi zmdi-lock zmdi-hc-lg"></i>
                     </label>
-                    <input type="password" name='password' id='password' autoComplete='off' placeholder='Password'/>
+                    <input className='inputPassword' type="password" name='password' id='password' autoComplete='off' placeholder='Password'/>
                   </div>
 
                   <div className='form-group'>
                     <label htmlFor="cpassword" className='form-label'>
                       <i class="zmdi zmdi-lock zmdi-hc-lg"></i>
                     </label>
-                    <input type="password" name='cpassword' id='cpassword' autoComplete='off' placeholder='Conform Password'/>
+                    <input className='inputPassword' type="password" name='cpassword' id='cpassword' autoComplete='off' placeholder='Conform Password'/>
                   </div>
 
                   <div className='form-group form-button'>
-                    <input type="submit" name='signup' id='signup' className='form-submit' value='register'/>
+                    <input className='inputSubmit' type="submit" name='signup' id='signup' value='register'/>
                   </div>
 
                 </form>
