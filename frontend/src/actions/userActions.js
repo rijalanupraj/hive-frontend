@@ -14,19 +14,23 @@ import {
 import axios from "axios";
 
 //login
-export const userlogin = (email, password)=>async(dispatch)=>{
+export const userLogin = (emailOrUsername, password)=>async(dispatch)=>{
+  
     try{
-        dispatch({ type: LOGIN_REQUEST });
+        dispatch({ type: LOGIN_REQUEST });   
 
-        const config = { headers: { "Content-Type":"application/json" } };
+        // const config = { headers: { "Content-Type":"application/json" } };
+        // console.log(email, password);
 
-        const { data } = await axios.post(`/api/v1/login`, { email, password }, config);
+        const { data } = await axios.post(`/api/v1/auth/login`, {emailOrUsername, password});
+        // console.log(email, password);        
 
         dispatch({type:LOGIN_SUCCESS, payload: data.user });
 
     }catch(error){
         dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
     }
+
 };
 
 //register
@@ -40,7 +44,7 @@ export const userRegister = (userData) => async (dispatch) => {
       
   
       const { data } = await axios.post(`/api/v1/auth/register`, userData);
-      console.log(data);
+      // console.log(data);
   
       dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
       

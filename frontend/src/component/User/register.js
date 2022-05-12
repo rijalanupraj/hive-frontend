@@ -1,4 +1,4 @@
-import React, {Fragment, useRef, useState, useEffect} from "react";
+import React, {Fragment, useState, useEffect} from "react";
 import "./css/register.css";
 import MetaData from "../MetaData";
 import { NavLink } from "react-router-dom";
@@ -8,7 +8,7 @@ import signpic from "../../images/register1.svg";
 
 import { useDispatch, useSelector } from "react-redux";
 // import { useAlert } from "react-alert";
-import { clearErrors, userLogin, userRegister } from "../../actions/userActions";
+import { clearErrors, userRegister } from "../../actions/userActions";
 
 // import { createBrowserHistory } from 'history';
 import { useNavigate } from "react-router-dom";
@@ -19,7 +19,7 @@ const Register = () => {
   const dispatch = useDispatch();
   // const alert = useAlert();
   const navigate = useNavigate();
-  const { error, loading, isAuthenticated } = useSelector((state)=>state.user);
+  const { error, isAuthenticated } = useSelector((state)=>state.user);
 
   const [user, setUser] = useState({
       fullname: "",
@@ -57,7 +57,7 @@ const Register = () => {
   return (
 
     <Fragment>
-      <MetaData title="Register" />
+      <MetaData title="Samadhan: Register" />
       <section className="signup">
         <div className="container mt-3">
           <div className="signup-content">

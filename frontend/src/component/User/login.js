@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useState, useEffect} from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,6 +13,16 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./css/login.css";
+
+
+import { useDispatch, useSelector } from "react-redux";
+// import { useAlert } from "react-alert";
+import { clearErrors, userLogin} from "../../actions/userActions";
+
+// import { createBrowserHistory } from 'history';
+import { useNavigate } from "react-router-dom";
+
+
 function Copyright(props) {
   return (
     <Typography
@@ -34,18 +44,48 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Login = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //   });
+  // };
+
+  const dispatch = useDispatch();
+  // const alert = useAlert();
+  const navigate = useNavigate();
+  
+  const { error, isAuthenticated } = useSelector((state)=>state.user);
+
+  const [email, setLoginEmail] = useState("");
+  const [password, setLoginPassword] = useState("");
+
+
+  const loginSubmit = (e) => {
+      e.preventDefault();
+      dispatch(userLogin(email, password));
+
   };
+  // console.log(email, password);
+
+  const redirect = window.location.search ? window.location.search.split("=")[1] : "/homepage";
+  useEffect(() => {
+      if(error){
+          // alert.error(error);
+          dispatch(clearErrors());
+      }
+      if(isAuthenticated){
+          navigate(redirect);
+      }  
+  }, [dispatch, error, navigate, isAuthenticated, redirect]);
+
 
   return (
     <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" onSubmit={loginSubmit}>
         <CssBaseline />
         <Box
           sx={{
@@ -63,7 +103,7 @@ const Login = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -76,6 +116,8 @@ const Login = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              value={email}
+              onChange={(e) => setLoginEmail(e.target.value)} 
             />
             <TextField
               margin="normal"
@@ -86,6 +128,8 @@ const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              value={password}
+              onChange={(e)=>setLoginPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
