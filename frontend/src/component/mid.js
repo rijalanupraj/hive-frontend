@@ -11,7 +11,7 @@ const Mid = () => {
         <Routes>
            <Route path="/register" element = {<Register/>} />
            <Route path="/login" element = {<Login/>} />
-           <Route path='/userProfile' element = {<UserProfile/>} />
+           <Route path='/viewprofile/:username' element = {<UserProfile/>} />
         </Routes>
     </div>
   )

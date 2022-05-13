@@ -1,17 +1,44 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect} from 'react';
 import MetaData from "../MetaData";
 import './css/UserProfile.css';
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+
+import {
+    getUserDetails,
+    clearErrors,
+  } from "../../actions/userActions";
+
 const UserProfile = () => {
+
+    const navigate = useNavigate();
+    let { username } = useParams();
+    const dispatch = useDispatch();
+
+    const { error, user } = useSelector((state) => state.userDetail);
+
+    const userName = username;
+
+    useEffect(() => {
+        dispatch(getUserDetails(userName));
+     
+        if (error) {
+            dispatch(clearErrors());
+        }
+
+    }, [userName]);
+
+
   return (
     <Fragment>
         <MetaData title="Samadhan: UserProfile" />
         
-
-        {/* <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"/> */}
         <div className="content-page">
-            {/* <div className="profile-banner" style="background:url(https://bootdey.com/img/Content/bg1.jpg);"> */}
+
+            {/* cover pic and avatar */}
+
             <div className="profile-banner" style={{background:"url(https://static.fandomspot.com/images/09/9101/24-zegred-black-cover-anime.jpg)"}}>
                 <div className="col-sm-3 avatar-container">
                     <img src="http://www.beautifulpeople.com/cdn/beautifulpeople/images/default_profile/signup_male.png"
@@ -24,9 +51,12 @@ const UserProfile = () => {
                 </div>
 
             </div>
+
+            {/* profile navbar */}
             <div className='buttonNav'>
                 <p>hello</p>
             </div>
+
             {/* User Card Info */}
            
             <div class="col-md-4 mb-3">
@@ -43,7 +73,7 @@ const UserProfile = () => {
                 </div>
                     <hr className="border-light m-0"/>
                 <div className="card-body">
-                    <p className="mb-2">Name: Meydhi Vai</p>
+                    <p className="mb-2">Name: {user.username}</p>
                     <p className="mb-2">Sector: Krishne Basantay</p>
                     <p>Created Dec 12 0101</p>
                 </div>

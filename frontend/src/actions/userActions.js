@@ -7,6 +7,10 @@ import {
     REGISTER_USER_SUCCESS,
     REGISTER_USER_FAIL,
 
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
+    USER_DETAILS_FAIL,
+
     CLEAR_ERRORS,
 
 } from "../constants/userConstants";
@@ -54,6 +58,21 @@ export const userRegister = (userData) => async (dispatch) => {
         payload: error.response.data.message,
       });
     }
+};
+
+//fetch a user detail
+export const getUserDetails = (username) => async (dispatch) => {
+  console.log("Hello");
+  try {
+    dispatch({ type: USER_DETAILS_REQUEST });
+    
+    
+    const { data } = await axios.get(`/api/v1/user/viewprofile/${username}`);
+
+    dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({ type: USER_DETAILS_FAIL, payload: error.response.data.message });
+  }
 };
 
 // Clearing Errors
