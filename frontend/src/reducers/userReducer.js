@@ -11,7 +11,10 @@ import {
   UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_PICTURE_SUCCESS,
   CLEAR_ERRORS,
-} from "../constants/userConstants.js";
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL
+} from '../constants/userConstants.js';
 
 export const userReducer = (state = { user: {} }, action) => {
   switch (action.type) {
@@ -19,15 +22,15 @@ export const userReducer = (state = { user: {} }, action) => {
     case REGISTER_USER_REQUEST:
       return {
         loading: true,
-        isAuthenticated: false,
+        isAuthenticated: false
       };
     case LOGIN_SUCCESS:
-      localStorage.setItem("user-token", action.payload.token);
+      localStorage.setItem('user-token', action.payload.token);
       return {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: action.payload.user,
+        user: action.payload.user
       };
 
     case REGISTER_USER_SUCCESS:
@@ -35,7 +38,7 @@ export const userReducer = (state = { user: {} }, action) => {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: action.payload,
+        user: action.payload
       };
 
     case LOGIN_FAIL:
@@ -45,7 +48,7 @@ export const userReducer = (state = { user: {} }, action) => {
         loading: false,
         isAuthenticated: false,
         user: null,
-        error: action.payload,
+        error: action.payload
       };
 
     case UPDATE_PROFILE_SUCCESS:
@@ -55,8 +58,8 @@ export const userReducer = (state = { user: {} }, action) => {
         isAuthenticated: true,
         user: {
           ...state.user,
-          ...action.payload.user,
-        },
+          ...action.payload.user
+        }
       };
 
     case UPDATE_PROFILE_PICTURE_SUCCESS:
@@ -68,15 +71,15 @@ export const userReducer = (state = { user: {} }, action) => {
           ...state.user,
           profilePhoto: {
             hasPhoto: true,
-            url: action.payload.imageUrl,
+            url: action.payload.imageUrl
           }
-        },
+        }
       };
 
     case CLEAR_ERRORS:
       return {
         ...state,
-        error: null,
+        error: null
       };
     default:
       return state;
@@ -88,33 +91,65 @@ export const profileReducer = (state = {}, action) => {
     case UPDATE_PROFILE_REQUEST:
       return {
         ...state,
-        loading: true,
+        loading: true
       };
 
     case UPDATE_PROFILE_SUCCESS:
       return {
         ...state,
         loading: false,
-        isUpdated: action.payload,
+        isUpdated: action.payload
       };
 
     case UPDATE_PROFILE_FAIL:
       return {
         ...state,
         loading: false,
-        error: action.payload,
+        error: action.payload
       };
 
     case UPDATE_PROFILE_RESET:
       return {
         ...state,
-        isUpdated: false,
+        isUpdated: false
       };
 
     case CLEAR_ERRORS:
       return {
         ...state,
-        error: null,
+        error: null
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const userDetailsReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case USER_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case USER_DETAILS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload
+      };
+
+    case USER_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null
       };
 
     default:
