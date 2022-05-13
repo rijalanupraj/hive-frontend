@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,14 +14,12 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./css/login.css";
 
-
 import { useDispatch, useSelector } from "react-redux";
 // import { useAlert } from "react-alert";
-import { clearErrors, userLogin} from "../../actions/userActions";
+import { clearErrors, userLogin } from "../../actions/userActions";
 
 // import { createBrowserHistory } from 'history';
 import { useNavigate } from "react-router-dom";
-
 
 function Copyright(props) {
   return (
@@ -44,7 +42,6 @@ function Copyright(props) {
 const theme = createTheme();
 
 const Login = () => {
-
   // const handleSubmit = (event) => {
   //   event.preventDefault();
   //   const data = new FormData(event.currentTarget);
@@ -57,31 +54,30 @@ const Login = () => {
   const dispatch = useDispatch();
   // const alert = useAlert();
   const navigate = useNavigate();
-  
-  const { error, isAuthenticated } = useSelector((state)=>state.user);
+
+  const { error, isAuthenticated } = useSelector((state) => state.user);
 
   const [email, setLoginEmail] = useState("");
   const [password, setLoginPassword] = useState("");
 
-
   const loginSubmit = (e) => {
-      e.preventDefault();
-      dispatch(userLogin(email, password));
-
+    e.preventDefault();
+    dispatch(userLogin(email, password));
   };
   // console.log(email, password);
 
-  const redirect = window.location.search ? window.location.search.split("=")[1] : "/homepage";
+  const redirect = window.location.search
+    ? window.location.search.split("=")[1]
+    : "/profile/update";
   useEffect(() => {
-      if(error){
-          // alert.error(error);
-          dispatch(clearErrors());
-      }
-      if(isAuthenticated){
-          navigate(redirect);
-      }  
+    if (error) {
+      // alert.error(error);
+      dispatch(clearErrors());
+    }
+    if (isAuthenticated) {
+      navigate(redirect);
+    }
   }, [dispatch, error, navigate, isAuthenticated, redirect]);
-
 
   return (
     <ThemeProvider theme={theme}>
@@ -117,7 +113,7 @@ const Login = () => {
               autoComplete="email"
               autoFocus
               value={email}
-              onChange={(e) => setLoginEmail(e.target.value)} 
+              onChange={(e) => setLoginEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -129,7 +125,7 @@ const Login = () => {
               id="password"
               autoComplete="current-password"
               value={password}
-              onChange={(e)=>setLoginPassword(e.target.value)}
+              onChange={(e) => setLoginPassword(e.target.value)}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

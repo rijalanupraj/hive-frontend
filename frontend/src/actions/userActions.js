@@ -5,15 +5,31 @@ import {
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAIL,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_PICTURE_SUCCESS,
+  CLEAR_ERRORS,
   USER_DETAILS_REQUEST,
-    USER_DETAILS_SUCCESS,
-    USER_DETAILS_FAIL,
-  CLEAR_ERRORS
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL
 } from '../constants/userConstants';
 
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8000/api/v1';
+
+// GET User Token from the local storage
+const tokenConfig = () => {
+  const token = localStorage.getItem('user-token');
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  if (token) config.headers['Authorization'] = `Bearer ${token}`;
+  return config;
+};
 
 //login
 export const userLogin = (emailOrUsername, password) => async dispatch => {
@@ -26,13 +42,14 @@ export const userLogin = (emailOrUsername, password) => async dispatch => {
     const { data } = await axios.post(`${API_URL}/auth/login`, { emailOrUsername, password });
     // console.log(email, password);
 
-    dispatch({ type: LOGIN_SUCCESS, payload: data.user });
+    dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
   }
 };
 
 //register
+
 export const userRegister = userData => async dispatch => {
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
@@ -46,18 +63,54 @@ export const userRegister = userData => async dispatch => {
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
+
       payload: error.response.data.message
     });
   }
 };
 
-//fetch a user detail
-export const getUserDetails = (username) => async (dispatch) => {
-  console.log("Hello");
+// Update Profile
+export const updateProfile = userData => async dispatch => {
+  try {
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const { data } = await axios.put(`/api/v1/user/updateprofile`, userData, tokenConfig());
+
+    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message
+    });
+  }
+};
+
+export const updateProfileImage = image => async dispatch => {
+  try {
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+    const token = localStorage.getItem('user-token');
+
+    if (token) config.headers['Authorization'] = `Bearer ${token}`;
+
+    const { data } = await axios.put(`/api/v1/user/profilepicture`, image, config);
+
+    dispatch({ type: UPDATE_PROFILE_PICTURE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message
+    });
+    //fetch a user detail
+  }
+};
+export const getUserDetails = username => async dispatch => {
+  console.log('Hello');
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
-    
-    
+
     const { data } = await axios.get(`/api/v1/user/viewprofile/${username}`);
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
