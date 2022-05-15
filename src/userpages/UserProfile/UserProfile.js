@@ -1,12 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
-import MetaData from '../MetaData';
+import MetaData from '../../components/MetaData';
 import './css/UserProfile.css';
-import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { getUserDetails, clearErrors } from '../../actions/userActions';
+import { getUserDetails, clearErrors } from '../../redux/actions/userActions';
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ const UserProfile = () => {
     if (error) {
       dispatch(clearErrors());
     }
-  }, [userName]);
+  }, []);
 
   return (
     <Fragment>
