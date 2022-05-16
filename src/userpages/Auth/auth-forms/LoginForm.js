@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link as RouterLink, useNavigate, Navigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
+
+import Alert from '@mui/material/Alert';
 // material
 import {
   Link,
@@ -15,28 +17,42 @@ import {
 import { LoadingButton } from '@mui/lab';
 // component
 import Iconify from '../../../components/Iconify';
+import { loginUserWithEmail } from '../../../redux/actions/authActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+  const auth = useSelector(state => state.auth);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    if (!auth.isLoading) {
+      formik.setSubmitting(false);
+    } else {
+      formik.setSubmitting(true);
+    }
+  }, [auth.isLoading]);
+
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email / Username is required'),
+    emailOrUsername: Yup.string().required('Email / Username is required'),
     password: Yup.string().required('Password is required')
   });
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      emailOrUsername: '',
       password: '',
       remember: true
     },
     validationSchema: LoginSchema,
-    onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+    onSubmit: values => {
+      // Remove remember
+      delete values.remember;
+      dispatch(loginUserWithEmail(values, navigate));
     }
   });
 
@@ -45,6 +61,8 @@ export default function LoginForm() {
   const handleShowPassword = () => {
     setShowPassword(show => !show);
   };
+
+  if (auth.isAuthenticated) return <Navigate to='/' />;
 
   return (
     <FormikProvider value={formik}>
@@ -55,9 +73,9 @@ export default function LoginForm() {
             autoComplete='username'
             type='text'
             label='Email or Username'
-            {...getFieldProps('email')}
-            error={Boolean(touched.email && errors.email)}
-            helperText={touched.email && errors.email}
+            {...getFieldProps('emailOrUsername')}
+            error={Boolean(touched.emailOrUsername && errors.emailOrUsername)}
+            helperText={touched.emailOrUsername && errors.emailOrUsername}
           />
 
           <TextField
@@ -90,6 +108,8 @@ export default function LoginForm() {
             Forgot password?
           </Link>
         </Stack>
+
+        {auth.error && <Alert severity='error'>{auth.error}</Alert>}
 
         <LoadingButton
           fullWidth

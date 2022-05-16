@@ -5,7 +5,7 @@ import Page from '../../components/Page';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { getUserDetails, clearErrors } from '../../redux/actions/userActions';
+// import { getUserDetails, clearErrors } from '../../redux/actions/userActions';
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -17,10 +17,10 @@ const UserProfile = () => {
   const userName = username;
 
   useEffect(() => {
-    dispatch(getUserDetails(userName));
+    // dispatch(getUserDetails(userName));
 
     if (error) {
-      dispatch(clearErrors());
+      // dispatch(clearErrors());
     }
   }, []);
 

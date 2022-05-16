@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
@@ -10,6 +10,7 @@ import Page from '../../components/Page';
 // sections
 import RegisterForm from './auth-forms/RegisterForm';
 import AuthSocial from './auth-forms/AuthSocial';
+import { useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
@@ -57,9 +58,13 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Register() {
+  const auth = useSelector(state => state.auth);
+
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
+
+  if (auth.isAuthenticated) return <Navigate to='/' />;
 
   return (
     <Page title='Register'>

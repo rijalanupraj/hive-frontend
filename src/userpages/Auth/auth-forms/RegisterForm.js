@@ -1,17 +1,31 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
+
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import Alert from '@mui/material/Alert';
 // component
 import Iconify from '../../../components/Iconify';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { registerUserWithEmail } from '../../../redux/actions/registerActions';
 
 // ----------------------------------------------------------------------
 
 export default function RegisterForm() {
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+  const register = useSelector(state => state.register);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (register.error) {
+      formik.setSubmitting(false);
+    }
+  }, [register.error]);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,7 +45,7 @@ export default function RegisterForm() {
     },
     validationSchema: RegisterSchema,
     onSubmit: () => {
-      navigate('/dashboard', { replace: true });
+      dispatch(registerUserWithEmail(formik.values, navigate));
     }
   });
 
@@ -58,7 +72,6 @@ export default function RegisterForm() {
               helperText={touched.username && errors.username}
             />
           </Stack>
-
           <TextField
             fullWidth
             autoComplete='username'
@@ -68,7 +81,6 @@ export default function RegisterForm() {
             error={Boolean(touched.email && errors.email)}
             helperText={touched.email && errors.email}
           />
-
           <TextField
             fullWidth
             autoComplete='current-password'
@@ -87,7 +99,7 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-
+          {register.error && <Alert severity='error'>{register.error}</Alert>}
           <LoadingButton
             fullWidth
             size='large'

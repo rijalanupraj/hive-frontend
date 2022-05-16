@@ -3,7 +3,7 @@ import '../css/updateUserProfile.css';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateProfile, updateProfileImage } from '../../../redux/actions/userActions';
+// import { updateProfile, updateProfileImage } from '../../../redux/actions/userActions';
 
 const UpdateProfileDetail = () => {
   const [username, setUsername] = useState('');
@@ -28,7 +28,7 @@ const UpdateProfileDetail = () => {
       email,
       fullName
     };
-    dispatch(updateProfile(userData));
+    // dispatch(updateProfile(userData));
   };
 
   const onFileChange = e => {
@@ -42,7 +42,7 @@ const UpdateProfileDetail = () => {
 
     // console.log(formData);
 
-    dispatch(updateProfileImage(formData));
+    // dispatch(updateProfileImage(formData));
   };
 
   return (
