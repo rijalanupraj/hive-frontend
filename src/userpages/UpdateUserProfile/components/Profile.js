@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import '../../css/updateprofile/updateprofiledetail.css';
+import '../css/updateUserProfile.css';
 import { Link } from 'react-router-dom';
-import '../../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateProfile, updateProfileImage } from '../../../../actions/userActions';
+import { updateProfile, updateProfileImage } from '../../../redux/actions/userActions';
 
 const UpdateProfileDetail = () => {
   const [username, setUsername] = useState('');
