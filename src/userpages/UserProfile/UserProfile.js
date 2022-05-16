@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
-import MetaData from '../../components/MetaData';
 import './css/UserProfile.css';
+import Page from '../../components/Page';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -26,9 +26,9 @@ const UserProfile = () => {
 
   return (
     <Fragment>
-      <MetaData title='Samadhan: UserProfile' />
+      <Page title='Samadhan: UserProfile' />
 
-      <div className='content-page'>
+      <Page className='content-page'>
         {/* cover pic and avatar */}
 
         <div
@@ -86,7 +86,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Page>
     </Fragment>
   );
 };
