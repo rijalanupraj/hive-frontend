@@ -131,7 +131,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href='#' style={{ textDecoration: 'inherit' }} variant='body2'>
+                <Link href='/forgotpassword' style={{ textDecoration: 'inherit' }} variant='body2'>
                   Forgot password?
                 </Link>
               </Grid>
