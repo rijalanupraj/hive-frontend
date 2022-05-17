@@ -13,14 +13,14 @@ import {
   ME_FAIL
 } from '../types';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'http://localhost:8000/api/v1';
 
 export const loadMe = () => async (dispatch, getState) => {
   dispatch({ type: ME_LOADING });
 
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.get(`${API_URL}/api/v1/users/me`, options);
+    const response = await axios.get(`${API_URL}/users/me`, options);
 
     dispatch({
       type: ME_SUCCESS,
@@ -63,7 +63,7 @@ export const logInUserWithOauth = token => async (dispatch, getState) => {
       'x-auth-token': token
     };
 
-    const response = await axios.get(`${API_URL}/api/users/me`, { headers });
+    const response = await axios.get(`${API_URL}/users/me`, { headers });
 
     dispatch({
       type: LOGIN_WITH_OAUTH_SUCCESS,
@@ -78,7 +78,7 @@ export const logInUserWithOauth = token => async (dispatch, getState) => {
 };
 
 // Log user out
-export const logOutUser = history => async dispatch => {
+export const logOutUser = navigate => async dispatch => {
   try {
     deleteAllCookies();
     //just to log user logut on the server
@@ -87,8 +87,10 @@ export const logOutUser = history => async dispatch => {
     dispatch({
       type: LOGOUT_SUCCESS
     });
-    if (history) history.push('/');
-  } catch (err) {}
+    if (navigate) navigate('/');
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 function deleteAllCookies() {

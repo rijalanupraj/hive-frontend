@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 
 // Page Import
-import { Register, Login, UserProfile, UpdateUserProfile } from '../userpages';
+import { Register, Login, UserProfile, UpdateUserProfile, HomePage } from '../userpages';
 
 // Internal Import
 
@@ -15,6 +15,7 @@ const UserRoute = () => {
   return (
     <div>
       <Routes>
+        <Route path='/' element={<HomePage />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/viewprofile/:username' element={<UserProfile />} />
