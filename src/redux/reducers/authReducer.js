@@ -75,7 +75,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: null,
         isAuthenticated: false,
         isLoading: false,
-        error: null
+        error: payload.error ? payload.error : null
       };
     default:
       return state;

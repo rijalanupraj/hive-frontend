@@ -99,7 +99,11 @@ export default function RegisterForm() {
             error={Boolean(touched.password && errors.password)}
             helperText={touched.password && errors.password}
           />
-          {register.error && <Alert severity='error'>{register.error}</Alert>}
+          {register.error && (
+            <Stack justifyContent='flex-end' sx={{ mb: 2 }}>
+              <Alert severity='error'>{register.error}</Alert>
+            </Stack>
+          )}
           <LoadingButton
             fullWidth
             size='large'

@@ -109,7 +109,11 @@ export default function LoginForm() {
           </Link>
         </Stack>
 
-        {auth.error && <Alert severity='error'>{auth.error}</Alert>}
+        {auth.error && (
+          <Stack justifyContent='flex-end' sx={{ mb: 2 }}>
+            <Alert severity='error'>{auth.error}</Alert>
+          </Stack>
+        )}
 
         <LoadingButton
           fullWidth
