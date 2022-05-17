@@ -82,14 +82,16 @@ export const logOutUser = navigate => async dispatch => {
   try {
     deleteAllCookies();
     //just to log user logut on the server
-    await axios.get(`${API_URL}/auth/logout`);
+    // TODO: Implement This later on
+    // await axios.get(`${API_URL}/auth/logout`);
 
     dispatch({
       type: LOGOUT_SUCCESS
     });
+    console.log('logout success');
     if (navigate) navigate('/');
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
