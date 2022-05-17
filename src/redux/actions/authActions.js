@@ -87,7 +87,7 @@ export const logOutUser = navigate => async dispatch => {
 
     dispatch({
       type: LOGOUT_SUCCESS,
-      payload: { token:null, me:null }
+      payload: { token: null, me: null }
     });
     console.log('logout success');
     if (navigate) navigate('/');
