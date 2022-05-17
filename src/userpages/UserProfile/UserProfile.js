@@ -1,11 +1,11 @@
 import React, { Fragment, useEffect } from 'react';
-import MetaData from '../../components/MetaData';
 import './css/UserProfile.css';
+import Page from '../../components/Page';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { getUserDetails, clearErrors } from '../../redux/actions/userActions';
+// import { getUserDetails, clearErrors } from '../../redux/actions/userActions';
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -17,18 +17,18 @@ const UserProfile = () => {
   const userName = username;
 
   useEffect(() => {
-    dispatch(getUserDetails(userName));
+    // dispatch(getUserDetails(userName));
 
     if (error) {
-      dispatch(clearErrors());
+      // dispatch(clearErrors());
     }
   }, []);
 
   return (
     <Fragment>
-      <MetaData title='Samadhan: UserProfile' />
+      <Page title='Samadhan: UserProfile' />
 
-      <div className='content-page'>
+      <Page className='content-page'>
         {/* cover pic and avatar */}
 
         <div
@@ -86,7 +86,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
-      </div>
+      </Page>
     </Fragment>
   );
 };

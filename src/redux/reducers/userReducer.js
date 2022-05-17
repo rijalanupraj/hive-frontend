@@ -1,158 +1,59 @@
 import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  REGISTER_USER_REQUEST,
-  REGISTER_USER_SUCCESS,
-  REGISTER_USER_FAIL,
-  UPDATE_PROFILE_REQUEST,
-  UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_RESET,
-  UPDATE_PROFILE_FAIL,
-  UPDATE_PROFILE_PICTURE_SUCCESS,
-  CLEAR_ERRORS,
-  USER_DETAILS_REQUEST,
-  USER_DETAILS_SUCCESS,
-  USER_DETAILS_FAIL
-} from '../constants/userConstants.js';
+  GET_PROFILE_LOADING,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_FAIL,
+  EDIT_USER_LOADING,
+  EDIT_USER_SUCCESS,
+  EDIT_USER_FAIL,
+  DELETE_USER_LOADING,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAIL
+} from '../types';
 
-export const userReducer = (state = { user: {} }, action) => {
-  switch (action.type) {
-    case LOGIN_REQUEST:
-    case REGISTER_USER_REQUEST:
-      return {
-        loading: true,
-        isAuthenticated: false
-      };
-    case LOGIN_SUCCESS:
-      localStorage.setItem('user-token', action.payload.token);
+const initialState = {
+  profile: {},
+  isLoading: false,
+  error: null
+};
+
+export default function userReducer(state = initialState, { type, payload }) {
+  switch (type) {
+    case GET_PROFILE_LOADING:
+    case EDIT_USER_LOADING:
+    case DELETE_USER_LOADING:
       return {
         ...state,
-        loading: false,
-        isAuthenticated: true,
-        user: action.payload.user
-      };
-
-    case REGISTER_USER_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: true,
-        user: action.payload
-      };
-
-    case LOGIN_FAIL:
-    case REGISTER_USER_FAIL:
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: false,
-        user: null,
-        error: action.payload
-      };
-
-    case UPDATE_PROFILE_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: true,
-        user: {
-          ...state.user,
-          ...action.payload.user
-        }
-      };
-
-    case UPDATE_PROFILE_PICTURE_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        isAuthenticated: true,
-        user: {
-          ...state.user,
-          profilePhoto: {
-            hasPhoto: true,
-            url: action.payload.imageUrl
-          }
-        }
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
+        isLoading: true,
         error: null
+      };
+    case GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        profile: payload.profile
+      };
+    case EDIT_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        profile: payload.user
+      };
+    case DELETE_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        profile: {}
+      };
+    case GET_PROFILE_FAIL:
+    case EDIT_USER_FAIL:
+    case DELETE_USER_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        profile: {},
+        error: payload.error
       };
     default:
       return state;
   }
-};
-
-export const profileReducer = (state = {}, action) => {
-  switch (action.type) {
-    case UPDATE_PROFILE_REQUEST:
-      return {
-        ...state,
-        loading: true
-      };
-
-    case UPDATE_PROFILE_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        isUpdated: action.payload
-      };
-
-    case UPDATE_PROFILE_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload
-      };
-
-    case UPDATE_PROFILE_RESET:
-      return {
-        ...state,
-        isUpdated: false
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null
-      };
-
-    default:
-      return state;
-  }
-};
-
-export const userDetailsReducer = (state = { user: {} }, action) => {
-  switch (action.type) {
-    case USER_DETAILS_REQUEST:
-      return {
-        ...state,
-        loading: true
-      };
-    case USER_DETAILS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        user: action.payload
-      };
-
-    case USER_DETAILS_FAIL:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload
-      };
-
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        error: null
-      };
-
-    default:
-      return state;
-  }
-};
+}
