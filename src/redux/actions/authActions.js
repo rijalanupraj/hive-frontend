@@ -86,7 +86,8 @@ export const logOutUser = navigate => async dispatch => {
     // await axios.get(`${API_URL}/auth/logout`);
 
     dispatch({
-      type: LOGOUT_SUCCESS
+      type: LOGOUT_SUCCESS,
+      payload: { token:null, me:null }
     });
     console.log('logout success');
     if (navigate) navigate('/');
