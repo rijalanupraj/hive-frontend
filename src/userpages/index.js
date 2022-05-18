@@ -3,7 +3,7 @@ import Login from "./Auth/Login";
 import UserProfile from "./UserProfile/UserProfile";
 import UpdateUserProfile from "./UpdateUserProfile/UpdateUserProfile";
 import HomePage from "./HomePage/HomePage";
-import AskQuestion from "./AskQuestion/askque";
+import PostSolution from "./PostSolution/PostSolution";
 
 export {
   Login,
@@ -11,5 +11,5 @@ export {
   UserProfile,
   UpdateUserProfile,
   HomePage,
-  AskQuestion,
+  PostSolution,
 };
