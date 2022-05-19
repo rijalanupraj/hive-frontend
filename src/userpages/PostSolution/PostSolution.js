@@ -1,4 +1,7 @@
-import * as React from 'react';
+
+import * as Yup from 'yup';
+import Alert from '@mui/material/Alert';
+import {React, useState, useEffect } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -13,6 +16,12 @@ import Grid from '@mui/material/Grid';
 import AddIcon from '@mui/icons-material/Add';
 import Autocomplete from "@mui/material/Autocomplete";
 import { LoadingButton } from "@mui/lab";
+
+import { useFormik, Form, FormikProvider } from 'formik';
+import { useNavigate, Navigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { postSolution } from '../../redux/actions/postSolutionActions';
 
 const Input = styled('input')({
   display: 'none',
@@ -32,10 +41,42 @@ const questiontag = [
 
 const PostSolution = () => {
 
+  const dispatch = useDispatch();
+  const solution = useSelector(state => state.solution);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (solution.error) {
+      formik.setSubmitting(false);
+    }
+  }, [solution.error]);
+
+  const SolutionSchema = Yup.object().shape({
+    intro: Yup.string().min(5, 'Too Short!').max(70, 'Too Long!').required('Name required'),
+    tags: Yup.string().required('Tags required'),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      intro: '',
+      tags: '',
+    },
+    validationSchema: SolutionSchema,
+    onSubmit: () => {
+      dispatch(postSolution(formik.values, navigate));
+    }
+  });
+
+  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+
   return (
-    <>
+
+    <FormikProvider value={formik}>
+    <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
     <CssBaseline />
     <Container maxWidth='md'>
+
+      {/* Question div */}
       <div>
         <Paper
           variant="outlined"
@@ -44,6 +85,8 @@ const PostSolution = () => {
           <p>How to make a passport?</p>
         </Paper>
       </div>
+
+      {/* end question div */}
 
       <div className='containertwo'>
  
@@ -71,7 +114,10 @@ const PostSolution = () => {
 
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <TextareaAutosize
-                    label="Optional"
+                    label="intro"
+                    {...getFieldProps('intro')}
+                    error={Boolean(touched.intro && errors.intro)}
+                    helperText={touched.intro && errors.intro}
                     required
                     style={{
                       width: "100%",
@@ -250,6 +296,9 @@ const PostSolution = () => {
                     <TextField
                       {...params}
                       label="Tags"
+                      {...getFieldProps('tags')}
+                      error={Boolean(touched.tags && errors.tags)}
+                      helperText={touched.tags && errors.tags}
                       placeholder="search or choose tags"
                     />
                   )}
@@ -258,6 +307,12 @@ const PostSolution = () => {
             </div>
 
             {/* end tag */}
+
+            {solution.error && (
+              <Stack justifyContent='flex-end' sx={{ mb: 2 }}>
+                <Alert severity='error'>{solution.error}</Alert>
+              </Stack>
+            )}
 
             {/* button */}
            
@@ -274,6 +329,7 @@ const PostSolution = () => {
                 justifyContent="flex-end"
                 color="success"
                 variant="contained"
+                loading={isSubmitting}
               >
                 Submit
               </LoadingButton>
@@ -286,7 +342,9 @@ const PostSolution = () => {
       </div>
         
     </Container>
-    </>
+  </Form>
+  </FormikProvider>
+
   )
 }
 
