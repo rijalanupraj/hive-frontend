@@ -5,6 +5,7 @@ import UpdateUserProfile from "./UpdateUserProfile/UpdateUserProfile";
 import HomePage from "./HomePage/HomePage";
 import AskQuestion from "./AskQuestion/askque";
 import ViewSolution from "./ViewSolution/ViewSolution";
+import PostSolution from "./PostSolution/PostSolution";
 
 export {
   Login,
@@ -14,4 +15,5 @@ export {
   HomePage,
   AskQuestion,
   ViewSolution,
+  PostSolution,
 };
