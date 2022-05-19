@@ -9,6 +9,8 @@ import {
   UserProfile,
   UpdateUserProfile,
   HomePage,
+  AskQuestion,
+  ViewSolution,
   PostSolution,
 } from "../userpages";
 
@@ -27,6 +29,8 @@ const UserRoute = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/viewprofile/:username" element={<UserProfile />} />
         <Route path="/profile/update" element={<UpdateUserProfile />} />
+        <Route path="/question" element={<AskQuestion />} />
+        <Route path="/solution" element={<ViewSolution />} />
         <Route path="/postsolution" element={<PostSolution />} />
       </Routes>
     </div>
