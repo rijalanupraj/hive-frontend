@@ -10,6 +10,7 @@ import {
   UpdateUserProfile,
   HomePage,
   AskQuestion,
+  ViewSolution,
 } from "../userpages";
 
 // Internal Import
@@ -28,6 +29,7 @@ const UserRoute = () => {
         <Route path="/viewprofile/:username" element={<UserProfile />} />
         <Route path="/profile/update" element={<UpdateUserProfile />} />
         <Route path="/question" element={<AskQuestion />} />
+        <Route path="/solution" element={<ViewSolution />} />
       </Routes>
     </div>
   );

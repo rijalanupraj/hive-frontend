@@ -1,4 +1,4 @@
-import * as React from "react";
+import { React, useState, useEffect } from "react";
 import * as Yup from "yup";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
@@ -12,6 +12,8 @@ import Autocomplete from "@mui/material/Autocomplete";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import { useSelector, useDispatch } from "react-redux";
+
 const theme = createTheme();
 
 const category = ["Government", "Health", "Education", "Vechiles"];
@@ -28,6 +30,12 @@ const questiontag = [
 ];
 
 export default function AskQuestion() {
+  // const dispatch = useDispatch();
+  // const askque= useSelector(state=>state.auth)
+
+  // useEffect(()=>{
+  //   if()
+  // })
   const QuestionSchema = Yup.object().shape({
     title: Yup.string()
       .min(5, "Too Short!")
