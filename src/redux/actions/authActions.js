@@ -45,7 +45,7 @@ export const loginUserWithEmail = (formData, navigate) => async (dispatch, getSt
     });
 
     dispatch(loadMe());
-    navigate('/');
+    navigate('/login');
   } catch (err) {
     dispatch({
       type: LOGIN_WITH_EMAIL_FAIL,
