@@ -13,6 +13,7 @@ import {
   ViewSolution,
   PostSolution,
   ForgotPassword,
+  ResetPassword,
 } from "../userpages";
 
 // Internal Import
@@ -34,6 +35,8 @@ const UserRoute = () => {
         <Route path="/solution" element={<ViewSolution />} />
         <Route path="/postsolution" element={<PostSolution />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        {/* <Route path="/resetpassword/:token" element={<ResetPassword />} /> */}
+        <Route path="/resetpassword" element={<ResetPassword />} />
       </Routes>
     </div>
   );

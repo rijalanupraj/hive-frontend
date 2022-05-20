@@ -7,6 +7,7 @@ import AskQuestion from "./AskQuestion/askque";
 import ViewSolution from "./ViewSolution/ViewSolution";
 import PostSolution from "./PostSolution/PostSolution";
 import ForgotPassword from "./Auth/auth-forms/ForgotPassword";
+import ResetPassword from "./Auth/auth-forms/ResetPassword";
 
 export {
   Login,
@@ -18,4 +19,5 @@ export {
   ViewSolution,
   PostSolution,
   ForgotPassword,
+  ResetPassword,
 };
