@@ -6,6 +6,7 @@ import HomePage from "./HomePage/HomePage";
 import AskQuestion from "./AskQuestion/askque";
 import ViewSolution from "./ViewSolution/ViewSolution";
 import PostSolution from "./PostSolution/PostSolution";
+import ForgotPassword from "./Auth/auth-forms/ForgotPassword";
 
 export {
   Login,
@@ -16,4 +17,5 @@ export {
   AskQuestion,
   ViewSolution,
   PostSolution,
+  ForgotPassword,
 };

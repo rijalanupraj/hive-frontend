@@ -12,6 +12,7 @@ import {
   AskQuestion,
   ViewSolution,
   PostSolution,
+  ForgotPassword,
 } from "../userpages";
 
 // Internal Import
@@ -32,6 +33,7 @@ const UserRoute = () => {
         <Route path="/question" element={<AskQuestion />} />
         <Route path="/solution" element={<ViewSolution />} />
         <Route path="/postsolution" element={<PostSolution />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
       </Routes>
     </div>
   );
