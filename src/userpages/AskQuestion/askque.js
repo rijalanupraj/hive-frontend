@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import * as Yup from "yup";
+
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
@@ -13,6 +14,8 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { askQuestion } from "../../redux/actions/questionAction";
 
 const theme = createTheme();
 
@@ -30,19 +33,23 @@ const questiontag = [
 ];
 
 export default function AskQuestion() {
-  // const dispatch = useDispatch();
-  // const askque= useSelector(state=>state.auth)
+  const dispatch = useDispatch();
+  const question = useSelector((state) => state.question);
+  const navigate = useNavigate();
 
-  // useEffect(()=>{
-  //   if()
-  // })
+  useEffect(() => {
+    if (question.error) {
+      formik.setSubmitting(false);
+    }
+  }, [question.error]);
+
   const QuestionSchema = Yup.object().shape({
     title: Yup.string()
       .min(5, "Too Short!")
       .max(70, "Too Long!")
       .required("Please choose an appropriate title for your question"),
     category: Yup.string().required("Category required"),
-    tags: Yup.string().required("Please add some tags"),
+    tags: Yup.array().required("Tags required"),
     description: Yup.string()
       .min(6, "Too short")
       .required("Please write down descriptio for your question"),
@@ -51,15 +58,28 @@ export default function AskQuestion() {
     initialValues: {
       title: "",
       category: "",
-      tags: "",
+      tags: [],
       description: "",
     },
     validationSchema: QuestionSchema,
-    onSubmit: () => {},
+    onSubmit: () => {
+      dispatch(askQuestion(formik.values, navigate));
+    },
   });
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
-  const [value, setValue] = React.useState(category[-1]);
-  const [inputValue, setInputValue] = React.useState("");
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    isSubmitting,
+    getFieldProps,
+    setFieldValue,
+  } = formik;
+  const [value, setValue] = useState(category[-1]);
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    console.log(touched);
+  }, [touched]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -97,7 +117,7 @@ export default function AskQuestion() {
           </Typography>
 
           <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
               <Stack spacing={3}>
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <TextField
@@ -111,7 +131,7 @@ export default function AskQuestion() {
                     helperText={touched.title && errors.title}
                   />
                 </Stack>
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                {/* <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <Autocomplete
                     fullWidth={true}
                     style={{
@@ -139,9 +159,40 @@ export default function AskQuestion() {
                       />
                     )}
                   />
+                </Stack> */}
+                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                  <Autocomplete
+                    fullWidth={true}
+                    style={{
+                      width: "100%",
+                      fullWidth: true,
+                    }}
+                    required
+                    {...getFieldProps("category")}
+                    onChange={(event, value) => {
+                      setFieldValue("category", value);
+                    }}
+                    error={Boolean(touched.category && errors.category)}
+                    helperText={touched.category && errors.category}
+                    options={category}
+                    isOptionEqualToValue={(option, value) =>
+                      option.title === value.title
+                    }
+                    sx={{ width: 300 }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Category"
+                        placeholder="search or choose category"
+                      />
+                    )}
+                  />
+                  {touched.category && errors.category ? (
+                    <div className="error">{errors.category}</div>
+                  ) : null}
                 </Stack>
 
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                {/* <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <Autocomplete
                     multiple
                     id="tags-outlined"
@@ -153,6 +204,35 @@ export default function AskQuestion() {
                     getOptionLabel={(option) => option.title}
                     defaultValue={[questiontag[0]]}
                     filterSelectedOptions
+                    error={Boolean(touched.tags && errors.tags)}
+                    helperText={touched.tags && errors.tags}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Tags"
+                        placeholder="search or choose tags"
+                      />
+                    )}
+                  />
+                </Stack> */}
+                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                  <Autocomplete
+                    multiple
+                    id="tags-outlined"
+                    options={questiontag}
+                    style={{
+                      width: "100%",
+                      fullWidth: true,
+                    }}
+                    getOptionLabel={(option) => option.title}
+                    defaultValue={[questiontag[0]]}
+                    onChange={(event, value) => {
+                      // UPdate Array of tags
+                      setFieldValue("tags", value);
+                    }}
+                    isOptionEqualToValue={(option, value) =>
+                      option.title === value.title
+                    }
                     renderInput={(params) => (
                       <TextField
                         {...params}
@@ -162,7 +242,7 @@ export default function AskQuestion() {
                     )}
                   />
                 </Stack>
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                {/* <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <TextareaAutosize
                     label="Description"
                     required
@@ -175,6 +255,24 @@ export default function AskQuestion() {
                     error={Boolean(touched.description && errors.description)}
                     helperText={touched.description && errors.description}
                   />
+                </Stack> */}
+                <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+                  <TextareaAutosize
+                    label="Description"
+                    style={{
+                      width: "100%",
+                      fullWidth: true,
+                    }}
+                    minRows={4}
+                    required
+                    placeholder="Description"
+                    {...getFieldProps("description")}
+                    error={Boolean(touched.description && errors.description)}
+                    helperText={touched.description && errors.description}
+                  />
+                  {touched.description && errors.description ? (
+                    <div className="error">{errors.description}</div>
+                  ) : null}
                 </Stack>
                 <Grid container>
                   <Grid item xs>
@@ -182,11 +280,12 @@ export default function AskQuestion() {
                       Cancel
                     </Button>
                   </Grid>
+
                   <LoadingButton
                     xs={1}
                     size="large"
                     type="submit"
-                    justifyContent="flex-end"
+                    justifycontent="flex-end"
                     color="success"
                     variant="contained"
                     loading={isSubmitting}
