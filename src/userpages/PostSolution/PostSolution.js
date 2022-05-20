@@ -18,7 +18,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { LoadingButton } from "@mui/lab";
 
 import { useFormik, Form, FormikProvider } from 'formik';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { postSolution } from '../../redux/actions/postSolutionActions';
@@ -41,6 +41,7 @@ const questiontag = [
 
 const PostSolution = () => {
 
+  const { questionId } = useParams();
   const dispatch = useDispatch();
   const solution = useSelector(state => state.solution);
   const navigate = useNavigate();
@@ -58,12 +59,12 @@ const PostSolution = () => {
 
   const formik = useFormik({
     initialValues: {
-      intro: '',
-      tags: '',
+      answer: '',
+      tags: [],
     },
     validationSchema: SolutionSchema,
     onSubmit: () => {
-      dispatch(postSolution(formik.values, navigate));
+      dispatch(postSolution(questionId, formik.values, navigate));
     }
   });
 
@@ -115,7 +116,7 @@ const PostSolution = () => {
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <TextareaAutosize
                     label="intro"
-                    {...getFieldProps('intro')}
+                    {...getFieldProps('answer')}
                     error={Boolean(touched.intro && errors.intro)}
                     helperText={touched.intro && errors.intro}
                     required

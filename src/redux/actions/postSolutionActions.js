@@ -23,7 +23,7 @@ const API_URL = 'http://localhost:8000/api/v1';
 //   }
 // };
 
-export const postSolution = (questionId) => async (dispatch) => {
+export const postSolution=(questionId, jsonData, navigate) => async (dispatch) => {
   try {
     dispatch({ type: POST_SOLUTION_REQUEST });
 
@@ -31,7 +31,12 @@ export const postSolution = (questionId) => async (dispatch) => {
     //   headers: { "Content-Type": "application/json" },
     // };
 
-    const { data } = await axios.post(`${API_URL}/solution/&${questionId}`);
+    const { data } = await axios.post(`${API_URL}/solution/&${questionId}`, jsonData,{
+      headers:{
+        'Content-Type': 'application/json',
+        'x-auth-token': localStorage.getItem('token')
+      }
+    });
 
     dispatch({
       type: POST_SOLUTION_SUCCESS,
