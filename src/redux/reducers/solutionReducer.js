@@ -1,27 +1,25 @@
 import {
-  ASKQUESTION_LOADING,
-  ASKQUESTION_SUCCESS,
-  ASKQUESTION_FAIL,
+  VIEWSOLUTION_LOADING,
+  VIEWSOLUTION_SUCCESS,
+  VIEWSOLUTION_FAIL,
 } from "../types";
-
 const initialState = {
   isLoading: false,
   error: null,
 };
-
-export default function questionReducer(state = initialState, action) {
+export default function solutionReducer(state = initialState, action) {
   switch (action.type) {
-    case ASKQUESTION_LOADING:
+    case VIEWSOLUTION_LOADING:
       return {
         ...state,
         isLoading: true,
       };
-    case ASKQUESTION_SUCCESS:
+    case VIEWSOLUTION_SUCCESS:
       return {
         isLoading: false,
-        question: action.payload,
+        solution: action.payload,
       };
-    case ASKQUESTION_FAIL:
+    case VIEWSOLUTION_FAIL:
       return {
         isLoading: false,
         error: action.payload,

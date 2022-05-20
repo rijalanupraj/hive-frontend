@@ -8,6 +8,7 @@ import {
   userReducer,
   usersReducer,
   questionReducer,
+  solutionReducer,
 } from "./reducers/";
 
 const reducer = combineReducers({
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   user: userReducer,
   users: usersReducer,
   question: questionReducer,
+  solution: solutionReducer,
 });
 
 let initialState = {};
