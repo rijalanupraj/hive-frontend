@@ -9,8 +9,12 @@ import {
   UserProfile,
   UpdateUserProfile,
   HomePage,
-  PostSolution
-} from '../userpages';
+  AskQuestion,
+  ViewSolution,
+  PostSolution,
+  ForgotPassword,
+  ResetPassword,
+} from "../userpages";
 
 // Internal Import
 
@@ -27,7 +31,11 @@ const UserRoute = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/viewprofile/:username' element={<UserProfile />} />
         <Route path='/profile/update' element={<UpdateUserProfile />} />
-        <Route path='/postsolution/:questionId' element={<PostSolution />} />
+        <Route path="/viewprofile/:username" element={<UserProfile />} />
+        <Route path="/question" element={<AskQuestion />} />
+        <Route path="/solution" element={<ViewSolution />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
       </Routes>
     </div>
   );
