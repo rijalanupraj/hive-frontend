@@ -52,8 +52,8 @@ const PostSolution = () => {
   }, [solution.error]);
 
   const SolutionSchema = Yup.object().shape({
-    intro: Yup.string().min(5, 'Too Short!').max(70, 'Too Long!').required('Name required'),
-    tags: Yup.string().required('Tags required'),
+    // intro: Yup.string().min(5, 'Too Short!').max(70, 'Too Long!').required('Name required'),
+    // tags: Yup.string().required('Tags required'),
   });
 
   const formik = useFormik({

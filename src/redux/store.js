@@ -9,7 +9,7 @@ const reducer = combineReducers({
   register: registerReducer,
   user: userReducer,
   users: usersReducer,
-  solution: postSolutionReducer,
+  solution: postSolutionReducer
 });
 
 let initialState = {};
