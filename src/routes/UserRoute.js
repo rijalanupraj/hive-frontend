@@ -1,6 +1,6 @@
 // External Import
-import React, { useState } from "react";
-import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from 'react';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 
 // Page Import
 import {
@@ -9,8 +9,8 @@ import {
   UserProfile,
   UpdateUserProfile,
   HomePage,
-  PostSolution,
-} from "../userpages";
+  PostSolution
+} from '../userpages';
 
 // Internal Import
 
@@ -22,12 +22,12 @@ const UserRoute = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/viewprofile/:username" element={<UserProfile />} />
-        <Route path="/profile/update" element={<UpdateUserProfile />} />
-        <Route path="/postsolution/:id" element={<PostSolution />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/viewprofile/:username' element={<UserProfile />} />
+        <Route path='/profile/update' element={<UpdateUserProfile />} />
+        <Route path='/postsolution/:questionId' element={<PostSolution />} />
       </Routes>
     </div>
   );

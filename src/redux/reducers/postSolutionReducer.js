@@ -1,36 +1,31 @@
-import {
-    POST_SOLUTION_REQUEST,
-    POST_SOLUTION_SUCCESS,
-    POST_SOLUTION_FAIL,
-  } from '../types';
-  
+import { POST_SOLUTION_REQUEST, POST_SOLUTION_SUCCESS, POST_SOLUTION_FAIL } from '../types';
+
 const initialState = {
-    isLoading: false,
-    error: null
+  isLoading: false,
+  error: null
 };
 
-
-export default function  postSolutionReducer (state = initialState, { type, payload }) {
+export default function postSolutionReducer(state = initialState, { type, payload }) {
   switch (type) {
     case POST_SOLUTION_REQUEST:
       return {
         ...state,
-        loading: true,
+        isLoading: true
       };
     case POST_SOLUTION_SUCCESS:
       return {
-        loading: false,
-        success: payload.success,
+        ...state,
+        isLoading: false
       };
     case POST_SOLUTION_FAIL:
+      console.log(payload);
       return {
         ...state,
-        loading: false,
-        error: payload.success,
+        isLoading: false,
+        error: payload.message
       };
 
     default:
       return state;
   }
-};
-
+}
