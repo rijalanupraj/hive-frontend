@@ -27,7 +27,7 @@ const UserRoute = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/viewprofile/:username" element={<UserProfile />} />
         <Route path="/profile/update" element={<UpdateUserProfile />} />
-        <Route path="/postsolution/:628637f8c8d29ffb1b5579d7" element={<PostSolution />} />
+        <Route path="/postsolution/:id" element={<PostSolution />} />
       </Routes>
     </div>
   );
