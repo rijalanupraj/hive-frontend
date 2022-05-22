@@ -1,10 +1,11 @@
+// External Import
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import { Link as RouterLink, useNavigate, Navigate } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 
+// @MUI
 import Alert from '@mui/material/Alert';
-// material
 import {
   Link,
   Stack,
@@ -15,7 +16,8 @@ import {
   FormControlLabel
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// component
+
+// Internal Import
 import Iconify from '../../../components/Iconify';
 import { loginUserWithEmail } from '../../../redux/actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -99,12 +101,12 @@ export default function LoginForm() {
         </Stack>
 
         <Stack direction='row' alignItems='center' justifyContent='space-between' sx={{ my: 2 }}>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox {...getFieldProps('remember')} checked={values.remember} />}
             label='Remember me'
-          />
+          /> */}
 
-          <Link component={RouterLink} variant='subtitle2' to='/forgotpassword' underline='hover'>
+          <Link component={RouterLink} variant='subtitle2' to='/forgot-password' underline='hover'>
             Forgot password?
           </Link>
         </Stack>

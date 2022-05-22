@@ -2,14 +2,24 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-import { authReducer, registerReducer, userReducer, usersReducer, postSolutionReducer } from './reducers/';
+import {
+  authReducer,
+  registerReducer,
+  userReducer,
+  usersReducer,
+  solutionReducer,
+  questionReducer,
+  tagReducer
+} from './reducers/';
 
 const reducer = combineReducers({
   auth: authReducer,
   register: registerReducer,
   user: userReducer,
   users: usersReducer,
-  solution: postSolutionReducer
+  solution: solutionReducer,
+  question: questionReducer,
+  tag: tagReducer
 });
 
 let initialState = {};

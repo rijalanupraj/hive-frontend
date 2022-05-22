@@ -1,8 +1,5 @@
-import {
-  REGISTER_WITH_EMAIL_LOADING,
-  REGISTER_WITH_EMAIL_SUCCESS,
-  REGISTER_WITH_EMAIL_FAIL
-} from '../types';
+// Internal Import
+import * as TYPES from '../types';
 
 const initialState = {
   isLoading: false,
@@ -11,24 +8,31 @@ const initialState = {
 
 export default function registerReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case REGISTER_WITH_EMAIL_LOADING:
+    case TYPES.REGISTER_WITH_EMAIL_LOADING:
       return {
         ...state,
         isLoading: true,
         error: null
       };
-    case REGISTER_WITH_EMAIL_SUCCESS:
+    case TYPES.REGISTER_WITH_EMAIL_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        error: null
+        error: null,
+        success: payload.message
       };
-    case REGISTER_WITH_EMAIL_FAIL:
+    case TYPES.REGISTER_WITH_EMAIL_FAIL:
       return {
         ...state,
         isLoading: false,
         error: payload.error
       };
+    case TYPES.RESET_EMAIL_SUCCESS_MESSAGE:
+      return {
+        ...state,
+        success: null
+      };
+
     default:
       return state;
   }
