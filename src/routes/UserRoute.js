@@ -1,6 +1,6 @@
 // External Import
 import React, { useState } from 'react';
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 // Page Import
 import {
@@ -13,31 +13,32 @@ import {
   ViewSolution,
   PostSolution,
   ForgotPassword,
-  ResetPassword,
-} from "../userpages";
+  ResetPassword
+} from '../userpages';
 
 // Internal Import
+import Navbar from '../components/Navbar/Navbar';
 
 const UserRoute = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [tokenExpired, setTokenExpired] = useState(false);
-
   return (
-    <div>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/viewprofile/:username' element={<UserProfile />} />
-        <Route path='/profile/update' element={<UpdateUserProfile />} />
-        <Route path="/viewprofile/:username" element={<UserProfile />} />
-        <Route path="/question" element={<AskQuestion />} />
-        <Route path="/solution" element={<ViewSolution />} />
-        <Route path="/forgotpassword" element={<ForgotPassword />} />
-        <Route path="/resetpassword" element={<ResetPassword />} />
-      </Routes>
-    </div>
+    <>
+      <Navbar />
+      <main>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/viewprofile/:username' element={<UserProfile />} />
+          <Route path='/profile/update' element={<UpdateUserProfile />} />
+          <Route path='/viewprofile/:username' element={<UserProfile />} />
+          <Route path='/question' element={<AskQuestion />} />
+          <Route path='/solution' element={<ViewSolution />} />
+          <Route path='/postsolution/:questionId' element={<PostSolution />} />
+          <Route path='/forgotpassword' element={<ForgotPassword />} />
+          <Route path='/resetpassword' element={<ResetPassword />} />
+        </Routes>
+      </main>
+    </>
   );
 };
 

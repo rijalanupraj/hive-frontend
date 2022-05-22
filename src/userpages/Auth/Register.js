@@ -97,7 +97,7 @@ export default function Register() {
             </Typography>
 
             <Typography sx={{ color: 'text.secondary', mb: 5 }}>
-              Free forever. No credit card needed.
+              Get started by creating an account
             </Typography>
 
             <AuthSocial />
