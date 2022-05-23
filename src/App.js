@@ -1,15 +1,17 @@
-import './App.css';
+// External Import
 import { BrowserRouter } from 'react-router-dom';
-import UserRoute from './routes/UserRoute';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { CircularProgress, Grid } from '@mui/material';
 
-// Internal Import
+// Route Import
+import UserRoute from './routes/UserRoute';
+
+// Redux Action Import
 import { logInUserWithOauth, loadMe } from './redux/actions/authActions';
-import { useEffect } from 'react';
 
-function App() {
+const App = () => {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
@@ -33,11 +35,29 @@ function App() {
     }
   }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded]);
 
+  // Render Loading Spinner while app is loading
+  const renderLoadingSpinner = () => {
+    return (
+      <Grid
+        container
+        spacing={0}
+        direction='column'
+        alignItems='center'
+        justifyContent='center'
+        style={{ minHeight: '100vh' }}
+      >
+        <Grid item xs={3}>
+          <CircularProgress />;
+        </Grid>
+      </Grid>
+    );
+  };
+
   return (
     <div className='App'>
-      <BrowserRouter>{auth.appLoaded ? <UserRoute /> : <div>Loading...</div>}</BrowserRouter>
+      <BrowserRouter>{auth.appLoaded ? <UserRoute /> : renderLoadingSpinner()}</BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

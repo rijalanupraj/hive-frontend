@@ -1,15 +1,22 @@
+// External Import
 import { Link as RouterLink } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 // @mui
 import { styled } from '@mui/material/styles';
-import { Card, Link, Container, Typography } from '@mui/material';
-// hooks
+import { Card, Link, Container, Typography, Snackbar } from '@mui/material';
+
+// Hooks
 import useResponsive from '../../hooks/useResponsive';
+
 // components
 import Page from '../../components/Page';
-// import Logo from '../components/Logo';
+
 // sections
 import LoginForm from './auth-forms/LoginForm';
 import AuthSocial from './auth-forms/AuthSocial';
+import { resetEmailSuccess } from '../../redux/actions/registerActions';
 
 // ----------------------------------------------------------------------
 
@@ -57,6 +64,21 @@ const ContentStyle = styled('div')(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const register = useSelector(state => state.register);
+  const [isSnackBarOpen, setIsSnackBarOpen] = useState(false);
+
+  useEffect(() => {
+    if (register.success) {
+      setIsSnackBarOpen(true);
+
+      setTimeout(() => {
+        setIsSnackBarOpen(false);
+        dispatch(resetEmailSuccess());
+      }, 5000);
+    }
+  }, []);
+
   const smUp = useResponsive('up', 'sm');
 
   const mdUp = useResponsive('up', 'md');
@@ -86,6 +108,15 @@ export default function Login() {
           </SectionStyle>
         )}
 
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+          open={isSnackBarOpen}
+          message={register.success}
+          key='topcenter'
+        />
         <Container maxWidth='sm'>
           <ContentStyle>
             <Typography variant='h4' gutterBottom>

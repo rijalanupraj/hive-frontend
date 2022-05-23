@@ -21,7 +21,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { logOutUser } from '../../redux/actions/authActions';
 
-fdsfs;
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -106,11 +105,9 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      {auth.isAuthenticated && <MenuItem>{auth.me.username}</MenuItem>}
       {auth.isAuthenticated ? (
-        <>
-          <MenuItem>{auth.me.username}</MenuItem>
-          <MenuItem onClick={() => dispatch(logOutUser(navigate))}>Log Out</MenuItem>
-        </>
+        <MenuItem onClick={() => dispatch(logOutUser(navigate))}>Log Out</MenuItem>
       ) : (
         <MenuItem onClick={() => navigate('/login')}>Log In</MenuItem>
       )}

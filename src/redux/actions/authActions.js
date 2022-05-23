@@ -1,46 +1,38 @@
+// External Import
 import axios from 'axios';
 
-import {
-  LOGIN_WITH_OAUTH_LOADING,
-  LOGIN_WITH_OAUTH_SUCCESS,
-  LOGIN_WITH_OAUTH_FAIL,
-  LOGOUT_SUCCESS,
-  LOGIN_WITH_EMAIL_LOADING,
-  LOGIN_WITH_EMAIL_SUCCESS,
-  LOGIN_WITH_EMAIL_FAIL,
-  ME_LOADING,
-  ME_SUCCESS,
-  ME_FAIL
-} from '../types';
+// Internal Import
+import * as TYPES from '../types';
+import { BACKEND_API_URL } from '../../constants';
 
-const API_URL = 'http://localhost:8000/api/v1';
+const API_URL = BACKEND_API_URL;
 
 export const loadMe = () => async (dispatch, getState) => {
-  dispatch({ type: ME_LOADING });
+  dispatch({ type: TYPES.ME_LOADING });
 
   try {
     const options = attachTokenToHeaders(getState);
     const response = await axios.get(`${API_URL}/users/me`, options);
 
     dispatch({
-      type: ME_SUCCESS,
+      type: TYPES.ME_SUCCESS,
       payload: { me: response.data.me }
     });
   } catch (err) {
     dispatch({
-      type: ME_FAIL,
+      type: TYPES.ME_FAIL,
       payload: { error: err.response.data.message }
     });
   }
 };
 
 export const loginUserWithEmail = (formData, navigate) => async (dispatch, getState) => {
-  dispatch({ type: LOGIN_WITH_EMAIL_LOADING });
+  dispatch({ type: TYPES.LOGIN_WITH_EMAIL_LOADING });
   try {
     const response = await axios.post(`${API_URL}/auth/login`, formData);
 
     dispatch({
-      type: LOGIN_WITH_EMAIL_SUCCESS,
+      type: TYPES.LOGIN_WITH_EMAIL_SUCCESS,
       payload: { token: response.data.token, me: response.data.me }
     });
 
@@ -48,14 +40,14 @@ export const loginUserWithEmail = (formData, navigate) => async (dispatch, getSt
     navigate('/login');
   } catch (err) {
     dispatch({
-      type: LOGIN_WITH_EMAIL_FAIL,
+      type: TYPES.LOGIN_WITH_EMAIL_FAIL,
       payload: { error: err.response.data.message }
     });
   }
 };
 
 export const logInUserWithOauth = token => async (dispatch, getState) => {
-  dispatch({ type: LOGIN_WITH_OAUTH_LOADING });
+  dispatch({ type: TYPES.LOGIN_WITH_OAUTH_LOADING });
 
   try {
     const headers = {
@@ -66,12 +58,12 @@ export const logInUserWithOauth = token => async (dispatch, getState) => {
     const response = await axios.get(`${API_URL}/users/me`, { headers });
 
     dispatch({
-      type: LOGIN_WITH_OAUTH_SUCCESS,
+      type: TYPES.LOGIN_WITH_OAUTH_SUCCESS,
       payload: { me: response.data.me, token }
     });
   } catch (err) {
     dispatch({
-      type: LOGIN_WITH_OAUTH_FAIL,
+      type: TYPES.LOGIN_WITH_OAUTH_FAIL,
       payload: { error: err.response.data.message }
     });
   }
@@ -86,10 +78,9 @@ export const logOutUser = navigate => async dispatch => {
     // await axios.get(`${API_URL}/auth/logout`);
 
     dispatch({
-      type: LOGOUT_SUCCESS,
+      type: TYPES.LOGOUT_SUCCESS,
       payload: { me: null, token: null }
     });
-    console.log('logout success');
     if (navigate) navigate('/');
   } catch (error) {
     console.log(error);

@@ -1,13 +1,14 @@
-import Register from "./Auth/Register";
-import Login from "./Auth/Login";
-import UserProfile from "./UserProfile/UserProfile";
-import UpdateUserProfile from "./UpdateUserProfile/UpdateUserProfile";
-import HomePage from "./HomePage/HomePage";
-import AskQuestion from "./AskQuestion/askque";
-import ViewSolution from "./ViewSolution/ViewSolution";
-import PostSolution from "./PostSolution/PostSolution";
-import ForgotPassword from "./Auth/auth-forms/ForgotPassword";
-import ResetPassword from "./Auth/auth-forms/ResetPassword";
+import Register from './Auth/Register';
+import Login from './Auth/Login';
+import UserProfile from './UserProfile/UserProfile';
+import UpdateUserProfile from './UpdateUserProfile/UpdateUserProfile';
+import HomePage from './HomePage/HomePage';
+import AskQuestion from './AskQuestion/askque';
+import ViewSolution from './ViewSolution/ViewSolution';
+import PostSolution from './PostSolution/PostSolution';
+import ForgotPassword from './Auth/auth-forms/ForgotPassword';
+import ResetPassword from './Auth/auth-forms/ResetPassword';
+import Page404 from './Page404';
 
 export {
   Login,
@@ -20,4 +21,5 @@ export {
   PostSolution,
   ForgotPassword,
   ResetPassword,
+  Page404
 };

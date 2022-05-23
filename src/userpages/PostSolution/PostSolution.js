@@ -1,48 +1,51 @@
+// External Import
 import * as Yup from 'yup';
-import Alert from '@mui/material/Alert';
 import { React, useState, useEffect } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import { Typography } from '@mui/material';
-import './css/PostSolution.css';
-import Paper from '@mui/material/Paper';
-import { Stack, TextField } from '@mui/material';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import AddIcon from '@mui/icons-material/Add';
-import Autocomplete from '@mui/material/Autocomplete';
-import { LoadingButton } from '@mui/lab';
-
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { postSolution } from '../../redux/actions/postSolutionActions';
+// @MUI Import
+import {
+  Alert,
+  CssBaseline,
+  Box,
+  Container,
+  Typography,
+  Paper,
+  Stack,
+  TextField,
+  TextareaAutosize,
+  Button,
+  Grid,
+  Autocomplete,
+  Chip
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
+import { LoadingButton } from '@mui/lab';
+
+// Internal Import
+import './css/PostSolution.css';
+import { postSolution } from '../../redux/actions/solutionActions';
+import { getAllAvailableTags } from '../../redux/actions/tagActions';
 
 const Input = styled('input')({
   display: 'none'
 });
-
-const questiontag = [
-  { title: 'samadhan' },
-  { title: 'school' },
-  { title: 'college' },
-  { title: 'government' },
-  { title: 'hospital' },
-  { title: 'travel' },
-  { title: 'rules' },
-  { title: 'Relationship' },
-  { title: 'law' }
-];
 
 const PostSolution = () => {
   const { questionId } = useParams();
   const dispatch = useDispatch();
   const solution = useSelector(state => state.solution);
   const navigate = useNavigate();
+  const tags = useSelector(state => state.tag);
+
+  const tagsList = tags.tagsList.map(tag => ({ title: tag }));
+
+  useEffect(() => {
+    dispatch(getAllAvailableTags());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!solution.isLoading) {
@@ -51,8 +54,8 @@ const PostSolution = () => {
   }, [solution.isLoading]);
 
   const SolutionSchema = Yup.object().shape({
-    // intro: Yup.string().min(5, 'Too Short!').max(70, 'Too Long!').required('Name required'),
-    // tags: Yup.string().required('Tags required'),
+    answer: Yup.string().min(5, 'Too Short!').max(70, 'Too Long!').required('Name required'),
+    tags: Yup.array().min(1, 'Please choose at least one tag')
   });
 
   const formik = useFormik({
@@ -63,8 +66,7 @@ const PostSolution = () => {
     validationSchema: SolutionSchema,
     onSubmit: () => {
       const formValues = {
-        answer: formik.values.answer,
-        tags: formik.values.tags.map(tag => tag.title)
+        ...formik.values
       };
       dispatch(postSolution(questionId, formValues, navigate));
     }
@@ -113,10 +115,10 @@ const PostSolution = () => {
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                   <TextareaAutosize
-                    label='intro'
+                    label='answer'
                     {...getFieldProps('answer')}
-                    error={Boolean(touched.intro && errors.intro)}
-                    helperText={touched.intro && errors.intro}
+                    error={Boolean(touched.answer && errors.answer)}
+                    helperText={touched.answer && errors.answer}
                     required
                     style={{
                       width: '100%',
@@ -125,8 +127,6 @@ const PostSolution = () => {
                     }}
                     minRows={4}
                     placeholder='This is Optional'
-                    // error={Boolean(touched.description && errors.description)}
-                    // helperText={touched.description && errors.description}
                   />
                 </Stack>
 
@@ -215,59 +215,6 @@ const PostSolution = () => {
                 </div>
                 {/* end step 1 */}
 
-                {/* Step 2 */}
-                <div className='step2'>
-                  <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={2}
-                    style={{
-                      marginTop: '5vh'
-                    }}
-                  >
-                    <Typography
-                      variant='h7'
-                      style={{
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Step 2
-                    </Typography>
-                  </Stack>
-
-                  <Grid container spacing={2} columns={16} style={{ marginTop: '1vh' }}>
-                    <Grid item xs={8}>
-                      <TextField fullWidth label='2' id='fullWidth' />
-                    </Grid>
-                    <Grid item xs={8}>
-                      <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
-                        <label htmlFor='contained-button-file' style={{ marginTop: '1vh' }}>
-                          <Input accept='image/*' id='contained-button-file' multiple type='file' />
-                          <Button variant='contained' component='span'>
-                            Upload
-                          </Button>
-                        </label>
-                      </Box>
-                    </Grid>
-                  </Grid>
-
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                    <TextareaAutosize
-                      label='Describe'
-                      required
-                      style={{
-                        width: '100%',
-                        fullWidth: true,
-                        marginTop: '2vh'
-                      }}
-                      minRows={4}
-                      placeholder='Describe'
-                      // error={Boolean(touched.description && errors.description)}
-                      // helperText={touched.description && errors.description}
-                    />
-                  </Stack>
-                </div>
-                {/* end step 2 */}
-
                 {/* add step */}
                 <div className='addStep'>
                   <Stack
@@ -321,25 +268,26 @@ const PostSolution = () => {
                     <Autocomplete
                       multiple
                       id='tags-outlined'
-                      options={questiontag}
+                      options={tagsList.map(option => option.title)}
                       style={{
                         width: '100%',
                         fullWidth: true
                       }}
-                      getOptionLabel={option => option.title}
-                      defaultValue={[questiontag[0]]}
-                      filterSelectedOptions
-                      onChange={(event, newValue) => {
-                        setFieldValue('tags', newValue);
+                      freeSolo
+                      onChange={(event, value) => {
+                        setFieldValue('tags', value);
                       }}
+                      renderTags={(value, getTagProps) =>
+                        value.map((option, index) => (
+                          <Chip variant='outlined' label={option} {...getTagProps({ index })} />
+                        ))
+                      }
                       renderInput={params => (
                         <TextField
                           {...params}
+                          variant='filled'
                           label='Tags'
-                          {...getFieldProps('tags')}
-                          error={Boolean(touched.tags && errors.tags)}
-                          helperText={touched.tags && errors.tags}
-                          placeholder='search or choose tags'
+                          placeholder='Choose or Add tags'
                         />
                       )}
                     />

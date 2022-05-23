@@ -1,15 +1,5 @@
-import {
-  LOGIN_WITH_OAUTH_LOADING,
-  LOGIN_WITH_OAUTH_SUCCESS,
-  LOGIN_WITH_OAUTH_FAIL,
-  LOGOUT_SUCCESS,
-  LOGIN_WITH_EMAIL_LOADING,
-  LOGIN_WITH_EMAIL_SUCCESS,
-  LOGIN_WITH_EMAIL_FAIL,
-  ME_LOADING,
-  ME_SUCCESS,
-  ME_FAIL
-} from '../types';
+// Internal Import
+import * as TYPES from '../types';
 
 const initialState = {
   token: localStorage.getItem('token'),
@@ -22,22 +12,22 @@ const initialState = {
 
 export default function AuthReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case ME_LOADING:
+    case TYPES.ME_LOADING:
       return {
         ...state,
         isLoading: true,
         appLoaded: false,
         error: null
       };
-    case LOGIN_WITH_EMAIL_LOADING:
-    case LOGIN_WITH_OAUTH_LOADING:
+    case TYPES.LOGIN_WITH_EMAIL_LOADING:
+    case TYPES.LOGIN_WITH_OAUTH_LOADING:
       return {
         ...state,
         isLoading: true,
         error: null
       };
-    case LOGIN_WITH_EMAIL_SUCCESS:
-    case LOGIN_WITH_OAUTH_SUCCESS:
+    case TYPES.LOGIN_WITH_EMAIL_SUCCESS:
+    case TYPES.LOGIN_WITH_OAUTH_SUCCESS:
       localStorage.setItem('token', payload.token);
       return {
         ...state,
@@ -47,7 +37,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: payload.me,
         error: null
       };
-    case ME_SUCCESS:
+    case TYPES.ME_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
@@ -56,7 +46,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         error: null,
         appLoaded: true
       };
-    case ME_FAIL:
+    case TYPES.ME_FAIL:
       localStorage.removeItem('token');
       return {
         ...state,
@@ -66,8 +56,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         error: null,
         appLoaded: true
       };
-    case LOGOUT_SUCCESS:
-    case LOGIN_WITH_EMAIL_FAIL:
+    case TYPES.LOGOUT_SUCCESS:
+    case TYPES.LOGIN_WITH_EMAIL_FAIL:
       localStorage.removeItem('token');
       return {
         ...state,
