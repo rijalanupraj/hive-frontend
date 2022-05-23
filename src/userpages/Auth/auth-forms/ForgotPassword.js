@@ -2,6 +2,7 @@ import { CssBaseline, Typography, Container, TextField, Button, Alert } from '@m
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import Page from '../../../components/Page';
 
 const ForgotPassword = () => {
   const [email, setEmail] = React.useState('');
@@ -26,8 +27,8 @@ const ForgotPassword = () => {
   };
 
   return (
-    <>
-      <CssBaseline />
+    <Page title="Forgot Password">
+    
       <main>
         <Container maxWidth='sm'>
           <div>
@@ -121,7 +122,9 @@ const ForgotPassword = () => {
           </div>
         </Container>
       </main>
-    </>
+
+    </Page>
+ 
   );
 };
 

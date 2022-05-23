@@ -10,7 +10,11 @@ function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div style={{
+      margin: '20vh',
+      backgroundColor: '#fff',
+      textAlign: 'center',
+    }}>
       This is Home Page
       {auth.isAuthenticated ? <p>You are logged in</p> : <p>You are not logged in</p>}
       {auth.isAuthenticated ? (

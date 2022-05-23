@@ -16,12 +16,13 @@ import { useSelector } from 'react-redux';
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
-    display: 'flex'
+    display: 'flex',
+    marginTop:'8vh',
   }
 }));
 
 const HeaderStyle = styled('header')(({ theme }) => ({
-  top: 0,
+  top: 120,
   zIndex: 9,
   lineHeight: 0,
   width: '100%',
