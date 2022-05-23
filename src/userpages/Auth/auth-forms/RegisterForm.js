@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate, Navigate } from 'react-router-dom';
+import Page from '../../../components/Page';
 
 // material
 import { Stack, TextField, IconButton, InputAdornment } from '@mui/material';
@@ -52,6 +53,7 @@ export default function RegisterForm() {
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
 
   return (
+    <Page title="Register">
     <FormikProvider value={formik}>
       <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
         <Stack spacing={3}>
@@ -116,5 +118,6 @@ export default function RegisterForm() {
         </Stack>
       </Form>
     </FormikProvider>
+    </Page>
   );
 }

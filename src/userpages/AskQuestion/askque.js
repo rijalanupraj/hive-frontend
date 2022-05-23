@@ -4,6 +4,8 @@ import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useFormik, Form, FormikProvider } from 'formik';
+import { styled } from '@mui/material/styles';
+import Page from '../../components/Page';
 
 // @MUI Import
 import {
@@ -29,6 +31,12 @@ import { getAllAvailableTags } from '../../redux/actions/tagActions';
 const theme = createTheme();
 
 const category = ['Government', 'Health', 'Education', 'Vechiles'];
+
+const RootStyle = styled('div')(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
+  }
+}));
 
 export default function AskQuestion() {
   const dispatch = useDispatch();
@@ -78,10 +86,14 @@ export default function AskQuestion() {
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <Page title='Ask Question'>
 
-      <Container component='main' maxWidth='sm' sx={{ mb: 4 }}>
+      <RootStyle>
+
+      <Container component='main' maxWidth='sm' sx={{ mb: 4 }} style={{
+        marginTop: '5rem',
+        backgroundColor: '#f2f6fc',
+      }}>
         <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography
             component='div'
@@ -220,6 +232,7 @@ export default function AskQuestion() {
           </FormikProvider>
         </Paper>
       </Container>
-    </ThemeProvider>
+      </RootStyle>
+      </Page>
   );
 }

@@ -4,6 +4,7 @@ import { React, useState, useEffect } from 'react';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Page from '../../components/Page';
 
 // @MUI Import
 import {
@@ -33,6 +34,11 @@ import { getAllAvailableTags } from '../../redux/actions/tagActions';
 const Input = styled('input')({
   display: 'none'
 });
+
+const RootStyle = styled('div')(({ theme }) => ({
+    marginTop: '12vh',
+  }
+));
 
 const PostSolution = () => {
   const { questionId } = useParams();
@@ -75,9 +81,11 @@ const PostSolution = () => {
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
   return (
+    <Page title="Post Solution">
+    <RootStyle>
     <FormikProvider value={formik}>
       <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
-        <CssBaseline />
+
         <Container maxWidth='md'>
           {/* Question div */}
           <div>
@@ -329,6 +337,8 @@ const PostSolution = () => {
         </Container>
       </Form>
     </FormikProvider>
+    </RootStyle>
+    </Page>
   );
 };
 
