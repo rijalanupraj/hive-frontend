@@ -1,8 +1,9 @@
 // External Import
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink, useNavigate, Navigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
+import queryString from 'query-string';
 
 // @MUI
 import Alert from '@mui/material/Alert';
@@ -25,9 +26,12 @@ import { useDispatch, useSelector } from 'react-redux';
 // ----------------------------------------------------------------------
 
 export default function LoginForm() {
+  const location = useLocation();
   const auth = useSelector(state => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { redirectTo } = queryString.parse(location.search);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -54,7 +58,7 @@ export default function LoginForm() {
     onSubmit: values => {
       // Remove remember
       delete values.remember;
-      dispatch(loginUserWithEmail(values, navigate));
+      dispatch(loginUserWithEmail(values, navigate, redirectTo));
     }
   });
 

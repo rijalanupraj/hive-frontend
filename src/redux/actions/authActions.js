@@ -26,25 +26,26 @@ export const loadMe = () => async (dispatch, getState) => {
   }
 };
 
-export const loginUserWithEmail = (formData, navigate) => async (dispatch, getState) => {
-  dispatch({ type: TYPES.LOGIN_WITH_EMAIL_LOADING });
-  try {
-    const response = await axios.post(`${API_URL}/auth/login`, formData);
+export const loginUserWithEmail =
+  (formData, navigate, redirectTo) => async (dispatch, getState) => {
+    dispatch({ type: TYPES.LOGIN_WITH_EMAIL_LOADING });
+    try {
+      const response = await axios.post(`${API_URL}/auth/login`, formData);
 
-    dispatch({
-      type: TYPES.LOGIN_WITH_EMAIL_SUCCESS,
-      payload: { token: response.data.token, me: response.data.me }
-    });
+      dispatch({
+        type: TYPES.LOGIN_WITH_EMAIL_SUCCESS,
+        payload: { token: response.data.token, me: response.data.me }
+      });
 
-    dispatch(loadMe());
-    navigate('/login');
-  } catch (err) {
-    dispatch({
-      type: TYPES.LOGIN_WITH_EMAIL_FAIL,
-      payload: { error: err.response.data.message }
-    });
-  }
-};
+      dispatch(loadMe());
+      navigate(redirectTo || '/', { replace: true });
+    } catch (err) {
+      dispatch({
+        type: TYPES.LOGIN_WITH_EMAIL_FAIL,
+        payload: { error: err.response.data.message }
+      });
+    }
+  };
 
 export const logInUserWithOauth = token => async (dispatch, getState) => {
   dispatch({ type: TYPES.LOGIN_WITH_OAUTH_LOADING });
