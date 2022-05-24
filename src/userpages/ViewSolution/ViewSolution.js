@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
@@ -17,19 +17,30 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
+import { viewSolution } from "../../redux/actions/viewSolutionActions";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 const theme = createTheme();
 export default function AskQuestion() {
+  const dispatch = useDispatch();
+  const { solutionId } = useParams();
+  const solution = useSelector((state) => state.viewSolutions);
+  useEffect(() => {
+    dispatch(viewSolution(solutionId));
+  }, []);
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -69,7 +80,8 @@ export default function AskQuestion() {
             component="div"
             gutterBottom
           >
-            How to pay to foreign services from nepal?
+            {solution.title}
+            {solution?.solution?.title}
           </Typography>
           <Typography
             sx={{ fontWeight: "bold", typography: "body2", mx: 6 }}
@@ -95,18 +107,19 @@ export default function AskQuestion() {
               aria-label="recipe"
             ></Avatar>
           }
-          title="Mamba"
+          title={solution?.solution?.user?.username}
         />
       </Card>
       <Card sx={{ maxWidth: 150, mx: 5, my: 3, borderRadius: 4 }}>
         <Box sx={{ display: "flex", alignItems: "center", pl: 2, pb: 0 }}>
           <IconButton style={{ color: "green", fontWeight: 25, fontSize: 20 }}>
             <ArrowUpwardIcon />
-            11
+            {/* {solution.solution.upVotes} */}
           </IconButton>
 
           <IconButton style={{ color: "red", fontWeight: 25, fontSize: 20 }}>
-            <ArrowDownwardIcon />5
+            <ArrowDownwardIcon />
+            {/* {solution.solution.downVotes} */}
           </IconButton>
         </Box>
       </Card>
@@ -130,18 +143,7 @@ export default function AskQuestion() {
               Introduction
             </Typography>
             <Typography variant="body2" gutterBottom>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-              blanditiis tenetur unde suscipit, quam beatae rerum inventore
-              consectetur, neque doloribus, cupiditate numquam
-              dignissimoslaborum fugiat deleniti? Eum quasi quidem quibusdam.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos
-              blanditiis tenetur unde suscipit, quam beatae rerum inventore
-              consectetur, neque doloribus, cupiditate numquam
-              dignissimoslaborum fugiat deleniti? Eum quasi quidem
-              quibusdam.Lorem ipsum dolor sit amet, consectetur adipisicing
-              elit. Quos blanditiis tenetur unde suscipit, quam beatae rerum
-              inventore consectetur, neque doloribus, cupiditate numquam
-              dignissimoslaborum fugiat deleniti? Eum quasi quidem quibusdam.
+              {solution?.solution?.answer}
             </Typography>
             <Typography
               variant="h6"
@@ -152,9 +154,7 @@ export default function AskQuestion() {
               Solution
             </Typography>
             <Stack direction="row" spacing={1} sx={{ my: 12 }}>
-              <Chip label="School" variant="outlined" />
-              <Chip label="Government" variant="outlined" />
-              <Chip label="Government" variant="outlined" />
+              <Chip label={solution?.solution?.tags[0]} variant="outlined" />
             </Stack>
           </Stack>
         </Grid>
