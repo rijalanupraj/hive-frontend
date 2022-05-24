@@ -107,19 +107,19 @@ export default function AskQuestion() {
               aria-label="recipe"
             ></Avatar>
           }
-          title={solution?.solution?.user?.username}
+          title={solution?.solution?.user}
         />
       </Card>
       <Card sx={{ maxWidth: 150, mx: 5, my: 3, borderRadius: 4 }}>
         <Box sx={{ display: "flex", alignItems: "center", pl: 2, pb: 0 }}>
           <IconButton style={{ color: "green", fontWeight: 25, fontSize: 20 }}>
             <ArrowUpwardIcon />
-            {/* {solution.solution.upVotes} */}
+            {solution?.solution?.upVotes.length}
           </IconButton>
 
           <IconButton style={{ color: "red", fontWeight: 25, fontSize: 20 }}>
             <ArrowDownwardIcon />
-            {/* {solution.solution.downVotes} */}
+            {solution?.solution?.downVotes.length}
           </IconButton>
         </Box>
       </Card>
@@ -154,7 +154,9 @@ export default function AskQuestion() {
               Solution
             </Typography>
             <Stack direction="row" spacing={1} sx={{ my: 12 }}>
-              <Chip label={solution?.solution?.tags[0]} variant="outlined" />
+              {solution?.solution?.tags.map((tag) => (
+                <Chip label={tag} variant="outlined" />
+              ))}
             </Stack>
           </Stack>
         </Grid>
