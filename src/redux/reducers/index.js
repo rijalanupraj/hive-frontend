@@ -1,10 +1,11 @@
-import authReducer from './authReducer';
-import registerReducer from './registerReducer';
-import userReducer from './userReducer';
-import usersReducer from './usersReducer';
-import solutionReducer from './solutionReducer';
-import questionReducer from './questionReducer';
-import tagReducer from './tagReducer';
+import authReducer from "./authReducer";
+import registerReducer from "./registerReducer";
+import userReducer from "./userReducer";
+import usersReducer from "./usersReducer";
+import solutionReducer from "./solutionReducer";
+import questionReducer from "./questionReducer";
+import tagReducer from "./tagReducer";
+import viewSolutionReducer from "./viewSolutionReducer";
 
 export {
   authReducer,
@@ -13,5 +14,6 @@ export {
   usersReducer,
   solutionReducer,
   questionReducer,
-  tagReducer
+  tagReducer,
+  viewSolutionReducer,
 };

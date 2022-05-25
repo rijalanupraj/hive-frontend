@@ -1,6 +1,6 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import { composeWithDevTools } from "redux-devtools-extension";
 
 import {
   authReducer,
@@ -9,8 +9,9 @@ import {
   usersReducer,
   solutionReducer,
   questionReducer,
-  tagReducer
-} from './reducers/';
+  tagReducer,
+  viewSolutionReducer,
+} from "./reducers/";
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -19,7 +20,8 @@ const reducer = combineReducers({
   users: usersReducer,
   solution: solutionReducer,
   question: questionReducer,
-  tag: tagReducer
+  tag: tagReducer,
+  viewSolutions: viewSolutionReducer,
 });
 
 let initialState = {};
