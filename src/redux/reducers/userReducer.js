@@ -1,14 +1,5 @@
-import {
-  GET_PROFILE_LOADING,
-  GET_PROFILE_SUCCESS,
-  GET_PROFILE_FAIL,
-  EDIT_USER_LOADING,
-  EDIT_USER_SUCCESS,
-  EDIT_USER_FAIL,
-  DELETE_USER_LOADING,
-  DELETE_USER_SUCCESS,
-  DELETE_USER_FAIL
-} from '../types';
+// Internal Import
+import * as TYPES from '../types';
 
 const initialState = {
   profile: {},
@@ -18,35 +9,50 @@ const initialState = {
 
 export default function userReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case GET_PROFILE_LOADING:
-    case EDIT_USER_LOADING:
-    case DELETE_USER_LOADING:
+    case TYPES.GET_PROFILE_LOADING:
+    case TYPES.EDIT_USER_LOADING:
+    case TYPES.DELETE_USER_LOADING:
+    case TYPES.CHANGE_PASSWORD_LOADING:
       return {
         ...state,
         isLoading: true,
+        error: null,
+        success: null
+      };
+    case TYPES.GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        profile: payload.profile,
         error: null
       };
-    case GET_PROFILE_SUCCESS:
+    case TYPES.EDIT_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        profile: payload.profile
+        profile: payload.user,
+        error: null
       };
-    case EDIT_USER_SUCCESS:
+    case TYPES.DELETE_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        profile: payload.user
+        profile: {},
+        error: null
       };
-    case DELETE_USER_SUCCESS:
+
+    case TYPES.CHANGE_PASSWORD_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        profile: {}
+        error: null,
+        success: 'Password changed successfully'
       };
-    case GET_PROFILE_FAIL:
-    case EDIT_USER_FAIL:
-    case DELETE_USER_FAIL:
+
+    case TYPES.GET_PROFILE_FAIL:
+    case TYPES.EDIT_USER_FAIL:
+    case TYPES.DELETE_USER_FAIL:
+    case TYPES.CHANGE_PASSWORD_FAIL:
       return {
         ...state,
         isLoading: false,
