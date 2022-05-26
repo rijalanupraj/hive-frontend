@@ -9,21 +9,19 @@ import { logOutUser, loadMe } from './authActions';
 
 const API_URL = BACKEND_API_URL;
 
-export const editUser = (id, formData, history) => async (dispatch, getState) => {
+export const updateProfile = formData => async (dispatch, getState) => {
   dispatch({
     type: TYPES.EDIT_USER_LOADING
   });
   try {
     const options = attachTokenToHeaders(getState);
-    const response = await axios.put(`${API_URL}/users/${id}`, formData, options);
+    const response = await axios.put(`${API_URL}/users/updateprofile`, formData, options);
 
     dispatch({
       type: TYPES.EDIT_USER_SUCCESS,
       payload: { user: response.data.user }
     });
-    // edited him self, reload me
-    if (getState().auth.me?.id === response.data.user.id) dispatch(loadMe());
-    history.push(`/${response.data.user.username}`);
+    dispatch(loadMe());
   } catch (err) {
     dispatch({
       type: TYPES.EDIT_USER_FAIL,

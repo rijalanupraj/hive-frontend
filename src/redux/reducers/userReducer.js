@@ -31,7 +31,8 @@ export default function userReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         profile: payload.user,
-        error: null
+        error: null,
+        success: 'Profile updated successfully'
       };
     case TYPES.DELETE_USER_SUCCESS:
       return {
