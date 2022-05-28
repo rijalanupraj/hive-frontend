@@ -1,15 +1,12 @@
 import React from "react";
-import {Grid, Paper, Box, styled, Typography, ButtonBase, Stack, IconButton} from '@mui/material';
+import {Grid, Paper, Box, Typography, ButtonBase, Stack, IconButton} from '@mui/material';
 import { LoadingButton} from '@mui/lab';
-import MailIcon from '@mui/icons-material/Mail';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import ShareIcon from '@mui/icons-material/Share';
 import FlagIcon from '@mui/icons-material/Flag';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import CancelIcon from '@mui/icons-material/Cancel';
 import moment from 'moment';
 
 
@@ -25,6 +22,7 @@ const SolutionCard = (props) => {
         style={{
           padding: "1rem",
           marginTop: "0.7rem",
+          
         }}
       >
         <Grid container spacing={2}>
@@ -110,7 +108,10 @@ const SolutionCard = (props) => {
           </Stack>
 
           <Stack>
-            <p>{solution.answer}<a href='\' style={{
+            <p style={{
+              paddingTop:'0.5rem',
+              paddingBottom:'0.5rem',
+            }}>{solution.answer}<a href='\' style={{
                 textDecoration:'none',
             }}> (see more)</a></p>
           </Stack>

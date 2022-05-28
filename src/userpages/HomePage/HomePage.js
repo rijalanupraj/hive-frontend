@@ -4,16 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/Page';
 import { logOutUser } from '../../redux/actions/authActions';
-import {Grid, Paper, Box, styled, Typography, ButtonBase, Stack, IconButton} from '@mui/material';
+import {Grid, Paper, Box, styled, Typography} from '@mui/material';
 
 import {getAllSolutionHome} from '../../redux/actions/solutionActions';
 import SolutionCard from './components/SolutionCard';
 
-const RootStyle = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  }
-}));
+// const RootStyle = styled('div')(({ theme }) => ({
+//   [theme.breakpoints.up('md')]: {
+//     display: 'flex',
+//   }
+// }));
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -35,15 +35,15 @@ function HomePage() {
 
   return (
     <Page title="Home">
-      <RootStyle>
+     
         <Paper style={{
           width: '100%',
-          backgroundColor:'#f2f6fc',
+          backgroundColor:'#f1f2f2',
           boxShadow: 'none',
         }}>
           
         <Grid container spacing={5} style={{
-          marginTop: '1rem',
+          marginTop: '2rem',
           padding:'1.5rem',
           
         }}>
@@ -203,7 +203,7 @@ function HomePage() {
 
         
         
-      </RootStyle>
+     
       <div style={{
       margin: '20vh',
       backgroundColor: '#fff',

@@ -30,6 +30,7 @@ const UserRoute = () => {
   return (
     <>
       <Navbar />
+      
       <main>
         <Routes>
           {/* Normal Routes Starts */}
