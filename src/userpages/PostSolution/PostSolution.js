@@ -20,7 +20,9 @@ import {
   Button,
   Grid,
   Autocomplete,
-  Chip
+  Chip,
+  Switch,
+  FormControlLabel
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
@@ -36,9 +38,8 @@ const Input = styled('input')({
 });
 
 const RootStyle = styled('div')(({ theme }) => ({
-    marginTop: '12vh',
-  }
-));
+  marginTop: '12vh'
+}));
 
 const PostSolution = () => {
   const { questionId } = useParams();
@@ -67,7 +68,8 @@ const PostSolution = () => {
   const formik = useFormik({
     initialValues: {
       answer: '',
-      tags: []
+      tags: [],
+      isDraft: false
     },
     validationSchema: SolutionSchema,
     onSubmit: () => {
@@ -81,263 +83,282 @@ const PostSolution = () => {
   const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
 
   return (
-    <Page title="Post Solution">
-    <RootStyle>
-    <FormikProvider value={formik}>
-      <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
-
-        <Container maxWidth='md'>
-          {/* Question div */}
-          <div>
-            <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-              <p>How to make a passport?</p>
-            </Paper>
-          </div>
-
-          {/* end question div */}
-
-          <div className='containertwo'>
-            <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-              {/* Header */}
-              <div className='title'>
-                <Typography
-                  variant='h5'
-                  style={{
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Your Answer
-                </Typography>
+    <Page title='Post Solution'>
+      <RootStyle>
+        <FormikProvider value={formik}>
+          <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
+            <Container maxWidth='md'>
+              {/* Question div */}
+              <div>
+                <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                  <p>How to make a passport?</p>
+                </Paper>
               </div>
 
-              {/* Intro */}
-              <div className='titleIntro'>
-                <Typography
-                  variant='h7'
-                  style={{
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Short Introduction
-                </Typography>
+              {/* end question div */}
 
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                  <TextareaAutosize
-                    label='answer'
-                    {...getFieldProps('answer')}
-                    error={Boolean(touched.answer && errors.answer)}
-                    helperText={touched.answer && errors.answer}
-                    required
-                    style={{
-                      width: '100%',
-                      fullWidth: true,
-                      marginTop: '2vh'
-                    }}
-                    minRows={4}
-                    placeholder='This is Optional'
-                  />
-                </Stack>
-
-                <Stack
-                  direction={{ xs: 'column', sm: 'row' }}
-                  spacing={2}
-                  style={{
-                    marginTop: '5vh'
-                  }}
-                >
-                  <Typography
-                    variant='h7'
-                    style={{
-                      fontWeight: 'bold'
-                    }}
-                  >
-                    Attach Image
-                  </Typography>
-                </Stack>
-
-                <Stack style={{ marginTop: '2vh' }}>
-                  <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
-                    <label
-                      htmlFor='contained-button-file'
+              <div className='containertwo'>
+                <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                  {/* Header */}
+                  <div className='title'>
+                    <Typography
+                      variant='h5'
                       style={{
-                        alignContent: 'center'
+                        fontWeight: 'bold'
                       }}
                     >
-                      <Input accept='image/*' id='contained-button-file' multiple type='file' />
-                      <Button variant='contained' component='span'>
-                        Upload
-                      </Button>
-                    </label>
-                  </Box>
-                </Stack>
+                      Your Answer
+                    </Typography>
+                  </div>
 
-                {/* Step 1 */}
-
-                <div className='step1'>
-                  <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={2}
-                    style={{
-                      marginTop: '5vh'
-                    }}
-                  >
+                  {/* Intro */}
+                  <div className='titleIntro'>
                     <Typography
                       variant='h7'
                       style={{
                         fontWeight: 'bold'
                       }}
                     >
-                      Step 1
+                      Short Introduction
                     </Typography>
-                  </Stack>
 
-                  <Grid container spacing={2} columns={16} style={{ marginTop: '1vh' }}>
-                    <Grid item xs={8}>
-                      <TextField fullWidth label='1' id='fullWidth' />
-                    </Grid>
-                    <Grid item xs={8}>
+                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                      <TextareaAutosize
+                        label='answer'
+                        {...getFieldProps('answer')}
+                        error={Boolean(touched.answer && errors.answer)}
+                        helperText={touched.answer && errors.answer}
+                        required
+                        style={{
+                          width: '100%',
+                          fullWidth: true,
+                          marginTop: '2vh'
+                        }}
+                        minRows={4}
+                        placeholder='This is Optional'
+                      />
+                    </Stack>
+
+                    <Stack
+                      direction={{ xs: 'column', sm: 'row' }}
+                      spacing={2}
+                      style={{
+                        marginTop: '5vh'
+                      }}
+                    >
+                      <Typography
+                        variant='h7'
+                        style={{
+                          fontWeight: 'bold'
+                        }}
+                      >
+                        Attach Image
+                      </Typography>
+                    </Stack>
+
+                    <Stack style={{ marginTop: '2vh' }}>
                       <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
-                        <label htmlFor='contained-button-file' style={{ marginTop: '1vh' }}>
+                        <label
+                          htmlFor='contained-button-file'
+                          style={{
+                            alignContent: 'center'
+                          }}
+                        >
                           <Input accept='image/*' id='contained-button-file' multiple type='file' />
                           <Button variant='contained' component='span'>
                             Upload
                           </Button>
                         </label>
                       </Box>
-                    </Grid>
-                  </Grid>
+                    </Stack>
 
-                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                    <TextareaAutosize
-                      label='Describe'
-                      required
-                      style={{
-                        width: '100%',
-                        fullWidth: true,
-                        marginTop: '2vh'
-                      }}
-                      minRows={4}
-                      placeholder='Describe'
-                    />
-                  </Stack>
-                </div>
-                {/* end step 1 */}
+                    {/* Step 1 */}
 
-                {/* add step */}
-                <div className='addStep'>
-                  <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={2}
-                    style={{
-                      marginTop: '5vh'
-                    }}
-                  >
-                    <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
-                      <AddIcon
+                    <div className='step1'>
+                      <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={2}
                         style={{
-                          height: '10vh',
-                          width: '10vh'
+                          marginTop: '5vh'
                         }}
-                      />
-                      <p style={{ fontWeight: 'bold' }}>Add Steps</p>
-                    </Box>
-                  </Stack>
-                </div>
+                      >
+                        <Typography
+                          variant='h7'
+                          style={{
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          Step 1
+                        </Typography>
+                      </Stack>
 
-                {/* end add step */}
+                      <Grid container spacing={2} columns={16} style={{ marginTop: '1vh' }}>
+                        <Grid item xs={8}>
+                          <TextField fullWidth label='1' id='fullWidth' />
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
+                            <label htmlFor='contained-button-file' style={{ marginTop: '1vh' }}>
+                              <Input
+                                accept='image/*'
+                                id='contained-button-file'
+                                multiple
+                                type='file'
+                              />
+                              <Button variant='contained' component='span'>
+                                Upload
+                              </Button>
+                            </label>
+                          </Box>
+                        </Grid>
+                      </Grid>
 
-                {/* Tag */}
-
-                <div className='tag'>
-                  <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={2}
-                    style={{
-                      marginTop: '5vh'
-                    }}
-                  >
-                    <Typography
-                      variant='h7'
-                      style={{
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Attach Image
-                    </Typography>
-                  </Stack>
-
-                  <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={2}
-                    style={{
-                      marginTop: '2vh'
-                    }}
-                  >
-                    <Autocomplete
-                      multiple
-                      id='tags-outlined'
-                      options={tagsList.map(option => option.title)}
-                      style={{
-                        width: '100%',
-                        fullWidth: true
-                      }}
-                      freeSolo
-                      onChange={(event, value) => {
-                        setFieldValue('tags', value);
-                      }}
-                      renderTags={(value, getTagProps) =>
-                        value.map((option, index) => (
-                          <Chip variant='outlined' label={option} {...getTagProps({ index })} />
-                        ))
-                      }
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          variant='filled'
-                          label='Tags'
-                          placeholder='Choose or Add tags'
+                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                        <TextareaAutosize
+                          label='Describe'
+                          required
+                          style={{
+                            width: '100%',
+                            fullWidth: true,
+                            marginTop: '2vh'
+                          }}
+                          minRows={4}
+                          placeholder='Describe'
                         />
-                      )}
-                    />
-                  </Stack>
-                </div>
+                      </Stack>
+                    </div>
+                    {/* end step 1 */}
 
-                {/* end tag */}
+                    {/* add step */}
+                    <div className='addStep'>
+                      <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={2}
+                        style={{
+                          marginTop: '5vh'
+                        }}
+                      >
+                        <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
+                          <AddIcon
+                            style={{
+                              height: '10vh',
+                              width: '10vh'
+                            }}
+                          />
+                          <p style={{ fontWeight: 'bold' }}>Add Steps</p>
+                        </Box>
+                      </Stack>
+                    </div>
 
-                {solution.error && (
-                  <Stack justifyContent='flex-end' sx={{ mb: 2 }}>
-                    <Alert severity='error'>{solution.error}</Alert>
-                  </Stack>
-                )}
+                    {/* end add step */}
 
-                {/* button */}
+                    {/* Tag */}
 
-                <Grid container style={{ marginTop: '5vh' }}>
-                  <Grid item xs>
-                    <Button variant='outlined' color='error'>
-                      Cancel
-                    </Button>
-                  </Grid>
-                  <LoadingButton
-                    xs={1}
-                    size='large'
-                    type='submit'
-                    justifyContent='flex-end'
-                    color='success'
-                    variant='contained'
-                    loading={isSubmitting}
-                  >
-                    Submit
-                  </LoadingButton>
-                </Grid>
-                {/* end button */}
+                    <div className='tag'>
+                      <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={2}
+                        style={{
+                          marginTop: '5vh'
+                        }}
+                      >
+                        <Typography
+                          variant='h7'
+                          style={{
+                            fontWeight: 'bold'
+                          }}
+                        >
+                          Attach Image
+                        </Typography>
+                      </Stack>
+
+                      <Stack
+                        direction={{ xs: 'column', sm: 'row' }}
+                        spacing={2}
+                        style={{
+                          marginTop: '2vh'
+                        }}
+                      >
+                        <Autocomplete
+                          multiple
+                          id='tags-outlined'
+                          options={tagsList.map(option => option.title)}
+                          style={{
+                            width: '100%',
+                            fullWidth: true
+                          }}
+                          freeSolo
+                          onChange={(event, value) => {
+                            setFieldValue('tags', value);
+                          }}
+                          renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                              <Chip variant='outlined' label={option} {...getTagProps({ index })} />
+                            ))
+                          }
+                          renderInput={params => (
+                            <TextField
+                              {...params}
+                              variant='filled'
+                              label='Tags'
+                              placeholder='Choose or Add tags'
+                            />
+                          )}
+                          error={Boolean(touched.tags && errors.tags)}
+                          helperText={touched.tags && errors.tags}
+                        />
+                      </Stack>
+                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+                        <FormControlLabel
+                          control={
+                            <Switch
+                              {...getFieldProps('isDraft')}
+                              error={Boolean(touched.isDraft && errors.isDraft)}
+                              helperText={touched.isDraft && errors.isDraft}
+                              title='Draft'
+                            />
+                          }
+                          label='Draft'
+                        />
+                      </Stack>
+                    </div>
+
+                    {/* end tag */}
+
+                    {solution.error && (
+                      <Stack justifyContent='flex-end' sx={{ mb: 2 }}>
+                        <Alert severity='error'>{solution.error}</Alert>
+                      </Stack>
+                    )}
+
+                    {/* button */}
+
+                    <Grid container style={{ marginTop: '5vh' }}>
+                      <Grid item xs>
+                        <Button variant='outlined' color='error'>
+                          Cancel
+                        </Button>
+                      </Grid>
+                      <LoadingButton
+                        xs={1}
+                        size='large'
+                        type='submit'
+                        justifyContent='flex-end'
+                        color='success'
+                        variant='contained'
+                        loading={isSubmitting}
+                      >
+                        Submit
+                      </LoadingButton>
+                    </Grid>
+                    {/* end button */}
+                  </div>
+                </Paper>
               </div>
-            </Paper>
-          </div>
-        </Container>
-      </Form>
-    </FormikProvider>
-    </RootStyle>
+            </Container>
+          </Form>
+        </FormikProvider>
+      </RootStyle>
     </Page>
   );
 };
