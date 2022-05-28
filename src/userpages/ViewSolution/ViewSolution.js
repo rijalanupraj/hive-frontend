@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import * as Yup from "yup";
 import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Stack, TextField } from "@mui/material";
-import { useFormik, Form, FormikProvider } from "formik";
-import { LoadingButton } from "@mui/lab";
+import { Stack } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -18,14 +14,25 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import { viewSolution } from "../../redux/actions/viewSolutionActions";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+
 const theme = createTheme();
 export default function AskQuestion() {
   const dispatch = useDispatch();
   const { solutionId } = useParams();
   const solution = useSelector((state) => state.viewSolutions);
+  const upvote = useSelector((state) => state.upvoteSolution);
+  const downvote = useSelector((state) => state.downvoteSolution);
+
+  const increaseUpvote = () => {
+    dispatch(viewSolution(solutionId));
+  };
+
+  const increaseDownvote = () => {
+    dispatch(viewSolution(solutionId));
+  };
+
   useEffect(() => {
     dispatch(viewSolution(solutionId));
   }, []);
@@ -109,12 +116,25 @@ export default function AskQuestion() {
       </Card>
       <Card sx={{ maxWidth: 150, mx: 5, my: 3, borderRadius: 4 }}>
         <Box sx={{ display: "flex", alignItems: "center", pl: 2, pb: 0 }}>
-          <IconButton style={{ color: "green", fontWeight: 25, fontSize: 20 }}>
+          <IconButton
+            onClick={(e) => {
+              e.preventDefault();
+              increaseUpvote(solutionId);
+            }}
+            style={{ color: "green", fontWeight: 25, fontSize: 20 }}
+          >
             <ArrowUpwardIcon />
             {solution?.solution?.upVotes.length}
           </IconButton>
 
-          <IconButton style={{ color: "red", fontWeight: 25, fontSize: 20 }}>
+          <IconButton
+            onClick={(e) => {
+              e.preventDefault();
+              increaseUpvote(solutionId);
+            }}
+            {...{ upvote }}
+            style={{ color: "red", fontWeight: 25, fontSize: 20 }}
+          >
             <ArrowDownwardIcon />
             {solution?.solution?.downVotes.length}
           </IconButton>
@@ -159,7 +179,7 @@ export default function AskQuestion() {
         </Grid>
 
         <Grid item sx={{ justifyContent: "end" }}>
-          ...asdsssssssssssssssssssssssssss
+          ...asdss
         </Grid>
       </Grid>
     </ThemeProvider>

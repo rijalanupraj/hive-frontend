@@ -11,6 +11,8 @@ import {
   questionReducer,
   tagReducer,
   viewSolutionReducer,
+  upvoteReducer,
+  downvoteReducer,
 } from "./reducers/";
 
 const reducer = combineReducers({
@@ -22,9 +24,17 @@ const reducer = combineReducers({
   question: questionReducer,
   tag: tagReducer,
   viewSolutions: viewSolutionReducer,
+  upvoteSolution: upvoteReducer,
+  downvoteSolution: downvoteReducer,
 });
 
-let initialState = {};
+let initialState = {
+  vote: {
+    votes: localStorage.getItem("votes")
+      ? JSON.parse(localStorage.getItem("votes"))
+      : [],
+  },
+};
 
 const middleware = [thunk];
 
