@@ -15,6 +15,7 @@ import {
   PostSolution,
   ForgotPassword,
   ResetPassword,
+  QuestionsPage,
   Page404
 } from '../userpages';
 
@@ -34,6 +35,7 @@ const UserRoute = () => {
         <Routes>
           {/* Normal Routes Starts */}
           <Route exact path='/' element={<HomePage />} />
+          <Route exact path='/questions' element={<QuestionsPage />} />
           <Route exact path='/register' element={<Register />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/profile/:username' element={<UserProfile />} />

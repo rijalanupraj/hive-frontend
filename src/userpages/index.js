@@ -9,6 +9,7 @@ import PostSolution from './PostSolution/PostSolution';
 import ForgotPassword from './Auth/auth-forms/ForgotPassword';
 import ResetPassword from './Auth/auth-forms/ResetPassword';
 import Page404 from './Page404';
+import QuestionsPage from './QuestionsPage/QuestionsPage';
 
 export {
   Login,
@@ -21,5 +22,6 @@ export {
   PostSolution,
   ForgotPassword,
   ResetPassword,
-  Page404
+  Page404,
+  QuestionsPage
 };

@@ -23,6 +23,20 @@ export const askQuestion = (formData, navigate) => async (dispatch, getState) =>
   }
 };
 
+export const getAllQuestion = () => async (dispatch, getState) => {
+  try {
+    dispatch({ type: TYPES.GET_ALL_QUESTIONS_LOADING });
+
+    const { data } = await axios.get(`${API_URL}/question`);
+    dispatch({ type: TYPES.GET_ALL_QUESTIONS_SUCCESS, payload: data });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_ALL_QUESTIONS_FAIL,
+      payload: { error: err?.response?.data.message || err.message }
+    });
+  }
+};
+
 export const attachTokenToHeaders = getState => {
   const token = getState().auth.token;
 
