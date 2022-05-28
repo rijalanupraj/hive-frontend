@@ -9,6 +9,7 @@ const initialState = {
 export default function questionReducer(state = initialState, action) {
   switch (action.type) {
     case TYPES.ASK_QUESTION_LOADING:
+    case TYPES.GET_ALL_QUESTIONS_LOADING:
       return {
         ...state,
         isLoading: true
@@ -19,9 +20,16 @@ export default function questionReducer(state = initialState, action) {
         question: action.payload
       };
     case TYPES.ASK_QUESTION_FAIL:
+    case TYPES.GET_ALL_QUESTIONS_FAIL:
       return {
         isLoading: false,
         error: action.payload
+      };
+
+    case TYPES.GET_ALL_QUESTIONS_SUCCESS:
+      return {
+        isLoading: false,
+        questions: action.payload.questions
       };
 
     default:
