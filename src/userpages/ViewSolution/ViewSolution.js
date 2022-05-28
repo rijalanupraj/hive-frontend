@@ -84,7 +84,6 @@ export default function AskQuestion() {
           >
             {solution?.solution?.question?.category}
             <Chip
-              // label="posted 2 month ago"
               label={`posted on: ${
                 solution?.solution?.question?.createdAt.split("T")[0]
               }`}
