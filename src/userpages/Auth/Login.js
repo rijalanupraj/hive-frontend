@@ -31,7 +31,6 @@ const HeaderStyle = styled('header')(({ theme }) => ({
   top: 120,
   zIndex: 9,
   lineHeight: 0,
-  width: '100%',
   display: 'flex',
   alignItems: 'center',
   position: 'absolute',
@@ -59,7 +58,6 @@ const ContentStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
-  padding: theme.spacing(12, 0)
 }));
 
 // ----------------------------------------------------------------------
