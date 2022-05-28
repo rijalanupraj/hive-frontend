@@ -9,6 +9,7 @@ const initialState = {
 export default function solutionReducer(state = initialState, { type, payload }) {
   switch (type) {
     case TYPES.POST_SOLUTION_REQUEST:
+    case TYPES.GET_ALL_SOLUTIONS_LOADING:
       return {
         ...state,
         isLoading: true
@@ -18,7 +19,16 @@ export default function solutionReducer(state = initialState, { type, payload })
         ...state,
         isLoading: false
       };
+    case TYPES.GET_ALL_SOLUTIONS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        homeSolutions: payload.solutions,
+
+      }
     case TYPES.POST_SOLUTION_FAIL:
+    case TYPES.GET_ALL_SOLUTIONS_FAIL:
       return {
         ...state,
         isLoading: false,
