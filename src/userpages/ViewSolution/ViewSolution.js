@@ -19,11 +19,6 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import { viewSolution } from "../../redux/actions/viewSolutionActions";
 
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 const theme = createTheme();
@@ -80,17 +75,18 @@ export default function AskQuestion() {
             component="div"
             gutterBottom
           >
-            {solution.title}
-            {solution?.solution?.title}
+            {solution?.solution?.question?.title}
           </Typography>
           <Typography
             sx={{ fontWeight: "bold", typography: "body2", mx: 6 }}
             component="div"
             gutterBottom
           >
-            Easy way to pay for foreign services
+            {solution?.solution?.question?.category}
             <Chip
-              label="posted 2 month ago"
+              label={`posted on: ${
+                solution?.solution?.question?.createdAt.split("T")[0]
+              }`}
               variant="outlined"
               sx={{ mx: 4 }}
             />
@@ -98,16 +94,17 @@ export default function AskQuestion() {
         </Stack>
       </Stack>
       {/* stack for main content */}
-      <Card sx={{ maxWidth: 150, mx: 5, borderRadius: 5 }}>
+      <Card sx={{ maxWidth: 200, mx: 5, borderRadius: 5 }}>
         <CardHeader
           avatar={
             <Avatar
               sx={{}}
-              src="/public/favicon.ico"
+              src={solution?.solution?.user?.profilePhoto}
               aria-label="recipe"
             ></Avatar>
           }
-          title={solution?.solution?.user}
+          title={solution?.solution?.user?.username}
+          subheader={`followers: ${solution?.solution?.user?.followers.length}`}
         />
       </Card>
       <Card sx={{ maxWidth: 150, mx: 5, my: 3, borderRadius: 4 }}>
