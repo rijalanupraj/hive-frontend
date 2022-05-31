@@ -5,7 +5,7 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Stack, TextField } from '@mui/material';
+import { Stack, TextField, Button } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { LoadingButton } from '@mui/lab';
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +17,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
+import { Link } from 'react-router-dom';
 import {
   viewSolution,
   upVoteSolution,
@@ -25,6 +26,7 @@ import {
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import CommentSection from './components/CommentSection';
 const theme = createTheme();
 export default function AskQuestion() {
   const dispatch = useDispatch();
@@ -42,6 +44,10 @@ export default function AskQuestion() {
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
+  if (!solution.solution) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -190,6 +196,20 @@ export default function AskQuestion() {
                 <Chip label={tag} variant='outlined' />
               ))}
             </Stack>
+            {auth.isAuthenticated && <CommentSection solution={solution?.solution} />}
+            {!auth.isAuthenticated && (
+              <Typography variant='body2' gutterBottom>
+                <Button
+                  variant='contained'
+                  color='primary'
+                  onClick={() => {
+                    navigate('/login?redirectTo=' + window.location.pathname);
+                  }}
+                >
+                  Login to comment
+                </Button>
+              </Typography>
+            )}
           </Stack>
         </Grid>
 
