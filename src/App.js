@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 import { CircularProgress, Grid } from '@mui/material';
 import './App.css';
 
+// theme
+import ThemeProvider from './theme';
 
 
 
@@ -60,9 +62,10 @@ const App = () => {
   };
 
   return (
-    <div className='App'>
+    <ThemeProvider>
       <BrowserRouter>{auth.appLoaded ? <UserRoute /> : renderLoadingSpinner()}</BrowserRouter>
-    </div>
+    </ThemeProvider>
+    
   );
 };
 
