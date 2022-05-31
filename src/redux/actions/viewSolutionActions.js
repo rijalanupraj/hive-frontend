@@ -70,6 +70,31 @@ export const downVoteSolution = solutionId => async (dispatch, getState) => {
   }
 };
 
+export const addComment = (solutionId, comment) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: TYPES.ADD_COMMENT_LOADING });
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post(
+      `${API_URL}/comment/solution/${solutionId}`,
+      comment,
+      options
+    );
+    dispatch({
+      type: TYPES.ADD_COMMENT_SUCCESS,
+      payload: {
+        newComment: response.data.comment
+      }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.ADD_COMMENT_FAIL,
+      payload: {
+        error: err?.response?.data.message || err.message
+      }
+    });
+  }
+};
+
 export const attachTokenToHeaders = getState => {
   const token = getState().auth.token;
 

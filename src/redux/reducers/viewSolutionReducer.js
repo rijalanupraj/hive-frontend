@@ -8,6 +8,9 @@ const initialState = {
 export default function viewSolutionReducer(state = initialState, { type, payload }) {
   switch (type) {
     case TYPES.VIEW_SOLUTION_LOADING:
+    case TYPES.UPVOTE_SOLUTION_LOADING:
+    case TYPES.DOWNVOTE_SOLUTION_LOADING:
+    case TYPES.ADD_COMMENT_LOADING:
       return {
         ...state,
         isLoading: true
@@ -37,9 +40,19 @@ export default function viewSolutionReducer(state = initialState, { type, payloa
       };
     case TYPES.UPVOTE_SOLUTION_FAIL:
     case TYPES.DOWNVOTE_SOLUTION_FAIL:
+    case TYPES.ADD_COMMENT_FAIL:
       return {
         ...state,
         error: payload.error
+      };
+
+    case TYPES.ADD_COMMENT_SUCCESS:
+      return {
+        ...state,
+        solution: {
+          ...state.solution,
+          comments: [...state.solution.comments, payload.newComment]
+        }
       };
 
     default:
