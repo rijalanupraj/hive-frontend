@@ -1,30 +1,73 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 // @mui
-import { Box, Grid, Card, Button, Avatar, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Card,
+  Button,
+  Avatar,
+  Typography,
+  InputAdornment,
+} from "@mui/material";
 // components
 import Iconify from "../../../components/Iconify";
+import InputStyle from "../../../components/InputStyle";
+import SearchNotFound from "../../../components/SearchNotFound";
 
 // ----------------------------------------------------------------------
 
 ProfileFollowers.propTypes = {
   followers: PropTypes.array,
+  findFollowers: PropTypes.string,
+  onFindFollowers: PropTypes.func,
 };
 
-export default function ProfileFollowers({ followers }) {
+export default function ProfileFollowers({
+  followers,
+  findFollowers,
+  onFindFollowers,
+}) {
+  const followerFiltered = applyFilter(followers, findFollowers);
+
+  const isNotFound = followerFiltered.length === 0;
   return (
     <Box sx={{ mt: 5 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
         Followers
       </Typography>
 
+      <InputStyle
+        stretchStart={240}
+        value={findFollowers}
+        onChange={(event) => onFindFollowers(event.target.value)}
+        placeholder="Find Followers..."
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Iconify
+                icon={"eva:search-fill"}
+                sx={{ color: "text.disabled", width: 20, height: 20 }}
+              />
+            </InputAdornment>
+          ),
+        }}
+        sx={{ mb: 5 }}
+      />
+
       <Grid container spacing={3}>
-        {followers.map((follower) => (
+        {followerFiltered.map((follower) => (
           <Grid key={follower.id} item xs={12} md={4}>
             <FollowerCard follower={follower} />
           </Grid>
         ))}
       </Grid>
+
+      {isNotFound && (
+        <Box sx={{ mt: 5 }}>
+          <SearchNotFound searchQuery={findFollowers} />
+        </Box>
+      )}
     </Box>
   );
 }
@@ -68,4 +111,14 @@ function FollowerCard({ follower }) {
       </Button>
     </Card>
   );
+}
+
+function applyFilter(array, query) {
+  if (query) {
+    return array.filter(
+      (friend) => friend.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    );
+  }
+
+  return array;
 }

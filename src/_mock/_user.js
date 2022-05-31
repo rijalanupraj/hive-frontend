@@ -30,11 +30,13 @@ export const _userFollowers = [...Array(18)].map((_, index) => ({
   isFollowed: _mock.boolean(index),
 }));
 
-export const _userFriends = [...Array(18)].map((_, index) => ({
+export const _userFollowings = [...Array(18)].map((_, index) => ({
   id: _mock.id(index),
   avatarUrl: _mock.image.avatar(index),
   name: _mock.name.fullName(index),
-  role: _mock.role(index),
+  country: _mock.address.country(index),
+  isFollowing: _mock.boolean(index),
+
 }));
 
 export const _userGallery = [...Array(12)].map((_, index) => ({

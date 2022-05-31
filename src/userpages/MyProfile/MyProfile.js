@@ -4,10 +4,10 @@ import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import { Tab, Box, Card, Tabs, Container } from "@mui/material";
 // routes
-// import { PATH_DASHBOARD } from '../../routes/paths';
+// import { PATH_DASHBOARD } from "../../routes/paths";
 // hooks
-// import useAuth from '../../hooks/useAuth';
-import useSettings from '../../hooks/useSettings';
+// import useAuth from "../../hooks/useAuth";
+import useSettings from "../../hooks/useSettings";
 // _mock_
 import {
   _userAbout,
@@ -15,16 +15,17 @@ import {
   _userFriends,
   _userGallery,
   _userFollowers,
+  _userFollowings,
 } from "../../_mock/_user";
 // components
 import Page from "../../components/Page";
 import Iconify from "../../components/Iconify";
-// import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs";
 // sections
 import {
   Profile,
   ProfileCover,
-  ProfileFriends,
+  ProfileFollowings,
   ProfileGallery,
   ProfileFollowers,
 } from "../../sections/user/MyProfile";
@@ -49,45 +50,58 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function MyProfile() {
-    const { themeStretch } = useSettings();
-  //   const { user } = useAuth();
+export default function UserProfile() {
+  const { themeStretch } = useSettings();
+  // const { user } = useAuth();
 
-  const [currentTab, setCurrentTab] = useState("myprofile");
-  const [findFriends, setFindFriends] = useState("");
+  const [currentTab, setCurrentTab] = useState("profile");
+
+  const [findFollowers, setFindFollowers] = useState("");
+
+  const [findFollowings, setFindFollowings] = useState("");
 
   const handleChangeTab = (newValue) => {
     setCurrentTab(newValue);
   };
 
-  const handleFindFriends = (value) => {
-    setFindFriends(value);
+  const handleFindFollowings = (value) => {
+    setFindFollowings(value);
+  };
+
+  const handleFindFollowers = (value) => {
+    setFindFollowers(value);
   };
 
   const PROFILE_TABS = [
     {
-      value: "myprofile",
+      value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
       component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
     },
     {
       value: "followers",
       icon: <Iconify icon={"eva:heart-fill"} width={20} height={20} />,
-      component: <ProfileFollowers followers={_userFollowers} />,
-    },
-    {
-      value: "friends",
-      icon: <Iconify icon={"eva:people-fill"} width={20} height={20} />,
       component: (
-        <ProfileFriends
-          friends={_userFriends}
-          findFriends={findFriends}
-          onFindFriends={handleFindFriends}
+        <ProfileFollowers
+          followers={_userFollowers}
+          findFollowers={findFollowers}
+          onFindFollowers={handleFindFollowers}
         />
       ),
     },
     {
-      value: "gallery",
+      value: "followings",
+      icon: <Iconify icon={"eva:people-fill"} width={20} height={20} />,
+      component: (
+        <ProfileFollowings
+          followings={_userFollowings}
+          findFollowings={findFollowings}
+          onFindFollowings={handleFindFollowings}
+        />
+      ),
+    },
+    {
+      value: "Questions",
       icon: <Iconify icon={"ic:round-perm-media"} width={20} height={20} />,
       component: <ProfileGallery gallery={_userGallery} />,
     },
@@ -95,14 +109,18 @@ export default function MyProfile() {
 
   return (
     <Page title="User: Profile">
-      <Container maxWidth={"lg"}>
-        {/* <Container maxWidth={themeStretch ? false : 'lg'}> */}
+      <Container
+        maxWidth={themeStretch ? false : "lg"}
+        style={{
+          marginTop: "13vh",
+        }}
+      >
         {/* <HeaderBreadcrumbs
           heading="Profile"
           links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
-            { name: user?.displayName || '' },
+            { name: "Dashboard", href: '/' },
+            { name: "User", href: '/' },
+            { name: 'YourName', href: '/' },
           ]}
         /> */}
         <Card
