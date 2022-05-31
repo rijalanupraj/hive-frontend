@@ -20,16 +20,11 @@ export default function MyAvatar({ ...other }) {
     //   {createAvatar(user?.displayName).name}
     // </Avatar>
     <Avatar
-      src={
-        "https://images.unsplash.com/photo-1593642647962-b9e4b4d8b9b1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-        
-      }
-      alt='Hulaka Hulaka 619'
-      color={createAvatar('Hulaka Hulaka 619').color}
-      
-      
+      src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar-1.jpg"
+      alt="Hulaka Hulaka 619"
+      color={createAvatar("Hulaka Hulaka 619").color}
     >
-      {createAvatar('Mamba').name}
+      {createAvatar("Mamba").name}
     </Avatar>
   );
 }

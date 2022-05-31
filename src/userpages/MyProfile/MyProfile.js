@@ -12,7 +12,6 @@ import useSettings from "../../hooks/useSettings";
 import {
   _userAbout,
   _userFeeds,
-  _userFriends,
   _userGallery,
   _userFollowers,
   _userFollowings,
@@ -20,7 +19,7 @@ import {
 // components
 import Page from "../../components/Page";
 import Iconify from "../../components/Iconify";
-import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs";
+// import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 // sections
 import {
   Profile,
@@ -38,9 +37,11 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
   width: "100%",
   display: "flex",
   position: "absolute",
+  justifyContent: "center",
+  
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up("sm")]: {
-    justifyContent: "center",
+    justifyContent: "center",   
   },
   [theme.breakpoints.up("md")]: {
     justifyContent: "flex-end",

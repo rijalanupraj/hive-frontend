@@ -14,7 +14,7 @@ import Image from "../../../components/Image";
 
 const RootStyle = styled("div")(({ theme }) => ({
   "&:before": {
-    ...cssStyles().bgBlur({ blur: 2, color: '#212121' }),
+    ...cssStyles().bgBlur({ blur: 2, color: theme.palette.primary.darker }),
     top: 0,
     zIndex: 9,
     content: "''",
@@ -61,6 +61,7 @@ export default function ProfileCover({ myProfile }) {
             borderColor: "common.white",
             width: { xs: 80, md: 128 },
             height: { xs: 80, md: 128 },
+            
           }}
         />
         <Box

@@ -9,6 +9,8 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import moment from 'moment';
 
+import Avatar from "../../../components/Avatar";
+
 
 
 const SolutionCard = (props) => {
@@ -34,16 +36,10 @@ const SolutionCard = (props) => {
           >
             <ButtonBase sx={{ width: 10, height: 10 }}>
               {/* profile */}
-              <img
-                alt="complex"
-                src={
-                  "http://www.beautifulpeople.com/cdn/beautifulpeople/images/default_profile/signup_male.png"
-                }
-                style={{
-                  borderRadius: "50%",
-                  width: "400%",
-                }}
-              />
+              <Avatar
+                  alt="profile"
+                  src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar-1.jpg"
+                />
             </ButtonBase>
           </Grid>
           <Grid item xs={12} sm container>

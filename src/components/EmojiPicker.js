@@ -1,4 +1,4 @@
-// import 'emoji-mart/css/emoji-mart.css';
+
 import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import { useState } from 'react';
@@ -16,13 +16,12 @@ const RootStyle = styled(Box)({
   position: 'relative',
 });
 
-
 const PickerStyle = styled('div')(({ theme }) => ({
   bottom: 40,
   overflow: 'hidden',
   position: 'absolute',
   left: theme.spacing(-2),
-  // boxShadow: theme.customShadows,
+  boxShadow: theme.customShadows.z20,
   borderRadius: Number(theme.shape.borderRadius) * 2,
   '& .emoji-mart': {
     border: 'none',
