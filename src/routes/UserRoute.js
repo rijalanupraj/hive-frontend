@@ -16,7 +16,8 @@ import {
   ForgotPassword,
   ResetPassword,
   QuestionsPage,
-  Page404
+  Page404,
+  MyProfile,
 } from '../userpages';
 
 // Internal Import
@@ -54,6 +55,10 @@ const UserRoute = () => {
           </Route>
           <Route exact path='/post-solution/:questionId' element={<PrivateRoute auth={auth} />}>
             <Route exact path='/post-solution/:questionId' element={<PostSolution />} />
+          </Route>
+
+          <Route exact path='/myprofile' element={<PrivateRoute auth={auth} />}>
+            <Route exact path='/myprofile' element={<MyProfile />} />
           </Route>
           {/* Private Routes End */}
 

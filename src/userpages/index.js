@@ -10,6 +10,7 @@ import ForgotPassword from './Auth/auth-forms/ForgotPassword';
 import ResetPassword from './Auth/auth-forms/ResetPassword';
 import Page404 from './Page404';
 import QuestionsPage from './QuestionsPage/QuestionsPage';
+import MyProfile from './MyProfile/MyProfile';
 
 export {
   Login,
@@ -23,5 +24,6 @@ export {
   ForgotPassword,
   ResetPassword,
   Page404,
-  QuestionsPage
+  QuestionsPage,
+  MyProfile,
 };
