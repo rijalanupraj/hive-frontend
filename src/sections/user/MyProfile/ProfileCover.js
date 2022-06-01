@@ -10,11 +10,13 @@ import cssStyles from "../../../utils/cssStyles";
 import MyAvatar from "../../../components/MyAvatar";
 import Image from "../../../components/Image";
 
+
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled("div")(({ theme }) => ({
   "&:before": {
-    ...cssStyles().bgBlur({ blur: 2, color: theme.palette.primary.darker }),
+    ...cssStyles().bgBlur({ blur: 2 }),
     top: 0,
     zIndex: 9,
     content: "''",

@@ -56,23 +56,16 @@ export default function UserProfile() {
   // const { user } = useAuth();
 
   const [currentTab, setCurrentTab] = useState("profile");
-
   const [findFollowers, setFindFollowers] = useState("");
-
-  const [findFollowings, setFindFollowings] = useState("");
-
 
   const handleChangeTab = (newValue) => {
     setCurrentTab(newValue);
   };
 
-  const handleFindFollowings = (value) => {
-    setFindFollowings(value);
-  };
-
   const handleFindFollowers = (value) => {
     setFindFollowers(value);
   };
+
 
   const PROFILE_TABS = [
     {
@@ -80,7 +73,17 @@ export default function UserProfile() {
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
       component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
     },
-    
+    {
+      value: "followers",
+      icon: <Iconify icon={"eva:heart-fill"} width={20} height={20} />,
+      component: (
+        <ProfileFollowers
+          followers={_userFollowers}
+          findFollowers={findFollowers}
+          onFindFollowers={handleFindFollowers}
+        />
+      ),
+    },
   ];
 
   return (
