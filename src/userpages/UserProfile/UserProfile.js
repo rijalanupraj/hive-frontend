@@ -1,94 +1,165 @@
-import React, { Fragment, useEffect } from 'react';
-import './css/UserProfile.css';
-import Page from '../../components/Page';
+import { capitalCase } from "change-case";
+import { useState } from "react";
+// @mui
+import { styled } from "@mui/material/styles";
+import { Tab, Box, Card, Tabs, Container, Button } from "@mui/material";
+// routes
+// import { PATH_DASHBOARD } from "../../routes/paths";
+// hooks
+// import useAuth from "../../hooks/useAuth";
+import useSettings from "../../hooks/useSettings";
+// _mock_
+import {
+  _userAbout,
+  _userFeeds,
+  _userGallery,
+  _userFollowers,
+  _userFollowings,
+} from "../../_mock/_user";
+// components
+import Page from "../../components/Page";
+import Iconify from "../../components/Iconify";
+// import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+// sections
+import {
+  Profile,
+  ProfileCover,
+  ProfileFollowings,
+  ProfileGallery,
+  ProfileFollowers,
+} from "../../sections/user/MyProfile";
 
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+// ----------------------------------------------------------------------
 
-// import { getUserDetails, clearErrors } from '../../redux/actions/userActions';
+const TabsWrapperStyle = styled("div")(({ theme }) => ({
+  zIndex: 9,
+  bottom: 0,
+  width: "100%",
+  display: "flex",
+  position: "absolute",
+  justifyContent: "center",
 
-const UserProfile = () => {
-  const navigate = useNavigate();
-  let { username } = useParams();
-  const dispatch = useDispatch();
+  backgroundColor: theme.palette.background.paper,
+  [theme.breakpoints.up("sm")]: {
+    justifyContent: "center",
+  },
+  [theme.breakpoints.up("md")]: {
+    justifyContent: "flex-end",
+    paddingRight: theme.spacing(3),
+  },
+}));
 
-  const { error, user } = useSelector(state => state.userDetail);
+// ----------------------------------------------------------------------
 
-  const userName = username;
+export default function UserProfile() {
+  const { themeStretch } = useSettings();
+  // const { user } = useAuth();
 
-  useEffect(() => {
-    // dispatch(getUserDetails(userName));
+  const [currentTab, setCurrentTab] = useState("profile");
 
-    if (error) {
-      // dispatch(clearErrors());
-    }
-  }, []);
+  const [findFollowers, setFindFollowers] = useState("");
+
+  const [findFollowings, setFindFollowings] = useState("");
+
+
+  const handleChangeTab = (newValue) => {
+    setCurrentTab(newValue);
+  };
+
+  const handleFindFollowings = (value) => {
+    setFindFollowings(value);
+  };
+
+  const handleFindFollowers = (value) => {
+    setFindFollowers(value);
+  };
+
+  const PROFILE_TABS = [
+    {
+      value: "profile",
+      icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
+      component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
+    },
+    
+  ];
 
   return (
-    <Fragment>
-      <Page title='Samadhan: UserProfile' />
-
-      <Page className='content-page'>
-        {/* cover pic and avatar */}
-
-        <div
-          className='profile-banner'
-          style={{
-            background:
-              'url(https://static.fandomspot.com/images/09/9101/24-zegred-black-cover-anime.jpg)'
+    <Page title="User: Profile">
+      <Container
+        maxWidth={themeStretch ? false : "lg"}
+        style={{
+          marginTop: "13vh",
+        }}
+      >
+        {/* <HeaderBreadcrumbs
+          heading="Profile"
+          links={[
+            { name: "Dashboard", href: '/' },
+            { name: "User", href: '/' },
+            { name: 'YourName', href: '/' },
+          ]}
+        /> */}
+        <Card
+          sx={{
+            mb: 3,
+            height: 280,
+            position: "relative",
           }}
         >
-          <div className='col-sm-3 avatar-container'>
-            <img
-              src={
-                user.profilePhoto && user.profilePhoto.hasPhoto && user.profilePhoto.url
-                  ? user.profilePhoto.url
-                  : 'http://www.beautifulpeople.com/cdn/beautifulpeople/images/default_profile/signup_male.png'
-              }
-              className='img-circle profile-avatar'
-              alt='User avatar'
-            />
-          </div>
+          <ProfileCover myProfile={_userAbout} />
 
-          <div className='profile-actions'>
-            <button type='button' className='btn btn-success btn-sm'>
-              <i className='fa fa-check'></i> Follow
-            </button>
-            <button type='button' className='btn btn-primary btn-sm'>
-              <i className='fa fa-envelope'></i> Send Message
-            </button>
-          </div>
-        </div>
+          <TabsWrapperStyle>
+            <Tabs
+              value={currentTab}
+              scrollButtons="auto"
+              variant="scrollable"
+              allowScrollButtonsMobile
+              onChange={(e, value) => handleChangeTab(value)}
+            >
+              {PROFILE_TABS.map((tab) => (
+                <Tab
+                  disableRipple
+                  key={tab.value}
+                  value={tab.value}
+                  icon={tab.icon}
+                  label={capitalCase(tab.value)}
+                />
+              ))}
+              <FollowerButton/>
+            </Tabs>
+            
+          </TabsWrapperStyle>
+        </Card>
 
-        {/* profile navbar */}
-        <div className='buttonNav'>
-          <p>hello</p>
-        </div>
-
-        {/* User Card Info */}
-
-        <div class='col-md-4 mb-3'>
-          <div class='usercard'>
-            <div className='aboutUser'>
-              <p className='aboutuserpara'>About User</p>
-            </div>
-            <hr className='border-light m-0' />
-
-            <div className='aboutUserDetailcard'>
-              <p>I help needy people, after being paid</p>
-              <p>Follower: 1B</p>
-            </div>
-            <hr className='border-light m-0' />
-            <div className='card-body'>
-              <p className='mb-2'>Name: {user.username}</p>
-              <p className='mb-2'>Sector: Krishne Basantay</p>
-              <p>Created Dec 12 0101</p>
-            </div>
-          </div>
-        </div>
-      </Page>
-    </Fragment>
+        {PROFILE_TABS.map((tab) => {
+          const isMatched = tab.value === currentTab;
+          return isMatched && <Box key={tab.value}>{tab.component}</Box>;
+        })}
+      </Container>
+    </Page>
   );
-};
+}
 
-export default UserProfile;
+
+function FollowerButton() {
+
+  const [toggle, setToogle] = useState();
+
+  return (
+      
+      <Button
+        size="small"
+        style={{
+          margin: "0.5vh",
+        }}
+        onClick={() => setToogle(!toggle)}
+        variant={toggle ? "text" :'contained'}
+        color={toggle ? "primary" : "primary"}
+ 
+        startIcon={toggle && <Iconify icon={"eva:checkmark-fill"} />}
+      >
+        {toggle ? "Followed" : "Follow"}
+      </Button>
+
+  );
+}

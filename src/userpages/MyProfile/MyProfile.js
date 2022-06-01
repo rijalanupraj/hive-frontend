@@ -51,7 +51,7 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function UserProfile() {
+export default function MyProfile() {
   const { themeStretch } = useSettings();
   // const { user } = useAuth();
 
@@ -162,3 +162,4 @@ export default function UserProfile() {
     </Page>
   );
 }
+
