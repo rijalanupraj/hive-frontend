@@ -11,6 +11,7 @@ import {
   questionReducer,
   tagReducer,
   viewSolutionReducer,
+  followunfollowReducer,
 } from "./reducers/";
 
 const reducer = combineReducers({
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   question: questionReducer,
   tag: tagReducer,
   viewSolutions: viewSolutionReducer,
+  follow: followunfollowReducer,
 });
 
 let initialState = {};

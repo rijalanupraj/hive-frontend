@@ -1,5 +1,5 @@
 import { capitalCase } from "change-case";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // @mui
 import { styled } from "@mui/material/styles";
 import { Tab, Box, Card, Tabs, Container, Button } from "@mui/material";
@@ -28,6 +28,8 @@ import {
   ProfileGallery,
   ProfileFollowers,
 } from "../../sections/user/MyProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { followUser } from "../../redux/actions/usersActions";
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +54,10 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function UserProfile() {
+  const dispatch = useDispatch();
+  const follow = useSelector((state) => state.follow);
+  const auth = useSelector((state) => state.auth);
+
   const { themeStretch } = useSettings();
   // const { user } = useAuth();
 
@@ -60,7 +66,6 @@ export default function UserProfile() {
   const [findFollowers, setFindFollowers] = useState("");
 
   const [findFollowings, setFindFollowings] = useState("");
-
 
   const handleChangeTab = (newValue) => {
     setCurrentTab(newValue);
@@ -80,7 +85,6 @@ export default function UserProfile() {
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
       component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
     },
-    
   ];
 
   return (
@@ -125,9 +129,8 @@ export default function UserProfile() {
                   label={capitalCase(tab.value)}
                 />
               ))}
-              <FollowerButton/>
+              <FollowerButton />
             </Tabs>
-            
           </TabsWrapperStyle>
         </Card>
 
@@ -140,26 +143,23 @@ export default function UserProfile() {
   );
 }
 
-
 function FollowerButton() {
-
   const [toggle, setToogle] = useState();
+  const dispatch = useDispatch();
 
   return (
-      
-      <Button
-        size="small"
-        style={{
-          margin: "0.5vh",
-        }}
-        onClick={() => setToogle(!toggle)}
-        variant={toggle ? "text" :'contained'}
-        color={toggle ? "primary" : "primary"}
- 
-        startIcon={toggle && <Iconify icon={"eva:checkmark-fill"} />}
-      >
-        {toggle ? "Followed" : "Follow"}
-      </Button>
-
+    <Button
+      size="small"
+      style={{
+        margin: "0.5vh",
+      }}
+      onClick={() => dispatch(followUser("628cbcb3602badafbc3a4f7a"))}
+      // onClick={console.log("clicked")}
+      variant={toggle ? "text" : "contained"}
+      color={toggle ? "primary" : "primary"}
+      startIcon={toggle && <Iconify icon={"eva:checkmark-fill"} />}
+    >
+      {toggle ? "Followed" : "Follow"}
+    </Button>
   );
 }

@@ -6,6 +6,7 @@ import solutionReducer from "./solutionReducer";
 import questionReducer from "./questionReducer";
 import tagReducer from "./tagReducer";
 import viewSolutionReducer from "./viewSolutionReducer";
+import followunfollowReducer from "./followunfollowReducer";
 
 export {
   authReducer,
@@ -16,4 +17,5 @@ export {
   questionReducer,
   tagReducer,
   viewSolutionReducer,
+  followunfollowReducer,
 };
