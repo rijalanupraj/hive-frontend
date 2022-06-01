@@ -105,7 +105,9 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {auth.isAuthenticated && <MenuItem>{auth.me.username}</MenuItem>}
+      {auth.isAuthenticated && <MenuItem><a href='/myprofile' style={{
+        textDecoration: 'none',
+      }}>{auth.me.username}</a></MenuItem>}
       {auth.isAuthenticated ? (
         <MenuItem onClick={() => dispatch(logOutUser(navigate))}>Log Out</MenuItem>
       ) : (
