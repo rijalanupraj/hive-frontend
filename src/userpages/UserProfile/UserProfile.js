@@ -9,13 +9,7 @@ import { Tab, Box, Card, Tabs, Container, Button } from "@mui/material";
 // import useAuth from "../../hooks/useAuth";
 import useSettings from "../../hooks/useSettings";
 // _mock_
-import {
-  _userAbout,
-  _userFeeds,
-  _userGallery,
-  _userFollowers,
-  _userFollowings,
-} from "../../_mock/_user";
+import { _userAbout, _userFeeds, _userGallery, _userFollowings } from "../../_mock/_user";
 // components
 import Page from "../../components/Page";
 import Iconify from "../../components/Iconify";
@@ -26,9 +20,12 @@ import {
   ProfileCover,
   ProfileFollowings,
   ProfileGallery,
-  ProfileFollowers,
+  ProfileFollowers
 } from "../../sections/user/MyProfile";
-
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProfile, viewFollowers, followUnfollowUser } from "../../redux/actions/userActions";
 // ----------------------------------------------------------------------
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
@@ -41,57 +38,69 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up("sm")]: {
-    justifyContent: "center",
+    justifyContent: "center"
   },
   [theme.breakpoints.up("md")]: {
     justifyContent: "flex-end",
-    paddingRight: theme.spacing(3),
-  },
+    paddingRight: theme.spacing(3)
+  }
 }));
 
 // ----------------------------------------------------------------------
 
 export default function UserProfile() {
   const { themeStretch } = useSettings();
-  // const { user } = useAuth();
-
+  const { username } = useParams();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
   const [currentTab, setCurrentTab] = useState("profile");
   const [findFollowers, setFindFollowers] = useState("");
 
-  const handleChangeTab = (newValue) => {
+  useEffect(() => {
+    dispatch(getProfile(username));
+  }, []);
+  // const { user } = useAuth();
+
+  if (!user.profile) {
+    return <div>Loading...</div>;
+  }
+
+  const handleChangeTab = newValue => {
+    if (newValue === "followers") {
+      dispatch(viewFollowers(user.profile._id));
+    }
     setCurrentTab(newValue);
   };
 
-  const handleFindFollowers = (value) => {
+  const handleFindFollowers = value => {
     setFindFollowers(value);
   };
-
 
   const PROFILE_TABS = [
     {
       value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
+      component: <Profile myProfile={_userAbout} posts={_userFeeds} />
     },
     {
       value: "followers",
       icon: <Iconify icon={"eva:heart-fill"} width={20} height={20} />,
       component: (
         <ProfileFollowers
-          followers={_userFollowers}
+          followers={user.followers}
           findFollowers={findFollowers}
           onFindFollowers={handleFindFollowers}
         />
-      ),
-    },
+      )
+    }
   ];
 
   return (
-    <Page title="User: Profile">
+    <Page title='User: Profile'>
       <Container
         maxWidth={themeStretch ? false : "lg"}
         style={{
-          marginTop: "13vh",
+          marginTop: "13vh"
         }}
       >
         {/* <HeaderBreadcrumbs
@@ -106,20 +115,20 @@ export default function UserProfile() {
           sx={{
             mb: 3,
             height: 280,
-            position: "relative",
+            position: "relative"
           }}
         >
-          <ProfileCover myProfile={_userAbout} />
+          <ProfileCover myProfile={_userAbout} profile={user.profile} />
 
           <TabsWrapperStyle>
             <Tabs
               value={currentTab}
-              scrollButtons="auto"
-              variant="scrollable"
+              scrollButtons='auto'
+              variant='scrollable'
               allowScrollButtonsMobile
               onChange={(e, value) => handleChangeTab(value)}
             >
-              {PROFILE_TABS.map((tab) => (
+              {PROFILE_TABS.map(tab => (
                 <Tab
                   disableRipple
                   key={tab.value}
@@ -128,13 +137,12 @@ export default function UserProfile() {
                   label={capitalCase(tab.value)}
                 />
               ))}
-              <FollowerButton/>
+              <FollowerButton profile={user.profile} />
             </Tabs>
-            
           </TabsWrapperStyle>
         </Card>
 
-        {PROFILE_TABS.map((tab) => {
+        {PROFILE_TABS.map(tab => {
           const isMatched = tab.value === currentTab;
           return isMatched && <Box key={tab.value}>{tab.component}</Box>;
         })}
@@ -143,26 +151,38 @@ export default function UserProfile() {
   );
 }
 
-
-function FollowerButton() {
-
+function FollowerButton({ profile }) {
   const [toggle, setToogle] = useState();
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
+  console.log(profile.followers);
+
+  useEffect(() => {
+    if (auth.me && profile.followers) {
+      if (profile.followers.includes(auth.me._id)) {
+        setToogle(true);
+      } else {
+        setToogle(false);
+      }
+    }
+  }, [auth, profile]);
+
+  const handleFollow = () => {
+    dispatch(followUnfollowUser(profile._id));
+  };
 
   return (
-      
-      <Button
-        size="small"
-        style={{
-          margin: "0.5vh",
-        }}
-        onClick={() => setToogle(!toggle)}
-        variant={toggle ? "text" :'contained'}
-        color={toggle ? "primary" : "primary"}
- 
-        startIcon={toggle && <Iconify icon={"eva:checkmark-fill"} />}
-      >
-        {toggle ? "Followed" : "Follow"}
-      </Button>
-
+    <Button
+      size='small'
+      style={{
+        margin: "0.5vh"
+      }}
+      onClick={() => handleFollow()}
+      variant={toggle ? "text" : "contained"}
+      color={toggle ? "primary" : "primary"}
+      startIcon={toggle && <Iconify icon={"eva:checkmark-fill"} />}
+    >
+      {toggle ? "Followed" : "Follow"}
+    </Button>
   );
 }

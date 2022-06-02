@@ -10,8 +10,6 @@ import cssStyles from "../../../utils/cssStyles";
 import MyAvatar from "../../../components/MyAvatar";
 import Image from "../../../components/Image";
 
-
-
 // ----------------------------------------------------------------------
 
 const RootStyle = styled("div")(({ theme }) => ({
@@ -22,8 +20,8 @@ const RootStyle = styled("div")(({ theme }) => ({
     content: "''",
     width: "100%",
     height: "100%",
-    position: "absolute",
-  },
+    position: "absolute"
+  }
 }));
 
 const InfoStyle = styled("div")(({ theme }) => ({
@@ -37,17 +35,17 @@ const InfoStyle = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     left: theme.spacing(3),
-    bottom: theme.spacing(3),
-  },
+    bottom: theme.spacing(3)
+  }
 }));
 
 // ----------------------------------------------------------------------
 
 ProfileCover.propTypes = {
-  myProfile: PropTypes.object,
+  myProfile: PropTypes.object
 };
 
-export default function ProfileCover({ myProfile }) {
+export default function ProfileCover({ myProfile, profile }) {
   // const { user } = useAuth();
 
   const { position, cover } = myProfile;
@@ -62,8 +60,7 @@ export default function ProfileCover({ myProfile }) {
             borderStyle: "solid",
             borderColor: "common.white",
             width: { xs: 80, md: 128 },
-            height: { xs: 80, md: 128 },
-            
+            height: { xs: 80, md: 128 }
           }}
         />
         <Box
@@ -71,16 +68,16 @@ export default function ProfileCover({ myProfile }) {
             ml: { md: 3 },
             mt: { xs: 1, md: 0 },
             color: "common.white",
-            textAlign: { xs: "center", md: "left" },
+            textAlign: { xs: "center", md: "left" }
           }}
         >
           {/* <Typography variant="h4">{user?.displayName}</Typography> */}
-          <Typography variant="h4">Slow and Steady</Typography>
-          <Typography sx={{ opacity: 0.72 }}>{position}</Typography>
+          <Typography variant='h4'>{profile.name}</Typography>
+          <Typography sx={{ opacity: 0.72 }}>{profile.username}</Typography>
         </Box>
       </InfoStyle>
       <Image
-        alt="profile cover"
+        alt='profile cover'
         src={cover}
         sx={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
       />

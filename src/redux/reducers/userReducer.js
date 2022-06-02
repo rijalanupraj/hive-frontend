@@ -1,10 +1,11 @@
 // Internal Import
-import * as TYPES from '../types';
+import * as TYPES from "../types";
 
 const initialState = {
   profile: {},
   isLoading: false,
-  error: null
+  error: null,
+  followers: []
 };
 
 export default function userReducer(state = initialState, { type, payload }) {
@@ -13,6 +14,8 @@ export default function userReducer(state = initialState, { type, payload }) {
     case TYPES.EDIT_USER_LOADING:
     case TYPES.DELETE_USER_LOADING:
     case TYPES.CHANGE_PASSWORD_LOADING:
+    case TYPES.GET_FOLLOWERS_LOADING:
+    case TYPES.FOLLOW_UNFOLLOW_USER_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -32,7 +35,7 @@ export default function userReducer(state = initialState, { type, payload }) {
         isLoading: false,
         profile: payload.user,
         error: null,
-        success: 'Profile updated successfully'
+        success: "Profile updated successfully"
       };
     case TYPES.DELETE_USER_SUCCESS:
       return {
@@ -47,13 +50,33 @@ export default function userReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         error: null,
-        success: 'Password changed successfully'
+        success: "Password changed successfully"
+      };
+
+    case TYPES.GET_FOLLOWERS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        followers: payload.followers,
+        error: null
+      };
+
+    case TYPES.FOLLOW_UNFOLLOW_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        profile: {
+          ...state.profile,
+          followers: payload.anotherUser.followers
+        }
       };
 
     case TYPES.GET_PROFILE_FAIL:
     case TYPES.EDIT_USER_FAIL:
     case TYPES.DELETE_USER_FAIL:
     case TYPES.CHANGE_PASSWORD_FAIL:
+    case TYPES.GET_FOLLOWERS_FAIL:
+    case TYPES.FOLLOW_UNFOLLOW_USER_FAIL:
       return {
         ...state,
         isLoading: false,

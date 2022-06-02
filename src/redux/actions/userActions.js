@@ -1,11 +1,11 @@
 // External Dependencies
-import axios from 'axios';
+import axios from "axios";
 
 // Internal Import
-import * as TYPES from '../types';
-import { BACKEND_API_URL } from '../../constants/index';
+import * as TYPES from "../types";
+import { BACKEND_API_URL } from "../../constants/index";
 
-import { logOutUser, loadMe } from './authActions';
+import { logOutUser, loadMe } from "./authActions";
 
 const API_URL = BACKEND_API_URL;
 
@@ -55,28 +55,68 @@ export const changePassword = formData => async (dispatch, getState) => {
   }
 };
 
-// export const getProfile = (username, history) => async (dispatch, getState) => {
-//   dispatch({
-//     type: TYPES.GET_PROFILE_LOADING
-//   });
-//   try {
-//     const options = attachTokenToHeaders(getState);
-//     const response = await axios.get(`${API_URL}/api/v1/users/${username}`, options);
+export const getProfile = (username, history) => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.GET_PROFILE_LOADING
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/users/viewprofile/${username}`, options);
 
-//     dispatch({
-//       type: TYPES.GET_PROFILE_SUCCESS,
-//       payload: { profile: response.data.user }
-//     });
-//   } catch (err) {
-//     if (err?.response.status === 404) {
-//       history.push('/notfound');
-//     }
-//     dispatch({
-//       type: TYPES.GET_PROFILE_FAIL,
-//       payload: { error: err?.response?.data.message || err.message }
-//     });
-//   }
-// };
+    dispatch({
+      type: TYPES.GET_PROFILE_SUCCESS,
+      payload: { profile: response.data.user }
+    });
+  } catch (err) {
+    if (err?.response.status === 404) {
+      history.push("/notfound");
+    }
+    dispatch({
+      type: TYPES.GET_PROFILE_FAIL,
+      payload: { error: err?.response?.data.message || err.message }
+    });
+  }
+};
+
+export const viewFollowers = id => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: TYPES.GET_FOLLOWERS_LOADING
+    });
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/users/viewfollowers/${id}`, options);
+
+    dispatch({
+      type: TYPES.GET_FOLLOWERS_SUCCESS,
+      payload: { followers: response.data.followers }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_FOLLOWERS_FAIL,
+      payload: { error: err?.response?.data.message || err.message }
+    });
+  }
+};
+
+export const followUnfollowUser = id => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: TYPES.FOLLOW_UNFOLLOW_USER_LOADING
+    });
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post(`${API_URL}/users/follow-unfollow/${id}`, {}, options);
+
+    dispatch({
+      type: TYPES.FOLLOW_UNFOLLOW_USER_SUCCESS,
+      payload: { anotherUser: response.data.anotherUser }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.FOLLOW_UNFOLLOW_USER_FAIL,
+      payload: { error: err?.response?.data.message || err.message }
+    });
+  }
+};
 
 // export const deleteUser = (id, history) => async (dispatch, getState) => {
 //   dispatch({
@@ -109,12 +149,12 @@ export const attachTokenToHeaders = getState => {
 
   const config = {
     headers: {
-      'Content-type': 'application/json'
+      "Content-type": "application/json"
     }
   };
 
   if (token) {
-    config.headers['x-auth-token'] = token;
+    config.headers["x-auth-token"] = token;
   }
 
   return config;
