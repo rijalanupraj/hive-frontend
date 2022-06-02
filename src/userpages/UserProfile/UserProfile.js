@@ -22,7 +22,7 @@ import {
   ProfileGallery,
   ProfileFollowers
 } from "../../sections/user/MyProfile";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfile, viewFollowers, followUnfollowUser } from "../../redux/actions/userActions";
@@ -55,15 +55,11 @@ export default function UserProfile() {
   const user = useSelector(state => state.user);
   const [currentTab, setCurrentTab] = useState("profile");
   const [findFollowers, setFindFollowers] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(getProfile(username));
+    dispatch(getProfile(username, navigate));
   }, []);
-  // const { user } = useAuth();
-
-  if (!user.profile) {
-    return <div>Loading...</div>;
-  }
 
   const handleChangeTab = newValue => {
     if (newValue === "followers") {
@@ -80,7 +76,7 @@ export default function UserProfile() {
     {
       value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} posts={_userFeeds} />
+      component: <Profile myProfile={_userAbout} posts={_userFeeds} profile={user.profile} />
     },
     {
       value: "followers",
