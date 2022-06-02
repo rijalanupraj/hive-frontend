@@ -57,7 +57,7 @@ export default function ProfileFollowers({ followers, findFollowers, onFindFollo
 // ----------------------------------------------------------------------
 
 function FollowerCard({ follower }) {
-  console.log(follower);
+
   const { name } = follower;
 
   const [toggle, setToogle] = useState(true);
