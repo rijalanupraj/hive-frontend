@@ -20,14 +20,14 @@ export default function ProfileFollowInfo({ profile }) {
     <Card sx={{ py: 3 }}>
       <Stack direction='row' divider={<Divider orientation='vertical' flexItem />}>
         <Stack width={1} textAlign='center'>
-          <Typography variant='h4'>{fNumber(followers.length)}</Typography>
+          <Typography variant='h4'>{followers ? followers.length : "0"}</Typography>
           <Typography variant='body2' sx={{ color: "text.secondary" }}>
             Follower
           </Typography>
         </Stack>
 
         <Stack width={1} textAlign='center'>
-          <Typography variant='h4'>{fNumber(followings.length)}</Typography>
+          <Typography variant='h4'>{followings ? followings.length : "0"}</Typography>
           <Typography variant='body2' sx={{ color: "text.secondary" }}>
             Following
           </Typography>

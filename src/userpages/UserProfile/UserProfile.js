@@ -151,6 +151,7 @@ function FollowerButton({ profile }) {
   const [toggle, setToogle] = useState();
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
+  const navigate = useNavigate();
   console.log(profile.followers);
 
   useEffect(() => {
@@ -167,13 +168,19 @@ function FollowerButton({ profile }) {
     dispatch(followUnfollowUser(profile._id));
   };
 
+  if (auth.me && auth.me._id === profile._id) {
+    return null;
+  }
+
   return (
     <Button
       size='small'
       style={{
         margin: "0.5vh"
       }}
-      onClick={() => handleFollow()}
+      onClick={() =>
+        auth.me ? handleFollow() : navigate("/login?redirectTo=/profile/" + profile.username)
+      }
       variant={toggle ? "text" : "contained"}
       color={toggle ? "primary" : "primary"}
       startIcon={toggle && <Iconify icon={"eva:checkmark-fill"} />}

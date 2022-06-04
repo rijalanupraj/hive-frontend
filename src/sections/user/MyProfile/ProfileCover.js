@@ -62,6 +62,7 @@ export default function ProfileCover({ myProfile, profile }) {
             width: { xs: 80, md: 128 },
             height: { xs: 80, md: 128 }
           }}
+          profile={profile}
         />
         <Box
           sx={{

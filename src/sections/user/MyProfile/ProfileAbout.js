@@ -12,59 +12,59 @@ const IconStyle = styled(Iconify)(({ theme }) => ({
   height: 20,
   marginTop: 1,
   flexShrink: 0,
-  marginRight: theme.spacing(2),
+  marginRight: theme.spacing(2)
 }));
 
 // ----------------------------------------------------------------------
 
 ProfileAbout.propTypes = {
-  profile: PropTypes.object,
+  profile: PropTypes.object
 };
 
 export default function ProfileAbout({ profile }) {
-  const { quote, country, email, role, company, school } = profile;
+  const { bio } = profile;
 
   return (
     <Card>
-      <CardHeader title="About" />
+      <CardHeader title='About' />
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Typography variant="body2">{quote}</Typography>
+        <Typography variant='body2'>{bio}</Typography>
 
-        <Stack direction="row">
-          <IconStyle icon={"eva:pin-fill"} />
-          <Typography variant="body2">
-            Live at &nbsp;
-            <Link component="span" variant="subtitle2" color="text.primary">
-              {country}
+        <Stack direction='row'>
+          <IconStyle icon={"material-symbols:supervised-user-circle"} />
+          <Typography variant='body2'>
+            &nbsp;
+            <Link component='span' variant='subtitle2' color='text.primary'>
+              {profile.name}
             </Link>
           </Typography>
         </Stack>
 
-        <Stack direction="row">
+        {/* <Stack direction='row'>
           <IconStyle icon={"eva:email-fill"} />
-          <Typography variant="body2">{email}</Typography>
+          <Typography variant='body2'>{""}</Typography>
         </Stack>
 
-        <Stack direction="row">
+        <Stack direction='row'>
           <IconStyle icon={"ic:round-business-center"} />
-          <Typography variant="body2">
-            {role} at &nbsp;
-            <Link component="span" variant="subtitle2" color="text.primary">
-              {company}
+          <Typography variant='body2'>
+            {""} at &nbsp;
+            <Link component='span' variant='subtitle2' color='text.primary'>
+              {""}
             </Link>
           </Typography>
         </Stack>
 
-        <Stack direction="row">
+        <Stack direction='row'>
           <IconStyle icon={"ic:round-business-center"} />
-          <Typography variant="body2">
+          <Typography variant='body2'>
             Studied at &nbsp;
-            <Link component="span" variant="subtitle2" color="text.primary">
-              {school}
+            <Link component='span' variant='subtitle2' color='text.primary'>
+              {""}
             </Link>
           </Typography>
-        </Stack>
+        </Stack> */}
       </Stack>
     </Card>
   );

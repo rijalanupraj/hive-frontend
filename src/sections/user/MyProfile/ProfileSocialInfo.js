@@ -12,49 +12,55 @@ const IconStyle = styled(Iconify)(({ theme }) => ({
   height: 20,
   marginTop: 1,
   flexShrink: 0,
-  marginRight: theme.spacing(2),
+  marginRight: theme.spacing(2)
 }));
 
 // ----------------------------------------------------------------------
 
 ProfileSocialInfo.propTypes = {
-  profile: PropTypes.object,
+  profile: PropTypes.object
 };
 
 export default function ProfileSocialInfo({ profile }) {
-  const { facebookLink, instagramLink, linkedinLink, twitterLink } = profile;
+  // const { facebookLink, instagramLink, linkedinLink, twitterLink } = profile;
+  const [facebookLink, instagramLink, linkedinLink, twitterLink] = [
+    "facebookLink",
+    "instagramLink",
+    "linkedinLink",
+    "twitterLink"
+  ];
 
   const SOCIALS = [
     {
       name: "Linkedin",
-      icon: <IconStyle icon={"eva:linkedin-fill"} color="#006097" />,
-      href: linkedinLink,
+      icon: <IconStyle icon={"eva:linkedin-fill"} color='#006097' />,
+      href: linkedinLink
     },
     {
       name: "Twitter",
-      icon: <IconStyle icon={"eva:twitter-fill"} color="#1C9CEA" />,
-      href: twitterLink,
+      icon: <IconStyle icon={"eva:twitter-fill"} color='#1C9CEA' />,
+      href: twitterLink
     },
     {
       name: "Instagram",
-      icon: <IconStyle icon={"ant-design:instagram-filled"} color="#D7336D" />,
-      href: instagramLink,
+      icon: <IconStyle icon={"ant-design:instagram-filled"} color='#D7336D' />,
+      href: instagramLink
     },
     {
       name: "Facebook",
-      icon: <IconStyle icon={"eva:facebook-fill"} color="#1877F2" />,
-      href: facebookLink,
-    },
+      icon: <IconStyle icon={"eva:facebook-fill"} color='#1877F2' />,
+      href: facebookLink
+    }
   ];
 
   return (
     <Card>
-      <CardHeader title="Social" />
+      <CardHeader title='Social' />
       <Stack spacing={2} sx={{ p: 3 }}>
-        {SOCIALS.map((link) => (
-          <Stack key={link.name} direction="row" alignItems="center">
+        {SOCIALS.map(link => (
+          <Stack key={link.name} direction='row' alignItems='center'>
             {link.icon}
-            <Link component="span" variant="body2" color="text.primary" noWrap>
+            <Link component='span' variant='body2' color='text.primary' noWrap>
               {link.href}
             </Link>
           </Stack>

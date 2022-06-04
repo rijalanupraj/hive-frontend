@@ -21,17 +21,17 @@ export default function Profile({ myProfile, posts, profile }) {
       <Grid item xs={12} md={4}>
         <Stack spacing={3}>
           <ProfileFollowInfo profile={profile} />
-          <ProfileAbout profile={myProfile} />
-          <ProfileSocialInfo profile={myProfile} />
+          <ProfileAbout profile={profile} />
+          <ProfileSocialInfo profile={profile} />
         </Stack>
       </Grid>
 
       <Grid item xs={12} md={8}>
         <Stack spacing={3}>
-          <ProfilePostInput />
+          {/* <ProfilePostInput />
           {posts.map(post => (
             <ProfilePostCard key={post.id} post={post} />
-          ))}
+          ))} */}
         </Stack>
       </Grid>
     </Grid>
