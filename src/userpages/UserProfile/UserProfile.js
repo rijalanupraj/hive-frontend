@@ -59,7 +59,7 @@ export default function UserProfile() {
 
   useEffect(() => {
     dispatch(getProfile(username, navigate));
-  }, []);
+  }, [username]);
 
   const handleChangeTab = newValue => {
     if (newValue === "followers") {
@@ -86,6 +86,7 @@ export default function UserProfile() {
           followers={user.followers}
           findFollowers={findFollowers}
           onFindFollowers={handleFindFollowers}
+          profile={user.profile}
         />
       )
     }
@@ -152,7 +153,6 @@ function FollowerButton({ profile }) {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
   const navigate = useNavigate();
-  console.log(profile.followers);
 
   useEffect(() => {
     if (auth.me && profile.followers) {
