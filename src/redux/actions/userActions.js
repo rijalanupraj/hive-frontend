@@ -108,13 +108,28 @@ export const followUnfollowUser = id => async (dispatch, getState) => {
 
     dispatch({
       type: TYPES.FOLLOW_UNFOLLOW_USER_SUCCESS,
-      payload: { anotherUser: response.data.anotherUser }
+      payload: { anotherUser: response.data.anotherUser, mineFollowers: response.data.me }
     });
+    dispatch(viewFollowers(id));
   } catch (err) {
     dispatch({
       type: TYPES.FOLLOW_UNFOLLOW_USER_FAIL,
       payload: { error: err?.response?.data.message || err.message }
     });
+  }
+};
+
+export const followUnfollowAnyUser = id => async (dispatch, getState) => {
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.post(`${API_URL}/users/follow-unfollow/${id}`, {}, options);
+
+    dispatch({
+      type: TYPES.FOLLOW_UNFOLLOW_ANY_USER_SUCCESS,
+      payload: { anotherUser: response.data.anotherUser, mineFollowers: response.data.me }
+    });
+  } catch (err) {
+    console.log(err);
   }
 };
 

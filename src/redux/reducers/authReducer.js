@@ -1,8 +1,8 @@
 // Internal Import
-import * as TYPES from '../types';
+import * as TYPES from "../types";
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem("token"),
   isAuthenticated: false,
   isLoading: false,
   me: null,
@@ -28,7 +28,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
       };
     case TYPES.LOGIN_WITH_EMAIL_SUCCESS:
     case TYPES.LOGIN_WITH_OAUTH_SUCCESS:
-      localStorage.setItem('token', payload.token);
+      localStorage.setItem("token", payload.token);
       return {
         ...state,
         isAuthenticated: true,
@@ -46,19 +46,50 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         error: null,
         appLoaded: true
       };
+
+    case TYPES.VIEW_MY_FOLLOWINGS_LOADING:
+      return {
+        ...state,
+        followingLoading: true
+      };
+
+    case TYPES.VIEW_MY_FOLLOWINGS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        followingLoading: false,
+        me: {
+          ...state.me,
+          followingsObject: payload.followings
+        }
+      };
+    case TYPES.VIEW_MY_FOLLOWINGS_FAIL:
     case TYPES.ME_FAIL:
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       return {
         ...state,
         isAuthenticated: false,
         isLoading: false,
+        followingLoading: false,
         me: null,
         error: null,
         appLoaded: true
       };
+    case TYPES.FOLLOW_UNFOLLOW_ANY_USER_SUCCESS:
+      const followingsArray = payload.mineFollowers.followings;
+      console.log(followingsArray);
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          followings: followingsArray
+        }
+      };
+
     case TYPES.LOGOUT_SUCCESS:
     case TYPES.LOGIN_WITH_EMAIL_FAIL:
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       return {
         ...state,
         token: null,

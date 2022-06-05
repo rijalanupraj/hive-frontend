@@ -1,7 +1,7 @@
 // External Import
-import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // Page Import
 import {
@@ -18,14 +18,14 @@ import {
   QuestionsPage,
   Page404,
   MyProfile,
-  ViewCategory,
-} from '../userpages';
+  ViewCategory
+} from "../userpages";
 
 // Internal Import
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from "../components/Navbar/Navbar";
 
 // Helper Route Import
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from "./PrivateRoute";
 
 const UserRoute = () => {
   const auth = useSelector(state => state.auth);
@@ -33,7 +33,7 @@ const UserRoute = () => {
   return (
     <>
       <Navbar />
-      
+
       <main>
         <Routes>
           {/* Normal Routes Starts */}
