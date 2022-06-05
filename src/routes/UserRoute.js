@@ -18,6 +18,7 @@ import {
   QuestionsPage,
   Page404,
   MyProfile,
+  ViewCategory,
 } from '../userpages';
 
 // Internal Import
@@ -44,6 +45,7 @@ const UserRoute = () => {
           <Route exact path='/solution/:solutionId' element={<ViewSolution />} />
           <Route exact path='/forgot-password' element={<ForgotPassword />} />
           <Route exact path='/reset-password' element={<ResetPassword />} />
+          <Route exact path='/category' element={<ViewCategory />} />
           {/* Normal Routes Ends */}
 
           {/* Private Routes Starts */}

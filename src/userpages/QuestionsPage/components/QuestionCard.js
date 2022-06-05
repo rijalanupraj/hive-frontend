@@ -1,14 +1,15 @@
 import React from 'react';
-import { Grid, Paper, Box, Typography, ButtonBase, Stack, IconButton, Button } from '@mui/material';
+import { Grid, Paper, Box, Typography, ButtonBase, Stack, IconButton, Button} from '@mui/material';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ShareIcon from '@mui/icons-material/Share';
 import FlagIcon from '@mui/icons-material/Flag';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import { QuestionAnswerRounded } from '@mui/icons-material';
+
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+
 
 const QuestionCard = ({ question }) => {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ const QuestionCard = ({ question }) => {
           marginTop: '0.7rem'
         }}
       >
+           
         <Grid container spacing={2}>
           <Grid
             item
@@ -28,6 +30,8 @@ const QuestionCard = ({ question }) => {
               paddingLeft: '1.5rem'
             }}
           >
+         
+
             <ButtonBase sx={{ width: 10, height: 10 }}>
               {/* profile */}
               <img

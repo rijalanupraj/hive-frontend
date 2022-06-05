@@ -56,19 +56,10 @@ function HomePage() {
               <Typography variant='h6' style={{
                 paddingLeft: '1rem',
               }}>
-                Category
-              </Typography>
-
-              <ul>
-                <a href="/" className='anchor'><li >Bank</li></a>
-                <li>Government</li>
-                <li>Visa</li>
-              </ul>
-              <Typography variant='h7'>
-                <a href='/' style={{
-                  textDecoration: 'none',	
-                  paddingLeft: '1rem',
-                }}>See More...</a>
+                <a href='/category' style={{
+                  textDecoration: 'none',
+                  color: 'green'
+                }}>Category</a>
               </Typography>
               
             </Paper>
@@ -178,14 +169,12 @@ function HomePage() {
                 <Typography variant='h6' style={{
                   paddingLeft: '1rem',
                 }}>
-                  Most Searched Questions
+                  <a href='/questions' style={{
+                    textDecoration: 'none',
+                    color: 'green'
+                  }}>Explore Questions</a>
                 </Typography>
-                <br/>
-                <ul>
-                  <a href='/view-solution' className='anchor'><li>How to make an bank account in NIC asia?</li></a>
-                  <li>How to apply for EDV</li>
-                  <li>How to apply for Australia in Student Visa?</li>
-                </ul>
+                
             
               
             </Paper>

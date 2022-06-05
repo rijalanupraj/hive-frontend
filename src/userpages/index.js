@@ -11,6 +11,7 @@ import ResetPassword from './Auth/auth-forms/ResetPassword';
 import Page404 from './Page404';
 import QuestionsPage from './QuestionsPage/QuestionsPage';
 import MyProfile from './MyProfile/MyProfile';
+import ViewCategory from './Category/ViewCategory';
 
 export {
   Login,
@@ -26,4 +27,5 @@ export {
   Page404,
   QuestionsPage,
   MyProfile,
+  ViewCategory,
 };

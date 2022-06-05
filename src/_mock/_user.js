@@ -22,13 +22,23 @@ export const _userAbout = {
   twitterLink: `https://www.twitter.com/caitlyn.kerluke`,
 };
 
-export const _userFollowers = [...Array(18)].map((_, index) => ({
+export const _userFollowers = [...Array(10)].map((_, index) => ({
   id: _mock.id(index),
   avatarUrl: _mock.image.avatar(index),
   name: _mock.name.fullName(index),
   country: _mock.address.country(index),
   isFollowed: _mock.boolean(index),
 }));
+
+export const _category = [...Array(8)].map((_, index) => ({
+  id: _mock.id(index),
+  avatarUrl: _mock.image.avatar(index),
+  name: _mock.name.fullName(index),
+  country: _mock.address.country(index),
+  isFollowed: _mock.boolean(index),
+}));
+
+
 
 export const _userFollowings = [...Array(18)].map((_, index) => ({
   id: _mock.id(index),
