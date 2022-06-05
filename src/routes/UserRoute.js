@@ -18,7 +18,8 @@ import {
   QuestionsPage,
   Page404,
   MyProfile,
-  ViewCategory
+  ViewCategory,
+  PersonalFeed
 } from "../userpages";
 
 // Internal Import
@@ -61,6 +62,9 @@ const UserRoute = () => {
 
           <Route exact path='/myprofile' element={<PrivateRoute auth={auth} />}>
             <Route exact path='/myprofile' element={<MyProfile />} />
+          </Route>
+          <Route exact path='/feed' element={<PrivateRoute auth={auth} />}>
+            <Route exact path='/feed' element={<PersonalFeed />} />
           </Route>
           {/* Private Routes End */}
 
