@@ -5,17 +5,28 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ShareIcon from "@mui/icons-material/Share";
 import FlagIcon from "@mui/icons-material/Flag";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import moment from "moment";
 
+// Icons
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
+import BookmarkRemoveIcon from "@mui/icons-material/BookmarkRemove";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+
 import Avatar from "../../../components/Avatar";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { toggleBookmark } from "../../../redux/actions/authActions";
+import { useEffect } from "react";
 
 const SolutionCard = props => {
+  const auth = useSelector(state => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { solution } = props;
-  return (
-    // solution
 
+  return (
     <div>
       <Paper
         variant='outlined'
@@ -215,9 +226,33 @@ const SolutionCard = props => {
           <Grid item>
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               {/* bookmark */}
-              <IconButton size='large' aria-label='bookmark' color='inherit'>
-                <BookmarkBorderIcon />
-              </IconButton>
+              {auth.isAuthenticated ? (
+                <IconButton
+                  size='large'
+                  aria-label='bookmark'
+                  color='inherit'
+                  onClick={() => {
+                    dispatch(toggleBookmark(solution._id));
+                  }}
+                >
+                  {auth.me.bookmarks.includes(solution._id) ? (
+                    <BookmarkRemoveIcon />
+                  ) : (
+                    <BookmarkAddOutlinedIcon />
+                  )}
+                </IconButton>
+              ) : (
+                <IconButton
+                  size='large'
+                  aria-label='bookmark'
+                  onClick={() => {
+                    navigate("/login?redirectTo=/solution/" + solution._id);
+                  }}
+                  color='inherit'
+                >
+                  <BookmarkBorderIcon />
+                </IconButton>
+              )}
 
               {/* report */}
               <IconButton size='large' aria-label='report' color='inherit'>
