@@ -1,9 +1,9 @@
 // External Import
-import axios from 'axios';
+import axios from "axios";
 
 // Internal Import
-import * as TYPES from '../types';
-import { BACKEND_API_URL } from '../../constants';
+import * as TYPES from "../types";
+import { BACKEND_API_URL } from "../../constants";
 
 const API_URL = BACKEND_API_URL;
 
@@ -18,6 +18,7 @@ export const postSolution = (questionId, jsonData, navigate) => async (dispatch,
     dispatch({
       type: TYPES.POST_SOLUTION_SUCCESS
     });
+    navigate(`/solution/${response.data.answer._id}`);
   } catch (err) {
     dispatch({
       type: TYPES.POST_SOLUTION_FAIL,
@@ -33,17 +34,16 @@ export const attachTokenToHeaders = getState => {
 
   const config = {
     headers: {
-      'Content-type': 'application/json'
+      "Content-type": "application/json"
     }
   };
 
   if (token) {
-    config.headers['x-auth-token'] = token;
+    config.headers["x-auth-token"] = token;
   }
 
   return config;
 };
-
 
 //get all solution
 export const getAllSolutionHome = () => async (dispatch, getState) => {
@@ -64,4 +64,4 @@ export const getAllSolutionHome = () => async (dispatch, getState) => {
       }
     });
   }
-}
+};
