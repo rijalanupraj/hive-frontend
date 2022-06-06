@@ -1,16 +1,19 @@
-import PropTypes from 'prop-types';
-import { createContext } from 'react';
+import PropTypes from "prop-types";
+import { createContext } from "react";
 // hooks
-import useLocalStorage from '../hooks/useLocalStorage';
+import useLocalStorage from "../hooks/useLocalStorage";
 // utils
-import getColorPresets, { colorPresets, redPreset, defaultPreset } from '../utils/getColorPresets';
+import getColorPresets, {
+  colorPresets,
+  redPreset,
+  defaultPreset,
+} from "../utils/getColorPresets";
 // config
-
 
 // ----------------------------------------------------------------------
 
 const initialState = {
-  themeMode: 'light',	// light, dark
+  themeMode: "dark", // light, dark
   onChangeMode: () => {},
   onToggleMode: () => {},
   onChangeDirection: () => {},
@@ -18,7 +21,7 @@ const initialState = {
   onToggleStretch: () => {},
   onChangeLayout: () => {},
   onResetSetting: () => {},
-  setColor: defaultPreset,
+  setColor: redPreset,
   colorOption: [],
 };
 
@@ -31,7 +34,7 @@ SettingsProvider.propTypes = {
 };
 
 function SettingsProvider({ children }) {
-  const [settings, setSettings] = useLocalStorage('settings', {
+  const [settings, setSettings] = useLocalStorage("settings", {
     themeMode: initialState.themeMode,
     themeDirection: initialState.themeDirection,
     themeColorPresets: initialState.themeColorPresets,
@@ -49,7 +52,7 @@ function SettingsProvider({ children }) {
   const onToggleMode = () => {
     setSettings({
       ...settings,
-      themeMode: settings.themeMode === 'light' ? 'dark' : 'light',
+      themeMode: settings.themeMode === "light" ? "dark" : "light",
     });
   };
 

@@ -55,23 +55,32 @@ const CommentSection = ({ solution }) => {
                   <Grid justifyContent="left" item xs zeroMinWidth>
                     <h4 style={{ margin: 0, textAlign: "left" }}>
                       {/* {comment.user} */}
-                      {solution.user.username}
+                      {comment.user}
                     </h4>
                     <p style={{ textAlign: "left" }}>{comment.text}</p>
                     <p style={{ textAlign: "left", color: "gray" }}>
                       {comment.createdAt.split("T")[0]}
                     </p>
 
-                    {/* <ButtonGroup
-                      variant="contained"
-                      size="small"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      sx={{ m: 1 }}
-                      aria-label="outlined primary button group"
-                    >
-                      <Button>Edit</Button>
-                      <Button classname="btn-delete"oup> */}
+                    {auth.me._id === comment.user && (
+                      <ButtonGroup
+                        variant="contained"
+                        size="small"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        sx={{ m: 1 }}
+                        aria-label="outlined primary button group"
+                      >
+                        <Button variant="outlined">Edit</Button>
+
+                        <Button
+                          variant="contained"
+                          style={{ background: "red" }}
+                        >
+                          Delete
+                        </Button>
+                      </ButtonGroup>
+                    )}
                   </Grid>
                 </Grid>
               </CardContent>
