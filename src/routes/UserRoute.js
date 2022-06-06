@@ -1,7 +1,7 @@
 // External Import
-import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 // Page Import
 import {
@@ -19,13 +19,14 @@ import {
   Page404,
   MyProfile,
   ViewCategory,
-} from '../userpages';
+  PersonalFeed
+} from "../userpages";
 
 // Internal Import
-import Navbar from '../components/Navbar/Navbar';
+import Navbar from "../components/Navbar/Navbar";
 
 // Helper Route Import
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from "./PrivateRoute";
 
 const UserRoute = () => {
   const auth = useSelector(state => state.auth);
@@ -33,7 +34,7 @@ const UserRoute = () => {
   return (
     <>
       <Navbar />
-      
+
       <main>
         <Routes>
           {/* Normal Routes Starts */}
@@ -61,6 +62,9 @@ const UserRoute = () => {
 
           <Route exact path='/myprofile' element={<PrivateRoute auth={auth} />}>
             <Route exact path='/myprofile' element={<MyProfile />} />
+          </Route>
+          <Route exact path='/feed' element={<PrivateRoute auth={auth} />}>
+            <Route exact path='/feed' element={<PersonalFeed />} />
           </Route>
           {/* Private Routes End */}
 

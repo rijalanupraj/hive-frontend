@@ -1,9 +1,9 @@
 // External Import
-import axios from 'axios';
+import axios from "axios";
 
 // Internal Import
-import * as TYPES from '../types';
-import { BACKEND_API_URL } from '../../constants';
+import * as TYPES from "../types";
+import { BACKEND_API_URL } from "../../constants";
 
 const API_URL = BACKEND_API_URL;
 
@@ -15,6 +15,7 @@ export const askQuestion = (formData, navigate) => async (dispatch, getState) =>
 
     const { data } = await axios.post(`${API_URL}/question`, formData, options);
     dispatch({ type: TYPES.ASK_QUESTION_SUCCESS, payload: data });
+    navigate(`/questions`);
   } catch (err) {
     dispatch({
       type: TYPES.ASK_QUESTION_FAIL,
@@ -38,7 +39,7 @@ export const getAllQuestion = () => async (dispatch, getState) => {
 };
 
 //search question
-export const searchQuestion = (search) => async (dispatch, getState) => {
+export const searchQuestion = search => async (dispatch, getState) => {
   try {
     dispatch({ type: TYPES.GET_ALL_QUESTIONS_LOADING });
 
@@ -57,12 +58,12 @@ export const attachTokenToHeaders = getState => {
 
   const config = {
     headers: {
-      'Content-type': 'application/json'
+      "Content-type": "application/json"
     }
   };
 
   if (token) {
-    config.headers['x-auth-token'] = token;
+    config.headers["x-auth-token"] = token;
   }
 
   return config;

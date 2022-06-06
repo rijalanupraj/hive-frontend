@@ -1,9 +1,9 @@
 // External Import
-import axios from 'axios';
+import axios from "axios";
 
 // Internal Import
-import * as TYPES from '../types';
-import { BACKEND_API_URL } from '../../constants';
+import * as TYPES from "../types";
+import { BACKEND_API_URL } from "../../constants";
 
 const API_URL = BACKEND_API_URL;
 
@@ -38,7 +38,7 @@ export const loginUserWithEmail =
       });
 
       dispatch(loadMe());
-      navigate(redirectTo || '/', { replace: true });
+      navigate(redirectTo || "/", { replace: true });
     } catch (err) {
       dispatch({
         type: TYPES.LOGIN_WITH_EMAIL_FAIL,
@@ -52,8 +52,8 @@ export const logInUserWithOauth = token => async (dispatch, getState) => {
 
   try {
     const headers = {
-      'Content-Type': 'application/json',
-      'x-auth-token': token
+      "Content-Type": "application/json",
+      "x-auth-token": token
     };
 
     const response = await axios.get(`${API_URL}/users/me`, { headers });
@@ -65,6 +65,25 @@ export const logInUserWithOauth = token => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: TYPES.LOGIN_WITH_OAUTH_FAIL,
+      payload: { error: err.response.data.message }
+    });
+  }
+};
+
+export const viewMyFollowings = id => async (dispatch, getState) => {
+  dispatch({ type: TYPES.VIEW_MY_FOLLOWINGS_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/users/viewfollowings/${id}`, options);
+
+    dispatch({
+      type: TYPES.VIEW_MY_FOLLOWINGS_SUCCESS,
+      payload: { followings: response.data.followings }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.VIEW_MY_FOLLOWINGS_FAIL,
       payload: { error: err.response.data.message }
     });
   }
@@ -82,20 +101,20 @@ export const logOutUser = navigate => async dispatch => {
       type: TYPES.LOGOUT_SUCCESS,
       payload: { me: null, token: null }
     });
-    if (navigate) navigate('/');
+    if (navigate) navigate("/");
   } catch (error) {
     console.log(error);
   }
 };
 
 function deleteAllCookies() {
-  var cookies = document.cookie.split(';');
+  var cookies = document.cookie.split(";");
 
   for (var i = 0; i < cookies.length; i++) {
     var cookie = cookies[i];
-    var eqPos = cookie.indexOf('=');
+    var eqPos = cookie.indexOf("=");
     var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
   }
 }
 
@@ -104,12 +123,12 @@ export const attachTokenToHeaders = getState => {
 
   const config = {
     headers: {
-      'Content-type': 'application/json'
+      "Content-type": "application/json"
     }
   };
 
   if (token) {
-    config.headers['x-auth-token'] = token;
+    config.headers["x-auth-token"] = token;
   }
 
   return config;
