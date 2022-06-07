@@ -6,10 +6,10 @@ import { Stack, TextField, Typography, Grid, Avatar } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Button from "@mui/material/Button";
+
 // Internal Import
 import { addComment } from "../../../redux/actions/viewSolutionActions";
+import UpdateSolutionCommentSection from "./UpdateComment.Section";
 
 const CommentSection = ({ solution }) => {
   const dispatch = useDispatch();
@@ -63,23 +63,7 @@ const CommentSection = ({ solution }) => {
                     </p>
 
                     {auth.me._id === comment.user && (
-                      <ButtonGroup
-                        variant="contained"
-                        size="small"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        sx={{ m: 1 }}
-                        aria-label="outlined primary button group"
-                      >
-                        <Button variant="outlined">Edit</Button>
-
-                        <Button
-                          variant="contained"
-                          style={{ background: "red" }}
-                        >
-                          Delete
-                        </Button>
-                      </ButtonGroup>
+                      <UpdateSolutionCommentSection />
                     )}
                   </Grid>
                 </Grid>
