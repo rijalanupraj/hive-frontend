@@ -89,6 +89,25 @@ export const viewMyFollowings = id => async (dispatch, getState) => {
   }
 };
 
+export const toggleBookmark = solutionId => async (dispatch, getState) => {
+  dispatch({ type: TYPES.TOGGLE_BOOKMARK_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(`${API_URL}/bookmark/solution/${solutionId}`, {}, options);
+
+    dispatch({
+      type: TYPES.TOGGLE_BOOKMARK_SUCCESS,
+      payload: { me: response.data.me }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.TOGGLE_BOOKMARK_FAIL,
+      payload: { error: err.response.data.message }
+    });
+  }
+};
+
 // Log user out
 export const logOutUser = navigate => async dispatch => {
   try {
