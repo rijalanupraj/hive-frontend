@@ -44,7 +44,6 @@ const UpdateSolutionCommentSection = () => {
                 id="name"
                 label="Email Address"
                 type="email"
-                fullWidth
                 variant="standard"
               />
             </DialogContent>
