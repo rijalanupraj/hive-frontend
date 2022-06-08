@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 import {
   viewSolution,
   upVoteSolution,
-  downVoteSolution,
+  downVoteSolution
 } from "../../redux/actions/viewSolutionActions";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -31,9 +31,9 @@ const theme = createTheme();
 export default function AskQuestion() {
   const dispatch = useDispatch();
   const { solutionId } = useParams();
-  const solution = useSelector((state) => state.viewSolutions);
-  const auth = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.user);
+  const solution = useSelector(state => state.viewSolutions);
+  const auth = useSelector(state => state.auth);
+  const user = useSelector(state => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function AskQuestion() {
 
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -63,15 +63,15 @@ export default function AskQuestion() {
               "& > :not(style)": {
                 m: 0,
                 width: "100%",
-                height: "10%",
-              },
+                height: "10%"
+              }
             }}
           >
             <Paper elevation={0} />
             <Box
-              component="img"
-              alt="The house from the offer."
-              src="https://i.ibb.co/grnLWrt/cover.png"
+              component='img'
+              alt='The house from the offer.'
+              src='https://i.ibb.co/grnLWrt/cover.png'
             />
             <Paper />
           </Box>
@@ -80,29 +80,22 @@ export default function AskQuestion() {
               display: "flex",
               flexWrap: "wrap",
               "& > :not(style)": {
-                mx: 5,
-              },
+                mx: 5
+              }
             }}
           >
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: "bold" }}
-              component="div"
-              gutterBottom
-            >
+            <Typography variant='h6' sx={{ fontWeight: "bold" }} component='div' gutterBottom>
               {solution?.solution?.question?.title}
             </Typography>
             <Typography
               sx={{ fontWeight: "bold", typography: "body2", padding: "1rem" }}
-              component="div"
+              component='div'
               gutterBottom
             >
               {solution?.solution?.question?.category}
               <Chip
-                label={`posted on: ${
-                  solution?.solution?.question?.createdAt.split("T")[0]
-                }`}
-                variant="outlined"
+                label={`posted on: ${solution?.solution?.question?.createdAt.split("T")[0]}`}
+                variant='outlined'
                 sx={{ mx: 4 }}
               />
             </Typography>
@@ -116,7 +109,7 @@ export default function AskQuestion() {
                 sx={{}}
                 // src={solution?.solution?.user?.profilePhoto}
                 src={user.profile.profilePhoto}
-                aria-label="recipe"
+                aria-label='recipe'
               ></Avatar>
             }
             title={solution?.solution?.user?.username}
@@ -128,9 +121,7 @@ export default function AskQuestion() {
             <Box sx={{ display: "flex", alignItems: "center", pl: 2, pb: 0 }}>
               <IconButton
                 style={{ color: "green", fontWeight: 25, fontSize: 20 }}
-                onClick={() =>
-                  dispatch(upVoteSolution(solution?.solution?._id))
-                }
+                onClick={() => dispatch(upVoteSolution(solution?.solution?._id))}
               >
                 <ArrowUpwardIcon />
                 {solution?.solution?.upVotes.length}
@@ -138,9 +129,7 @@ export default function AskQuestion() {
 
               <IconButton
                 style={{ color: "red", fontWeight: 25, fontSize: 20 }}
-                onClick={() =>
-                  dispatch(downVoteSolution(solution?.solution?._id))
-                }
+                onClick={() => dispatch(downVoteSolution(solution?.solution?._id))}
               >
                 <ArrowDownwardIcon />
                 {solution?.solution?.downVotes.length}
@@ -182,19 +171,19 @@ export default function AskQuestion() {
                 display: "flex",
                 flexWrap: "wrap",
                 "& > :not(style)": {
-                  mx: 5,
-                },
+                  mx: 5
+                }
               }}
             >
               <Typography
-                variant="h6"
+                variant='h6'
                 sx={{ fontWeight: "bold", my: 2 }}
-                component="div"
+                component='div'
                 gutterBottom
               >
                 Introduction
               </Typography>
-              <Typography variant="body2" gutterBottom>
+              <Typography variant='body2' gutterBottom>
                 {solution?.solution?.answer}
               </Typography>
               {/* <Typography
@@ -205,19 +194,17 @@ export default function AskQuestion() {
             >
               Solution
             </Typography> */}
-              <Stack direction="row" spacing={1} sx={{ my: 10 }}>
-                {solution?.solution?.tags.map((tag) => (
-                  <Chip label={tag} variant="outlined" />
+              <Stack direction='row' spacing={1} sx={{ my: 10 }}>
+                {solution?.solution?.tags.map(tag => (
+                  <Chip label={tag} variant='outlined' />
                 ))}
               </Stack>
-              {auth.isAuthenticated && (
-                <CommentSection solution={solution?.solution} />
-              )}
+              {auth.isAuthenticated && <CommentSection solution={solution?.solution} />}
               {!auth.isAuthenticated && (
-                <Typography variant="body2" gutterBottom>
+                <Typography variant='body2' gutterBottom>
                   <Button
-                    variant="contained"
-                    color="primary"
+                    variant='contained'
+                    color='primary'
                     onClick={() => {
                       navigate("/login?redirectTo=" + window.location.pathname);
                     }}
