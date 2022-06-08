@@ -117,7 +117,7 @@ export const updateComment =
       dispatch({
         type: TYPES.UPDATE_COMMENT_SUCCESS,
         payload: {
-          newComment: response.data.comment,
+          updateComment: response.data.comment,
         },
       });
     } catch (err) {
