@@ -1,366 +1,256 @@
-// External Import
-import * as Yup from 'yup';
-import { React, useState, useEffect } from 'react';
-import { useFormik, Form, FormikProvider } from 'formik';
-import { useNavigate, Navigate, useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import Page from '../../components/Page';
-
-// @MUI Import
+import * as Yup from "yup";
+import { useCallback, useState, useEffect } from "react";
+// import { useSnackbar } from "notistack";
+import { useNavigate, useParams } from "react-router-dom";
+// form
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+// @mui
+import { LoadingButton } from "@mui/lab";
+import { styled } from "@mui/material/styles";
 import {
-  Alert,
-  CssBaseline,
-  Box,
-  Container,
-  Typography,
-  Paper,
+  Grid,
+  Card,
+  Chip,
   Stack,
   TextField,
-  TextareaAutosize,
-  Button,
-  Grid,
+  Typography,
   Autocomplete,
-  Chip,
-  Switch,
-  FormControlLabel
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
-import AddIcon from '@mui/icons-material/Add';
-import { LoadingButton } from '@mui/lab';
+  Paper,
+  Container
+} from "@mui/material";
+// routes
+// components
+import {
+  RHFSwitch,
+  RHFEditor,
+  FormProvider,
+  RHFTextField,
+  RHFUploadSingleFile
+} from "../../components/hook-form";
+
+import Page from "../../components/Page";
 
 // Internal Import
-import './css/PostSolution.css';
-import { postSolution } from '../../redux/actions/solutionActions';
-import { getAllAvailableTags } from '../../redux/actions/tagActions';
+import { askQuestion } from "../../redux/actions/questionActions";
+import { getAllAvailableTags } from "../../redux/actions/tagActions";
+import { postSolution } from "../../redux/actions/solutionActions";
 
-const Input = styled('input')({
-  display: 'none'
-});
-
-const RootStyle = styled('div')(({ theme }) => ({
-  marginTop: '12vh'
+const RootStyle = styled("div")(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "flex"
+  }
 }));
 
-const PostSolution = () => {
-  const { questionId } = useParams();
-  const dispatch = useDispatch();
-  const solution = useSelector(state => state.solution);
-  const navigate = useNavigate();
-  const tags = useSelector(state => state.tag);
+// ----------------------------------------------------------------------
 
-  const tagsList = tags.tagsList.map(tag => ({ title: tag }));
+const LabelStyle = styled(Typography)(({ theme }) => ({
+  ...theme.typography.subtitle2,
+  color: theme.palette.text.secondary,
+  marginBottom: theme.spacing(1)
+}));
+
+const categoriesList = ["Government", "Health", "Education", "Vechiles"];
+
+// ----------------------------------------------------------------------
+
+export default function AskQuestion1() {
+  const dispatch = useDispatch();
+  const tags = useSelector(state => state.tag);
+  const navigate = useNavigate();
+  const { questionId } = useParams();
+
+  const tagsList = tags.tagsList;
 
   useEffect(() => {
     dispatch(getAllAvailableTags());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (!solution.isLoading) {
-      formik.setSubmitting(false);
-    }
-  }, [solution.isLoading]);
+  // const { enqueueSnackbar } = useSnackbar();
 
-  const SolutionSchema = Yup.object().shape({
-    answer: Yup.string().min(5, 'Too Short!').max(70, 'Too Long!').required('Name required'),
-    tags: Yup.array().min(1, 'Please choose at least one tag')
+  const NewQuestionSchema = Yup.object().shape({
+    answer: Yup.string().min(100).required("Content is required"),
+    cover: Yup.mixed()
   });
 
-  const formik = useFormik({
-    initialValues: {
-      answer: '',
-      tags: [],
-      isDraft: false
+  const defaultValues = {
+    answer: "",
+    cover: null,
+    tags: ["Logan"],
+    isDraft: true,
+    metaTitle: "",
+    metaDescription: "",
+    metaKeywords: ["Logan"]
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(NewQuestionSchema),
+    defaultValues
+  });
+
+  const {
+    reset,
+    watch,
+    control,
+    setValue,
+    handleSubmit,
+    formState: { isSubmitting, isValid }
+  } = methods;
+
+  const values = watch();
+
+  const onSubmit = async () => {
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const newValue = { ...values, isDraft: !values.isDraft };
+      console.log(newValue);
+      dispatch(postSolution(questionId, newValue, navigate));
+      //   reset();
+      // enqueueSnackbar("Post success!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDrop = useCallback(
+    acceptedFiles => {
+      const file = acceptedFiles[0];
+
+      if (file) {
+        setValue(
+          "cover",
+          Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          })
+        );
+      }
     },
-    validationSchema: SolutionSchema,
-    onSubmit: () => {
-      const formValues = {
-        ...formik.values
-      };
-      dispatch(postSolution(questionId, formValues, navigate));
-    }
-  });
-
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps, setFieldValue } = formik;
+    [setValue]
+  );
 
   return (
     <Page title='Post Solution'>
       <RootStyle>
-        <FormikProvider value={formik}>
-          <Form autoComplete='off' noValidate onSubmit={handleSubmit}>
-            <Container maxWidth='md'>
-              {/* Question div */}
-              <div>
-                <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                  <p>How to make a passport?</p>
-                </Paper>
-              </div>
+        <Container
+          component='main'
+          sx={{ mb: 4 }}
+          style={{
+            marginTop: "5rem"
+          }}
+        >
+          <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 } }}>
+            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={8}>
+                  <Card sx={{ p: 3 }}>
+                    <Stack spacing={3}>
+                      <div>
+                        <LabelStyle>Content</LabelStyle>
+                        <RHFEditor name='answer' />
+                      </div>
 
-              {/* end question div */}
-
-              <div className='containertwo'>
-                <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                  {/* Header */}
-                  <div className='title'>
-                    <Typography
-                      variant='h5'
-                      style={{
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Your Answer
-                    </Typography>
-                  </div>
-
-                  {/* Intro */}
-                  <div className='titleIntro'>
-                    <Typography
-                      variant='h7'
-                      style={{
-                        fontWeight: 'bold'
-                      }}
-                    >
-                      Short Introduction
-                    </Typography>
-
-                    <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                      <TextareaAutosize
-                        label='answer'
-                        {...getFieldProps('answer')}
-                        error={Boolean(touched.answer && errors.answer)}
-                        helperText={touched.answer && errors.answer}
-                        required
-                        style={{
-                          width: '100%',
-                          fullWidth: true,
-                          marginTop: '2vh'
-                        }}
-                        minRows={4}
-                        placeholder='This is Optional'
-                      />
-                    </Stack>
-
-                    <Stack
-                      direction={{ xs: 'column', sm: 'row' }}
-                      spacing={2}
-                      style={{
-                        marginTop: '5vh'
-                      }}
-                    >
-                      <Typography
-                        variant='h7'
-                        style={{
-                          fontWeight: 'bold'
-                        }}
-                      >
-                        Attach Image
-                      </Typography>
-                    </Stack>
-
-                    <Stack style={{ marginTop: '2vh' }}>
-                      <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
-                        <label
-                          htmlFor='contained-button-file'
-                          style={{
-                            alignContent: 'center'
-                          }}
-                        >
-                          <Input accept='image/*' id='contained-button-file' multiple type='file' />
-                          <Button variant='contained' component='span'>
-                            Upload
-                          </Button>
-                        </label>
-                      </Box>
-                    </Stack>
-
-                    {/* Step 1 */}
-
-                    <div className='step1'>
-                      <Stack
-                        direction={{ xs: 'column', sm: 'row' }}
-                        spacing={2}
-                        style={{
-                          marginTop: '5vh'
-                        }}
-                      >
-                        <Typography
-                          variant='h7'
-                          style={{
-                            fontWeight: 'bold'
-                          }}
-                        >
-                          Step 1
-                        </Typography>
-                      </Stack>
-
-                      <Grid container spacing={2} columns={16} style={{ marginTop: '1vh' }}>
-                        <Grid item xs={8}>
-                          <TextField fullWidth label='1' id='fullWidth' />
-                        </Grid>
-                        <Grid item xs={8}>
-                          <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
-                            <label htmlFor='contained-button-file' style={{ marginTop: '1vh' }}>
-                              <Input
-                                accept='image/*'
-                                id='contained-button-file'
-                                multiple
-                                type='file'
-                              />
-                              <Button variant='contained' component='span'>
-                                Upload
-                              </Button>
-                            </label>
-                          </Box>
-                        </Grid>
-                      </Grid>
-
-                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <TextareaAutosize
-                          label='Describe'
-                          required
-                          style={{
-                            width: '100%',
-                            fullWidth: true,
-                            marginTop: '2vh'
-                          }}
-                          minRows={4}
-                          placeholder='Describe'
+                      <div>
+                        <LabelStyle>Cover</LabelStyle>
+                        <RHFUploadSingleFile
+                          name='cover'
+                          accept='image/*'
+                          maxSize={3145728}
+                          onDrop={handleDrop}
                         />
-                      </Stack>
-                    </div>
-                    {/* end step 1 */}
+                      </div>
+                    </Stack>
+                  </Card>
+                </Grid>
 
-                    {/* add step */}
-                    <div className='addStep'>
-                      <Stack
-                        direction={{ xs: 'column', sm: 'row' }}
-                        spacing={2}
-                        style={{
-                          marginTop: '5vh'
-                        }}
-                      >
-                        <Box component='span' sx={{ p: 2, border: '1px dashed grey' }}>
-                          <AddIcon
-                            style={{
-                              height: '10vh',
-                              width: '10vh'
-                            }}
+                <Grid item xs={12} md={4}>
+                  <Card sx={{ p: 3 }}>
+                    <Stack spacing={3}>
+                      <Controller
+                        name='tags'
+                        control={control}
+                        render={({ field }) => (
+                          <Autocomplete
+                            multiple
+                            freeSolo
+                            onChange={(event, newValue) => field.onChange(newValue)}
+                            options={tagsList.map(option => option)}
+                            renderTags={(value, getTagProps) =>
+                              value.map((option, index) => (
+                                <Chip
+                                  {...getTagProps({ index })}
+                                  key={option}
+                                  size='small'
+                                  label={option}
+                                />
+                              ))
+                            }
+                            renderInput={params => <TextField label='Tags' {...params} />}
                           />
-                          <p style={{ fontWeight: 'bold' }}>Add Steps</p>
-                        </Box>
-                      </Stack>
-                    </div>
+                        )}
+                      />
 
-                    {/* end add step */}
+                      <RHFTextField name='metaTitle' label='Meta title' />
 
-                    {/* Tag */}
+                      <RHFTextField
+                        name='metaDescription'
+                        label='Meta description'
+                        fullWidth
+                        multiline
+                        rows={3}
+                      />
 
-                    <div className='tag'>
-                      <Stack
-                        direction={{ xs: 'column', sm: 'row' }}
-                        spacing={2}
-                        style={{
-                          marginTop: '5vh'
-                        }}
-                      >
-                        <Typography
-                          variant='h7'
-                          style={{
-                            fontWeight: 'bold'
-                          }}
-                        >
-                          Attach Image
-                        </Typography>
-                      </Stack>
-
-                      <Stack
-                        direction={{ xs: 'column', sm: 'row' }}
-                        spacing={2}
-                        style={{
-                          marginTop: '2vh'
-                        }}
-                      >
-                        <Autocomplete
-                          multiple
-                          id='tags-outlined'
-                          options={tagsList.map(option => option.title)}
-                          style={{
-                            width: '100%',
-                            fullWidth: true
-                          }}
-                          freeSolo
-                          onChange={(event, value) => {
-                            setFieldValue('tags', value);
-                          }}
-                          renderTags={(value, getTagProps) =>
-                            value.map((option, index) => (
-                              <Chip variant='outlined' label={option} {...getTagProps({ index })} />
-                            ))
-                          }
-                          renderInput={params => (
-                            <TextField
-                              {...params}
-                              variant='filled'
-                              label='Tags'
-                              placeholder='Choose or Add tags'
-                            />
-                          )}
-                          error={Boolean(touched.tags && errors.tags)}
-                          helperText={touched.tags && errors.tags}
+                      <Controller
+                        name='metaKeywords'
+                        control={control}
+                        render={({ field }) => (
+                          <Autocomplete
+                            multiple
+                            freeSolo
+                            onChange={(event, newValue) => field.onChange(newValue)}
+                            options={tagsList.map(option => option)}
+                            renderTags={(value, getTagProps) =>
+                              value.map((option, index) => (
+                                <Chip
+                                  {...getTagProps({ index })}
+                                  key={option}
+                                  size='small'
+                                  label={option}
+                                />
+                              ))
+                            }
+                            renderInput={params => <TextField label='Meta keywords' {...params} />}
+                          />
+                        )}
+                      />
+                      <div>
+                        <RHFSwitch
+                          name='isDraft'
+                          label='Publish'
+                          labelPlacement='start'
+                          sx={{ mb: 1, mx: 0, width: 1, justifyContent: "space-between" }}
                         />
-                      </Stack>
-                      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
-                        <FormControlLabel
-                          control={
-                            <Switch
-                              {...getFieldProps('isDraft')}
-                              error={Boolean(touched.isDraft && errors.isDraft)}
-                              helperText={touched.isDraft && errors.isDraft}
-                              title='Draft'
-                            />
-                          }
-                          label='Draft'
-                        />
-                      </Stack>
-                    </div>
+                      </div>
+                    </Stack>
+                  </Card>
 
-                    {/* end tag */}
-
-                    {solution.error && (
-                      <Stack justifyContent='flex-end' sx={{ mb: 2 }}>
-                        <Alert severity='error'>{solution.error}</Alert>
-                      </Stack>
-                    )}
-
-                    {/* button */}
-
-                    <Grid container style={{ marginTop: '5vh' }}>
-                      <Grid item xs>
-                        <Button variant='outlined' color='error'>
-                          Cancel
-                        </Button>
-                      </Grid>
-                      <LoadingButton
-                        xs={1}
-                        size='large'
-                        type='submit'
-                        justifyContent='flex-end'
-                        color='success'
-                        variant='contained'
-                        loading={isSubmitting}
-                      >
-                        Submit
-                      </LoadingButton>
-                    </Grid>
-                    {/* end button */}
-                  </div>
-                </Paper>
-              </div>
-            </Container>
-          </Form>
-        </FormikProvider>
+                  <Stack direction='row' spacing={1.5} sx={{ mt: 3 }}>
+                    <LoadingButton
+                      fullWidth
+                      type='submit'
+                      variant='contained'
+                      size='large'
+                      loading={isSubmitting}
+                    >
+                      Post Solution
+                    </LoadingButton>
+                  </Stack>
+                </Grid>
+              </Grid>
+            </FormProvider>
+          </Paper>
+        </Container>
       </RootStyle>
     </Page>
   );
-};
-
-export default PostSolution;
+}
