@@ -1,8 +1,9 @@
 import { capitalCase } from "change-case";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // @mui
 import { styled } from "@mui/material/styles";
 import { Tab, Box, Card, Tabs, Container } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
 // routes
 // import { PATH_DASHBOARD } from "../../routes/paths";
 // hooks
@@ -14,7 +15,7 @@ import {
   _userFeeds,
   _userGallery,
   _userFollowers,
-  _userFollowings,
+  _userFollowings
 } from "../../_mock/_user";
 // components
 import Page from "../../components/Page";
@@ -24,10 +25,12 @@ import Iconify from "../../components/Iconify";
 import {
   Profile,
   ProfileCover,
-  ProfileFollowings,
-  ProfileGallery,
+  MyProfileFollowings,
   ProfileFollowers,
+  ProfileGallery
 } from "../../sections/user/MyProfile";
+
+import { getMyFollowers, getMyFollowings } from "../../redux/actions/authActions";
 
 // ----------------------------------------------------------------------
 
@@ -38,15 +41,15 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
   display: "flex",
   position: "absolute",
   justifyContent: "center",
-  
+
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up("sm")]: {
-    justifyContent: "center",   
+    justifyContent: "center"
   },
   [theme.breakpoints.up("md")]: {
     justifyContent: "flex-end",
-    paddingRight: theme.spacing(3),
-  },
+    paddingRight: theme.spacing(3)
+  }
 }));
 
 // ----------------------------------------------------------------------
@@ -56,20 +59,25 @@ export default function MyProfile() {
   // const { user } = useAuth();
 
   const [currentTab, setCurrentTab] = useState("profile");
-
   const [findFollowers, setFindFollowers] = useState("");
-
   const [findFollowings, setFindFollowings] = useState("");
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth);
 
-  const handleChangeTab = (newValue) => {
+  const handleChangeTab = newValue => {
+    if (newValue === "followings") {
+      dispatch(getMyFollowings());
+    } else if (newValue === "followers") {
+      dispatch(getMyFollowers());
+    }
     setCurrentTab(newValue);
   };
 
-  const handleFindFollowings = (value) => {
+  const handleFindFollowings = value => {
     setFindFollowings(value);
   };
 
-  const handleFindFollowers = (value) => {
+  const handleFindFollowers = value => {
     setFindFollowers(value);
   };
 
@@ -77,43 +85,54 @@ export default function MyProfile() {
     {
       value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} posts={_userFeeds} />,
+      component: <Profile myProfile={_userAbout} profile={auth.me} posts={_userFeeds} />
     },
     {
       value: "followers",
       icon: <Iconify icon={"eva:heart-fill"} width={20} height={20} />,
       component: (
         <ProfileFollowers
-          followers={_userFollowers}
+          followers={auth.me.expandedFollowers || []}
           findFollowers={findFollowers}
           onFindFollowers={handleFindFollowers}
+          profile={auth.me}
         />
-      ),
+      )
     },
     {
       value: "followings",
       icon: <Iconify icon={"eva:people-fill"} width={20} height={20} />,
       component: (
-        <ProfileFollowings
-          followings={_userFollowings}
+        <MyProfileFollowings
+          followings={auth.me.expandedFollowings || []}
           findFollowings={findFollowings}
           onFindFollowings={handleFindFollowings}
+          auth={auth}
         />
-      ),
+      )
     },
     {
-      value: "Questions",
-      icon: <Iconify icon={"ic:round-perm-media"} width={20} height={20} />,
-      component: <ProfileGallery gallery={_userGallery} />,
-    },
+      value: "bookmarks",
+      icon: <Iconify icon={"eva:bookmark-fill"} width={20} height={20} />,
+      component: (
+        <>
+          <h1>Hello</h1>
+        </>
+      )
+    }
+    // {
+    //   value: "Questions",
+    //   icon: <Iconify icon={"ic:round-perm-media"} width={20} height={20} />,
+    //   component: <ProfileGallery gallery={_userGallery} />
+    // }
   ];
 
   return (
-    <Page title="User: Profile">
+    <Page title='User: Profile'>
       <Container
         maxWidth={themeStretch ? false : "lg"}
         style={{
-          marginTop: "13vh",
+          marginTop: "13vh"
         }}
       >
         {/* <HeaderBreadcrumbs
@@ -128,20 +147,20 @@ export default function MyProfile() {
           sx={{
             mb: 3,
             height: 280,
-            position: "relative",
+            position: "relative"
           }}
         >
-          <ProfileCover myProfile={_userAbout} />
+          <ProfileCover myProfile={_userAbout} profile={auth.me} />
 
           <TabsWrapperStyle>
             <Tabs
               value={currentTab}
-              scrollButtons="auto"
-              variant="scrollable"
+              scrollButtons='auto'
+              variant='scrollable'
               allowScrollButtonsMobile
               onChange={(e, value) => handleChangeTab(value)}
             >
-              {PROFILE_TABS.map((tab) => (
+              {PROFILE_TABS.map(tab => (
                 <Tab
                   disableRipple
                   key={tab.value}
@@ -154,7 +173,7 @@ export default function MyProfile() {
           </TabsWrapperStyle>
         </Card>
 
-        {PROFILE_TABS.map((tab) => {
+        {PROFILE_TABS.map(tab => {
           const isMatched = tab.value === currentTab;
           return isMatched && <Box key={tab.value}>{tab.component}</Box>;
         })}
@@ -162,4 +181,3 @@ export default function MyProfile() {
     </Page>
   );
 }
-

@@ -96,6 +96,24 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         }
       };
 
+    case TYPES.GET_MY_FOLLOWERS_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          expandedFollowers: payload.followers
+        }
+      };
+
+    case TYPES.GET_MY_FOLLOWINGS_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          expandedFollowings: payload.followings
+        }
+      };
+
     case TYPES.LOGOUT_SUCCESS:
     case TYPES.LOGIN_WITH_EMAIL_FAIL:
       localStorage.removeItem("token");
