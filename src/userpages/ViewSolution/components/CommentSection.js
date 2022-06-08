@@ -2,14 +2,24 @@ import React from "react";
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 import { LoadingButton } from "@mui/lab";
-import { Stack, TextField, Typography, Grid, Avatar } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Typography,
+  Grid,
+  Avatar,
+  Paper,
+  CardHeader,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
+
 import CardContent from "@mui/material/CardContent";
 
 // Internal Import
 import { addComment } from "../../../redux/actions/viewSolutionActions";
 import UpdateSolutionCommentSection from "./UpdateComment.Section";
+import { styled } from "@mui/system";
 
 const CommentSection = ({ solution }) => {
   const dispatch = useDispatch();
@@ -35,61 +45,65 @@ const CommentSection = ({ solution }) => {
   });
 
   const { text } = formik.values;
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
 
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
   return (
-    <Grid item xs={6}>
+    <Grid item sx={{ justifyContent: "flex" }}>
       {/* View Comment */}
-
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: "bold" }}
+        component="div"
+        gutterBottom
+      >
+        Comments ({solution.comments.length})
+      </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography variant="h6">View Comment</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {solution.comments.map((comment) => (
-            <Card sx={{ minWidth: 250, mt: 1, color: "#001E3C" }}>
-              <CardContent>
-                <Grid container wrap="nowrap" spacing={2}>
-                  <Grid item>
-                    <Avatar alt="Profile Photo" src={user.profileImage} />
-                  </Grid>
-                  <Grid justifyContent="left" item xs zeroMinWidth>
-                    <h4 style={{ margin: 0, textAlign: "left" }}>
-                      {/* {comment.user} */}
-                      {comment.user}
-                    </h4>
-                    <p style={{ textAlign: "left" }}>{comment.text}</p>
-                    <p style={{ textAlign: "left", color: "gray" }}>
-                      {comment.createdAt.split("T")[0]}
-                    </p>
+        <Grid item sx={{ width: "1" }}>
+          <Item>
+            {solution.comments.map((comment) => (
+              <Card sx={{ color: "#001E3C", width: "1" }}>
+                <CardContent>
+                  <Grid container wrap="nowrap" spacing={2}>
+                    <Grid item>
+                      <Avatar alt="Profile Photo" src={user.profileImage} />
+                    </Grid>
+                    <Grid justifyContent="left" item xs zeroMinWidth>
+                      <h4 style={{ margin: 0, textAlign: "left" }}>
+                        {/* {comment.user} */}
+                        {comment.user}
+                      </h4>
+                      <p style={{ textAlign: "left" }}>{comment.text}</p>
+                      <p style={{ textAlign: "left", color: "gray" }}>
+                        {comment.createdAt.split("T")[0]}
+                      </p>
 
-                    {auth.me._id === comment.user && (
-                      <UpdateSolutionCommentSection />
-                    )}
+                      {auth.me._id === comment.user && (
+                        <UpdateSolutionCommentSection />
+                      )}
+                    </Grid>
                   </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </Item>
         </Grid>
       </Grid>
 
       {/* View Comment Ends */}
 
       <Stack spacing={3}>
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: "bold", my: 2 }}
-          component="div"
-          gutterBottom
-        >
-          Comments ({solution.comments.length})
-        </Typography>
         <FormikProvider value={formik}>
           <Form>
-            <Stack spacing={3}>
+            <Stack spacing={3} sx={{ mt: 3 }}>
               <TextField
                 name="text"
-                label="Comment"
+                placeholder="Write your comment here."
                 variant="outlined"
                 fullWidth
                 multiline

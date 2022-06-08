@@ -17,13 +17,13 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import { Link } from "react-router-dom";
+
 import {
   viewSolution,
   upVoteSolution,
-  downVoteSolution
+  downVoteSolution,
 } from "../../redux/actions/viewSolutionActions";
-
+import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "./components/CommentSection";
@@ -31,9 +31,9 @@ const theme = createTheme();
 export default function AskQuestion() {
   const dispatch = useDispatch();
   const { solutionId } = useParams();
-  const solution = useSelector(state => state.viewSolutions);
-  const auth = useSelector(state => state.auth);
-  const user = useSelector(state => state.user);
+  const solution = useSelector((state) => state.viewSolutions);
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function AskQuestion() {
 
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleChange = panel => (event, isExpanded) => {
+  const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
@@ -50,143 +50,158 @@ export default function AskQuestion() {
     return <div>Loading...</div>;
   }
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       {/* stack for image and title */}
-      <Paper sx={{ justifyContent: "flex" }}>
-        <Stack spacing={3}>
+      <Grid sx={{ justifyContent: "flex" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            "& > :not(style)": {
+              m: 1,
+              width: "100%",
+              height: "10%",
+            },
+          }}
+        >
+          <Paper elevation={0} />
           <Box
+            component="img"
+            alt="The house from the offer."
+            src="https://i.ibb.co/zQfhxnq/question-question-mark-symbol-140746-1920x1080.jpg"
             sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              "& > :not(style)": {
-                m: 0,
-                width: "100%",
-                height: "10%"
-              }
+              maxHeight: "250px",
             }}
-          >
-            <Paper elevation={0} />
-            <Box
-              component='img'
-              alt='The house from the offer.'
-              src='https://i.ibb.co/grnLWrt/cover.png'
-            />
-            <Paper />
-          </Box>
-          <Stack
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              "& > :not(style)": {
-                mx: 5
-              }
-            }}
-          >
-            <Typography variant='h6' sx={{ fontWeight: "bold" }} component='div' gutterBottom>
-              {solution?.solution?.question?.title}
-            </Typography>
-            <Typography
-              sx={{ fontWeight: "bold", typography: "body2", padding: "1rem" }}
-              component='div'
-              gutterBottom
-            >
-              {solution?.solution?.question?.category}
-              <Chip
-                label={`posted on: ${solution?.solution?.question?.createdAt.split("T")[0]}`}
-                variant='outlined'
-                sx={{ mx: 4 }}
-              />
-            </Typography>
-          </Stack>
-        </Stack>
-        {/* stack for main content */}
-        <Card sx={{ maxWidth: 200, mx: 5, borderRadius: 5 }}>
-          <CardHeader
-            avatar={
-              <Avatar
-                sx={{}}
-                // src={solution?.solution?.user?.profilePhoto}
-                src={user.profile.profilePhoto}
-                aria-label='recipe'
-              ></Avatar>
-            }
-            title={solution?.solution?.user?.username}
-            subheader={`followers: ${solution?.solution?.user?.followers.length}`}
           />
-        </Card>
-        {auth.isAuthenticated && (
-          <Card sx={{ maxWidth: 150, mx: 5, my: 3, borderRadius: 4 }}>
-            <Box sx={{ display: "flex", alignItems: "center", pl: 2, pb: 0 }}>
-              <IconButton
-                style={{ color: "green", fontWeight: 25, fontSize: 20 }}
-                onClick={() => dispatch(upVoteSolution(solution?.solution?._id))}
-              >
-                <ArrowUpwardIcon />
-                {solution?.solution?.upVotes.length}
-              </IconButton>
+          <Paper />
+        </Box>
+        <Box sx={{ flexGrow: 1, m: 1 }}>
+          <Grid container spacing={3}>
+            <Grid item xs={2} sx={{ mx: "auto" }}>
+              <Item>
+                <Card
+                  sx={{
+                    border: "none",
+                  }}
+                  style={{ border: "none", boxShadow: "none" }}
+                >
+                  <CardHeader
+                    avatar={
+                      <Avatar
+                        sx={{}}
+                        // src={solution?.solution?.user?.profilePhoto}
+                        src={user.profile.profilePhoto}
+                        aria-label="recipe"
+                      ></Avatar>
+                    }
+                    title={solution?.solution?.user?.username}
+                    subheader={`followers: ${solution?.solution?.user?.followers.length}`}
+                  />
+                </Card>
+              </Item>
+              <Item sx={{ mt: 2 }}>
+                {auth.isAuthenticated && (
+                  <Card style={{ border: "none", boxShadow: "none" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        pl: 2,
+                        pb: 0,
+                      }}
+                    >
+                      <IconButton
+                        style={{ color: "green", fontWeight: 25, fontSize: 20 }}
+                        onClick={() =>
+                          dispatch(upVoteSolution(solution?.solution?._id))
+                        }
+                      >
+                        <ArrowUpwardIcon />
+                        {solution?.solution?.upVotes.length}
+                      </IconButton>
 
-              <IconButton
-                style={{ color: "red", fontWeight: 25, fontSize: 20 }}
-                onClick={() => dispatch(downVoteSolution(solution?.solution?._id))}
-              >
-                <ArrowDownwardIcon />
-                {solution?.solution?.downVotes.length}
-              </IconButton>
-            </Box>
-          </Card>
-        )}
-
-        {!auth.isAuthenticated && (
-          <Card sx={{ maxWidth: 150, mx: 5, my: 3, borderRadius: 4 }}>
-            <Box sx={{ display: "flex", alignItems: "center", pl: 2, pb: 0 }}>
-              <IconButton
-                style={{ color: "green", fontWeight: 25, fontSize: 20 }}
-                onClick={() => {
-                  navigate("/login?redirectTo=" + window.location.pathname);
-                }}
-              >
-                <ArrowUpwardIcon />
-                {solution?.solution?.upVotes.length}
-              </IconButton>
-
-              <IconButton
-                style={{ color: "red", fontWeight: 25, fontSize: 20 }}
-                onClick={() => {
-                  navigate("/login?redirectTo=" + window.location.pathname);
-                }}
-              >
-                <ArrowDownwardIcon />
-                {solution?.solution?.downVotes.length}
-              </IconButton>
-            </Box>
-          </Card>
-        )}
-
-        <Grid container>
-          <Grid item xs={8} sx={{ my: 8 }}>
-            <Stack
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                "& > :not(style)": {
-                  mx: 5
-                }
-              }}
-            >
-              <Typography
-                variant='h6'
-                sx={{ fontWeight: "bold", my: 2 }}
-                component='div'
-                gutterBottom
-              >
-                Introduction
-              </Typography>
-              <Typography variant='body2' gutterBottom>
-                {solution?.solution?.answer}
-              </Typography>
-              {/* <Typography
+                      <IconButton
+                        style={{ color: "red", fontWeight: 25, fontSize: 20 }}
+                        onClick={() =>
+                          dispatch(downVoteSolution(solution?.solution?._id))
+                        }
+                      >
+                        <ArrowDownwardIcon />
+                        {solution?.solution?.downVotes.length}
+                      </IconButton>
+                    </Box>
+                  </Card>
+                )}
+              </Item>
+            </Grid>
+            <Grid item xs={7}>
+              <Item>
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    "& > :not(style)": {},
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold" }}
+                    gutterBottom
+                  >
+                    {solution?.solution?.question?.title}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                      typography: "body2",
+                      ml: 5,
+                    }}
+                    component="div"
+                    gutterBottom
+                  >
+                    {solution?.solution?.question?.category}
+                    <Chip
+                      label={`Updated At: ${
+                        solution?.solution?.question?.updatedAt.split("T")[0]
+                      }`}
+                      variant="outlined"
+                      sx={{ border: "none" }}
+                    />
+                  </Typography>
+                </Stack>
+              </Item>
+              <Item sx={{ mt: 2 }}>
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    "& > :not(style)": {
+                      mx: 5,
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold", my: 2 }}
+                    component="div"
+                    gutterBottom
+                  >
+                    Introduction
+                  </Typography>
+                  <Typography variant="body2" gutterBottom>
+                    {solution?.solution?.answer}
+                  </Typography>
+                  {/* <Typography
               variant="h6"
               sx={{ fontWeight: "bold", my: 2 }}
               component="div"
@@ -194,40 +209,49 @@ export default function AskQuestion() {
             >
               Solution
             </Typography> */}
-              <Stack direction='row' spacing={1} sx={{ my: 10 }}>
-                {solution?.solution?.tags.map(tag => (
-                  <Chip label={tag} variant='outlined' />
-                ))}
-              </Stack>
-              {auth.isAuthenticated && <CommentSection solution={solution?.solution} />}
-              {!auth.isAuthenticated && (
-                <Typography variant='body2' gutterBottom>
-                  <Button
-                    variant='contained'
-                    color='primary'
-                    onClick={() => {
-                      navigate("/login?redirectTo=" + window.location.pathname);
-                    }}
-                  >
-                    Login to comment
-                  </Button>
+                  <Stack direction="row" spacing={1} sx={{ my: 10 }}>
+                    {solution?.solution?.tags.map((tag) => (
+                      <Chip label={tag} variant="outlined" />
+                    ))}
+                  </Stack>
+                </Stack>
+              </Item>
+              <Item sx={{ mt: 2, mb: 5 }}>
+                {auth.isAuthenticated && (
+                  <CommentSection solution={solution?.solution} />
+                )}
+                {!auth.isAuthenticated && (
+                  <Typography variant="body2" gutterBottom>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => {
+                        navigate(
+                          "/login?redirectTo=" + window.location.pathname
+                        );
+                      }}
+                    >
+                      Login to comment
+                    </Button>
+                  </Typography>
+                )}
+              </Item>
+            </Grid>
+            <Grid item xs>
+              <Item>
+                <Typography
+                  variant="h6"
+                  sx={{ fontWeight: "bold", my: 2 }}
+                  component="div"
+                  gutterBottom
+                >
+                  Related Solution
                 </Typography>
-              )}
-            </Stack>
+              </Item>
+            </Grid>
           </Grid>
-
-          {/* <Grid item sx={{ justifyContent: "end" }}>
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: "bold", mx: 5 }}
-              component="div"
-              gutterBottom
-            >
-              Other Solutions
-            </Typography>
-          </Grid> */}
-        </Grid>
-      </Paper>
+        </Box>
+      </Grid>
     </ThemeProvider>
   );
 }
