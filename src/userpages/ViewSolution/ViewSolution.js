@@ -17,7 +17,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-
+import moment from "moment";
 import {
   viewSolution,
   upVoteSolution,
@@ -63,35 +63,21 @@ export default function AskQuestion() {
       <CssBaseline />
       {/* stack for image and title */}
       <Grid sx={{ justifyContent: "flex" }}>
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            "& > :not(style)": {
-              m: 1,
-              width: "100%",
-              height: "10%",
-            },
-          }}
-        >
-          <Paper elevation={0} />
-          <Box
-            component="img"
-            alt="The house from the offer."
-            src="https://i.ibb.co/zQfhxnq/question-question-mark-symbol-140746-1920x1080.jpg"
-            sx={{
-              maxHeight: "250px",
-            }}
-          />
-          <Paper />
-        </Box>
-        <Box sx={{ flexGrow: 1, m: 1 }}>
+        <Box sx={{ flexGrow: 1, m: 1, mt: 10 }}>
           <Grid container spacing={3}>
             <Grid item xs={2} sx={{ mx: "auto" }}>
-              <Item>
+              <Item
+                sx={{
+                  border: "none",
+                  backgroundColor: "#9ECEC0",
+                  borderRadius: "16px",
+                }}
+              >
                 <Card
                   sx={{
                     border: "none",
+                    backgroundColor: "#9ECEC0",
+                    borderRadius: "16px",
                   }}
                   style={{ border: "none", boxShadow: "none" }}
                 >
@@ -109,19 +95,31 @@ export default function AskQuestion() {
                   />
                 </Card>
               </Item>
-              <Item sx={{ mt: 2 }}>
+              <Item
+                sx={{
+                  border: "none",
+                  backgroundColor: "#9ECEC0",
+                  borderRadius: "16px",
+                  mt: 2,
+                }}
+              >
                 {auth.isAuthenticated && (
                   <Card style={{ border: "none", boxShadow: "none" }}>
                     <Box
                       sx={{
                         display: "flex",
                         alignItems: "center",
+                        backgroundColor: "#9ECEC0",
                         pl: 2,
                         pb: 0,
                       }}
                     >
                       <IconButton
-                        style={{ color: "green", fontWeight: 25, fontSize: 20 }}
+                        style={{
+                          color: "#006d07",
+                          fontWeight: 25,
+                          fontSize: 20,
+                        }}
                         onClick={() =>
                           dispatch(upVoteSolution(solution?.solution?._id))
                         }
@@ -145,7 +143,35 @@ export default function AskQuestion() {
               </Item>
             </Grid>
             <Grid item xs={7}>
-              <Item>
+              <Item
+                sx={{
+                  borderBottomLeftRadius: 16,
+                  borderBottomRightRadius: 16,
+                  border: " solid #fff",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    "& > :not(style)": {
+                      m: 1,
+                      width: "100%",
+                      height: "10%",
+                    },
+                  }}
+                >
+                  <Paper elevation={0} />
+                  <Box
+                    component="img"
+                    alt="The house from the offer."
+                    src="https://i.ibb.co/zQfhxnq/question-question-mark-symbol-140746-1920x1080.jpg"
+                    sx={{
+                      maxHeight: "250px",
+                    }}
+                  />
+                  <Paper />
+                </Box>
                 <Stack
                   sx={{
                     display: "flex",
@@ -170,17 +196,27 @@ export default function AskQuestion() {
                     gutterBottom
                   >
                     {solution?.solution?.question?.category}
+
                     <Chip
-                      label={`Updated At: ${
-                        solution?.solution?.question?.updatedAt.split("T")[0]
-                      }`}
+                      label={`Updated: ${moment(
+                        solution?.solution?.question?.updatedAt
+                      ).fromNow()}`}
                       variant="outlined"
                       sx={{ border: "none" }}
                     />
                   </Typography>
                 </Stack>
               </Item>
-              <Item sx={{ mt: 2 }}>
+              <Item
+                sx={{
+                  borderTopLeftRadius: 16,
+                  borderTopRightRadius: 16,
+                  borderBottomLeftRadius: 16,
+                  borderBottomRightRadius: 16,
+                  border: " solid #fff",
+                  mt: 2,
+                }}
+              >
                 <Stack
                   sx={{
                     display: "flex",
@@ -216,7 +252,17 @@ export default function AskQuestion() {
                   </Stack>
                 </Stack>
               </Item>
-              <Item sx={{ mt: 2, mb: 5 }}>
+              <Item
+                sx={{
+                  borderTopLeftRadius: 16,
+                  borderTopRightRadius: 16,
+                  borderBottomLeftRadius: 16,
+
+                  borderBottomRightRadius: 16,
+                  mt: 2,
+                  mb: 5,
+                }}
+              >
                 {auth.isAuthenticated && (
                   <CommentSection solution={solution?.solution} />
                 )}
@@ -238,7 +284,13 @@ export default function AskQuestion() {
               </Item>
             </Grid>
             <Grid item xs>
-              <Item>
+              <Item
+                sx={{
+                  borderBottomLeftRadius: 16,
+                  borderBottomRightRadius: 16,
+                  border: " solid #fff",
+                }}
+              >
                 <Typography
                   variant="h6"
                   sx={{ fontWeight: "bold", my: 2 }}

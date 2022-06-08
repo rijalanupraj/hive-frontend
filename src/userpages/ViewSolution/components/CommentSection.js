@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
+import moment from "moment";
 
 import CardContent from "@mui/material/CardContent";
 
@@ -53,7 +54,12 @@ const CommentSection = ({ solution }) => {
     color: theme.palette.text.secondary,
   }));
   return (
-    <Grid item sx={{ justifyContent: "flex" }}>
+    <Grid
+      item
+      sx={{
+        justifyContent: "flex",
+      }}
+    >
       {/* View Comment */}
       <Typography
         variant="h6"
@@ -64,10 +70,28 @@ const CommentSection = ({ solution }) => {
         Comments ({solution.comments.length})
       </Typography>
       <Grid container spacing={3}>
-        <Grid item sx={{ width: "1" }}>
-          <Item>
+        <Grid
+          item
+          sx={{
+            width: "1",
+          }}
+        >
+          <Item
+            sx={{
+              borderBottomLeftRadius: 16,
+              borderBottomRightRadius: 16,
+            }}
+          >
             {solution.comments.map((comment) => (
-              <Card sx={{ color: "#001E3C", width: "1" }}>
+              <Card
+                sx={{
+                  borderBottomLeftRadius: 16,
+                  borderBottomRightRadius: 16,
+                  border: " solid #fff",
+                  color: "#001E3C",
+                  width: "1",
+                }}
+              >
                 <CardContent>
                   <Grid container wrap="nowrap" spacing={2}>
                     <Grid item>
@@ -80,7 +104,7 @@ const CommentSection = ({ solution }) => {
                       </h4>
                       <p style={{ textAlign: "left" }}>{comment.text}</p>
                       <p style={{ textAlign: "left", color: "gray" }}>
-                        {comment.createdAt.split("T")[0]}
+                        {moment(comment.createdAt).fromNow()}
                       </p>
 
                       {auth.me._id === comment.user && (
