@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "./css/Homepage.css";
+// import "./css/Homepage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Page from "../../components/Page";
@@ -42,14 +42,7 @@ function HomePage() {
           boxShadow: "none"
         }}
       >
-        <Grid
-          container
-          spacing={5}
-          style={{
-            marginTop: "2rem",
-            padding: "1.5rem"
-          }}
-        >
+        <Grid container spacing={5}>
           {/* ======================================================================================================================= */}
           {/* Left */}
           <Grid item xs='3'>
