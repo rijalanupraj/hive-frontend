@@ -2,14 +2,27 @@ import React from "react";
 import * as Yup from "yup";
 import { useFormik, Form, FormikProvider } from "formik";
 import { LoadingButton } from "@mui/lab";
-import { Stack, TextField, Typography, Grid, Avatar } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Typography,
+  Grid,
+  Avatar,
+  Paper,
+} from "@mui/material";
+
+import Divider from "@mui/material/Divider";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
+import moment from "moment";
+import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
 import CardContent from "@mui/material/CardContent";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
+
 // Internal Import
 import { addComment } from "../../../redux/actions/viewSolutionActions";
+import UpdateSolutionCommentSection from "./UpdateComment.Section";
+import { styled } from "@mui/system";
 
 const CommentSection = ({ solution }) => {
   const dispatch = useDispatch();
@@ -35,78 +48,92 @@ const CommentSection = ({ solution }) => {
   });
 
   const { text } = formik.values;
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
 
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
   return (
-    <Grid item xs={6}>
+    <Grid
+      item
+      sx={{
+        justifyContent: "flex",
+      }}
+    >
       {/* View Comment */}
-
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: "bold", mt: 2 }}
+        component="div"
+        gutterBottom
+      >
+        Comments ({solution.comments.length})
+      </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Typography variant="h6">View Comment</Typography>
-        </Grid>
-        <Grid item xs={12}>
-          {solution.comments.map((comment) => (
-            <Card sx={{ minWidth: 250, mt: 1, color: "#001E3C" }}>
-              <CardContent>
-                <Grid container wrap="nowrap" spacing={2}>
-                  <Grid item>
-                    <Avatar alt="Profile Photo" src={user.profileImage} />
-                  </Grid>
-                  <Grid justifyContent="left" item xs zeroMinWidth>
-                    <h4 style={{ margin: 0, textAlign: "left" }}>
-                      {/* {comment.user} */}
-                      {solution.user.username}
-                    </h4>
-                    <p style={{ textAlign: "left" }}>{comment.text}</p>
-                    <p style={{ textAlign: "left", color: "gray" }}>
-                      {comment.createdAt.split("T")[0]}
-                    </p>
+        <Grid
+          item
+          sx={{
+            width: "1",
+          }}
+        >
+          <Item style={{ border: "none", boxShadow: "none" }}>
+            <Divider sx={{ width: "10px" }} variant="middle" />
 
-                    {/* <ButtonGroup
-                      variant="contained"
-                      size="small"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      sx={{ m: 1 }}
-                      aria-label="outlined primary button group"
-                    >
-                      <Button>Edit</Button>
-                      <Button classname="btn-delete"oup> */}
+            {solution.comments.map((comment) => (
+              <Card
+                sx={{
+                  color: "#001E3C",
+
+                  width: "1",
+                  mt: 2,
+                }}
+                style={{ border: "none", boxShadow: "none" }}
+              >
+                <CardContent>
+                  <Grid container wrap="nowrap" spacing={2}>
+                    <Grid item>
+                      <Avatar alt="Profile Photo" src={user.profileImage} />
+                    </Grid>
+                    <Grid justifyContent="left" item xs zeroMinWidth>
+                      <h4 style={{ margin: 0, textAlign: "left" }}>
+                        {/* {comment.user} */}
+                        {comment.user}
+                      </h4>
+                      <p style={{ textAlign: "left" }}>{comment.text}</p>
+
+                      <p style={{ textAlign: "left", color: "gray" }}>
+                        {moment(comment.createdAt).fromNow()}
+                        {auth.me._id === comment.user && (
+                          <UpdateSolutionCommentSection />
+                        )}
+                      </p>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </Item>
         </Grid>
       </Grid>
 
       {/* View Comment Ends */}
 
-      <Stack spacing={3}>
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: "bold", my: 2 }}
-          component="div"
-          gutterBottom
-        >
-          Comments ({solution.comments.length})
-        </Typography>
+      <Stack spacing={2}>
         <FormikProvider value={formik}>
           <Form>
-            <Stack spacing={3}>
+            <Stack spacing={3} sx={{ mt: 3 }}>
               <TextField
                 name="text"
-                label="Comment"
+                placeholder="Write your comment here."
                 variant="outlined"
                 fullWidth
                 multiline
                 rows={4}
                 rowsMax={4}
                 sx={{
-                  mb: 3,
-                  "& > *": {
-                    width: "100%",
-                  },
+                  "& > *": {},
                 }}
                 {...formik.getFieldProps("text")}
                 helperText={formik.touched.text && formik.errors.text}
@@ -115,16 +142,12 @@ const CommentSection = ({ solution }) => {
               <LoadingButton
                 type="submit"
                 variant="contained"
-                color="primary"
-                fullWidth
                 sx={{
                   mb: 3,
-                  "& > *": {
-                    width: "100%",
-                  },
+                  "& > *": {},
                 }}
               >
-                Post
+                <PostAddRoundedIcon /> Post
               </LoadingButton>
             </Stack>
           </Form>
