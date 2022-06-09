@@ -3,17 +3,13 @@ import { createContext } from "react";
 // hooks
 import useLocalStorage from "../hooks/useLocalStorage";
 // utils
-import getColorPresets, {
-  colorPresets,
-  redPreset,
-  defaultPreset,
-} from "../utils/getColorPresets";
+import getColorPresets, { colorPresets, redPreset, defaultPreset } from "../utils/getColorPresets";
 // config
 
 // ----------------------------------------------------------------------
 
 const initialState = {
-  themeMode: "dark", // light, dark
+  themeMode: "light", // light, dark
   onChangeMode: () => {},
   onToggleMode: () => {},
   onChangeDirection: () => {},
@@ -22,7 +18,7 @@ const initialState = {
   onChangeLayout: () => {},
   onResetSetting: () => {},
   setColor: redPreset,
-  colorOption: [],
+  colorOption: []
 };
 
 const SettingsContext = createContext(initialState);
@@ -30,7 +26,7 @@ const SettingsContext = createContext(initialState);
 // ----------------------------------------------------------------------
 
 SettingsProvider.propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 function SettingsProvider({ children }) {
@@ -39,48 +35,48 @@ function SettingsProvider({ children }) {
     themeDirection: initialState.themeDirection,
     themeColorPresets: initialState.themeColorPresets,
     themeStretch: initialState.themeStretch,
-    themeLayout: initialState.themeLayout,
+    themeLayout: initialState.themeLayout
   });
 
-  const onChangeMode = (event) => {
+  const onChangeMode = event => {
     setSettings({
       ...settings,
-      themeMode: event.target.value,
+      themeMode: event.target.value
     });
   };
 
   const onToggleMode = () => {
     setSettings({
       ...settings,
-      themeMode: settings.themeMode === "light" ? "dark" : "light",
+      themeMode: settings.themeMode === "light" ? "dark" : "light"
     });
   };
 
-  const onChangeDirection = (event) => {
+  const onChangeDirection = event => {
     setSettings({
       ...settings,
-      themeDirection: event.target.value,
+      themeDirection: event.target.value
     });
   };
 
-  const onChangeColor = (event) => {
+  const onChangeColor = event => {
     setSettings({
       ...settings,
-      themeColorPresets: event.target.value,
+      themeColorPresets: event.target.value
     });
   };
 
-  const onChangeLayout = (event) => {
+  const onChangeLayout = event => {
     setSettings({
       ...settings,
-      themeLayout: event.target.value,
+      themeLayout: event.target.value
     });
   };
 
   const onToggleStretch = () => {
     setSettings({
       ...settings,
-      themeStretch: !settings.themeStretch,
+      themeStretch: !settings.themeStretch
     });
   };
 
@@ -90,7 +86,7 @@ function SettingsProvider({ children }) {
       themeLayout: initialState.themeLayout,
       themeStretch: initialState.themeStretch,
       themeDirection: initialState.themeDirection,
-      themeColorPresets: initialState.themeColorPresets,
+      themeColorPresets: initialState.themeColorPresets
     });
   };
 
@@ -106,16 +102,16 @@ function SettingsProvider({ children }) {
         // Color
         onChangeColor,
         setColor: getColorPresets(settings.themeColorPresets),
-        colorOption: colorPresets.map((color) => ({
+        colorOption: colorPresets.map(color => ({
           name: color.name,
-          value: color.main,
+          value: color.main
         })),
         // Stretch
         onToggleStretch,
         // Navbar Horizontal
         onChangeLayout,
         // Reset Setting
-        onResetSetting,
+        onResetSetting
       }}
     >
       {children}

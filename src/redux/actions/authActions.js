@@ -154,6 +154,25 @@ export const getMyFollowings = () => async (dispatch, getState) => {
   }
 };
 
+export const getMyBookmarks = () => async (dispatch, getState) => {
+  dispatch({ type: TYPES.GET_MY_BOOKMARKS_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/bookmark`, options);
+
+    dispatch({
+      type: TYPES.GET_MY_BOOKMARKS_SUCCESS,
+      payload: { bookmarks: response.data.solutions }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_MY_BOOKMARKS_FAIL,
+      payload: { error: err.response.data.message }
+    });
+  }
+};
+
 // Log user out
 export const logOutUser = navigate => async dispatch => {
   try {
