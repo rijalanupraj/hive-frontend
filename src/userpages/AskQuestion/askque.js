@@ -135,134 +135,126 @@ export default function AskQuestion() {
 
   return (
     <Page title='Ask Question'>
-      <RootStyle>
-        <Container
-          component='main'
-          sx={{ mb: 4 }}
-          style={{
-            marginTop: "5rem"
-          }}
-        >
-          <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 } }}>
-            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={8}>
-                  <Card sx={{ p: 3 }}>
-                    <Stack spacing={3}>
-                      <RHFTextField name='title' label='Question Title' />
+      <Container component='main'>
+        <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 } }}>
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={8}>
+                <Card sx={{ p: 3 }}>
+                  <Stack spacing={3}>
+                    <RHFTextField name='title' label='Question Title' />
 
-                      <RHFTextField name='description' label='Description' multiline rows={3} />
+                    <RHFTextField name='description' label='Description' multiline rows={3} />
 
-                      <div>
-                        <LabelStyle>Content</LabelStyle>
-                        <RHFEditor name='content' />
-                      </div>
+                    <div>
+                      <LabelStyle>Content</LabelStyle>
+                      <RHFEditor name='content' />
+                    </div>
 
-                      <div>
-                        <LabelStyle>Cover</LabelStyle>
-                        <RHFUploadSingleFile
-                          name='cover'
-                          accept='image/*'
-                          maxSize={3145728}
-                          onDrop={handleDrop}
-                        />
-                      </div>
-                    </Stack>
-                  </Card>
-                </Grid>
-
-                <Grid item xs={12} md={4}>
-                  <Card sx={{ p: 3 }}>
-                    <Stack spacing={3}>
-                      <Controller
-                        name='category'
-                        control={control}
-                        render={({ field }) => (
-                          <Autocomplete
-                            freeSolo
-                            onChange={(event, newValue) => field.onChange(newValue)}
-                            options={categoriesList.map(option => option)}
-                            renderInput={params => <TextField label='Category' {...params} />}
-                          />
-                        )}
+                    <div>
+                      <LabelStyle>Cover</LabelStyle>
+                      <RHFUploadSingleFile
+                        name='cover'
+                        accept='image/*'
+                        maxSize={3145728}
+                        onDrop={handleDrop}
                       />
-                      <Controller
-                        name='tags'
-                        control={control}
-                        render={({ field }) => (
-                          <Autocomplete
-                            multiple
-                            freeSolo
-                            onChange={(event, newValue) => field.onChange(newValue)}
-                            options={tagsList.map(option => option)}
-                            renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                <Chip
-                                  {...getTagProps({ index })}
-                                  key={option}
-                                  size='small'
-                                  label={option}
-                                />
-                              ))
-                            }
-                            renderInput={params => <TextField label='Tags' {...params} />}
-                          />
-                        )}
-                      />
-
-                      <RHFTextField name='metaTitle' label='Meta title' />
-
-                      <RHFTextField
-                        name='metaDescription'
-                        label='Meta description'
-                        fullWidth
-                        multiline
-                        rows={3}
-                      />
-
-                      <Controller
-                        name='metaKeywords'
-                        control={control}
-                        render={({ field }) => (
-                          <Autocomplete
-                            multiple
-                            freeSolo
-                            onChange={(event, newValue) => field.onChange(newValue)}
-                            options={tagsList.map(option => option)}
-                            renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                <Chip
-                                  {...getTagProps({ index })}
-                                  key={option}
-                                  size='small'
-                                  label={option}
-                                />
-                              ))
-                            }
-                            renderInput={params => <TextField label='Meta keywords' {...params} />}
-                          />
-                        )}
-                      />
-                    </Stack>
-                  </Card>
-
-                  <Stack direction='row' spacing={1.5} sx={{ mt: 3 }}>
-                    <LoadingButton
-                      fullWidth
-                      type='submit'
-                      variant='contained'
-                      size='large'
-                      loading={isSubmitting}
-                    >
-                      Ask Question
-                    </LoadingButton>
+                    </div>
                   </Stack>
-                </Grid>
+                </Card>
               </Grid>
-            </FormProvider>
-          </Paper>
-        </Container>
-      </RootStyle>
+
+              <Grid item xs={12} md={4}>
+                <Card sx={{ p: 3 }}>
+                  <Stack spacing={3}>
+                    <Controller
+                      name='category'
+                      control={control}
+                      render={({ field }) => (
+                        <Autocomplete
+                          freeSolo
+                          onChange={(event, newValue) => field.onChange(newValue)}
+                          options={categoriesList.map(option => option)}
+                          renderInput={params => <TextField label='Category' {...params} />}
+                        />
+                      )}
+                    />
+                    <Controller
+                      name='tags'
+                      control={control}
+                      render={({ field }) => (
+                        <Autocomplete
+                          multiple
+                          freeSolo
+                          onChange={(event, newValue) => field.onChange(newValue)}
+                          options={tagsList.map(option => option)}
+                          renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                              <Chip
+                                {...getTagProps({ index })}
+                                key={option}
+                                size='small'
+                                label={option}
+                              />
+                            ))
+                          }
+                          renderInput={params => <TextField label='Tags' {...params} />}
+                        />
+                      )}
+                    />
+
+                    <RHFTextField name='metaTitle' label='Meta title' />
+
+                    <RHFTextField
+                      name='metaDescription'
+                      label='Meta description'
+                      fullWidth
+                      multiline
+                      rows={3}
+                    />
+
+                    <Controller
+                      name='metaKeywords'
+                      control={control}
+                      render={({ field }) => (
+                        <Autocomplete
+                          multiple
+                          freeSolo
+                          onChange={(event, newValue) => field.onChange(newValue)}
+                          options={tagsList.map(option => option)}
+                          renderTags={(value, getTagProps) =>
+                            value.map((option, index) => (
+                              <Chip
+                                {...getTagProps({ index })}
+                                key={option}
+                                size='small'
+                                label={option}
+                              />
+                            ))
+                          }
+                          renderInput={params => <TextField label='Meta keywords' {...params} />}
+                        />
+                      )}
+                    />
+                  </Stack>
+                </Card>
+
+                <Stack direction='row' spacing={1.5} sx={{ mt: 3 }}>
+                  <LoadingButton
+                    fullWidth
+                    type='submit'
+                    variant='contained'
+                    size='large'
+                    loading={isSubmitting}
+                  >
+                    Ask Question
+                  </LoadingButton>
+                </Stack>
+              </Grid>
+            </Grid>
+          </FormProvider>
+        </Paper>
+      </Container>
     </Page>
   );
 }
