@@ -108,6 +108,52 @@ export const toggleBookmark = solutionId => async (dispatch, getState) => {
   }
 };
 
+export const getMyFollowers = () => async (dispatch, getState) => {
+  dispatch({ type: TYPES.GET_MY_FOLLOWERS_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const currentState = getState();
+    const response = await axios.get(
+      `${API_URL}/users/viewfollowers/${currentState.auth.me._id}`,
+      options
+    );
+
+    dispatch({
+      type: TYPES.GET_MY_FOLLOWERS_SUCCESS,
+      payload: { followers: response.data.followers }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_MY_FOLLOWERS_FAIL,
+      payload: { error: err.response.data.message }
+    });
+  }
+};
+
+export const getMyFollowings = () => async (dispatch, getState) => {
+  dispatch({ type: TYPES.GET_MY_FOLLOWINGS_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const currentState = getState();
+    const response = await axios.get(
+      `${API_URL}/users/viewfollowings/${currentState.auth.me._id}`,
+      options
+    );
+
+    dispatch({
+      type: TYPES.GET_MY_FOLLOWINGS_SUCCESS,
+      payload: { followings: response.data.followings }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_MY_FOLLOWINGS_FAIL,
+      payload: { error: err.response.data.message }
+    });
+  }
+};
+
 // Log user out
 export const logOutUser = navigate => async dispatch => {
   try {
