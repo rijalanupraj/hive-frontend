@@ -11,6 +11,8 @@ import {
   Paper,
   CardHeader,
 } from "@mui/material";
+
+import Divider from "@mui/material/Divider";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import moment from "moment";
@@ -76,21 +78,18 @@ const CommentSection = ({ solution }) => {
             width: "1",
           }}
         >
-          <Item
-            sx={{
-              borderBottomLeftRadius: 16,
-              borderBottomRightRadius: 16,
-            }}
-          >
+          <Item style={{ border: "none", boxShadow: "none" }}>
+            <Divider sx={{ width: "10px" }} variant="middle" />
+
             {solution.comments.map((comment) => (
               <Card
                 sx={{
-                  borderBottomLeftRadius: 16,
-                  borderBottomRightRadius: 16,
-                  border: " solid #fff",
                   color: "#001E3C",
+
                   width: "1",
+                  mt: 2,
                 }}
+                style={{ border: "none", boxShadow: "none" }}
               >
                 <CardContent>
                   <Grid container wrap="nowrap" spacing={2}>

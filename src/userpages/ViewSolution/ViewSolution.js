@@ -17,6 +17,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
+
 import moment from "moment";
 import {
   viewSolution,
@@ -50,12 +51,21 @@ export default function AskQuestion() {
     return <div>Loading...</div>;
   }
 
+  // const Item = styled(Paper)(({ theme }) => ({
+  //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  //   ...theme.typography.body2,
+  //   padding: theme.spacing(1),
+  //   textAlign: "center",
+  //   color: theme.palette.text.secondary,
+  // }));
   const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
+    margin: "auto",
+    transition: "0.3s",
     textAlign: "center",
-    color: theme.palette.text.secondary,
+    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+    "&:hover": {
+      boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
+    },
   }));
 
   return (
@@ -65,22 +75,9 @@ export default function AskQuestion() {
       <Grid sx={{ justifyContent: "flex" }}>
         <Box sx={{ flexGrow: 1, m: 1, mt: 10 }}>
           <Grid container spacing={3}>
-            <Grid item xs={2} sx={{ mx: "auto" }}>
-              <Item
-                sx={{
-                  border: "none",
-                  backgroundColor: "#9ECEC0",
-                  borderRadius: "16px",
-                }}
-              >
-                <Card
-                  sx={{
-                    border: "none",
-                    backgroundColor: "#9ECEC0",
-                    borderRadius: "16px",
-                  }}
-                  style={{ border: "none", boxShadow: "none" }}
-                >
+            <Grid item xs={2} sx={{ display: "block", mx: "auto" }}>
+              <Item>
+                <Card sx={{}} style={{ border: "none", boxShadow: "none" }}>
                   <CardHeader
                     avatar={
                       <Avatar
@@ -95,11 +92,9 @@ export default function AskQuestion() {
                   />
                 </Card>
               </Item>
+
               <Item
                 sx={{
-                  border: "none",
-                  backgroundColor: "#9ECEC0",
-                  borderRadius: "16px",
                   mt: 2,
                 }}
               >
@@ -109,7 +104,7 @@ export default function AskQuestion() {
                       sx={{
                         display: "flex",
                         alignItems: "center",
-                        backgroundColor: "#9ECEC0",
+
                         pl: 2,
                         pb: 0,
                       }}
