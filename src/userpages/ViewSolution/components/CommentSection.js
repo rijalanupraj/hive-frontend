@@ -9,7 +9,6 @@ import {
   Grid,
   Avatar,
   Paper,
-  CardHeader,
 } from "@mui/material";
 
 import Divider from "@mui/material/Divider";
@@ -102,13 +101,13 @@ const CommentSection = ({ solution }) => {
                         {comment.user}
                       </h4>
                       <p style={{ textAlign: "left" }}>{comment.text}</p>
+                      
                       <p style={{ textAlign: "left", color: "gray" }}>
                         {moment(comment.createdAt).fromNow()}
-                      </p>
-
-                      {auth.me._id === comment.user && (
+                        {auth.me._id === comment.user && (
                         <UpdateSolutionCommentSection />
                       )}
+                      </p>
                     </Grid>
                   </Grid>
                 </CardContent>

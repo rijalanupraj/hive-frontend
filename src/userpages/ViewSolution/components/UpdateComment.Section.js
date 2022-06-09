@@ -4,11 +4,11 @@ import { ButtonGroup, Button, TextareaAutosize } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, FormikProvider, useFormik } from "formik";
-
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 //internal import
 import { updateComment } from "../../../redux/actions/viewSolutionActions";
 
@@ -32,8 +32,7 @@ const UpdateSolutionCommentSection = () => {
       dispatch(updateComment(formik.values));
     },
   });
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
-    formik;
+  const { handleSubmit, getFieldProps } = formik;
   //mui dialog
   const [open, setOpen] = React.useState(false);
 
@@ -53,12 +52,14 @@ const UpdateSolutionCommentSection = () => {
             size="small"
             justifyContent="space-between"
             alignItems="center"
-            sx={{ m: 1 }}
+            sx={{ mt: 2 }}
             aria-label="outlined primary button group"
           >
             <Button variant="outlined" onClick={handleClickOpen}>
-              Edit
+              <EditIcon />
+              
             </Button>
+
             <Dialog open={open} onClose={handleClose}>
               <DialogTitle>Edit Comment</DialogTitle>
               <DialogContent>
@@ -83,7 +84,7 @@ const UpdateSolutionCommentSection = () => {
             </Dialog>
 
             <Button variant="contained" style={{ background: "red" }}>
-              Delete
+            <DeleteRoundedIcon />  
             </Button>
           </ButtonGroup>
         </Form>

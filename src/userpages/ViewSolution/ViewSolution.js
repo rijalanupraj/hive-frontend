@@ -5,7 +5,15 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Stack, TextField, Button } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Button,
+  CardContent,
+  Collapse,
+  CardActions,
+  CardMedia,
+} from "@mui/material";
 import { useFormik, Form, FormikProvider } from "formik";
 import { LoadingButton } from "@mui/lab";
 import IconButton from "@mui/material/IconButton";
@@ -17,7 +25,10 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import moment from "moment";
 import {
   viewSolution,
@@ -28,7 +39,10 @@ import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "./components/CommentSection";
+import { red } from "@mui/material/colors";
+import { ExpandMore } from "@mui/icons-material";
 const theme = createTheme();
+
 export default function AskQuestion() {
   const dispatch = useDispatch();
   const { solutionId } = useParams();
@@ -51,13 +65,6 @@ export default function AskQuestion() {
     return <div>Loading...</div>;
   }
 
-  // const Item = styled(Paper)(({ theme }) => ({
-  //   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  //   ...theme.typography.body2,
-  //   padding: theme.spacing(1),
-  //   textAlign: "center",
-  //   color: theme.palette.text.secondary,
-  // }));
   const Item = styled(Paper)(({ theme }) => ({
     margin: "auto",
     transition: "0.3s",
@@ -68,6 +75,8 @@ export default function AskQuestion() {
     },
   }));
 
+ 
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -77,18 +86,16 @@ export default function AskQuestion() {
           <Grid container spacing={3}>
             <Grid item xs={2} sx={{ display: "block", mx: "auto" }}>
               <Item>
-                <Card sx={{}} style={{ border: "none", boxShadow: "none" }}>
+                <Card sx={{ maxWidth: 345 }}>
                   <CardHeader
                     avatar={
                       <Avatar
-                        sx={{}}
-                        // src={solution?.solution?.user?.profilePhoto}
-                        src={user.profile.profilePhoto}
+                        sx={{ bgcolor: red[500] }}
                         aria-label="recipe"
+                        src={solution?.solution?.user?.profilePhoto}
                       ></Avatar>
                     }
                     title={solution?.solution?.user?.username}
-                    subheader={`followers: ${solution?.solution?.user?.followers.length}`}
                   />
                 </Card>
               </Item>
