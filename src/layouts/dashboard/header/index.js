@@ -86,9 +86,9 @@ export default function DashboardHeader({
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction='row' alignItems='center' spacing={{ xs: 0.5, sm: 1.5 }}>
-          <NotificationsPopover />
-          <ContactsPopover />
-          {/* <AccountPopover /> */}
+          {/* <NotificationsPopover /> */}
+          {/* <ContactsPopover /> */}
+          <AccountPopover />
         </Stack>
       </Toolbar>
     </RootStyle>

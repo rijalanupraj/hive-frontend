@@ -34,7 +34,6 @@ const UserRoute = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
       <DashboardLayout />
 
       <Routes>

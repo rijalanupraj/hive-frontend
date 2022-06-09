@@ -48,7 +48,7 @@ export default function DashboardLayout() {
 
   const [open, setOpen] = useState(false);
 
-  const verticalLayout = themeLayout === "horizontal";
+  const verticalLayout = true;
 
   // if (verticalLayout) {
   return (
@@ -65,13 +65,17 @@ export default function DashboardLayout() {
         component='main'
         sx={{
           px: { lg: 2 },
-          pt: {
-            xs: `${HEADER.MOBILE_HEIGHT + 24}px`,
-            lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 80}px`
-          },
+          // pt: {
+          //   xs: `${HEADER.MOBILE_HEIGHT + 24}px`,
+          //   lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 80}px`
+          // },
+          // pt: {
+          //   xs: `${HEADER.MOBILE_HEIGHT}px`,
+          //   lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT}px`
+          // },
           pb: {
             xs: `${HEADER.MOBILE_HEIGHT + 24}px`,
-            lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 24}px`
+            lg: `${HEADER.DASHBOARD_DESKTOP_HEIGHT + 70}px`
           }
         }}
       >

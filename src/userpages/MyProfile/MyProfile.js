@@ -129,12 +129,7 @@ export default function MyProfile() {
 
   return (
     <Page title='User: Profile'>
-      <Container
-        maxWidth={themeStretch ? false : "lg"}
-        style={{
-          marginTop: "13vh"
-        }}
-      >
+      <Container maxWidth={themeStretch ? false : "lg"}>
         {/* <HeaderBreadcrumbs
           heading="Profile"
           links={[

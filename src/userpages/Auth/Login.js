@@ -1,63 +1,63 @@
 // External Import
-import { Link as RouterLink } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { Link as RouterLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 // @mui
-import { styled } from '@mui/material/styles';
-import { Card, Link, Container, Typography, Snackbar } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import { Card, Link, Container, Typography, Snackbar } from "@mui/material";
 
 // Hooks
-import useResponsive from '../../hooks/useResponsive';
+import useResponsive from "../../hooks/useResponsive";
 
 // components
-import Page from '../../components/Page';
+import Page from "../../components/Page";
 
 // sections
-import LoginForm from './auth-forms/LoginForm';
-import AuthSocial from './auth-forms/AuthSocial';
-import { resetEmailSuccess } from '../../redux/actions/registerActions';
+import LoginForm from "./auth-forms/LoginForm";
+import AuthSocial from "./auth-forms/AuthSocial";
+import { resetEmailSuccess } from "../../redux/actions/registerActions";
 
 // ----------------------------------------------------------------------
 
-const RootStyle = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-    marginTop:'8vh',
+const RootStyle = styled("div")(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "flex",
+    marginTop: "8vh"
   }
 }));
 
-const HeaderStyle = styled('header')(({ theme }) => ({
+const HeaderStyle = styled("header")(({ theme }) => ({
   top: 120,
   zIndex: 9,
   lineHeight: 0,
-  display: 'flex',
-  alignItems: 'center',
-  position: 'absolute',
+  display: "flex",
+  alignItems: "center",
+  position: "absolute",
   padding: theme.spacing(3),
-  justifyContent: 'space-between',
-  [theme.breakpoints.up('md')]: {
-    alignItems: 'flex-start',
+  justifyContent: "space-between",
+  [theme.breakpoints.up("md")]: {
+    alignItems: "flex-start",
     padding: theme.spacing(7, 5, 0, 7)
   }
 }));
 
 const SectionStyle = styled(Card)(({ theme }) => ({
-  width: '100%',
+  width: "100%",
   maxWidth: 464,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
   margin: theme.spacing(2, 0, 2, 2)
 }));
 
-const ContentStyle = styled('div')(({ theme }) => ({
+const ContentStyle = styled("div")(({ theme }) => ({
   maxWidth: 480,
-  margin: 'auto',
-  minHeight: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
+  margin: "auto",
+  minHeight: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  flexDirection: "column"
 }));
 
 // ----------------------------------------------------------------------
@@ -78,9 +78,9 @@ export default function Login() {
     }
   }, []);
 
-  const smUp = useResponsive('up', 'sm');
+  const smUp = useResponsive("up", "sm");
 
-  const mdUp = useResponsive('up', 'md');
+  const mdUp = useResponsive("up", "md");
 
   return (
     <Page title='Login'>
@@ -90,7 +90,7 @@ export default function Login() {
 
           {smUp && (
             <Typography variant='body2' sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {''}
+              Don’t have an account? {""}
               <Link variant='subtitle2' component={RouterLink} to='/register'>
                 Get started
               </Link>
@@ -109,8 +109,8 @@ export default function Login() {
 
         <Snackbar
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center'
+            vertical: "top",
+            horizontal: "center"
           }}
           open={isSnackBarOpen}
           message={register.success}
@@ -122,7 +122,7 @@ export default function Login() {
               Sign in to Samadhan
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>
+            <Typography sx={{ color: "text.secondary", mb: 5 }}>
               Enter your details below.
             </Typography>
 
@@ -132,7 +132,7 @@ export default function Login() {
 
             {!smUp && (
               <Typography variant='body2' align='center' sx={{ mt: 3 }}>
-                Don’t have an account?{' '}
+                Don’t have an account?{" "}
                 <Link variant='subtitle2' component={RouterLink} to='/register'>
                   Get started
                 </Link>

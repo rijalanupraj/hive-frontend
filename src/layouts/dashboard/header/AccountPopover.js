@@ -7,12 +7,13 @@ import { Box, Divider, Typography, Stack, MenuItem } from "@mui/material";
 // routes
 // import { PATH_DASHBOARD, PATH_AUTH } from '../../../routes/paths';
 // hooks
-import useAuth from "../../../hooks/useAuth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 // components
 import MyAvatar from "../../../components/MyAvatar";
 import MenuPopover from "../../../components/MenuPopover";
 import { IconButtonAnimate } from "../../../components/animate";
+import { useDispatch, useSelector } from "react-redux";
+import { logOutUser } from "../../../redux/actions/authActions";
 
 // ----------------------------------------------------------------------
 
@@ -35,12 +36,12 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const navigate = useNavigate();
+  const auth = useSelector(state => state.auth);
+  const dispatch = useDispatch();
 
-  const { user, logout } = useAuth();
+  // const { user, logout } = useAuth();
 
   const isMountedRef = useIsMountedRef();
-
-  const { enqueueSnackbar } = useSnackbar();
 
   const [open, setOpen] = useState(null);
 
@@ -54,15 +55,14 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     try {
-      await logout();
-      navigate("/", { replace: true });
+      // navigate("/", { replace: true });
+      dispatch(logOutUser());
 
       if (isMountedRef.current) {
         handleClose();
       }
     } catch (error) {
       console.error(error);
-      enqueueSnackbar("Unable to logout!", { variant: "error" });
     }
   };
 
@@ -102,14 +102,16 @@ export default function AccountPopover() {
           }
         }}
       >
-        <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant='subtitle2' noWrap>
-            {user?.displayName}
-          </Typography>
-          <Typography variant='body2' sx={{ color: "text.secondary" }} noWrap>
-            {user?.email}
-          </Typography>
-        </Box>
+        {auth.isAuthenticated && (
+          <Box sx={{ my: 1.5, px: 2.5 }}>
+            <Typography variant='subtitle2' noWrap>
+              {auth.me.name}
+            </Typography>
+            <Typography variant='body2' sx={{ color: "text.secondary" }} noWrap>
+              {auth.me.username}
+            </Typography>
+          </Box>
+        )}
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
@@ -128,9 +130,20 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: "dashed" }} />
 
-        <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
-          Logout
-        </MenuItem>
+        {auth.isAuthenticated ? (
+          <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
+            Logout
+          </MenuItem>
+        ) : (
+          <MenuItem
+            onClick={() => {
+              navigate(`/login`, { replace: true });
+            }}
+            sx={{ m: 1 }}
+          >
+            Login
+          </MenuItem>
+        )}
       </MenuPopover>
     </>
   );
