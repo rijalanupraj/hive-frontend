@@ -30,7 +30,8 @@ import {
   ProfileGallery
 } from "../../sections/user/MyProfile";
 
-import { getMyFollowers, getMyFollowings } from "../../redux/actions/authActions";
+import { getMyFollowers, getMyFollowings, getMyBookmarks } from "../../redux/actions/authActions";
+import MyBookmarks from "../../sections/user/MyProfile/MyBookmarks";
 
 // ----------------------------------------------------------------------
 
@@ -61,6 +62,7 @@ export default function MyProfile() {
   const [currentTab, setCurrentTab] = useState("profile");
   const [findFollowers, setFindFollowers] = useState("");
   const [findFollowings, setFindFollowings] = useState("");
+  const [findBookmarks, setFindBookmarks] = useState("");
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
 
@@ -69,6 +71,8 @@ export default function MyProfile() {
       dispatch(getMyFollowings());
     } else if (newValue === "followers") {
       dispatch(getMyFollowers());
+    } else if (newValue === "bookmarks") {
+      dispatch(getMyBookmarks());
     }
     setCurrentTab(newValue);
   };
@@ -79,6 +83,10 @@ export default function MyProfile() {
 
   const handleFindFollowers = value => {
     setFindFollowers(value);
+  };
+
+  const handleFindBookmarks = value => {
+    setFindBookmarks(value);
   };
 
   const PROFILE_TABS = [
@@ -115,9 +123,12 @@ export default function MyProfile() {
       value: "bookmarks",
       icon: <Iconify icon={"eva:bookmark-fill"} width={20} height={20} />,
       component: (
-        <>
-          <h1>Hello</h1>
-        </>
+        <MyBookmarks
+          bookmarks={auth.me.expandedBookmarks || []}
+          findBookmarks={findBookmarks}
+          onFindBookmarks={handleFindBookmarks}
+          auth={auth}
+        />
       )
     }
     // {
