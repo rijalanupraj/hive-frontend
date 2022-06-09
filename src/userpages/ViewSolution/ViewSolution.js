@@ -75,8 +75,6 @@ export default function AskQuestion() {
     },
   }));
 
- 
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -192,6 +190,7 @@ export default function AskQuestion() {
                     sx={{
                       fontWeight: "bold",
                       typography: "body2",
+                      color: "#858585",
                       ml: 5,
                     }}
                     component="div"
@@ -200,11 +199,15 @@ export default function AskQuestion() {
                     {solution?.solution?.question?.category}
 
                     <Chip
-                      label={`Updated: ${moment(
+                      label={` ${moment(
                         solution?.solution?.question?.updatedAt
                       ).fromNow()}`}
                       variant="outlined"
-                      sx={{ border: "none" }}
+                      sx={{
+                        border: "none",
+                        typography: "body2",
+                        color: "#858585",
+                      }}
                     />
                   </Typography>
                 </Stack>

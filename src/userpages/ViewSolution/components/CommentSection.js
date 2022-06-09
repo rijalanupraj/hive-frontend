@@ -15,8 +15,9 @@ import Divider from "@mui/material/Divider";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card";
 import moment from "moment";
-
+import PostAddRoundedIcon from "@mui/icons-material/PostAddRounded";
 import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
 
 // Internal Import
 import { addComment } from "../../../redux/actions/viewSolutionActions";
@@ -64,7 +65,7 @@ const CommentSection = ({ solution }) => {
       {/* View Comment */}
       <Typography
         variant="h6"
-        sx={{ fontWeight: "bold" }}
+        sx={{ fontWeight: "bold", mt: 2 }}
         component="div"
         gutterBottom
       >
@@ -101,12 +102,12 @@ const CommentSection = ({ solution }) => {
                         {comment.user}
                       </h4>
                       <p style={{ textAlign: "left" }}>{comment.text}</p>
-                      
+
                       <p style={{ textAlign: "left", color: "gray" }}>
                         {moment(comment.createdAt).fromNow()}
                         {auth.me._id === comment.user && (
-                        <UpdateSolutionCommentSection />
-                      )}
+                          <UpdateSolutionCommentSection />
+                        )}
                       </p>
                     </Grid>
                   </Grid>
@@ -119,7 +120,7 @@ const CommentSection = ({ solution }) => {
 
       {/* View Comment Ends */}
 
-      <Stack spacing={3}>
+      <Stack spacing={2}>
         <FormikProvider value={formik}>
           <Form>
             <Stack spacing={3} sx={{ mt: 3 }}>
@@ -132,10 +133,7 @@ const CommentSection = ({ solution }) => {
                 rows={4}
                 rowsMax={4}
                 sx={{
-                  mb: 3,
-                  "& > *": {
-                    width: "100%",
-                  },
+                  "& > *": {},
                 }}
                 {...formik.getFieldProps("text")}
                 helperText={formik.touched.text && formik.errors.text}
@@ -144,16 +142,12 @@ const CommentSection = ({ solution }) => {
               <LoadingButton
                 type="submit"
                 variant="contained"
-                color="primary"
-                fullWidth
                 sx={{
                   mb: 3,
-                  "& > *": {
-                    width: "100%",
-                  },
+                  "& > *": {},
                 }}
               >
-                Post
+                <PostAddRoundedIcon /> Post
               </LoadingButton>
             </Stack>
           </Form>
