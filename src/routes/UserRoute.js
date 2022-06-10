@@ -19,7 +19,8 @@ import {
   Page404,
   MyProfile,
   ViewCategory,
-  PersonalFeed
+  PersonalFeed,
+  UpdateSolution
 } from "../userpages";
 
 // Internal Import
@@ -58,6 +59,9 @@ const UserRoute = () => {
           </Route>
           <Route exact path='/post-solution/:questionId' element={<PrivateRoute auth={auth} />}>
             <Route exact path='/post-solution/:questionId' element={<PostSolution />} />
+          </Route>
+          <Route exact path='/update-solution/:solutionId' element={<PrivateRoute auth={auth} />}>
+            <Route exact path='/update-solution/:solutionId' element={<UpdateSolution />} />
           </Route>
 
           <Route exact path='/myprofile' element={<PrivateRoute auth={auth} />}>
