@@ -61,6 +61,34 @@ export const updateSolution =
     }
   };
 
+export const deleteSolution =
+  (solutionId, navigate) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.DELETE_SOLUTION_REQUEST });
+
+      const options = attachTokenToHeaders(getState);
+
+      await axios.delete(
+        `${API_URL}/solution/deletesolution/${solutionId}`,
+        options
+      );
+
+      dispatch({
+        type: TYPES.DELETE_SOLUTION_SUCCESS,
+      });
+      if (navigate) {
+        navigate("/");
+      }
+    } catch (err) {
+      dispatch({
+        type: TYPES.DELETE_SOLUTION_FAIL,
+        payload: {
+          error: err?.response?.data.message || err.message,
+        },
+      });
+    }
+  };
+
 export const attachTokenToHeaders = (getState) => {
   const token = getState().auth.token;
 
