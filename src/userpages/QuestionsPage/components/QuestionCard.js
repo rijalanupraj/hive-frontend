@@ -19,11 +19,12 @@ const QuestionCard = ({ question }) => {
         variant='outlined'
         style={{
           padding: '1rem',
-          marginTop: '0.7rem'
+          marginTop: '0.7rem',
+          border: '2px solid #e0e0e0',
         }}
       >
            
-        <Grid container spacing={2}>
+        <Grid container spacing={3}>
           <Grid
             item
             style={{

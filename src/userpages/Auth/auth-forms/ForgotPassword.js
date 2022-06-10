@@ -38,7 +38,7 @@ const ForgotPassword = () => {
                 align='center'
                 gutterBottom
                 style={{
-                  marginTop: '25vh',
+                  marginTop:'1rem',
                   fontWeight: 'bold',
                   fontFamily: 'arial',
                   fontSize: '35px'

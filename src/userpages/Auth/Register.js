@@ -17,7 +17,6 @@ import { useSelector } from 'react-redux';
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
     display: 'flex',
-    marginTop:'8vh',
   }
 }));
 
@@ -48,7 +47,7 @@ const SectionStyle = styled(Card)(({ theme }) => ({
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',
-  minHeight: '100vh',
+  minHeight: '85vh',
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
@@ -71,7 +70,7 @@ export default function Register() {
         <HeaderStyle>
           {/* <Logo /> */}
           {smUp && (
-            <Typography variant='body2' sx={{ mt: { md: -2 } }}>
+            <Typography variant='body2' sx={{ mt: { md: 8 } }}>
               Already have an account? {''}
               <Link variant='subtitle2' component={RouterLink} to='/login'>
                 Login

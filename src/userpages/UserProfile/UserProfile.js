@@ -95,14 +95,6 @@ export default function UserProfile() {
   return (
     <Page title='User: Profile'>
       <Container maxWidth={themeStretch ? false : "lg"}>
-        {/* <HeaderBreadcrumbs
-          heading="Profile"
-          links={[
-            { name: "Dashboard", href: '/' },
-            { name: "User", href: '/' },
-            { name: 'YourName', href: '/' },
-          ]}
-        /> */}
         <Card
           sx={{
             mb: 3,
