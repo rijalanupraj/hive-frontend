@@ -114,6 +114,15 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         }
       };
 
+    case TYPES.GET_MY_BOOKMARKS_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          expandedBookmarks: payload.bookmarks
+        }
+      };
+
     case TYPES.LOGOUT_SUCCESS:
     case TYPES.LOGIN_WITH_EMAIL_FAIL:
       localStorage.removeItem("token");

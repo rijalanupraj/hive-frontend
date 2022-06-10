@@ -1,8 +1,8 @@
-.anchor{
-    text-decoration: none;
-    color: #000;
+.anchor {
+  text-decoration: none;
+  color: #000;
 }
-.anchor:hover{
-    text-decoration: none;
-    color: rgb(122, 121, 121);
+.anchor:hover {
+  text-decoration: none;
+  color: rgb(122, 121, 121);
 }
