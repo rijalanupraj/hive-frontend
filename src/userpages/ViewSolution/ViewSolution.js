@@ -145,6 +145,8 @@ export default function AskQuestion() {
                 )}
               </Item>
 
+              {auth.me.id === solution?.solution?.user?.id && (
+
               <Item sx={{ mt: 2 }}>
                 <Button
                   variant="outlined"
@@ -165,6 +167,7 @@ export default function AskQuestion() {
                   <DeleteRounded />
                 </Button>
               </Item>
+              )}
             </Grid>
             <Grid item xs={7}>
               <Item

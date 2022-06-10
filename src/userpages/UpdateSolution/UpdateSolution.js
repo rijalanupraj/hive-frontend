@@ -35,7 +35,8 @@ import Page from "../../components/Page";
 // Internal Import
 import { askQuestion } from "../../redux/actions/questionActions";
 import { getAllAvailableTags } from "../../redux/actions/tagActions";
-import { postSolution } from "../../redux/actions/solutionActions";
+import { updateSolution } from "../../redux/actions/solutionActions";
+import { viewSolution } from "../../redux/actions/viewSolutionActions";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -57,6 +58,10 @@ const categoriesList = ["Government", "Health", "Education", "Vechiles"];
 
 export default function UpdateSolution() {
   const dispatch = useDispatch();
+  const { solutionId } = useParams();
+  const solution = useSelector((state) => state.viewSolutions);
+  const auth = useSelector((state) => state.auth);
+
   const tags = useSelector((state) => state.tag);
   const navigate = useNavigate();
   const { questionId } = useParams();
@@ -64,8 +69,13 @@ export default function UpdateSolution() {
   const tagsList = tags.tagsList;
 
   useEffect(() => {
+    dispatch(viewSolution(solutionId));
     dispatch(getAllAvailableTags());
   }, [dispatch]);
+
+  // if (!solution.solution) {
+  //   return <div>Loading...</div>;
+  // }
 
   // const { enqueueSnackbar } = useSnackbar();
 
@@ -75,14 +85,22 @@ export default function UpdateSolution() {
   });
 
   const defaultValues = {
-    answer: "",
+    answer: solution?.solution?.answer || "",
     cover: null,
-    tags: ["Logan"],
+    tags: solution?.solution?.tags || [],
     isDraft: true,
     metaTitle: "",
     metaDescription: "",
     metaKeywords: ["Logan"],
   };
+
+  useEffect(() => {
+    if (solution.solution) {
+      setValue("answer", solution.solution.answer);
+      setValue("tags", solution.solution.tags);
+      setValue("isDraft", !solution.solution.isDraft);
+    }
+  }, [solution.solution]);
 
   const methods = useForm({
     resolver: yupResolver(NewQuestionSchema),
@@ -105,8 +123,8 @@ export default function UpdateSolution() {
       await new Promise((resolve) => setTimeout(resolve, 500));
       const newValue = { ...values, isDraft: !values.isDraft };
       console.log(newValue);
-      dispatch(postSolution(questionId, newValue, navigate));
-      //   reset();
+      dispatch(updateSolution(solutionId, newValue, navigate));
+      reset();
       // enqueueSnackbar("Post success!");
     } catch (error) {
       console.error(error);
@@ -173,6 +191,7 @@ export default function UpdateSolution() {
                           <Autocomplete
                             multiple
                             freeSolo
+                            value={values.tags}
                             onChange={(event, newValue) =>
                               field.onChange(newValue)
                             }

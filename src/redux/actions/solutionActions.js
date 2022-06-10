@@ -40,17 +40,17 @@ export const updateSolution =
       dispatch({ type: TYPES.UPDATE_SOLUTION_REQUEST });
 
       const options = attachTokenToHeaders(getState);
-
       const response = await axios.put(
         `${API_URL}/solution/updatesolution/${solutionId}`,
         jsonData,
         options
       );
-
       dispatch({
         type: TYPES.UPDATE_SOLUTION_SUCCESS,
       });
-      navigate(`/solution/${response.data.answer._id}`);
+      if (navigate) {
+        navigate(`/solution/${solutionId}`);
+      }
     } catch (err) {
       dispatch({
         type: TYPES.UPDATE_SOLUTION_FAIL,
