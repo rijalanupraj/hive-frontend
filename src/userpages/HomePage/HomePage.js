@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 // import "./css/Homepage.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +9,14 @@ import { Grid, Paper, Box, styled, Typography, Link } from "@mui/material";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 import SolutionCard from "./components/SolutionCard";
+import SolutionPostCard from "./components/SolutionPostCard";
 import { borders } from "@mui/system";
+
+import {
+
+  _userFeeds,
+
+} from "../../_mock/_user";
 
 // const RootStyle = styled('div')(({ theme }) => ({
 //   [theme.breakpoints.up('md')]: {
@@ -24,7 +32,11 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary
 }));
 
-function HomePage() {
+HomePage.propTypes={
+  posts: PropTypes.array
+};
+
+function HomePage({ posts }) {
   const auth = useSelector(state => state.auth);
   const solution = useSelector(state => state.solution);
   const dispatch = useDispatch();
@@ -134,7 +146,7 @@ function HomePage() {
 
             {/* home tranding, new post, best post */}
 
-            <Paper
+            {/* <Paper
               variant='outlined'
               style={{
                 padding: "1rem",
@@ -145,13 +157,19 @@ function HomePage() {
               <Grid container spacing={2}>
                 <Grid item xs={6}></Grid>
               </Grid>
-            </Paper>
+            </Paper> */}
 
             {/* Solution */}
-            {solution.homeSolutions &&
+            {/* {solution.homeSolutions &&
               solution.homeSolutions.map((sol, index) => (
-                <SolutionCard key={index} solution={sol} />
-              ))}
+                <SolutionPost key={index} post={sol} />
+              ))} */}
+
+              {
+                posts.map(post=>(
+                  <SolutionPostCard key={post.id} post={post} />
+                ))
+              }
           </Grid>
           {/* ============================================================================================================================== */}
 
