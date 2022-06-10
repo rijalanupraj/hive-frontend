@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Page from "../../components/Page";
 import { logOutUser } from "../../redux/actions/authActions";
-import { Grid, Paper, Box, styled, Typography } from "@mui/material";
+import { Grid, Paper, Box, styled, Typography, Link } from "@mui/material";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 import SolutionCard from "./components/SolutionCard";
+import { borders } from "@mui/system";
 
 // const RootStyle = styled('div')(({ theme }) => ({
 //   [theme.breakpoints.up('md')]: {
@@ -35,13 +36,7 @@ function HomePage() {
 
   return (
     <Page title='Home'>
-      <Paper
-        style={{
-          width: "100%",
-          backgroundColor: "#f1f2f2",
-          boxShadow: "none"
-        }}
-      >
+      <Paper>
         <Grid container spacing={5}>
           {/* ======================================================================================================================= */}
           {/* Left */}
@@ -49,7 +44,8 @@ function HomePage() {
             <Paper
               variant='outlined'
               style={{
-                padding: "1rem"
+                padding: "1rem",
+                border: "2px solid #e0e0e0",
               }}
             >
               <Typography
@@ -58,15 +54,7 @@ function HomePage() {
                   paddingLeft: "1rem"
                 }}
               >
-                <a
-                  href='/category'
-                  style={{
-                    textDecoration: "none",
-                    color: "green"
-                  }}
-                >
-                  Category
-                </a>
+                <Link  href='/category'> Category </Link>
               </Typography>
             </Paper>
           </Grid>
@@ -85,7 +73,8 @@ function HomePage() {
               <Paper
                 variant='outlined'
                 style={{
-                  padding: "1rem"
+                  padding: "1rem",
+                  border: "2px solid #e0e0e0",
                 }}
               >
                 {/* profile pic and ask question */}
@@ -135,9 +124,7 @@ function HomePage() {
                           fontWeight: "bold"
                         }}
                       >
-                        <a href='/ask-question' className='anchor'>
-                          What's Your Question?
-                        </a>
+                        <Link href='/ask-question'>What's Your Question?</Link>
                       </p>
                     </Box>
                   </Grid>
@@ -151,7 +138,8 @@ function HomePage() {
               variant='outlined'
               style={{
                 padding: "1rem",
-                marginTop: "0.7rem"
+                marginTop: "0.7rem",
+                border: "2px solid #e0e0e0",
               }}
             >
               <Grid container spacing={2}>
@@ -172,7 +160,8 @@ function HomePage() {
             <Paper
               variant='outlined'
               style={{
-                padding: "1rem"
+                padding: "1rem",
+                border: "2px solid #e0e0e0",
               }}
             >
               <Typography
@@ -181,15 +170,8 @@ function HomePage() {
                   paddingLeft: "1rem"
                 }}
               >
-                <a
-                  href='/questions'
-                  style={{
-                    textDecoration: "none",
-                    color: "green"
-                  }}
-                >
-                  Explore Questions
-                </a>
+
+                <Link href='/questions'>Explore Questions</Link>
               </Typography>
             </Paper>
 
@@ -197,7 +179,8 @@ function HomePage() {
               variant='outlined'
               style={{
                 padding: "1rem",
-                marginTop: "1rem"
+                marginTop: "1rem",
+                border: "2px solid #e0e0e0",
               }}
             ></Paper>
           </Grid>
