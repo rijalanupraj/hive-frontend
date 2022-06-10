@@ -7,35 +7,67 @@ import { BACKEND_API_URL } from "../../constants";
 
 const API_URL = BACKEND_API_URL;
 
-export const postSolution = (questionId, jsonData, navigate) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: TYPES.POST_SOLUTION_REQUEST });
+export const postSolution =
+  (questionId, jsonData, navigate) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.POST_SOLUTION_REQUEST });
 
-    const options = attachTokenToHeaders(getState);
+      const options = attachTokenToHeaders(getState);
 
-    const response = await axios.post(`${API_URL}/solution/${questionId}`, jsonData, options);
+      const response = await axios.post(
+        `${API_URL}/solution/${questionId}`,
+        jsonData,
+        options
+      );
 
-    dispatch({
-      type: TYPES.POST_SOLUTION_SUCCESS
-    });
-    navigate(`/solution/${response.data.answer._id}`);
-  } catch (err) {
-    dispatch({
-      type: TYPES.POST_SOLUTION_FAIL,
-      payload: {
-        error: err?.response?.data.message || err.message
-      }
-    });
-  }
-};
+      dispatch({
+        type: TYPES.POST_SOLUTION_SUCCESS,
+      });
+      navigate(`/solution/${response.data.answer._id}`);
+    } catch (err) {
+      dispatch({
+        type: TYPES.POST_SOLUTION_FAIL,
+        payload: {
+          error: err?.response?.data.message || err.message,
+        },
+      });
+    }
+  };
 
-export const attachTokenToHeaders = getState => {
+export const updateSolution =
+  (solutionId, jsonData, navigate) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.UPDATE_SOLUTION_REQUEST });
+
+      const options = attachTokenToHeaders(getState);
+
+      const response = await axios.put(
+        `${API_URL}/solution/updatesolution/${solutionId}`,
+        jsonData,
+        options
+      );
+
+      dispatch({
+        type: TYPES.UPDATE_SOLUTION_SUCCESS,
+      });
+      navigate(`/solution/${response.data.answer._id}`);
+    } catch (err) {
+      dispatch({
+        type: TYPES.UPDATE_SOLUTION_FAIL,
+        payload: {
+          error: err?.response?.data.message || err.message,
+        },
+      });
+    }
+  };
+
+export const attachTokenToHeaders = (getState) => {
   const token = getState().auth.token;
 
   const config = {
     headers: {
-      "Content-type": "application/json"
-    }
+      "Content-type": "application/json",
+    },
   };
 
   if (token) {
@@ -54,14 +86,14 @@ export const getAllSolutionHome = () => async (dispatch, getState) => {
 
     dispatch({
       type: TYPES.GET_ALL_SOLUTIONS_SUCCESS,
-      payload: response.data
+      payload: response.data,
     });
   } catch (err) {
     dispatch({
       type: TYPES.GET_ALL_SOLUTIONS_FAIL,
       payload: {
-        error: err?.response?.data.message || err.message
-      }
+        error: err?.response?.data.message || err.message,
+      },
     });
   }
 };

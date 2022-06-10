@@ -80,7 +80,7 @@ export default function AskQuestion() {
       <CssBaseline />
       {/* stack for image and title */}
       <Grid sx={{ justifyContent: "flex" }}>
-        <Box sx={{ flexGrow: 1, m: 1, mt: 10 }}>
+        <Box sx={{ flexGrow: 1, m: 1 }}>
           <Grid container spacing={3}>
             <Grid item xs={2} sx={{ display: "block", mx: "auto" }}>
               <Item>

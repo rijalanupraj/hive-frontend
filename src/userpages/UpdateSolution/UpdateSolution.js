@@ -146,7 +146,7 @@ export default function UpdateSolution() {
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={3}>
                       <div>
-                        <LabelStyle>Content</LabelStyle>
+                        <LabelStyle>Introduction</LabelStyle>
                         <RHFEditor name="answer" />
                       </div>
 
@@ -255,7 +255,7 @@ export default function UpdateSolution() {
                       size="large"
                       loading={isSubmitting}
                     >
-                      Post Solution
+                      Update Solution
                     </LoadingButton>
                   </Stack>
                 </Grid>
