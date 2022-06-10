@@ -29,6 +29,7 @@ import {
   RHFTextField,
   RHFUploadSingleFile
 } from "../../components/hook-form";
+import { BACKEND_API_URL } from "../../constants";
 
 import Page from "../../components/Page";
 
@@ -62,6 +63,19 @@ export default function AskQuestion1() {
   const { questionId } = useParams();
 
   const tagsList = tags.tagsList;
+
+  useEffect(() => {
+    const checkQuestionIdIsValid = async () => {
+      if (questionId) {
+        const response = await fetch(`${BACKEND_API_URL}/question/id/${questionId}`);
+        if (response.status === 200) {
+        } else {
+          navigate("/404");
+        }
+      }
+    };
+    checkQuestionIdIsValid();
+  }, [questionId]);
 
   useEffect(() => {
     dispatch(getAllAvailableTags());
