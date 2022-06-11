@@ -25,7 +25,12 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProfile, viewFollowers, followUnfollowUser } from "../../redux/actions/userActions";
+import {
+  getProfile,
+  viewFollowers,
+  followUnfollowUser,
+  getTimeLinePosts
+} from "../../redux/actions/userActions";
 // ----------------------------------------------------------------------
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
@@ -51,6 +56,7 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 export default function UserProfile() {
   const { themeStretch } = useSettings();
   const { username } = useParams();
+  const [timelinePosts, setTimelinePosts] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const [currentTab, setCurrentTab] = useState("profile");
@@ -59,7 +65,14 @@ export default function UserProfile() {
 
   useEffect(() => {
     dispatch(getProfile(username, navigate));
+    dispatch(getTimeLinePosts(username));
   }, [username]);
+
+  useEffect(() => {
+    if (user.profile) {
+      setTimelinePosts(user.timelinePosts);
+    }
+  }, [user.timelinePosts]);
 
   const handleChangeTab = newValue => {
     if (newValue === "followers") {
@@ -76,7 +89,7 @@ export default function UserProfile() {
     {
       value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} posts={_userFeeds} profile={user.profile} />
+      component: <Profile myProfile={_userAbout} posts={timelinePosts} profile={user.profile} />
     },
     {
       value: "followers",

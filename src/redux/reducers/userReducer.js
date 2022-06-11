@@ -5,7 +5,8 @@ const initialState = {
   profile: {},
   isLoading: false,
   error: null,
-  followers: []
+  followers: [],
+  timelinePosts: []
 };
 
 export default function userReducer(state = initialState, { type, payload }) {
@@ -69,6 +70,14 @@ export default function userReducer(state = initialState, { type, payload }) {
           ...state.profile,
           followers: payload.anotherUser.followers
         }
+      };
+
+    case TYPES.GET_TIMELINE_POSTS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        timelinePosts: payload.posts,
+        error: null
       };
 
     case TYPES.GET_PROFILE_FAIL:

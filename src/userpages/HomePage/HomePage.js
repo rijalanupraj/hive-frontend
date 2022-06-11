@@ -5,20 +5,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Page from "../../components/Page";
 import { logOutUser } from "../../redux/actions/authActions";
-import {
-  Grid,
-  Paper,
-  Box,
-  styled,
-  Typography,
-  Link,
-  Container,
-  Avatar,
-} from "@mui/material";
+import { Grid, Paper, Box, styled, Typography, Link, Container, Avatar } from "@mui/material";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 
-import SolutionPostCard from "./components/SolutionPostCard";
+import SolutionPostCard from "../../sections/cards/SolutionPostCard";
 import useSettings from "../../hooks/useSettings";
 
 import { _userFeeds } from "../../_mock/_user";
@@ -34,13 +25,13 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: "center",
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.secondary
 }));
 
 function HomePage() {
   const { themeStretch } = useSettings();
-  const auth = useSelector((state) => state.auth);
-  const solution = useSelector((state) => state.solution);
+  const auth = useSelector(state => state.auth);
+  const solution = useSelector(state => state.solution);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -49,7 +40,7 @@ function HomePage() {
   }, [auth]);
 
   return (
-    <Page title="Home">
+    <Page title='Home'>
       <Container maxWidth={themeStretch ? false : "md"}>
         <Paper>
           {/* ======================================================================================================================= */}
@@ -62,16 +53,16 @@ function HomePage() {
             item
             xs={6}
             style={{
-              height: "100%",
+              height: "100%"
             }}
           >
             {/* question header */}
             <div>
               <Paper
-                variant="outlined"
+                variant='outlined'
                 style={{
                   padding: "1rem",
-                  border: "2px solid #e0e0e0",
+                  border: "2px solid #e0e0e0"
                 }}
               >
                 {/* profile pic and ask question */}
@@ -79,12 +70,12 @@ function HomePage() {
                   <Grid item xs={1.5}>
                     <Box
                       style={{
-                        paddingLeft: "2rem",
+                        paddingLeft: "2rem"
                       }}
                     >
                       <Avatar
-                        alt="profile"
-                        src="https://i.ytimg.com/vi/CI2gyevDC6Q/maxresdefault.jpg"
+                        alt='profile'
+                        src='https://i.ytimg.com/vi/CI2gyevDC6Q/maxresdefault.jpg'
                       />
                     </Box>
                   </Grid>
@@ -97,19 +88,19 @@ function HomePage() {
                         height: 50,
                         backgroundColor: "#e3e3e3",
                         "&:hover": {
-                          opacity: [0.9, 0.8, 0.7],
+                          opacity: [0.9, 0.8, 0.7]
                         },
-                        borderRadius: "10px",
+                        borderRadius: "10px"
                       }}
                     >
                       <p
                         style={{
                           padding: "0.5rem",
                           fontSize: "1.5rem",
-                          fontWeight: "bold",
+                          fontWeight: "bold"
                         }}
                       >
-                        <Link href="/ask-question">What's Your Question?</Link>
+                        <Link href='/ask-question'>What's Your Question?</Link>
                       </p>
                     </Box>
                   </Grid>
@@ -117,13 +108,10 @@ function HomePage() {
               </Paper>
             </div>
 
-            {/* {posts.map((post) => (
-              <SolutionPostCard key={post.id} post={post} />
-            ))} */}
-
-            {/* solution card */}
-
-            <SolutionPostCard />
+            {solution.homeSolutions &&
+              solution.homeSolutions.map(post => (
+                <SolutionPostCard key={post._id} solution={post} />
+              ))}
           </Grid>
           {/* ============================================================================================================================== */}
 
@@ -134,19 +122,13 @@ function HomePage() {
           style={{
             margin: "20vh",
             backgroundColor: "#fff",
-            textAlign: "center",
+            textAlign: "center"
           }}
         >
           This is Home Page
+          {auth.isAuthenticated ? <p>You are logged in</p> : <p>You are not logged in</p>}
           {auth.isAuthenticated ? (
-            <p>You are logged in</p>
-          ) : (
-            <p>You are not logged in</p>
-          )}
-          {auth.isAuthenticated ? (
-            <button onClick={() => dispatch(logOutUser(navigate))}>
-              Log Out
-            </button>
+            <button onClick={() => dispatch(logOutUser(navigate))}>Log Out</button>
           ) : (
             <button onClick={() => navigate("/login")}>Log In</button>
           )}

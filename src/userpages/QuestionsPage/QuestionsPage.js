@@ -9,14 +9,11 @@ import {
   InputAdornment,
   Typography,
   Paper,
-  Container,
+  Container
 } from "@mui/material";
 
-import QuestionPostCard from "./components/QuestionPostCard";
-import {
-  getAllQuestion,
-  searchQuestion,
-} from "../../redux/actions/questionActions";
+import QuestionPostCard from "../../sections/cards/QuestionPostCard";
+import { getAllQuestion, searchQuestion } from "../../redux/actions/questionActions";
 import InputStyle from "../../components/InputStyle";
 import Iconify from "../../components/Iconify";
 
@@ -24,7 +21,7 @@ import useSettings from "../../hooks/useSettings";
 
 const QuestionsPage = () => {
   const { themeStretch } = useSettings();
-  const question = useSelector((state) => state.question);
+  const question = useSelector(state => state.question);
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
   const [questionFilter, setQuestionFilter] = useState(false);
@@ -33,7 +30,7 @@ const QuestionsPage = () => {
     dispatch(getAllQuestion());
   }, [dispatch]);
 
-  const onFindQuestion = (e) => {
+  const onFindQuestion = e => {
     if (e.target.value === "") {
       dispatch(getAllQuestion());
     } else {
@@ -44,7 +41,7 @@ const QuestionsPage = () => {
   useEffect(() => {
     let ques = question.questions ? [...question.questions] : [];
     if (questionFilter === "unanswered") {
-      setQuestions(ques.filter((q) => q.answers.length > 0));
+      setQuestions(ques.filter(q => q.answers.length > 0));
     } else if (questionFilter === "newest") {
       setQuestions(
         ques.sort((a, b) => {
@@ -57,57 +54,48 @@ const QuestionsPage = () => {
   }, [questionFilter, question.questions]);
 
   return (
-    <Page title="Questions">
-     <Container maxWidth={themeStretch ? false : 'sm'}>
- 
-        <Typography variant="h4" sx={{ mb: 2 }}>
+    <Page title='Questions'>
+      <Container maxWidth={themeStretch ? false : "sm"}>
+        <Typography variant='h4' sx={{ mb: 2 }}>
           Question
         </Typography>
 
         <InputStyle
           stretchStart={240}
           onChange={onFindQuestion}
-          placeholder="Find Question..."
+          placeholder='Find Question...'
           InputProps={{
             startAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment position='start'>
                 <Iconify
                   icon={"eva:search-fill"}
-                  sx={{ color: "text.disabled", width: 30, height: 20}}
-                  
+                  sx={{ color: "text.disabled", width: 30, height: 20 }}
                 />
-                
               </InputAdornment>
-              
             )
           }}
-          
         />
 
         <ToggleButtonGroup
-          color="primary"
+          color='primary'
           value={questionFilter}
           exclusive
           onChange={(event, value) => {
             setQuestionFilter(value);
           }}
           style={{
-            border: "1.5px solid #e0e0e0",
+            border: "1.5px solid #e0e0e0"
           }}
           sx={{
-            ml: 3,
+            ml: 3
           }}
         >
-          <ToggleButton value="unanswered">Unanswered</ToggleButton>
-          <ToggleButton value="newest">Newest</ToggleButton>
+          <ToggleButton value='unanswered'>Unanswered</ToggleButton>
+          <ToggleButton value='newest'>Newest</ToggleButton>
         </ToggleButtonGroup>
         <Grid item>
-          <QuestionPostCard />
-          {/* {questions &&
-            questions.map((q) => <QuestionPostCard key={q._id} question={q} />)} */}
+          {questions && questions.map(q => <QuestionPostCard key={q._id} question={q} />)}
         </Grid>
-
-
       </Container>
     </Page>
   );
