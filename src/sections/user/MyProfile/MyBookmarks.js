@@ -6,7 +6,7 @@ import { Box, Grid, Card, Button, Avatar, Typography, InputAdornment } from "@mu
 import Iconify from "../../../components/Iconify";
 import InputStyle from "../../../components/InputStyle";
 import SearchNotFound from "../../../components/SearchNotFound";
-import SolutionCard from "../../../userpages/HomePage/components/SolutionCard";
+import SolutionPostCard from "../../../sections/cards/SolutionPostCard";
 
 // ----------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ export default function MyBookmarks({ bookmarks, findBookmarks, onFindBookmarks,
           }
           return (
             <Grid key={solution._id} item xs={12} md={12}>
-              <SolutionCard solution={solution} />
+              <SolutionPostCard solution={solution} />
             </Grid>
           );
         })}

@@ -7,6 +7,8 @@ import ProfilePostCard from "./ProfilePostCard";
 import ProfilePostInput from "./ProfilePostInput";
 import ProfileFollowInfo from "./ProfileFollowInfo";
 import ProfileSocialInfo from "./ProfileSocialInfo";
+import SolutionPostCard from "../../cards/SolutionPostCard";
+import QuestionPostCard from "../../cards/QuestionPostCard";
 
 // ----------------------------------------------------------------------
 
@@ -28,10 +30,14 @@ export default function Profile({ myProfile, posts, profile }) {
 
       <Grid item xs={12} md={8}>
         <Stack spacing={3}>
-          <ProfilePostInput />
-          {posts.map(post => (
-            <ProfilePostCard key={post.id} post={post} />
-          ))}
+          {/* <ProfilePostInput /> */}
+          {posts.map(post => {
+            if (post.answer) {
+              return <SolutionPostCard key={post._id} solution={post} />;
+            } else if (post.title) {
+              return <QuestionPostCard key={post._id} question={post} />;
+            }
+          })}
         </Stack>
       </Grid>
     </Grid>
