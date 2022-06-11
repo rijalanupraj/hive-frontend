@@ -8,8 +8,11 @@ import {
   ToggleButtonGroup,
   InputAdornment,
   Typography,
+  Paper,
+  Container,
 } from "@mui/material";
 import QuestionCard from "./components/QuestionCard";
+import QuestionPostCard from "./components/QuestionPostCard";
 import {
   getAllQuestion,
   searchQuestion,
@@ -17,7 +20,10 @@ import {
 import InputStyle from "../../components/InputStyle";
 import Iconify from "../../components/Iconify";
 
+import useSettings from "../../hooks/useSettings";
+
 const QuestionsPage = () => {
+  const { themeStretch } = useSettings();
   const question = useSelector((state) => state.question);
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
@@ -52,15 +58,9 @@ const QuestionsPage = () => {
 
   return (
     <Page title="Questions">
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        sx={6}
-      >
-        <Typography variant="h4" sx={{ mb: 3 }}>
+     <Container maxWidth={themeStretch ? false : 'sm'}>
+ 
+        <Typography variant="h4" sx={{ mb: 2 }}>
           Question
         </Typography>
 
@@ -73,12 +73,15 @@ const QuestionsPage = () => {
               <InputAdornment position="start">
                 <Iconify
                   icon={"eva:search-fill"}
-                  sx={{ color: "text.disabled", width: 20, height: 20 }}
+                  sx={{ color: "text.disabled", width: 30, height: 20}}
+                  
                 />
+                
               </InputAdornment>
-            ),
+              
+            )
           }}
-          sx={{ mb: 5 }}
+          
         />
 
         <ToggleButtonGroup
@@ -89,17 +92,23 @@ const QuestionsPage = () => {
             setQuestionFilter(value);
           }}
           style={{
-            border: "1px solid #e0e0e0",
+            border: "1.5px solid #e0e0e0",
+          }}
+          sx={{
+            ml: 3,
           }}
         >
           <ToggleButton value="unanswered">Unanswered</ToggleButton>
           <ToggleButton value="newest">Newest</ToggleButton>
         </ToggleButtonGroup>
-        <Grid item >
-          {questions &&
-            questions.map((q) => <QuestionCard key={q._id} question={q} />)}
+        <Grid item>
+          <QuestionPostCard />
+          {/* {questions &&
+            questions.map((q) => <QuestionPostCard key={q._id} question={q} />)} */}
         </Grid>
-      </Grid>
+
+
+      </Container>
     </Page>
   );
 };

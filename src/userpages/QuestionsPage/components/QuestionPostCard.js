@@ -32,52 +32,15 @@ import SvgIconStyle from "../../../components/SvgIconStyle";
 
 // ----------------------------------------------------------------------
 
-const getIcon = name => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+const getIcon = (name) => (
+  <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />
+);
 
 const ICONS = {
   chat: getIcon("ic_chat"),
 };
 
-
-ProfilePostCard.propTypes = {
-  post: PropTypes.object,
-};
-
 export default function QuestionPostCard() {
-  const commentInputRef = useRef(null);
-
-  const fileInputRef = useRef(null);
-
-  const [isLiked, setLiked] = useState(post.isLiked);
-
-  const [likes, setLikes] = useState(post.personLikes.length);
-
-  const [message, setMessage] = useState("");
-
-  const hasComments = post.comments.length > 0;
-
-  const handleLike = () => {
-    setLiked(true);
-    setLikes((prevLikes) => prevLikes + 1);
-  };
-
-  const handleUnlike = () => {
-    setLiked(false);
-    setLikes((prevLikes) => prevLikes - 1);
-  };
-
-  const handleChangeMessage = (value) => {
-    setMessage(value);
-  };
-
-  const handleClickAttach = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleClickComment = () => {
-    commentInputRef.current?.focus();
-  };
-
   return (
     <Card
       style={{
@@ -97,9 +60,7 @@ export default function QuestionPostCard() {
           >
             Mamba
           </Link>
-          
         }
-        
         subheader={
           <Typography
             variant="caption"
@@ -107,11 +68,10 @@ export default function QuestionPostCard() {
           >
             {/* {fDate(post.createdAt)} */} 11 June 2020
           </Typography>
-          
         }
         action={
           <IconButton>
-            <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
           </IconButton>
         }
         // action={
@@ -126,32 +86,42 @@ export default function QuestionPostCard() {
         // }
       />
 
-      <Stack spacing={3} sx={{ p: 3 }}>
+      <Stack spacing={0.5} sx={{ p: 3 }}>
         {/* Question */}
-        <Typography variant='h6' align="justify" >How to make a passport?</Typography>
-
-        <Typography variant='inherit' align="justify">
-       5 Answers
+        <Typography variant="h6" align="justify">
+          How to make a passport?
         </Typography>
 
+        <Typography variant="caption" align="justify">
+          5 Answers
+        </Typography>
 
-         {/* image */}
+        {/* image */}
 
         <Stack direction="row" alignItems="center">
-          
-          {/* upvote  */}
+          {/* write  */}
+          <FormControlLabel
+            control={
+              <Link href="/">
+                <IconButton>
+                  <Iconify icon={"jam:write-f"} width={20} height={20} />
+                </IconButton>
+              </Link>
+            }
+            label="answer"
+            sx={{ minWidth: 72, mr: 2 }}
+          />
+          {/* upvote */}
           <FormControlLabel
             control={
               <Checkbox
                 size="small"
                 color="error"
-                checked={isLiked}
-                icon={<Iconify icon={"bxs:upvote"} />}
-                checkedIcon={<Iconify icon={"bxs:upvote"} />}
-                onChange={isLiked ? handleUnlike : handleLike}
+                icon={<Iconify icon={"bx:upvote"} />}
+                checkedIcon={<Iconify icon={"bx:upvote"} />}
               />
             }
-            label={fShortenNumber(likes)}
+            label="3"
             sx={{ minWidth: 72, mr: 0 }}
           />
           {/*  downvote */}
@@ -160,41 +130,31 @@ export default function QuestionPostCard() {
               <Checkbox
                 size="small"
                 color="error"
-             
-                icon={<Iconify icon={"bxs:downvote"} />}
-                checkedIcon={<Iconify icon={"bxs:downvote"} />}
-                
+                icon={<Iconify icon={"bx:downvote"} />}
+                checkedIcon={<Iconify icon={"bx:downvote"} />}
               />
             }
-            label='11'
+            label="11"
             sx={{ minWidth: 72, mr: 0 }}
           />
-          
-          
 
-     
           <Box sx={{ flexGrow: 1 }} />
-         
+
           <IconButton>
-            <Iconify icon={"el:share-alt"} width={20} height={20} />
-          </IconButton>
-          <IconButton onClick={handleClickComment}>
-            <Iconify icon={"ic:baseline-report-problem"} width={20} height={20} />
+            <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
           </IconButton>
 
-          
+          <IconButton>
+            <Iconify icon={"ant-design:share-alt-outlined"} width={20} height={20} />
+          </IconButton>
+          <IconButton>
+            <Iconify
+              icon={"ic:outline-report-problem"}
+              width={20}
+              height={20}
+            />
+          </IconButton>
         </Stack>
-
-       
-
-        
-       
-        {/* <Typography variant="h6">
-        View more comments    
-        </Typography> */}
-        <Link href="/" sx={{ color: "text.secondary" }} mt={-5}>
-        View more comments
-        </Link>
       </Stack>
     </Card>
   );
