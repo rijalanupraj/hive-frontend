@@ -6,6 +6,7 @@ import HomePage from "./HomePage/HomePage";
 import AskQuestion from "./AskQuestion/askque";
 import ViewSolution from "./ViewSolution/ViewSolution";
 import PostSolution from "./PostSolution/PostSolution";
+import UpdateSolution from "./UpdateSolution/UpdateSolution";
 import ForgotPassword from "./Auth/auth-forms/ForgotPassword";
 import ResetPassword from "./Auth/auth-forms/ResetPassword";
 import Page404 from "./Page404";
@@ -23,11 +24,12 @@ export {
   AskQuestion,
   ViewSolution,
   PostSolution,
+  UpdateSolution,
   ForgotPassword,
   ResetPassword,
   Page404,
   QuestionsPage,
   MyProfile,
   ViewCategory,
-  PersonalFeed
+  PersonalFeed,
 };

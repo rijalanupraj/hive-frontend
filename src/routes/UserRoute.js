@@ -19,7 +19,8 @@ import {
   Page404,
   MyProfile,
   ViewCategory,
-  PersonalFeed
+  PersonalFeed,
+  UpdateSolution,
 } from "../userpages";
 
 // Internal Import
@@ -30,7 +31,7 @@ import DashboardLayout from "../layouts/dashboard";
 import PrivateRoute from "./PrivateRoute";
 
 const UserRoute = () => {
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
 
   return (
     <>
@@ -50,27 +51,54 @@ const UserRoute = () => {
         {/* Normal Routes Ends */}
 
         {/* Private Routes Starts */}
-        <Route exact path='/update-profile' element={<PrivateRoute auth={auth} />}>
-          <Route exact path='/update-profile' element={<UpdateUserProfile />} />
+        <Route
+          exact
+          path="/update-profile"
+          element={<PrivateRoute auth={auth} />}
+        >
+          <Route exact path="/update-profile" element={<UpdateUserProfile />} />
         </Route>
-        <Route exact path='/ask-question' element={<PrivateRoute auth={auth} />}>
-          <Route exact path='/ask-question' element={<AskQuestion />} />
+        <Route
+          exact
+          path="/ask-question"
+          element={<PrivateRoute auth={auth} />}
+        >
+          <Route exact path="/ask-question" element={<AskQuestion />} />
         </Route>
-        <Route exact path='/post-solution/:questionId' element={<PrivateRoute auth={auth} />}>
-          <Route exact path='/post-solution/:questionId' element={<PostSolution />} />
+        <Route
+          exact
+          path="/post-solution/:questionId"
+          element={<PrivateRoute auth={auth} />}
+        >
+          <Route
+            exact
+            path="/post-solution/:questionId"
+            element={<PostSolution />}
+          />
+        </Route>
+        <Route
+          exact
+          path="/update-solution/:solutionId"
+          element={<PrivateRoute auth={auth} />}
+        >
+          <Route
+            exact
+            path="/update-solution/:solutionId"
+            element={<UpdateSolution />}
+          />
         </Route>
 
-        <Route exact path='/myprofile' element={<PrivateRoute auth={auth} />}>
-          <Route exact path='/myprofile' element={<MyProfile />} />
+        <Route exact path="/myprofile" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/myprofile" element={<MyProfile />} />
         </Route>
-        <Route exact path='/feed' element={<PrivateRoute auth={auth} />}>
-          <Route exact path='/feed' element={<PersonalFeed />} />
+        <Route exact path="/feed" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/feed" element={<PersonalFeed />} />
         </Route>
         {/* Private Routes End */}
 
         {/* Remaining Route Ends */}
-        <Route path='/404' element={<Page404 />} />
-        <Route path='*' element={<Navigate to='/404' />} />
+        <Route path="/404" element={<Page404 />} />
+        <Route path="*" element={<Navigate to="/404" />} />
         {/* Remaining Route Ends */}
       </Routes>
     </>
