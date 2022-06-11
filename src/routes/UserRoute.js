@@ -22,12 +22,6 @@ import {
   PersonalFeed
 } from "../userpages";
 
-import {
-
-  _userFeeds,
-
-} from "../_mock/_user";
-
 // Internal Import
 import Navbar from "../components/Navbar/Navbar";
 import DashboardLayout from "../layouts/dashboard";
@@ -44,7 +38,7 @@ const UserRoute = () => {
 
       <Routes>
         {/* Normal Routes Starts */}
-        <Route exact path='/' element={<HomePage posts={_userFeeds} />} />
+        <Route exact path='/' element={<HomePage/>} />
         <Route exact path='/questions' element={<QuestionsPage />} />
         <Route exact path='/register' element={<Register />} />
         <Route exact path='/login' element={<Login />} />
