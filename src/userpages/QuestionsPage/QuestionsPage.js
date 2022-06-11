@@ -11,7 +11,7 @@ import {
   Paper,
   Container,
 } from "@mui/material";
-import QuestionCard from "./components/QuestionCard";
+
 import QuestionPostCard from "./components/QuestionPostCard";
 import {
   getAllQuestion,
