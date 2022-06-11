@@ -28,10 +28,10 @@ export default function Profile({ myProfile, posts, profile }) {
 
       <Grid item xs={12} md={8}>
         <Stack spacing={3}>
-          {/* <ProfilePostInput />
+          <ProfilePostInput />
           {posts.map(post => (
             <ProfilePostCard key={post.id} post={post} />
-          ))} */}
+          ))}
         </Stack>
       </Grid>
     </Grid>

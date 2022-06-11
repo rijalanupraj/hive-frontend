@@ -9,6 +9,7 @@ import { fullAddress, country } from './address';
 import { firstName, lastName, fullName } from './name';
 import { title, sentence, description } from './text';
 import { price, rating, age, percent } from './number';
+import { question } from './question';
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +19,7 @@ const _mock = {
   phoneNumber: (index) => phoneNumber[index],
   time: (index) => sub(new Date(), { days: index, hours: index }),
   boolean: (index) => boolean[index],
+  question: (index)=>question[index],
   role: (index) => role[index],
   company: (index) => company[index],
   address: {
