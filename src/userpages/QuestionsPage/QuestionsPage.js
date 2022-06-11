@@ -1,14 +1,26 @@
 // External Dependencies
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Page from '../../components/Page';
-import { Grid, ToggleButton, ToggleButtonGroup, InputAdornment, Typography  } from '@mui/material';
-import QuestionCard from './components/QuestionCard';
-import { getAllQuestion, searchQuestion } from '../../redux/actions/questionActions';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Page from "../../components/Page";
+import {
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+  InputAdornment,
+  Typography,
+  Paper,
+  Container
+} from "@mui/material";
+
+import QuestionPostCard from "../../sections/cards/QuestionPostCard";
+import { getAllQuestion, searchQuestion } from "../../redux/actions/questionActions";
 import InputStyle from "../../components/InputStyle";
 import Iconify from "../../components/Iconify";
 
+import useSettings from "../../hooks/useSettings";
+
 const QuestionsPage = () => {
+  const { themeStretch } = useSettings();
   const question = useSelector(state => state.question);
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
@@ -18,20 +30,19 @@ const QuestionsPage = () => {
     dispatch(getAllQuestion());
   }, [dispatch]);
 
-  const onFindQuestion = (e) => {
-    if(e.target.value==='') {
+  const onFindQuestion = e => {
+    if (e.target.value === "") {
       dispatch(getAllQuestion());
-    }else{
+    } else {
       dispatch(searchQuestion(e.target.value));
     }
-  
-  }
+  };
 
   useEffect(() => {
     let ques = question.questions ? [...question.questions] : [];
-    if (questionFilter === 'unanswered') {
+    if (questionFilter === "unanswered") {
       setQuestions(ques.filter(q => q.answers.length > 0));
-    } else if (questionFilter === 'newest') {
+    } else if (questionFilter === "newest") {
       setQuestions(
         ques.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
@@ -44,37 +55,27 @@ const QuestionsPage = () => {
 
   return (
     <Page title='Questions'>
-      <Typography variant='h4' sx={{ mb: 3 }}>
-        Question
-      </Typography>
+      <Container maxWidth={themeStretch ? false : "sm"}>
+        <Typography variant='h4' sx={{ mb: 2 }}>
+          Question
+        </Typography>
 
-      <InputStyle
-        stretchStart={240}
-        
-        onChange={onFindQuestion}
-        placeholder='Find Question...'
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <Iconify
-                icon={"eva:search-fill"}
-                sx={{ color: "text.disabled", width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          )
-        }}
-        sx={{ mb: 5 }}
-      />
-      <Grid
-        container
-        spacing={0}
-        direction='column'
-        alignItems='center'
-        justifyContent='center'
-        style={{
-          marginTop: '70px'
-        }}
-      >
+        <InputStyle
+          stretchStart={240}
+          onChange={onFindQuestion}
+          placeholder='Find Question...'
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <Iconify
+                  icon={"eva:search-fill"}
+                  sx={{ color: "text.disabled", width: 30, height: 20 }}
+                />
+              </InputAdornment>
+            )
+          }}
+        />
+
         <ToggleButtonGroup
           color='primary'
           value={questionFilter}
@@ -82,14 +83,20 @@ const QuestionsPage = () => {
           onChange={(event, value) => {
             setQuestionFilter(value);
           }}
+          style={{
+            border: "1.5px solid #e0e0e0"
+          }}
+          sx={{
+            ml: 3
+          }}
         >
           <ToggleButton value='unanswered'>Unanswered</ToggleButton>
           <ToggleButton value='newest'>Newest</ToggleButton>
         </ToggleButtonGroup>
-        <Grid item xs='4'>
-          {questions && questions.map(q => <QuestionCard key={q._id} question={q} />)}
+        <Grid item>
+          {questions && questions.map(q => <QuestionPostCard key={q._id} question={q} />)}
         </Grid>
-      </Grid>
+      </Container>
     </Page>
   );
 };

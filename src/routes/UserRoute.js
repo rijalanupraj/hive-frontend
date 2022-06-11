@@ -39,15 +39,15 @@ const UserRoute = () => {
 
       <Routes>
         {/* Normal Routes Starts */}
-        <Route exact path="/" element={<HomePage />} />
-        <Route exact path="/questions" element={<QuestionsPage />} />
-        <Route exact path="/register" element={<Register />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/profile/:username" element={<UserProfile />} />
-        <Route exact path="/solution/:solutionId" element={<ViewSolution />} />
-        <Route exact path="/forgot-password" element={<ForgotPassword />} />
-        <Route exact path="/reset-password" element={<ResetPassword />} />
-        <Route exact path="/category" element={<ViewCategory />} />
+        <Route exact path='/' element={<HomePage/>} />
+        <Route exact path='/questions' element={<QuestionsPage />} />
+        <Route exact path='/register' element={<Register />} />
+        <Route exact path='/login' element={<Login />} />
+        <Route exact path='/profile/:username' element={<UserProfile />} />
+        <Route exact path='/solution/:solutionId' element={<ViewSolution />} />
+        <Route exact path='/forgot-password' element={<ForgotPassword />} />
+        <Route exact path='/reset-password' element={<ResetPassword />} />
+        <Route exact path='/category' element={<ViewCategory />} />
         {/* Normal Routes Ends */}
 
         {/* Private Routes Starts */}

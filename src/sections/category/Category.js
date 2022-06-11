@@ -22,7 +22,7 @@ export default function Category({ categories, findCategories, onFindCategories 
 
   const isNotFound = categoryFiltered.length === 0;
   return (
-    <Box sx={{ mt: 5 }}>
+    <Box sx={{ mt: -7 }}>
       <Typography variant='h4' sx={{ mb: 3 }}>
         Categories
       </Typography>

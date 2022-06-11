@@ -18,7 +18,7 @@ import {
   Typography,
   Autocomplete,
   Paper,
-  Container
+  Container,
 } from "@mui/material";
 // routes
 // components
@@ -27,7 +27,7 @@ import {
   RHFEditor,
   FormProvider,
   RHFTextField,
-  RHFUploadSingleFile
+  RHFUploadSingleFile,
 } from "../../components/hook-form";
 import { BACKEND_API_URL } from "../../constants";
 
@@ -40,8 +40,8 @@ import { postSolution } from "../../redux/actions/solutionActions";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
-    display: "flex"
-  }
+    display: "flex",
+  },
 }));
 
 // ----------------------------------------------------------------------
@@ -49,7 +49,7 @@ const RootStyle = styled("div")(({ theme }) => ({
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
   color: theme.palette.text.secondary,
-  marginBottom: theme.spacing(1)
+  marginBottom: theme.spacing(1),
 }));
 
 const categoriesList = ["Government", "Health", "Education", "Vechiles"];
@@ -58,7 +58,7 @@ const categoriesList = ["Government", "Health", "Education", "Vechiles"];
 
 export default function AskQuestion1() {
   const dispatch = useDispatch();
-  const tags = useSelector(state => state.tag);
+  const tags = useSelector((state) => state.tag);
   const navigate = useNavigate();
   const { questionId } = useParams();
 
@@ -85,7 +85,7 @@ export default function AskQuestion1() {
 
   const NewQuestionSchema = Yup.object().shape({
     answer: Yup.string().min(100).required("Content is required"),
-    cover: Yup.mixed()
+    cover: Yup.mixed(),
   });
 
   const defaultValues = {
@@ -95,12 +95,12 @@ export default function AskQuestion1() {
     isDraft: true,
     metaTitle: "",
     metaDescription: "",
-    metaKeywords: ["Logan"]
+    metaKeywords: ["Logan"],
   };
 
   const methods = useForm({
     resolver: yupResolver(NewQuestionSchema),
-    defaultValues
+    defaultValues,
   });
 
   const {
@@ -109,14 +109,14 @@ export default function AskQuestion1() {
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, isValid }
+    formState: { isSubmitting, isValid },
   } = methods;
 
   const values = watch();
 
   const onSubmit = async () => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       const newValue = { ...values, isDraft: !values.isDraft };
       console.log(newValue);
       dispatch(postSolution(questionId, newValue, navigate));
@@ -128,14 +128,14 @@ export default function AskQuestion1() {
   };
 
   const handleDrop = useCallback(
-    acceptedFiles => {
+    (acceptedFiles) => {
       const file = acceptedFiles[0];
 
       if (file) {
         setValue(
           "cover",
           Object.assign(file, {
-            preview: URL.createObjectURL(file)
+            preview: URL.createObjectURL(file),
           })
         );
       }
@@ -144,31 +144,32 @@ export default function AskQuestion1() {
   );
 
   return (
-    <Page title='Post Solution'>
+    <Page title="Post Solution">
       <RootStyle>
         <Container
-          component='main'
-          sx={{ mb: 4 }}
-          style={{
-            marginTop: "5rem"
-          }}
+          component="main"
         >
-          <Paper variant='outlined' sx={{ my: { xs: 3, md: 6 } }}>
+          <Paper variant="outlined" sx={{ my: { xs: 3 } }}>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3}>
                 <Grid item xs={12} md={8}>
-                  <Card sx={{ p: 3 }}>
+                  <Card
+                    sx={{ p: 3 }}
+                    style={{
+                      border: "2px solid #e0e0e0",
+                    }}
+                  >
                     <Stack spacing={3}>
                       <div>
                         <LabelStyle>Content</LabelStyle>
-                        <RHFEditor name='answer' />
+                        <RHFEditor name="answer" />
                       </div>
 
                       <div>
                         <LabelStyle>Cover</LabelStyle>
                         <RHFUploadSingleFile
-                          name='cover'
-                          accept='image/*'
+                          name="cover"
+                          accept="image/*"
                           maxSize={3145728}
                           onDrop={handleDrop}
                         />
@@ -178,82 +179,100 @@ export default function AskQuestion1() {
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                  <Card sx={{ p: 3 }}>
+                  <Card
+                    sx={{ p: 3 }}
+                    style={{
+                      border: "2px solid #e0e0e0",
+                    }}
+                  >
                     <Stack spacing={3}>
                       <Controller
-                        name='tags'
+                        name="tags"
                         control={control}
                         render={({ field }) => (
                           <Autocomplete
                             multiple
                             freeSolo
-                            onChange={(event, newValue) => field.onChange(newValue)}
-                            options={tagsList.map(option => option)}
+                            onChange={(event, newValue) =>
+                              field.onChange(newValue)
+                            }
+                            options={tagsList.map((option) => option)}
                             renderTags={(value, getTagProps) =>
                               value.map((option, index) => (
                                 <Chip
                                   {...getTagProps({ index })}
                                   key={option}
-                                  size='small'
+                                  size="small"
                                   label={option}
                                 />
                               ))
                             }
-                            renderInput={params => <TextField label='Tags' {...params} />}
+                            renderInput={(params) => (
+                              <TextField label="Tags" {...params} />
+                            )}
                           />
                         )}
                       />
 
-                      <RHFTextField name='metaTitle' label='Meta title' />
+                      <RHFTextField name="metaTitle" label="Meta title" />
 
                       <RHFTextField
-                        name='metaDescription'
-                        label='Meta description'
+                        name="metaDescription"
+                        label="Meta description"
                         fullWidth
                         multiline
                         rows={3}
                       />
 
                       <Controller
-                        name='metaKeywords'
+                        name="metaKeywords"
                         control={control}
                         render={({ field }) => (
                           <Autocomplete
                             multiple
                             freeSolo
-                            onChange={(event, newValue) => field.onChange(newValue)}
-                            options={tagsList.map(option => option)}
+                            onChange={(event, newValue) =>
+                              field.onChange(newValue)
+                            }
+                            options={tagsList.map((option) => option)}
                             renderTags={(value, getTagProps) =>
                               value.map((option, index) => (
                                 <Chip
                                   {...getTagProps({ index })}
                                   key={option}
-                                  size='small'
+                                  size="small"
                                   label={option}
                                 />
                               ))
                             }
-                            renderInput={params => <TextField label='Meta keywords' {...params} />}
+                            renderInput={(params) => (
+                              <TextField label="Meta keywords" {...params} />
+                            )}
                           />
                         )}
                       />
                       <div>
                         <RHFSwitch
-                          name='isDraft'
-                          label='Publish'
-                          labelPlacement='start'
-                          sx={{ mb: 1, mx: 0, width: 1, justifyContent: "space-between" }}
+                          name="isDraft"
+                          label="Publish"
+                          labelPlacement="start"
+                          sx={{
+                            mb: 1,
+                            mx: 0,
+                            width: 1,
+                            justifyContent: "space-between",
+                          }}
                         />
                       </div>
                     </Stack>
                   </Card>
 
-                  <Stack direction='row' spacing={1.5} sx={{ mt: 3 }}>
+                  <Stack direction="row" spacing={1.5} sx={{ mt: 3 }}>
                     <LoadingButton
                       fullWidth
-                      type='submit'
-                      variant='contained'
-                      size='large'
+                      type="submit"
+                      variant="contained"
+                      size="large"
                       loading={isSubmitting}
                     >
                       Post Solution

@@ -133,6 +133,26 @@ export const followUnfollowAnyUser = id => async (dispatch, getState) => {
   }
 };
 
+export const getTimeLinePosts = username => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.GET_TIMELINE_POSTS_LOADING
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/users/timeline/${username}`, options);
+
+    dispatch({
+      type: TYPES.GET_TIMELINE_POSTS_SUCCESS,
+      payload: { posts: response.data.timeline }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_TIMELINE_POSTS_FAIL,
+      payload: { error: err?.response?.data.message || err.message }
+    });
+  }
+};
+
 // export const deleteUser = (id, history) => async (dispatch, getState) => {
 //   dispatch({
 //     type: TYPES.DELETE_USER_LOADING,

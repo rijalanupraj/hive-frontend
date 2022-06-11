@@ -32,6 +32,7 @@ import {
 
 import { getMyFollowers, getMyFollowings, getMyBookmarks } from "../../redux/actions/authActions";
 import MyBookmarks from "../../sections/user/MyProfile/MyBookmarks";
+import { getTimeLinePosts } from "../../redux/actions/userActions";
 
 // ----------------------------------------------------------------------
 
@@ -58,13 +59,24 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 export default function MyProfile() {
   const { themeStretch } = useSettings();
   // const { user } = useAuth();
-
+  const [timelinePosts, setTimelinePosts] = useState([]);
   const [currentTab, setCurrentTab] = useState("profile");
   const [findFollowers, setFindFollowers] = useState("");
   const [findFollowings, setFindFollowings] = useState("");
   const [findBookmarks, setFindBookmarks] = useState("");
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth);
+  const user = useSelector(state => state.user);
+
+  useEffect(() => {
+    dispatch(getTimeLinePosts(auth.me.username));
+  }, [auth.me.username]);
+
+  useEffect(() => {
+    if (user.profile) {
+      setTimelinePosts(user.timelinePosts);
+    }
+  }, [user.timelinePosts]);
 
   const handleChangeTab = newValue => {
     if (newValue === "followings") {
@@ -93,7 +105,7 @@ export default function MyProfile() {
     {
       value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} profile={auth.me} posts={_userFeeds} />
+      component: <Profile myProfile={_userAbout} profile={auth.me} posts={timelinePosts} />
     },
     {
       value: "followers",

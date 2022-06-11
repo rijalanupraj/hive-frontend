@@ -62,6 +62,7 @@ export const _userFeeds = [...Array(3)].map((_, index) => ({
   isLiked: true,
   createdAt: _mock.time(index),
   media: _mock.image.feed(index),
+  question: _mock.question(index),
   message: _mock.text.sentence(index),
   personLikes: [...Array(36)].map((_, index) => ({
     name: _mock.name.fullName(index),
@@ -76,7 +77,7 @@ export const _userFeeds = [...Array(3)].map((_, index) => ({
         name: _mock.name.fullName(index + 5)
       },
       createdAt: _mock.time(2),
-      message: "Praesent venenatis metus at"
+      message: "Thank you for your answer. I am very happy to hear that."
     },
     {
       id: _mock.id(9),
@@ -87,7 +88,7 @@ export const _userFeeds = [...Array(3)].map((_, index) => ({
       },
       createdAt: _mock.time(3),
       message:
-        "Etiam rhoncus. Nullam vel sem. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Sed lectus."
+        "I am very happy to hear that. I am very happy to hear that. I am very happy to hear that."
     }
   ]
 }));
