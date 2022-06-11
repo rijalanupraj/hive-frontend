@@ -138,12 +138,12 @@ export default function ProfilePostCard({ post }) {
 
          {/* image */}
 
-        {/* <Image
+        <Image
           alt="post media"
           src={post.media}
           ratio="16/9"
           sx={{ borderRadius: 1 }}
-        /> */}
+        />
 
         <Stack direction="row" alignItems="center">
           
@@ -218,41 +218,7 @@ export default function ProfilePostCard({ post }) {
           
         </Stack>
 
-        {hasComments && (
-          <Stack spacing={1.5}>
-            {post.comments.map((comment) => (
-              <Stack key={comment.id} direction="row" spacing={2}>
-                <Avatar
-                  alt={comment.author.name}
-                  src={comment.author.avatarUrl}
-                />
-                <Paper
-                  sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}
-                >
-                  <Stack
-                    direction={{ xs: "column", sm: "row" }}
-                    alignItems={{ sm: "center" }}
-                    justifyContent="space-between"
-                    sx={{ mb: 0.5 }}
-                  >
-                    <Typography variant="subtitle2">
-                      {comment.author.name}
-                    </Typography>
-                    <Typography
-                      variant="caption"
-                      sx={{ color: "text.disabled" }}
-                    >
-                      {fDate(comment.createdAt)}
-                    </Typography>
-                  </Stack>
-                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                    {comment.message}
-                  </Typography>
-                </Paper>
-              </Stack>
-            ))}
-          </Stack>
-        )}
+       
 
         <Stack direction="row" alignItems="center">
           <MyAvatar />
@@ -296,6 +262,51 @@ export default function ProfilePostCard({ post }) {
           </IconButton>
           <input type="file" ref={fileInputRef} style={{ display: "none" }} />
         </Stack>
+
+        {hasComments && (
+          <Stack spacing={1.5}>
+            {post.comments.map((comment) => (
+              <Stack key={comment.id} direction="row" spacing={2}>
+                <Avatar
+                  alt='profile'
+                  src='https://minimal-assets-api.vercel.app/assets/images/avatars/avatar-1.jpg'
+                />
+                <Paper
+                  sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}
+                >
+                  <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    alignItems={{ sm: "center" }}
+                    justifyContent="space-between"
+                    sx={{ mb: 0.5 }}
+                  >
+                    <Typography variant="subtitle2">
+                      {comment.author.name}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "text.disabled" }}
+                    >
+                      {fDate(comment.createdAt)}
+                    </Typography>
+                  </Stack>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {comment.message}
+                  </Typography>
+                </Paper>
+                
+              </Stack>
+              
+            ))}
+          </Stack>
+          
+        )}
+        {/* <Typography variant="h6">
+        View more comments    
+        </Typography> */}
+        <Link href="/" sx={{ color: "text.secondary" }} mt={-5}>
+        View more comments
+        </Link>
       </Stack>
     </Card>
   );
