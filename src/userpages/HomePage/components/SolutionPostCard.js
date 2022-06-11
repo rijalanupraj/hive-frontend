@@ -14,11 +14,9 @@ import {
   Typography,
   CardHeader,
   IconButton,
-  AvatarGroup,
   InputAdornment,
   FormControlLabel,
 } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
 
 // utils
 import { fDate } from "../../../utils/formatTime";
@@ -32,18 +30,19 @@ import SvgIconStyle from "../../../components/SvgIconStyle";
 
 // ----------------------------------------------------------------------
 
-const getIcon = name => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+const getIcon = (name) => (
+  <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />
+);
 
 const ICONS = {
   chat: getIcon("ic_chat"),
 };
 
-
-ProfilePostCard.propTypes = {
+SolutionPostCard.propTypes = {
   post: PropTypes.object,
 };
 
-export default function ProfilePostCard({ post }) {
+export default function SolutionPostCard({ post }) {
   const commentInputRef = useRef(null);
 
   const fileInputRef = useRef(null);
@@ -97,9 +96,7 @@ export default function ProfilePostCard({ post }) {
           >
             Mamba
           </Link>
-          
         }
-        
         subheader={
           <Typography
             variant="caption"
@@ -107,11 +104,10 @@ export default function ProfilePostCard({ post }) {
           >
             {fDate(post.createdAt)}
           </Typography>
-          
         }
         action={
           <IconButton>
-            <Iconify icon={'eva:more-vertical-fill'} width={20} height={20} />
+            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
           </IconButton>
         }
         // action={
@@ -127,16 +123,20 @@ export default function ProfilePostCard({ post }) {
       />
 
       <Stack spacing={3} sx={{ p: 3 }}>
-        <Typography variant='h6' align="justify" >{post.question}</Typography>
-
-        <Typography variant='inherit' align="justify">
-        Not a medical doctor. This is not the type of thing one can get an on-line degree for or mail away for a diploma. To be a medical doctor one must do the work and do the time in training.
-        <br/>
-        However, one can be awarded an Honorary Doctorate (PhD) for doing something, or being somehow, outstanding.
+        <Typography variant="h6" align="justify">
+          {post.question}
         </Typography>
 
+        <Typography variant="inherit" align="justify">
+          Not a medical doctor. This is not the type of thing one can get an
+          on-line degree for or mail away for a diploma. To be a medical doctor
+          one must do the work and do the time in training.
+          <br />
+          However, one can be awarded an Honorary Doctorate (PhD) for doing
+          something, or being somehow, outstanding.
+        </Typography>
 
-         {/* image */}
+        {/* image */}
 
         <Image
           alt="post media"
@@ -146,7 +146,6 @@ export default function ProfilePostCard({ post }) {
         />
 
         <Stack direction="row" alignItems="center">
-          
           {/* upvote  */}
           <FormControlLabel
             control={
@@ -168,27 +167,23 @@ export default function ProfilePostCard({ post }) {
               <Checkbox
                 size="small"
                 color="error"
-             
                 icon={<Iconify icon={"bxs:downvote"} />}
                 checkedIcon={<Iconify icon={"bxs:downvote"} />}
-                
               />
             }
-            label='11'
+            label="11"
             sx={{ minWidth: 72, mr: 0 }}
           />
           {/* comment */}
           <FormControlLabel
             control={
               <IconButton onClick={handleClickComment}>
-            <Iconify icon={"fa-solid:comment"} width={20} height={20} />
-            
-          </IconButton>
+                <Iconify icon={"fa-solid:comment"} width={20} height={20} />
+              </IconButton>
             }
-            label='5'
+            label="5"
             sx={{ minWidth: 72, mr: 0 }}
           />
-          
 
           {/* <AvatarGroup
             max={4}
@@ -203,22 +198,18 @@ export default function ProfilePostCard({ post }) {
             ))}
           </AvatarGroup> */}
           <Box sx={{ flexGrow: 1 }} />
-         
+
           <IconButton>
             <Iconify icon={"el:share-alt"} width={20} height={20} />
           </IconButton>
           <IconButton onClick={handleClickComment}>
-            <Iconify icon={"ic:baseline-bug-report"} width={20} height={20} />
+            <Iconify
+              icon={"ic:baseline-report-problem"}
+              width={20}
+              height={20}
+            />
           </IconButton>
-
-          <IconButton>
-            {ICONS.chat}
-          </IconButton>
-
-          
         </Stack>
-
-       
 
         <Stack direction="row" alignItems="center">
           <MyAvatar />
@@ -239,11 +230,7 @@ export default function ProfilePostCard({ post }) {
                       height={24}
                     />
                   </IconButton>
-                  <EmojiPicker
-                    alignRight
-                    value={message}
-                    setValue={setMessage}
-                  />
+                  <EmojiPicker />
                 </InputAdornment>
               ),
             }}
@@ -268,8 +255,8 @@ export default function ProfilePostCard({ post }) {
             {post.comments.map((comment) => (
               <Stack key={comment.id} direction="row" spacing={2}>
                 <Avatar
-                  alt='profile'
-                  src='https://minimal-assets-api.vercel.app/assets/images/avatars/avatar-1.jpg'
+                  alt="profile"
+                  src="https://minimal-assets-api.vercel.app/assets/images/avatars/avatar-1.jpg"
                 />
                 <Paper
                   sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}
@@ -294,19 +281,29 @@ export default function ProfilePostCard({ post }) {
                     {comment.message}
                   </Typography>
                 </Paper>
-                
               </Stack>
-              
             ))}
           </Stack>
-          
         )}
-        {/* <Typography variant="h6">
-        View more comments    
-        </Typography> */}
-        <Link href="/" sx={{ color: "text.secondary" }} mt={-5}>
-        View more comments
-        </Link>
+        
+        {/* view more comment */}
+        <Stack direction="row" alignItems="center">
+          <FormControlLabel
+            control={
+              <Link href="/" sx={{ color: "text.secondary" }}>
+                View more comments
+              </Link>
+            }
+          />
+          <Box sx={{ flexGrow: 1 }} />
+          <FormControlLabel
+            control={
+              <Typography href="/" sx={{ color: "text.secondary" }}>
+                2 of 5
+              </Typography>
+            }
+          />
+        </Stack>
       </Stack>
     </Card>
   );
