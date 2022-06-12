@@ -57,7 +57,12 @@ export default function QuestionPostCard({ question }) {
           )
         }
         title={
-          <Link to='#' variant='subtitle2' color='text.primary' component={RouterLink}>
+          <Link
+            to={"/profile/" + question?.user?.username}
+            variant='subtitle2'
+            color='text.primary'
+            component={RouterLink}
+          >
             {question?.user?.username}
           </Link>
         }
@@ -89,7 +94,7 @@ export default function QuestionPostCard({ question }) {
           {/* write  */}
           <FormControlLabel
             control={
-              <Link href='/'>
+              <Link href={"/post-solution/" + question._id}>
                 <IconButton>
                   <Iconify icon={"jam:write-f"} width={20} height={20} />
                 </IconButton>

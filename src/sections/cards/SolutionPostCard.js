@@ -17,6 +17,7 @@ import {
   FormControlLabel
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import Markdown from "../../components/Markdown";
 
 // utils
 import { fDate } from "../../utils/formatTime";
@@ -70,7 +71,12 @@ export default function SolutionPostCard({ solution }) {
           )
         }
         title={
-          <Link to='#' variant='subtitle2' color='text.primary' component={RouterLink}>
+          <Link
+            to={"/profile/" + solution?.user?.username}
+            variant='subtitle2'
+            color='text.primary'
+            component={RouterLink}
+          >
             {solution?.user?.username}
           </Link>
         }
@@ -103,9 +109,15 @@ export default function SolutionPostCard({ solution }) {
         </Typography>
 
         {/* Answer */}
-        <Typography variant='inherit' align='justify'>
-          {solution?.answer}
-        </Typography>
+        <Markdown children={solution?.answer.slice(0, 100) || ""} />
+        <Link
+          to={"/solution/" + solution?._id}
+          variant='body1'
+          color='text.secondary'
+          component={RouterLink}
+        >
+          Continue Reading
+        </Link>
 
         {/* image */}
 
