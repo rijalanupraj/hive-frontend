@@ -45,19 +45,75 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import CommentSection from "./components/CommentSection";
 import { red } from "@mui/material/colors";
 import { DeleteRounded, ExpandMore } from "@mui/icons-material";
+import { upVoteAnySolution, downVoteAnySolution } from "../../redux/actions/solutionActions";
+import Iconify from "../../components/Iconify";
 const theme = createTheme();
 
-export default function AskQuestion() {
+export default function ViewSolution() {
   const dispatch = useDispatch();
   const { solutionId } = useParams();
   const solution = useSelector(state => state.viewSolutions);
   const auth = useSelector(state => state.auth);
   const user = useSelector(state => state.user);
   const navigate = useNavigate();
+  const [isUpVote, setIsUpVote] = useState(false);
+  const [isDownVote, setIsDownVote] = useState(false);
+  const [upVoteCount, setUpVoteCount] = useState(0);
+  const [downVoteCount, setDownVoteCount] = useState(0);
 
   useEffect(() => {
     dispatch(viewSolution(solutionId));
   }, []);
+
+  useEffect(() => {
+    let sol = solution.solution;
+    if (auth.me && sol) {
+      setUpVoteCount(solution.solution.upVoteCount);
+      setDownVoteCount(solution.solution.downVoteCount);
+      if (auth.me.solutionUpVotes.includes(sol._id) && sol.upVotes.includes(auth.me._id)) {
+        setIsUpVote(true);
+        setUpVoteCount(sol.upVotes.length);
+      } else if (auth.me.solutionUpVotes.includes(sol._id) && !sol.upVotes.includes(auth.me._id)) {
+        setIsUpVote(true);
+        setUpVoteCount(sol.upVotes.length + 1);
+      } else if (!auth.me.solutionUpVotes.includes(sol._id) && sol.upVotes.includes(auth.me._id)) {
+        setIsUpVote(false);
+        setUpVoteCount(sol.upVotes.length - 1);
+      } else if (!auth.me.solutionUpVotes.includes(sol._id) && !sol.upVotes.includes(auth.me._id)) {
+        setIsUpVote(false);
+        setUpVoteCount(sol.upVotes.length);
+      } else {
+        setIsUpVote(false);
+        setUpVoteCount(sol.upVotes.length);
+      }
+
+      if (auth.me.solutionDownVotes.includes(sol._id) && sol.downVotes.includes(auth.me._id)) {
+        setIsDownVote(true);
+        setDownVoteCount(sol.downVotes.length);
+      } else if (
+        auth.me.solutionDownVotes.includes(sol._id) &&
+        !sol.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(sol.downVotes.length + 1);
+      } else if (
+        !auth.me.solutionDownVotes.includes(sol._id) &&
+        sol.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(sol.downVotes.length - 1);
+      } else if (
+        !auth.me.solutionDownVotes.includes(sol._id) &&
+        !sol.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(sol.downVotes.length);
+      } else {
+        setIsDownVote(false);
+        setDownVoteCount(sol.downVotes.length);
+      }
+    }
+  }, [auth.me, solution.solution]);
 
   const [expanded, setExpanded] = React.useState(false);
 
@@ -118,7 +174,35 @@ export default function AskQuestion() {
                         pb: 0
                       }}
                     >
-                      <IconButton
+                      <Stack direction='row' alignItems='center'>
+                        {/* upvote  */}
+                        <IconButton
+                          onClick={() => {
+                            dispatch(upVoteAnySolution(solution.solution._id));
+                          }}
+                        >
+                          <Iconify
+                            icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+                            width={20}
+                            height={20}
+                          />
+                        </IconButton>
+                        <Typography variant='caption'>{upVoteCount}</Typography>
+
+                        <IconButton
+                          onClick={() => {
+                            dispatch(downVoteAnySolution(solution.solution._id));
+                          }}
+                        >
+                          <Iconify
+                            icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+                            width={20}
+                            height={20}
+                          />
+                        </IconButton>
+                        <Typography variant='caption'>{downVoteCount}</Typography>
+                      </Stack>
+                      {/* <IconButton
                         style={{
                           color: "#006d07",
                           fontWeight: 25,
@@ -136,7 +220,7 @@ export default function AskQuestion() {
                       >
                         <ArrowDownwardIcon />
                         {solution?.solution?.downVotes.length}
-                      </IconButton>
+                      </IconButton> */}
                     </Box>
                   </Card>
                 )}
