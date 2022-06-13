@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 // @mui
 import {
@@ -29,11 +29,16 @@ import MyAvatar from "../../components/MyAvatar";
 import EmojiPicker from "../../components/EmojiPicker";
 
 import { toggleBookmark } from "../../redux/actions/authActions";
+import { upVoteAnySolution, downVoteAnySolution } from "../../redux/actions/solutionActions";
 
 // ----------------------------------------------------------------------
 
 export default function SolutionPostCard({ solution }) {
   const auth = useSelector(state => state.auth);
+  const [isUpVote, setIsUpVote] = useState(false);
+  const [isDownVote, setIsDownVote] = useState(false);
+  const [upVoteCount, setUpVoteCount] = useState(solution.upVotes.length);
+  const [downVoteCount, setDownVoteCount] = useState(solution.downVotes.length);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const commentInputRef = useRef(null);
@@ -41,6 +46,68 @@ export default function SolutionPostCard({ solution }) {
   const fileInputRef = useRef(null);
 
   const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    if (auth.me) {
+      if (
+        auth.me.solutionUpVotes.includes(solution._id) &&
+        solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(solution.upVotes.length);
+      } else if (
+        auth.me.solutionUpVotes.includes(solution._id) &&
+        !solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(solution.upVotes.length + 1);
+      } else if (
+        !auth.me.solutionUpVotes.includes(solution._id) &&
+        solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(solution.upVotes.length - 1);
+      } else if (
+        !auth.me.solutionUpVotes.includes(solution._id) &&
+        !solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(solution.upVotes.length);
+      } else {
+        setIsUpVote(false);
+        setUpVoteCount(solution.upVotes.length);
+      }
+
+      if (
+        auth.me.solutionDownVotes.includes(solution._id) &&
+        solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(solution.downVotes.length);
+      } else if (
+        auth.me.solutionDownVotes.includes(solution._id) &&
+        !solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(solution.downVotes.length + 1);
+      } else if (
+        !auth.me.solutionDownVotes.includes(solution._id) &&
+        solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(solution.downVotes.length - 1);
+      } else if (
+        !auth.me.solutionDownVotes.includes(solution._id) &&
+        !solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(solution.downVotes.length);
+      } else {
+        setIsDownVote(false);
+        setDownVoteCount(solution.downVotes.length);
+      }
+    }
+  }, [auth.me]);
 
   const handleChangeMessage = value => {
     setMessage(value);
@@ -105,7 +172,7 @@ export default function SolutionPostCard({ solution }) {
       <Stack spacing={3} sx={{ p: 3 }}>
         {/* Question */}
         <Typography variant='h6' align='justify'>
-          {solution?.title}
+          {solution?.question?.title}
         </Typography>
 
         {/* Answer */}
@@ -130,31 +197,23 @@ export default function SolutionPostCard({ solution }) {
 
         <Stack direction='row' alignItems='center'>
           {/* upvote  */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size='small'
-                color='error'
-                icon={<Iconify icon={"bx:upvote"} />}
-                checkedIcon={<Iconify icon={"bx:upvote"} />}
-              />
-            }
-            label='23'
-            sx={{ minWidth: 72, mr: 0 }}
-          />
-          {/*  downvote */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size='small'
-                color='error'
-                icon={<Iconify icon={"bx:downvote"} />}
-                checkedIcon={<Iconify icon={"bx:downvote"} />}
-              />
-            }
-            label='11'
-            sx={{ minWidth: 72, mr: 0 }}
-          />
+          <IconButton
+            onClick={() => {
+              dispatch(upVoteAnySolution(solution._id));
+            }}
+          >
+            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} />
+          </IconButton>
+          <Typography variant='caption'>{upVoteCount}</Typography>
+
+          <IconButton
+            onClick={() => {
+              dispatch(downVoteAnySolution(solution._id));
+            }}
+          >
+            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} />
+          </IconButton>
+          <Typography variant='caption'>{downVoteCount}</Typography>
           {/* comment */}
           <FormControlLabel
             control={
@@ -166,7 +225,7 @@ export default function SolutionPostCard({ solution }) {
               />
             }
             label='5'
-            sx={{ minWidth: 72, mr: 0 }}
+            sx={{ minWidth: 72, mr: 0, ml: 1 }}
           />
 
           <Box sx={{ flexGrow: 1 }} />

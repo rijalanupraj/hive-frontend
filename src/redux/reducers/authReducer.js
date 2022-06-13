@@ -123,6 +123,53 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         }
       };
 
+    case TYPES.DOWNVOTE_SOLUTION_ANY_SUCCESS:
+      const solutionId = payload.solutionId;
+      const downVote = payload.downVote;
+      let updatedSolutionUpVote = [];
+      let updatedSolutionDownVote = [];
+      if (downVote) {
+        updatedSolutionUpVote = state.me.solutionUpVotes.filter(
+          solution => solution !== solutionId
+        );
+        updatedSolutionDownVote = [...state.me.solutionDownVotes, solutionId];
+      } else {
+        updatedSolutionDownVote = state.me.solutionDownVotes.filter(
+          solution => solution !== solutionId
+        );
+      }
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          solutionUpVotes: updatedSolutionUpVote,
+          solutionDownVotes: updatedSolutionDownVote
+        }
+      };
+    case TYPES.UPVOTE_SOLUTION_ANY_SUCCESS:
+      const solutionIdUpVote = payload.solutionId;
+      const upVote = payload.upVote;
+      let updatedSolutionUpVote1 = [];
+      let updatedSolutionDownVote1 = [];
+      if (upVote) {
+        updatedSolutionUpVote1 = [...state.me.solutionUpVotes, solutionIdUpVote];
+        updatedSolutionDownVote1 = state.me.solutionDownVotes.filter(
+          solution => solution !== solutionIdUpVote
+        );
+      } else {
+        updatedSolutionUpVote1 = state.me.solutionUpVotes.filter(
+          solution => solution !== solutionIdUpVote
+        );
+      }
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          solutionUpVotes: updatedSolutionUpVote1,
+          solutionDownVotes: updatedSolutionDownVote1
+        }
+      };
+
     case TYPES.LOGOUT_SUCCESS:
     case TYPES.LOGIN_WITH_EMAIL_FAIL:
       localStorage.removeItem("token");

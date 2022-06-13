@@ -37,7 +37,7 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(getAllSolutionHome());
-  }, [auth]);
+  }, []);
 
   return (
     <Page title='Home'>
