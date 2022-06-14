@@ -30,7 +30,6 @@ import MyAvatar from "../../components/MyAvatar";
 import EmojiPicker from "../../components/EmojiPicker";
 import SvgIconStyle from "../../components/SvgIconStyle";
 import ReportQuestion from "../../userpages/QuestionsPage/components/ReportQuestion";
-import { styled } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
 
@@ -41,15 +40,6 @@ const getIcon = (name) => (
 const ICONS = {
   chat: getIcon("ic_chat"),
 };
-const Item = styled(Paper)(({ theme }) => ({
-  margin: "auto",
-  transition: "0.3s",
-  textAlign: "center",
-  boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
-  "&:hover": {
-    boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
-  },
-}));
 
 export default function QuestionPostCard({ question }) {
   const navigate = useNavigate();
@@ -162,7 +152,7 @@ export default function QuestionPostCard({ question }) {
               height={20}
             />
           </IconButton>
-          
+
           <IconButton>
             <ReportQuestion />
           </IconButton>
