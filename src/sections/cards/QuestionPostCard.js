@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 // @mui
 import {
@@ -20,6 +20,7 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 // utils
 import { fDate } from "../../utils/formatTime";
 import { fShortenNumber } from "../../utils/formatNumber";
@@ -30,6 +31,8 @@ import MyAvatar from "../../components/MyAvatar";
 import EmojiPicker from "../../components/EmojiPicker";
 import SvgIconStyle from "../../components/SvgIconStyle";
 
+import { upVoteAnyQuestion, downVoteAnyQuestion } from "../../redux/actions/questionActions";
+
 // ----------------------------------------------------------------------
 
 const getIcon = name => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
@@ -39,7 +42,76 @@ const ICONS = {
 };
 
 export default function QuestionPostCard({ question }) {
+  const auth = useSelector(state => state.auth);
+  const [isUpVote, setIsUpVote] = useState(false);
+  const [isDownVote, setIsDownVote] = useState(false);
+  const [upVoteCount, setUpVoteCount] = useState(question.upVotes.length);
+  const [downVoteCount, setDownVoteCount] = useState(question.downVotes.length);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (auth.me) {
+      if (
+        auth.me.questionUpVotes.includes(question._id) &&
+        question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(question.upVotes.length);
+      } else if (
+        auth.me.questionUpVotes.includes(question._id) &&
+        !question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(question.upVotes.length + 1);
+      } else if (
+        !auth.me.questionUpVotes.includes(question._id) &&
+        question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(question.upVotes.length - 1);
+      } else if (
+        !auth.me.questionUpVotes.includes(question._id) &&
+        !question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(question.upVotes.length);
+      } else {
+        setIsUpVote(false);
+        setUpVoteCount(question.upVotes.length);
+      }
+
+      if (
+        auth.me.questionDownVotes.includes(question._id) &&
+        question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(question.downVotes.length);
+      } else if (
+        auth.me.questionDownVotes.includes(question._id) &&
+        !question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(question.downVotes.length + 1);
+      } else if (
+        !auth.me.questionDownVotes.includes(question._id) &&
+        question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(question.downVotes.length - 1);
+      } else if (
+        !auth.me.questionDownVotes.includes(question._id) &&
+        !question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(question.downVotes.length);
+      } else {
+        setIsDownVote(false);
+        setDownVoteCount(question.downVotes.length);
+      }
+    }
+  }, [auth.me]);
+
   return (
     <Card
       style={{
@@ -103,32 +175,24 @@ export default function QuestionPostCard({ question }) {
             label='answer'
             sx={{ minWidth: 72, mr: 2 }}
           />
-          {/* upvote */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size='small'
-                color='error'
-                icon={<Iconify icon={"bx:upvote"} />}
-                checkedIcon={<Iconify icon={"bx:upvote"} />}
-              />
-            }
-            label='3'
-            sx={{ minWidth: 72, mr: 0 }}
-          />
-          {/*  downvote */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size='small'
-                color='error'
-                icon={<Iconify icon={"bx:downvote"} />}
-                checkedIcon={<Iconify icon={"bx:downvote"} />}
-              />
-            }
-            label='11'
-            sx={{ minWidth: 72, mr: 0 }}
-          />
+          {/* upvote  */}
+          <IconButton
+            onClick={() => {
+              dispatch(upVoteAnyQuestion(question._id));
+            }}
+          >
+            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} />
+          </IconButton>
+          <Typography variant='caption'>{upVoteCount}</Typography>
+
+          <IconButton
+            onClick={() => {
+              dispatch(downVoteAnyQuestion(question._id));
+            }}
+          >
+            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} />
+          </IconButton>
+          <Typography variant='caption'>{downVoteCount}</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
