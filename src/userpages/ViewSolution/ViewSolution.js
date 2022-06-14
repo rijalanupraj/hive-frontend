@@ -1,64 +1,34 @@
 import React, { useState, useEffect } from "react";
-import * as Yup from "yup";
 import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import EditIcon from "@mui/icons-material/Edit";
 import Markdown from "../../components/Markdown";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {
-  Stack,
-  TextField,
-  Button,
-  CardContent,
-  Collapse,
-  CardActions,
-  CardMedia,
-} from "@mui/material";
-import { useFormik, Form, FormikProvider } from "formik";
-import { LoadingButton } from "@mui/lab";
+import { Stack, Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Avatar from "@mui/material/Avatar";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import moment from "moment";
-import {
-  viewSolution,
-  upVoteSolution,
-  downVoteSolution,
-} from "../../redux/actions/viewSolutionActions";
-import { deleteSolution } from "../../redux/actions/solutionActions";
+import { viewSolution } from "../../redux/actions/viewSolutionActions";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "./components/CommentSection";
 import { red } from "@mui/material/colors";
-import { DeleteRounded, ExpandMore } from "@mui/icons-material";
 import {
   upVoteAnySolution,
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
+
 import Iconify from "../../components/Iconify";
-import {
-  EmailShareButton,
-  EmailIcon,
-  FacebookShareButton,
-  FacebookIcon,
-} from "react-share";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import SharesolutionButton from "./components/shareButton";
+import EditDeleteButoon from "./components/EditDeleteButton";
 const theme = createTheme();
 
 export default function ViewSolution() {
@@ -66,7 +36,6 @@ export default function ViewSolution() {
   const { solutionId } = useParams();
   const solution = useSelector((state) => state.viewSolutions);
   const auth = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.user);
   const navigate = useNavigate();
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
@@ -152,12 +121,6 @@ export default function ViewSolution() {
     }
   }, [auth.me, solution.solution]);
 
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
   if (!solution.solution) {
     return <div>Loading...</div>;
   }
@@ -171,7 +134,6 @@ export default function ViewSolution() {
       boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
     },
   }));
-  const shareUrl = "http://samirthapaliya.com.np";
 
   return (
     <ThemeProvider theme={theme}>
@@ -244,25 +206,6 @@ export default function ViewSolution() {
                           {downVoteCount}
                         </Typography>
                       </Stack>
-                      {/* <IconButton
-                        style={{
-                          color: "#006d07",
-                          fontWeight: 25,
-                          fontSize: 20
-                        }}
-                        onClick={() => dispatch(upVoteSolution(solution?.solution?._id))}
-                      >
-                        <ArrowUpwardIcon />
-                        {solution?.solution?.upVotes.length}
-                      </IconButton>
-
-                      <IconButton
-                        style={{ color: "red", fontWeight: 25, fontSize: 20 }}
-                        onClick={() => dispatch(downVoteSolution(solution?.solution?._id))}
-                      >
-                        <ArrowDownwardIcon />
-                        {solution?.solution?.downVotes.length}
-                      </IconButton> */}
                     </Box>
                   </Card>
                 )}
@@ -270,26 +213,7 @@ export default function ViewSolution() {
 
               {auth.me.id === solution?.solution?.user?.id && (
                 <Item sx={{ mt: 2 }}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => {
-                      navigate(`/update-solution/${solution?.solution?._id}`);
-                    }}
-                  >
-                    <EditIcon />
-                  </Button>
-
-                  <Button
-                    onClick={() => {
-                      dispatch(
-                        deleteSolution(solution?.solution?._id, navigate)
-                      );
-                    }}
-                    variant="contained"
-                    style={{ background: "red" }}
-                  >
-                    <DeleteRounded />
-                  </Button>
+                  <EditDeleteButoon solution={solution} />
                 </Item>
               )}
               <Item>
