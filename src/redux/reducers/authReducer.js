@@ -170,6 +170,54 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         }
       };
 
+    // Question Upvote & Downvote
+    case TYPES.DOWNVOTE_QUESTION_ANY_SUCCESS:
+      const questionId = payload.questionId;
+      const downVoteQuestion = payload.downVote;
+      let updatedQuestionUpvote = [];
+      let updatedQuestionDownvote = [];
+      if (downVoteQuestion) {
+        updatedQuestionUpvote = state.me.questionUpVotes.filter(
+          question => question !== questionId
+        );
+        updatedQuestionDownvote = [...state.me.questionDownVotes, questionId];
+      } else {
+        updatedQuestionDownvote = state.me.questionDownVotes.filter(
+          question => question !== questionId
+        );
+      }
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          questionUpVotes: updatedQuestionUpvote,
+          questionDownVotes: updatedQuestionDownvote
+        }
+      };
+    case TYPES.UPVOTE_QUESTION_ANY_SUCCESS:
+      const questionIdUpvote = payload.questionId;
+      const questionUpVote = payload.upVote;
+      let updatedQuestionUpvote1 = [];
+      let updatedQuestionDownvote1 = [];
+      if (questionUpVote) {
+        updatedQuestionUpvote1 = [...state.me.questionUpVotes, questionIdUpvote];
+        updatedQuestionDownvote1 = state.me.solutionDownVotes.filter(
+          solution => solution !== questionIdUpvote
+        );
+      } else {
+        updatedQuestionUpvote1 = state.me.questionUpVotes.filter(
+          solution => solution !== questionIdUpvote
+        );
+      }
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          questionUpVotes: updatedQuestionUpvote1,
+          questionDownVotes: updatedQuestionDownvote1
+        }
+      };
+
     case TYPES.LOGOUT_SUCCESS:
     case TYPES.LOGIN_WITH_EMAIL_FAIL:
       localStorage.removeItem("token");
