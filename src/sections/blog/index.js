@@ -1,7 +1,6 @@
 
-export { default as BlogPostCommentForm } from './BlogPostCommentForm';
-export { default as BlogPostCommentList } from './BlogPostCommentList';
-export { default as BlogPostHero } from './BlogPostHero';
-export { default as BlogPostRecent } from './BlogPostRecent';
-export { default as BlogPostTags } from './BlogPostTags';
+export { default as QuestionSolutionHeader } from './QuestionSolutionHeader';
+export { default as SimilarSolutionsPost } from './SimilarSolutionsPost';
 export { default as QuestionSolutionComment } from './QuestionSolutionComment';
+export { default as QuestionSolutionReview } from './QuestionSolutionReview';
+export { default as SimilarSolutionsCard } from './SimilarSolutionsCard';

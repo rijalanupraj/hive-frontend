@@ -42,7 +42,7 @@ const OverlayStyle = styled('h1')(({ theme }) => ({
 }));
 
 const TitleStyle = styled('h1')(({ theme }) => ({
-  ...theme.typography.h2,
+  ...theme.typography.h4,
   top: 0,
   zIndex: 10,
   width: '100%',
@@ -55,7 +55,7 @@ const TitleStyle = styled('h1')(({ theme }) => ({
 }));
 
 const FooterStyle = styled('div')(({ theme }) => ({
-  bottom: 0,
+  bottom: -5,
   zIndex: 10,
   width: '100%',
   display: 'flex',
@@ -78,7 +78,7 @@ const FooterStyle = styled('div')(({ theme }) => ({
 
 
 
-export default function BlogPostHero() {
+export default function QuestionSolutionHeader() {
 
   const isDesktop = useResponsive('up', 'sm');
 

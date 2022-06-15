@@ -62,7 +62,7 @@ function HomePage() {
         <Grid container spacing={3}>
           {/* left */}
 
-          <Grid item xs={12} md={4} lg={3} order={{ xs: 3, md: 1 }} sx={{ display: { xs: 'none', xl: 'block' } }}>
+          <Grid item xs={12} md={4} lg={3} order={{ xs: 3, md: 1 }} sx={{ display: { xs: 'none', xl: 'block' } }} >
             <TopExperts />
           </Grid>
 

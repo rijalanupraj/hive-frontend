@@ -18,7 +18,7 @@ import Iconify from "../../components/Iconify";
 
 // ----------------------------------------------------------------------
 
-export default function BlogPostTags() {
+export default function QuestionSolutionsReview() {
   return (
     <Box sx={{ py: 3 }}>
       
