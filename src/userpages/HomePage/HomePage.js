@@ -21,7 +21,6 @@ import {
   InputAdornment,
   OutlinedInput,
   FormHelperText,
-
 } from "@mui/material";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
@@ -30,7 +29,7 @@ import SolutionPostCard from "../../sections/cards/SolutionPostCard";
 import useSettings from "../../hooks/useSettings";
 
 import { _userFeeds } from "../../_mock/_user";
-import TopExperts from "./HomePages/TopExperts"; 
+import TopExperts from "./HomePages/TopExperts";
 
 // const RootStyle = styled('div')(({ theme }) => ({
 //   [theme.breakpoints.up('md')]: {
@@ -61,13 +60,15 @@ function HomePage() {
     <Page title="Home">
       <Container maxWidth={themeStretch ? false : "lg"}>
         <Grid container spacing={3}>
+          {/* left */}
 
-          <Grid item xs={12} md={4} lg={3.5} >
+          <Grid item xs={12} md={4} lg={3} order={{ xs: 3, md: 1 }} sx={{ display: { xs: 'none', xl: 'block' } }}>
             <TopExperts />
           </Grid>
 
-          {/* posts */}
-          <Grid item xs={12} lg={7}>
+          {/* center posts */}
+
+          <Grid item xs={12} lg={6} order={{ xs: 2, md: 1 }}>
             {/* question header */}
 
             <Paper
@@ -105,11 +106,15 @@ function HomePage() {
                   </Link>
                 </Grid>
 
-                <Grid item mt={1.5} >
-                <Iconify icon="akar-icons:image" width={25} height={25} />
+                <Grid item mt={1.5}>
+                  <Iconify icon="akar-icons:image" width={25} height={25} />
                 </Grid>
-                <Grid item mt={1.5} >
-                <Iconify icon="akar-icons:link-chain" width={25} height={25} />
+                <Grid item mt={1.5}>
+                  <Iconify
+                    icon="akar-icons:link-chain"
+                    width={25}
+                    height={25}
+                  />
                 </Grid>
               </Grid>
             </Paper>
@@ -120,18 +125,17 @@ function HomePage() {
               ))}
           </Grid>
 
-          {/* <Grid
+          {/* right */}
+          <Grid
             item
             xs={12}
             md={4}
-            ml={4}
             lg={3}
-            style={{
-              backgroundColor: "blue",
-            }}
+            sx={{ display: { xs: 'none', xl: 'block' } }}
+            order={{ xs: 1, md: 1 }}
           >
-            <Typography>Hello</Typography>
-          </Grid> */}
+            <TopExperts />
+          </Grid>
         </Grid>
 
         <div

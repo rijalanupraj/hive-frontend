@@ -14,6 +14,7 @@ import QuestionsPage from "./QuestionsPage/QuestionsPage";
 import MyProfile from "./MyProfile/MyProfile";
 import ViewCategory from "./Category/ViewCategory";
 import PersonalFeed from "./PersonalFeed/PersonalFeed";
+import BlogPost from "./QuestionSolutions/BlogPost";
 
 export {
   Login,
@@ -32,4 +33,5 @@ export {
   MyProfile,
   ViewCategory,
   PersonalFeed,
+  BlogPost,
 };

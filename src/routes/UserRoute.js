@@ -21,6 +21,7 @@ import {
   ViewCategory,
   PersonalFeed,
   UpdateSolution,
+  BlogPost,
 } from "../userpages";
 
 // Internal Import
@@ -94,6 +95,11 @@ const UserRoute = () => {
         <Route exact path="/feed" element={<PrivateRoute auth={auth} />}>
           <Route exact path="/feed" element={<PersonalFeed />} />
         </Route>
+
+        <Route exact path="/questionSolutions" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/questionSolutions" element={<BlogPost />} />
+        </Route>
+
         {/* Private Routes End */}
 
         {/* Remaining Route Ends */}
