@@ -43,7 +43,6 @@ export default function QuestionPostCard({ question }) {
   return (
     <Card
       style={{
-        border: "2px solid #e0e0e0",
         marginTop: "1rem"
       }}
     >

@@ -142,9 +142,6 @@ export default function AskQuestion() {
               <Grid item xs={12} md={8}>
                 <Card
                   sx={{ p: 3 }}
-                  style={{
-                    border: "2px solid #e0e0e0",
-                  }}
                 >
                   <Stack spacing={3}>
                     <RHFTextField name="title" label="Question Title" />
@@ -177,9 +174,6 @@ export default function AskQuestion() {
               <Grid item xs={12} md={4}>
                 <Card
                   sx={{ p: 3 }}
-                  style={{
-                    border: "2px solid #e0e0e0",
-                  }}
                 >
                   <Stack spacing={3}>
                     <Controller

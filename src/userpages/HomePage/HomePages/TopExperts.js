@@ -25,11 +25,7 @@ import Iconify from "../../../components/Iconify";
 export default function TopExperts() {
 
   return (
-    <Card
-      style={{
-        border: "1px solid #e0e0e0",
-      }}
-    >
+    <Card>
       <CardHeader title="Top Experts" />
       <Stack spacing={3} sx={{ p: 3 }}>
         {/*  Author */}
@@ -64,12 +60,10 @@ export default function TopExperts() {
         </Stack>
         {/* end author */}
         <Button
-          variant="outlined"
+          
           size="large"
           color='inherit'
-          style={{
-            backgroundColor: "#f5f5f5",
-          }}
+          variant="outlined"
         >
           View All
         </Button>

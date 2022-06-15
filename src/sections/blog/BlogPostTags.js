@@ -1,50 +1,74 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 // @mui
-import { Box, Chip, Avatar, Checkbox, AvatarGroup, FormControlLabel } from '@mui/material';
+import {
+  Box,
+  Chip,
+  Avatar,
+  Checkbox,
+  AvatarGroup,
+  FormControlLabel,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 // utils
-import { fShortenNumber } from '../../utils/formatNumber';
+import { fShortenNumber } from "../../utils/formatNumber";
 // components
-import Iconify from '../../components/Iconify';
+import Iconify from "../../components/Iconify";
 
 // ----------------------------------------------------------------------
 
-BlogPostTags.propTypes = {
-  post: PropTypes.object.isRequired,
-};
-
-export default function BlogPostTags({ post }) {
-  const { favorite, tags, favoritePerson } = post;
-
+export default function BlogPostTags() {
   return (
     <Box sx={{ py: 3 }}>
-      {tags.map((tag) => (
-        <Chip key={tag} label={tag} sx={{ m: 0.5 }} />
-      ))}
+      
+        <Stack direction="row" alignItems="center">
+          {/* upvote  */}
+          <IconButton>
+            <Iconify icon={"bx:upvote"} width={30} height={30} />
+          </IconButton>
+          <Typography variant="caption">10K</Typography>
 
-      <Box sx={{ display: 'flex', alignItems: 'center', mt: 3 }}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              defaultChecked
-              size="small"
-              color="error"
-              icon={<Iconify icon="eva:heart-fill" />}
-              checkedIcon={<Iconify icon="eva:heart-fill" />}
+          <IconButton>
+            <Iconify icon={"bx:downvote"} width={30} height={30} />
+          </IconButton>
+          <Typography variant="caption">1k</Typography>
+          {/* comment */}
+          <FormControlLabel
+            control={
+              <Checkbox
+                size="small"
+                color="error"
+                icon={<Iconify icon={"fa-regular:comment"} />}
+                checkedIcon={<Iconify icon={"fa-regular:comment"} />}
+              />
+            }
+            label="5"
+            sx={{ minWidth: 72, mr: 0, ml: 1 }}
+          />
+
+          <Box sx={{ flexGrow: 1 }} />
+
+          <IconButton>
+            <Iconify icon={"bi:bookmark-check"} width={30} height={30} />
+          </IconButton>
+
+          <IconButton>
+            <Iconify
+              icon={"ant-design:share-alt-outlined"}
+              width={30}
+              height={30}
             />
-          }
-          label={fShortenNumber(favorite)}
-        />
-        <AvatarGroup
-          max={4}
-          sx={{
-            '& .MuiAvatar-root': { width: 32, height: 32 },
-          }}
-        >
-          {favoritePerson.map((person) => (
-            <Avatar key={person.name} alt={person.name} src={person.avatarUrl} />
-          ))}
-        </AvatarGroup>
-      </Box>
+          </IconButton>
+          <IconButton>
+            <Iconify
+              icon={"ic:outline-report-problem"}
+              width={30}
+              height={30}
+            />
+          </IconButton>
+        </Stack>
+
     </Box>
   );
 }

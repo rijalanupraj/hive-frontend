@@ -1,19 +1,40 @@
-import { useEffect, useState, useCallback } from 'react';
-import { sentenceCase } from 'change-case';
-import { useParams } from 'react-router-dom';
+import { useEffect,useRef, useState, useCallback } from "react";
+import { sentenceCase } from "change-case";
+import { useParams } from "react-router-dom";
 // @mui
-import { Box, Card, Divider, Container, Typography, Pagination } from '@mui/material';
+import {
+  Box,
+  Card,
+  Grid,
+  Divider,
+  Container,
+  Typography,
+  Pagination,
+  Stack,
+  TextField,
+  IconButton,
+  InputAdornment,
+  FormControlLabel,
+  Avatar,
+  Link,
+  Paper
+
+} from "@mui/material";
 // routes
 
+import MyAvatar from "../../components/MyAvatar";
+import EmojiPicker from "../../components/EmojiPicker";
+import Iconify from "../../components/Iconify";
+
 // hooks
-import useSettings from '../../hooks/useSettings';
-import useIsMountedRef from '../../hooks/useIsMountedRef';
+import useSettings from "../../hooks/useSettings";
+import useIsMountedRef from "../../hooks/useIsMountedRef";
 // utils
 // import axios from '../../utils/axios';
 // components
-import Page from '../../components/Page';
-import Markdown from '../../components/Markdown';
-import { SkeletonPost } from '../../components/skeleton';
+import Page from "../../components/Page";
+import Markdown from "../../components/Markdown";
+import { SkeletonPost } from "../../components/skeleton";
 // sections
 import {
   BlogPostHero,
@@ -21,7 +42,9 @@ import {
   BlogPostRecent,
   BlogPostCommentList,
   BlogPostCommentForm,
-} from '../../sections/blog';
+  QuestionSolutionComment,
+} from "../../sections/blog";
+import Image from "../../components/Image";
 
 // ----------------------------------------------------------------------
 
@@ -38,85 +61,86 @@ export default function BlogPost() {
 
   const [error, setError] = useState(null);
 
-  // const getPost = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get('/api/blog/post', {
-  //       params: { title },
-  //     });
+  const commentInputRef = useRef(null);
 
-  //     if (isMountedRef.current) {
-  //       setPost(response.data.post);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError(error.message);
-  //   }
-  // }, [isMountedRef, title]);
+  const fileInputRef = useRef(null);
 
-  // const getRecentPosts = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get('/api/blog/posts/recent', {
-  //       params: { title },
-  //     });
+  const [message, setMessage] = useState("");
 
-  //     if (isMountedRef.current) {
-  //       setRecentPosts(response.data.recentPosts);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }, [isMountedRef, title]);
-
-  // useEffect(() => {
-  //   getPost();
-  //   getRecentPosts();
-  // }, [getRecentPosts, getPost]);
 
   return (
     <Page title="Blog: Post Details">
-      <Container maxWidth={themeStretch ? false : 'lg'}>
-        
+      <Container maxWidth={themeStretch ? false : "md"}>
+      <Grid container spacing={3}>
+        <Card>
 
-        
-          <Card>
-            <BlogPostHero />
+          {/* cover */}
+          <BlogPostHero />
+          {/* end cover */}
 
-            <Box sx={{ p: { xs: 3, md: 5 } }}>
-              <Typography variant="h6" sx={{ mb: 5 }}>
-                hELLO
-              </Typography>
+          <Box sx={{ p: { xs: 3, md: 5 }, mb: 1 }}>
 
-              {/* <Markdown/>
+            {/* start body description */}
+            <Typography variant="subtitle1" align="justify">
+              You can open a bank account online or at a branch, if the bank
+              offers brick-and-mortar locations. The information you'll be asked
+              to provide will be much the same whether you’re opening a checking
+              account, a savings account or both. Here’s a list of what you’ll
+              need to open your new bank account:
+              <br />
+              1. A valid, government-issued photo ID, such as a driver’s license
+              or a passport. Nondrivers can get a state ID card at the
+              Department of Motor Vehicles office.
+              <br />
+              2. Other basic information, such as your birthdate, Social
+              Security number or Taxpayer Identification Number, or phone
+              number.
+              <br />
+              3. Aninitial deposit is required by some banks, too. Skip ahead to
+              learn more about account funding. Depending on your circumstances,
+              you might need a few other items, too:
+              <br />
+              4. Identification detailsfor other applicants, if you’re opening a
+              joint account: Because the account will be owned by multiple
+              people, the bank will want all owners’ identification and personal
+              information.
+              <br />
+              5. A co-ownerif you’re not yet 18. Ask a parent or legal guardian
+              to sign legal documents with the bank.
+            </Typography>
 
-              <Box sx={{ my: 5 }}>
-                <Divider />
-                <BlogPostTags />
-                <Divider />
-              </Box>
+            {/* end body description */}
 
-              <Box sx={{ display: 'flex', mb: 2 }}>
-                <Typography variant="h4">Comments</Typography>
-                <Typography variant="subtitle2" sx={{ color: 'text.disabled' }}>
-                  hello
-                </Typography>
-              </Box>
+            {/* start image */}
+            <Image
+              alt="post media"
+              src="https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png"
+              ratio="16/9"
+              sx={{ borderRadius: 1, mt: 4 }}
+            />
+            {/* end image */}
 
-              <BlogPostCommentList/>
+            {/* start status */}
 
-              <Box sx={{ mb: 5, mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-                <Pagination count={8} color="primary" />
-              </Box>
-
-              <BlogPostCommentForm /> */}
+            <Box sx={{ my: 5 }}>
+              <Divider />
+              <BlogPostTags />
+              <Divider />
             </Box>
-          </Card>
-     
 
-        {/* {!post && !error && <SkeletonPost />} */}
+            {/* end status */}
 
-        {/* {error && <Typography variant="h6">404 {error}!</Typography>} */}
+            {/* start comment */}
 
-        {/* <BlogPostRecent posts={recentPosts} /> */}
+            <Box sx={{ my: 3 }}>
+              <QuestionSolutionComment />
+            </Box>
+
+            {/* end comment */}
+
+          </Box>
+        </Card>
+        </Grid>
       </Container>
     </Page>
   );

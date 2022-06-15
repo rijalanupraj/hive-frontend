@@ -58,7 +58,7 @@ function HomePage() {
 
   return (
     <Page title="Home">
-      <Container maxWidth={themeStretch ? false : "lg"}>
+      <Container maxWidth={themeStretch ? false : "lg"} >
         <Grid container spacing={3}>
           {/* left */}
 
@@ -77,7 +77,7 @@ function HomePage() {
                 paddingTop: "0.5rem",
                 paddingBottom: "0.5rem",
                 paddingLeft: "1.2rem",
-                border: "2px solid #e0e0e0",
+               
               }}
             >
               {/* profile pic and ask question */}
@@ -93,11 +93,8 @@ function HomePage() {
                 {/* ask question */}
                 <Grid item lg={8.5}>
                   <Link href="/ask-question">
-                    <FormControl fullWidth variant="outlined">
+                    <FormControl fullWidth>
                       <OutlinedInput
-                        style={{
-                          backgroundColor: "#f5f5f5",
-                        }}
                         startAdornment={
                           <InputAdornment>Ask Question</InputAdornment>
                         }

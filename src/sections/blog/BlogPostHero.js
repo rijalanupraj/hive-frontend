@@ -83,8 +83,11 @@ export default function BlogPostHero() {
   const isDesktop = useResponsive('up', 'sm');
 
   return (
-    <Box sx={{ position: 'relative' }}>
-      <TitleStyle>What is my Name?</TitleStyle>
+    <Box sx={{ position: 'relative' }} style={{
+      height: isDesktop ? '40vh' : '30vh',
+      backgroundColor: '#1A2027',
+    }}>
+      <TitleStyle>How to open a bank account?</TitleStyle>
 
       <FooterStyle>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -97,6 +100,7 @@ export default function BlogPostHero() {
               {/* {fDate(createdAt)} */} 14 Jun 2022
             </Typography>
           </Box>
+          
         </Box>
 
         <SpeedDial
@@ -113,12 +117,25 @@ export default function BlogPostHero() {
               tooltipPlacement="top"
               FabProps={{ color: 'default' }}
             />
+            <SpeedDialAction
+              key="linkedin"
+              icon={<Iconify icon="eva:linkedin-fill" width={20} height={20} color="#1877F2" />}
+              tooltipTitle="Linkedin"
+              tooltipPlacement="top"
+              FabProps={{ color: 'default' }}
+            />
+            <SpeedDialAction
+              key="twitter"
+              icon={<Iconify icon="eva:twitter-fill" width={20} height={20} color="#1877F2" />}
+              tooltipTitle="Twitter"
+              tooltipPlacement="top"
+              FabProps={{ color: 'default' }}
+            />
         
         </SpeedDial>
       </FooterStyle>
-
+      
       <OverlayStyle />
-      <Image alt="post cover" src='https://xeecovers.com/wp-content/uploads/2013/06/Blue-Gradient-Color.png' ratio='16/9'/>
     </Box>
   );
 }
