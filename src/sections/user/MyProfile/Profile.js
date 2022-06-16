@@ -9,12 +9,13 @@ import ProfileFollowInfo from "./ProfileFollowInfo";
 import ProfileSocialInfo from "./ProfileSocialInfo";
 import SolutionPostCard from "../../cards/SolutionPostCard";
 import QuestionPostCard from "../../cards/QuestionPostCard";
+import ProfileContribution from "./ProfileContribution";
 
 // ----------------------------------------------------------------------
 
 Profile.propTypes = {
   myProfile: PropTypes.object,
-  posts: PropTypes.array
+  posts: PropTypes.array,
 };
 
 export default function Profile({ myProfile, posts, profile }) {
@@ -24,6 +25,7 @@ export default function Profile({ myProfile, posts, profile }) {
         <Stack spacing={3}>
           <ProfileFollowInfo profile={profile} />
           <ProfileAbout profile={profile} />
+          <ProfileContribution profile={profile} />
           <ProfileSocialInfo profile={profile} />
         </Stack>
       </Grid>
@@ -31,7 +33,7 @@ export default function Profile({ myProfile, posts, profile }) {
       <Grid item xs={12} md={8}>
         <Stack spacing={3}>
           {/* <ProfilePostInput /> */}
-          {posts.map(post => {
+          {posts.map((post) => {
             if (post.answer) {
               return <SolutionPostCard key={post._id} solution={post} />;
             } else if (post.title) {
