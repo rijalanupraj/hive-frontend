@@ -43,28 +43,50 @@ export default function ProfileContribution({ profile }) {
   return (
     <Card>
       <CardHeader title="Contribution" />
-
-      <Stack spacing={3} direction="row" sx={{ p: 3 }}>
-        <Item>
-          <Typography variant="body2">{Contribution}</Typography>
+      <Stack
+        direction="row"
+        divider={<Divider orientation="vertical" flexItem />}
+      >
+        <Stack width={1} textAlign="center">
           <Typography variant="h4">
-            {/* {followers ? followers.length : "0"} 0 */}0
+            {/* {followers ? followers.length : "0"} */}1
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Questions Asked
+            Question Asked
           </Typography>
-        </Item>
-        <Divider orientation="vertical" variant="middle" flexItem />
+        </Stack>
 
-        <Item>
-          <Typography variant="body2">{Contribution}</Typography>
+        <Stack width={1} textAlign="center">
           <Typography variant="h4">
-            {/* {followers ? followers.length : "0"} 0 */}0
+            {/* {followings ? followings.length : "0"} */}0
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Solution Provided
           </Typography>
-        </Item>
+        </Stack>
+      </Stack>
+      <Stack
+        direction="row"
+        sx={{ mt: 3, mb: 3 }}
+        divider={<Divider orientation="vertical" flexItem />}
+      >
+        <Stack width={1} textAlign="center">
+          <Typography variant="h4">
+            {/* {followers ? followers.length : "0"} */}1
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Total Upvotes
+          </Typography>
+        </Stack>
+
+        <Stack width={1} textAlign="center">
+          <Typography variant="h4">
+            {/* {followings ? followings.length : "0"} */}0
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Total Downvotes
+          </Typography>
+        </Stack>
       </Stack>
     </Card>
   );
