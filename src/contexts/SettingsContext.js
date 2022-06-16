@@ -3,7 +3,7 @@ import { createContext } from "react";
 // hooks
 import useLocalStorage from "../hooks/useLocalStorage";
 // utils
-import getColorPresets, { colorPresets, redPreset, defaultPreset } from "../utils/getColorPresets";
+import getColorPresets, { colorPresets, redPreset, defaultPreset,bluePreset } from "../utils/getColorPresets";
 // config
 
 // ----------------------------------------------------------------------
@@ -17,7 +17,7 @@ const initialState = {
   onToggleStretch: () => {},
   onChangeLayout: () => {},
   onResetSetting: () => {},
-  setColor: redPreset,
+  setColor: bluePreset,
   colorOption: []
 };
 

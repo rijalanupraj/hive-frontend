@@ -24,7 +24,7 @@ export const ListItemStyle = styled(Button, {
     color: theme.palette.text.secondary,
     height: NAVBAR.DASHBOARD_ITEM_HORIZONTAL_HEIGHT,
     '&:hover': {
-      color: theme.palette.text.primary,
+      color: theme.palette.text.main,
       backgroundColor: theme.palette.background.paper,
     },
     // activeRoot

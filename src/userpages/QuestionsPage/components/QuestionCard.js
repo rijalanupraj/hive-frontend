@@ -20,7 +20,6 @@ const QuestionCard = ({ question }) => {
         style={{
           padding: '1rem',
           marginTop: '0.7rem',
-          border: '2px solid #e0e0e0',
         }}
       >
            
