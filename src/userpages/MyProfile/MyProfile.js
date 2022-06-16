@@ -69,6 +69,7 @@ export default function MyProfile() {
   const [findFollowers, setFindFollowers] = useState("");
   const [findFollowings, setFindFollowings] = useState("");
   const [findBookmarks, setFindBookmarks] = useState("");
+  const [findAnswerLater, setFindAnswerLater] = useState("");
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
@@ -106,6 +107,9 @@ export default function MyProfile() {
     setFindBookmarks(value);
   };
 
+  const handleAnswerLater = (value) => {
+    setFindAnswerLater(value);
+  };
   const PROFILE_TABS = [
     {
       value: "profile",
@@ -159,9 +163,9 @@ export default function MyProfile() {
       icon: <Iconify icon={"eva:bookmark-fill"} width={20} height={20} />,
       component: (
         <AnswerLater
-          answerLater={auth.me.expandedBookmarks || []}
-          findAnswerLater={findBookmarks}
-          onFindAnswerLater={handleFindBookmarks}
+          answerLater={auth.me.expandedAnswerLater || []}
+          findAnswerLater={findAnswerLater}
+          onFindAnswerLater={handleAnswerLater}
           auth={auth}
         />
       ),
