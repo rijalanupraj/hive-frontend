@@ -2,6 +2,7 @@
 import { Link as RouterLink } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
 
 // @mui
 import { styled } from "@mui/material/styles";
@@ -21,8 +22,7 @@ import { resetEmailSuccess } from "../../redux/actions/registerActions";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
-    display: "flex",
-
+    display: "flex"
   }
 }));
 
@@ -50,14 +50,15 @@ const ContentStyle = styled("div")(({ theme }) => ({
 export default function Login() {
   const dispatch = useDispatch();
   const register = useSelector(state => state.register);
-  const [isSnackBarOpen, setIsSnackBarOpen] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     if (register.success) {
-      setIsSnackBarOpen(true);
-
+      enqueueSnackbar(register.success, {
+        variant: "success",
+        autoHideDuration: 10000
+      });
       setTimeout(() => {
-        setIsSnackBarOpen(false);
         dispatch(resetEmailSuccess());
       }, 5000);
     }
@@ -80,15 +81,6 @@ export default function Login() {
           </SectionStyle>
         )}
 
-        <Snackbar
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center"
-          }}
-          open={isSnackBarOpen}
-          message={register.success}
-          key='topcenter'
-        />
         <Container maxWidth='sm'>
           <ContentStyle>
             <Typography variant='h4' gutterBottom>
