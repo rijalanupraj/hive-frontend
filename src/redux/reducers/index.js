@@ -6,7 +6,7 @@ import solutionReducer from "./solutionReducer";
 import questionReducer from "./questionReducer";
 import tagReducer from "./tagReducer";
 import viewSolutionReducer from "./viewSolutionReducer";
-
+import messengerReducer from "./messengerReducer";
 export {
   authReducer,
   registerReducer,
@@ -16,4 +16,5 @@ export {
   questionReducer,
   tagReducer,
   viewSolutionReducer,
+  messengerReducer
 };
