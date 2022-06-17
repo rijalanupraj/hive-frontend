@@ -14,6 +14,7 @@ import {
 import Iconify from "../../../components/Iconify";
 import ReportUser from "./ProfileReport";
 import { useSelector } from "react-redux";
+import RequestVerification from "./RequestVerification";
 
 // ----------------------------------------------------------------------
 
@@ -32,6 +33,8 @@ ProfileAbout.propTypes = {
 };
 
 export default function ProfileAbout({ profile }) {
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
   const { bio } = profile;
   return (
     <Card>
@@ -55,6 +58,14 @@ export default function ProfileAbout({ profile }) {
             <ReportUser />
           </Link>
         </Stack>
+
+        {auth.me.id === profile?.id && (
+          <Stack direction="row">
+            <Link component="span" variant="subtitle2" color="text.primary">
+              <RequestVerification />
+            </Link>
+          </Stack>
+        )}
 
         {/* <Stack direction='row'>
           <IconStyle icon={"eva:email-fill"} />
