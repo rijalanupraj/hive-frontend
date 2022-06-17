@@ -55,7 +55,7 @@ const QuestionsPage = () => {
 
   return (
     <Page title='Questions'>
-      <Container maxWidth={themeStretch ? false : "sm"}>
+      <Container maxWidth={themeStretch ? false : "md"}>
         <Typography variant='h4' sx={{ mb: 2 }}>
           Question
         </Typography>
