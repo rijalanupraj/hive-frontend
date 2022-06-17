@@ -47,10 +47,24 @@ const TitleStyle = styled('h1')(({ theme }) => ({
   zIndex: 10,
   width: '100%',
   position: 'absolute',
-  padding: theme.spacing(3),
+  padding: theme.spacing(2),
   color: theme.palette.common.white,
   [theme.breakpoints.up('lg')]: {
-    padding: theme.spacing(10),
+    padding: theme.spacing(5),
+  },
+}));
+
+const TitleStyle1 = styled('h1')(({ theme }) => ({
+  ...theme.typography.body2,
+  top: 60,
+  zIndex: 10,
+  width: '100%',
+  alignContent:'justify',
+  position: 'absolute',
+  padding: theme.spacing(2),
+  color: theme.palette.common.white,
+  [theme.breakpoints.up('lg')]: {
+    padding: theme.spacing(5),
   },
 }));
 
@@ -61,16 +75,16 @@ const FooterStyle = styled('div')(({ theme }) => ({
   display: 'flex',
   position: 'absolute',
   alignItems: 'flex-end',
-  paddingLeft: theme.spacing(3),
-  paddingRight: theme.spacing(2),
-  paddingBottom: theme.spacing(3),
+  paddingLeft: theme.spacing(2),
+  paddingRight: theme.spacing(1),
+  paddingBottom: theme.spacing(2),
   justifyContent: 'space-between',
   [theme.breakpoints.up('sm')]: {
     alignItems: 'center',
-    paddingRight: theme.spacing(3),
+    paddingRight: theme.spacing(2),
   },
   [theme.breakpoints.up('lg')]: {
-    padding: theme.spacing(10),
+    padding: theme.spacing(5),
   },
 }));
 
@@ -84,19 +98,26 @@ export default function QuestionSolutionHeader() {
 
   return (
     <Box sx={{ position: 'relative' }} style={{
-      height: isDesktop ? '40vh' : '30vh',
+      height: isDesktop ? '40vh' : '40vh',
       backgroundColor: '#1A2027',
     }}>
-      <TitleStyle>How to open a bank account?</TitleStyle>
+      <TitleStyle>How to open a bank account?  </TitleStyle>
+
+      <TitleStyle1>I have created the cluster using terraform, I ran the same terraform script to delete 
+        the cluster but got timeout exceptions. I guess it was issue due to enabling the autoscaler on the nodes, 
+        am not sure about it, But when i try disable the autoscaler it wont allow on the cluster on which delete is executed, 
+        Am kind of stuck with these resource and billing could anybody please assist.</TitleStyle1>
+      
 
       <FooterStyle>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Avatar alt="experts" src="https://64.media.tumblr.com/99d03efc97ddb990cac5ed9966bb1a04/20cfea4bd0512deb-d7/s1280x1920/66081a68797116b4247d0c0b1cae220a0c84e4e1.png" sx={{ width: 48, height: 48 }} />
+          <Avatar alt="experts" src="https://64.media.tumblr.com/99d03efc97ddb990cac5ed9966bb1a04/20cfea4bd0512deb-d7/s1280x1920/66081a68797116b4247d0c0b1cae220a0c84e4e1.png" sx={{ width: 42, height: 42 }} />
           <Box sx={{ ml: 2 }}>
-            <Typography variant="subtitle1" sx={{ color: 'common.white' }}>
+            <Typography variant='subtitle1' sx={{ color: 'common.white' }}>Questioned By:</Typography>
+            <Typography variant='button' sx={{ color: 'common.white' }}>
               Mamba Dai
             </Typography>
-            <Typography variant="body2" sx={{ color: 'grey.500' }}>
+            <Typography variant='caption' sx={{ color: 'grey.500' }}>
               {/* {fDate(createdAt)} */} 14 Jun 2022
             </Typography>
           </Box>
@@ -107,7 +128,7 @@ export default function QuestionSolutionHeader() {
           direction={isDesktop ? 'left' : 'up'}
           ariaLabel="Share post"
           icon={<Iconify icon="eva:share-fill" sx={{ width: 15, height: 15 }} />}
-          sx={{ '& .MuiSpeedDial-fab': { width: 48, height: 48 } }}
+          sx={{ '& .MuiSpeedDial-fab': { width: 37, height: 37 } }}
         >
           
             <SpeedDialAction
