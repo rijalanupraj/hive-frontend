@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { Provider } from "react-redux";
 
+import "./main.scss";
 // highlight
 import "./utils/highlight";
 

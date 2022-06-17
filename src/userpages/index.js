@@ -33,5 +33,5 @@ export {
   MyProfile,
   ViewCategory,
   PersonalFeed,
-  QuestionSolutions,
+  QuestionSolutions
 };
