@@ -235,7 +235,7 @@ export default function ViewSolution() {
               </Item>
               {auth.me._id !== solution?.solution?.user?._id && (
                 <Item>
-                  <ReportSolution />
+                  <ReportSolution solution={solution?.solution}  />
                 </Item>
               )}
             </Grid>
