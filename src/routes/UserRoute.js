@@ -30,6 +30,7 @@ import DashboardLayout from "../layouts/dashboard";
 
 // Helper Route Import
 import PrivateRoute from "./PrivateRoute";
+import SearchUser from "../userpages/SearchUser/SearchUser";
 
 const UserRoute = () => {
   const auth = useSelector((state) => state.auth);
@@ -49,6 +50,8 @@ const UserRoute = () => {
         <Route exact path='/forgot-password' element={<ForgotPassword />} />
         <Route exact path='/reset-password' element={<ResetPassword />} />
         <Route exact path='/category' element={<ViewCategory />} />
+        <Route exact path='/users' element={<SearchUser />} />
+
         {/* Normal Routes Ends */}
 
         {/* Private Routes Starts */}
