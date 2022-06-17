@@ -45,7 +45,7 @@ import {
   QuestionSolutionComment,
   QuestionSolutionReview,
   SimilarSolutionsPost,
-} from "../../sections/blog";
+} from "../../sections/QuestionSolutions";
 import Image from "../../components/Image";
 
 // ----------------------------------------------------------------------
