@@ -8,7 +8,6 @@ import {
   Card,
   Stack,
 
-  Avatar,
   Checkbox,
 
   Typography,
@@ -17,56 +16,43 @@ import {
 
   FormControlLabel
 } from "@mui/material";
-
-import { useNavigate } from "react-router-dom";
-// utils
-import { fDate } from "../../utils/formatTime";
-
+// import { LoadingButton } from "@mui/lab";
+// import { useNavigate } from "react-router-dom";
+// // utils
+// import { fDate } from "../../utils/formatTime";
+// import { fShortenNumber } from "../../utils/formatNumber";
 // components
 
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
 
-import SvgIconStyle from "../../components/SvgIconStyle";
 
 // ----------------------------------------------------------------------
 
-const getIcon = name => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
-const ICONS = {
-  chat: getIcon("ic_chat")
-};
-
-export default function QuestionPostCard({ question }) {
-  const navigate = useNavigate();
+export default function SelectedQuestionCard() {
   return (
-    <Card
-      style={{
-        marginTop: "1rem"
-      }}
-    >
+    <Card>
       <CardHeader
         disableTypography
+        
         avatar={
-          question?.user?.profilePhoto?.hasPhoto ? (
-            <Avatar src={question?.user.profilePhoto.url} alt={question?.user?.username} />
-          ) : (
+
             <MyAvatar />
-          )
+     
         }
         title={
           <Link
-            to={"/profile/" + question?.user?.username}
+            href="#"
             variant='subtitle2'
             color='text.primary'
-            component={RouterLink}
           >
-            {question?.user?.username}
+            Mamba
           </Link>
         }
         subheader={
           <Typography variant='caption' sx={{ display: "block", color: "text.secondary" }}>
-            {fDate(question?.createdAt)}
+           17 Jun 2022
           </Typography>
         }
         action={
@@ -79,28 +65,22 @@ export default function QuestionPostCard({ question }) {
       <Stack spacing={0.5} sx={{ p: 3 }}>
         {/* Question */}
         <Typography variant='h6' align='justify'>
-          {question?.title}
+          How to open bank account?
         </Typography>
 
         <Typography variant='body1' align='justify'>
-          I have a question about the bank account.Hown to open a bank account? What is the process? What is the fee?
+          I want to open a bank account but I don't know how to do it. What should I do?
         </Typography>
 
-        <Link href="#">
-        <Typography variant='h7' align='justify'>
-          {question?.answers?.length} Answers
-        </Typography>
-        </Link>
-        
+       
 
         {/* image */}
-        
 
         <Stack direction='row' alignItems='center'>
           {/* write  */}
           <FormControlLabel
             control={
-              <Link href={"/post-solution/" + question._id}>
+              <Link href="#">
                 <IconButton>
                   <Iconify icon={"jam:write-f"} width={20} height={20} />
                 </IconButton>

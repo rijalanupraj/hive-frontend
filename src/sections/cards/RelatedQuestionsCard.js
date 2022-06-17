@@ -1,5 +1,4 @@
-import PropTypes from "prop-types";
-import { Link as RouterLink } from "react-router-dom";
+
 // @mui
 import {
   Box,
@@ -12,28 +11,28 @@ import {
   CardHeader,
 } from "@mui/material";
 // utils
-import { fToNow } from "../../../utils/formatTime";
+
 // _mock_
-import { _analyticPost } from "../../../_mock";
+import { _analyticPost } from "../../_mock";
 // components
-import Image from "../../../components/Image";
-import Iconify from "../../../components/Iconify";
-import Scrollbar from "../../../components/Scrollbar";
+
+import Iconify from "../../components/Iconify";
+
 
 // ----------------------------------------------------------------------
 
-export default function HotQuestions() {
+export default function RelatedQuestionsCard() {
   return (
     <Card>
-      <CardHeader title="Hot Questions" />
+      <CardHeader title="Question You May Like" />
 
-      <Stack spacing={2} sx={{ p: 3, pr: 3 }} textAlign='justify'>
+      <Stack spacing={2} sx={{ p: 3, pr: 3 }} textAlign="justify">
         {/*  start first question */}
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" alignItems="center" spacing={1} >
           <Box sx={{ minWidth: 240 }}>
             <Link href="#" color="inherit">
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              How do I connect a JavaScript front-end to an SQL server through a Java backend?
+               I hard a new passport has lunched. Is there any changes in the process of obtaining a passport?
               </Typography>
             </Link>
           </Box>
@@ -45,7 +44,7 @@ export default function HotQuestions() {
           <Box sx={{ minWidth: 240 }}>
             <Link href="#" color="inherit">
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              How do PHD students feel when their research doesn't have the impact they were expecting?
+                How do students feel when their research doesn't have the impact they were expecting?
               </Typography>
             </Link>
           </Box>
@@ -57,8 +56,7 @@ export default function HotQuestions() {
           <Box sx={{ minWidth: 240 }}>
             <Link href="#" color="inherit">
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                How to make a license?How to explain to a 6 years old why a
-                smart-phone is not good for her?
+                How can i get a license within the next 3 months? Is there any alternative procedure to get a license?
               </Typography>
             </Link>
           </Box>
@@ -70,8 +68,7 @@ export default function HotQuestions() {
           <Box sx={{ minWidth: 240 }}>
             <Link href="#" color="inherit">
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                How to make a license?How to explain to a 6 years old why a
-                smart-phone is not good for her?
+                How can i get a license within the next 3 months? Is there any alternative procedure to get a license?
               </Typography>
             </Link>
           </Box>
@@ -88,7 +85,7 @@ export default function HotQuestions() {
           color="inherit"
           endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
         >
-          View all
+          Ask Question
         </Button>
       </Box>
     </Card>
