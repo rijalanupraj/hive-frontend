@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 // @mui
 import {
@@ -7,10 +7,8 @@ import {
   Link,
   Card,
   Stack,
-  Paper,
   Avatar,
   Checkbox,
-  TextField,
   Typography,
   CardHeader,
   IconButton,
@@ -18,18 +16,24 @@ import {
   InputAdornment,
   FormControlLabel,
 } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 // utils
 import { fDate } from "../../utils/formatTime";
-import { fShortenNumber } from "../../utils/formatNumber";
+
 // components
-import Image from "../../components/Image";
+
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
-import EmojiPicker from "../../components/EmojiPicker";
+
 import SvgIconStyle from "../../components/SvgIconStyle";
 import ReportQuestion from "../../userpages/QuestionsPage/components/ReportQuestion";
+
+import {
+  upVoteAnyQuestion,
+  downVoteAnyQuestion,
+} from "../../redux/actions/questionActions";
 
 // ----------------------------------------------------------------------
 
@@ -42,7 +46,76 @@ const ICONS = {
 };
 
 export default function QuestionPostCard({ question }) {
+  const auth = useSelector((state) => state.auth);
+  const [isUpVote, setIsUpVote] = useState(false);
+  const [isDownVote, setIsDownVote] = useState(false);
+  const [upVoteCount, setUpVoteCount] = useState(question.upVotes.length);
+  const [downVoteCount, setDownVoteCount] = useState(question.downVotes.length);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (auth.me) {
+      if (
+        auth.me.questionUpVotes.includes(question._id) &&
+        question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(question.upVotes.length);
+      } else if (
+        auth.me.questionUpVotes.includes(question._id) &&
+        !question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(question.upVotes.length + 1);
+      } else if (
+        !auth.me.questionUpVotes.includes(question._id) &&
+        question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(question.upVotes.length - 1);
+      } else if (
+        !auth.me.questionUpVotes.includes(question._id) &&
+        !question.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(question.upVotes.length);
+      } else {
+        setIsUpVote(false);
+        setUpVoteCount(question.upVotes.length);
+      }
+
+      if (
+        auth.me.questionDownVotes.includes(question._id) &&
+        question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(question.downVotes.length);
+      } else if (
+        auth.me.questionDownVotes.includes(question._id) &&
+        !question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(question.downVotes.length + 1);
+      } else if (
+        !auth.me.questionDownVotes.includes(question._id) &&
+        question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(question.downVotes.length - 1);
+      } else if (
+        !auth.me.questionDownVotes.includes(question._id) &&
+        !question.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(question.downVotes.length);
+      } else {
+        setIsDownVote(false);
+        setDownVoteCount(question.downVotes.length);
+      }
+    }
+  }, [auth.me]);
+
   return (
     <Card
       style={{
@@ -93,9 +166,16 @@ export default function QuestionPostCard({ question }) {
           {question?.title}
         </Typography>
 
-        <Typography variant="caption" align="justify">
-          {question?.answers?.length}
+        <Typography variant="body1" align="justify">
+          I have a question about the bank account.Hown to open a bank account?
+          What is the process? What is the fee?
         </Typography>
+
+        <Link href="#">
+          <Typography variant="h7" align="justify">
+            {question?.answers?.length} Answers
+          </Typography>
+        </Link>
 
         {/* image */}
 
@@ -138,6 +218,32 @@ export default function QuestionPostCard({ question }) {
             label="11"
             sx={{ minWidth: 72, mr: 0 }}
           />
+          {/* upvote  */}
+          <IconButton
+            onClick={() => {
+              dispatch(upVoteAnyQuestion(question._id));
+            }}
+          >
+            <Iconify
+              icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+              width={20}
+              height={20}
+            />
+          </IconButton>
+          <Typography variant="caption">{upVoteCount}</Typography>
+
+          <IconButton
+            onClick={() => {
+              dispatch(downVoteAnyQuestion(question._id));
+            }}
+          >
+            <Iconify
+              icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+              width={20}
+              height={20}
+            />
+          </IconButton>
+          <Typography variant="caption">{downVoteCount}</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 

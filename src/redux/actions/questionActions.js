@@ -53,6 +53,39 @@ export const searchQuestion = search => async (dispatch, getState) => {
   }
 };
 
+export const upVoteAnyQuestion = questionId => async (dispatch, getState) => {
+  dispatch({ type: TYPES.UPVOTE_QUESTION_ANY_LOADING });
+  const options = attachTokenToHeaders(getState);
+  try {
+    const response = await axios.post(`${API_URL}/question/upvote/${questionId}`, {}, options);
+    dispatch({
+      type: TYPES.UPVOTE_QUESTION_ANY_SUCCESS,
+      payload: { questionId, upVote: response.data.upVote }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.UPVOTE_QUESTION_ANY_FAIL,
+      payload: { error: err?.response?.data.message || err.message }
+    });
+  }
+};
+export const downVoteAnyQuestion = questionId => async (dispatch, getState) => {
+  dispatch({ type: TYPES.DOWNVOTE_QUESTION_ANY_LOADING });
+  const options = attachTokenToHeaders(getState);
+  try {
+    const response = await axios.post(`${API_URL}/question/downvote/${questionId}`, {}, options);
+    dispatch({
+      type: TYPES.DOWNVOTE_QUESTION_ANY_SUCCESS,
+      payload: { questionId, downVote: response.data.downVote }
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.DOWNVOTE_QUESTION_ANY_FAIL,
+      payload: { error: err?.response?.data.message || err.message }
+    });
+  }
+};
+
 export const attachTokenToHeaders = getState => {
   const token = getState().auth.token;
 
