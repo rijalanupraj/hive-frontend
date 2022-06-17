@@ -49,13 +49,19 @@ export default function ReportQuestion() {
           </DialogContentText>
 
           <TextField
-            id="outlined-multiline-static"
+            sx={{ mt: 2, mb: 2 }}
+            label="Subject"
+            multiline
+            fullWidth
+            placeholder="Subject"
+          />
+          <TextField
             mt={2}
-            label="Report Solution"
+            label="Discription"
             multiline
             fullWidth
             rows={4}
-            placeholder="Write your report here."
+            placeholder="Description"
           />
         </DialogContent>
         <DialogActions>
