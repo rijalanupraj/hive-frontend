@@ -1,15 +1,37 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import * as Yup from "yup";
+
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { useFormik, Form, FormikProvider } from "formik";
+import { LoadingButton } from "@mui/lab";
+
+//Internal Import
+import { reportUser } from "../../../redux/actions/userActions";
+import { Grid } from "@mui/material";
 
 export default function ReportUser() {
+  const dispatch = useDispatch;
+  const user = useSelector((state) => state.user);
+
   const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    if (!user.isLoading) {
+      formik.setSubmitting(false);
+    } else {
+      formik.setSubmitting(true);
+    }
+  }, [user.isLoading]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -18,6 +40,25 @@ export default function ReportUser() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const ReportUserSchema = Yup.object().shape({
+    subject: Yup.string().required("Subject is required"),
+    description: Yup.string().required("Description is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      subject: "",
+      description: "",
+    },
+    validationSchema: ReportUserSchema,
+    onSubmit: (values) => {
+      dispatch(reportUser(formik.values));
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+    formik;
 
   return (
     <div>
@@ -41,25 +82,43 @@ export default function ReportUser() {
         </Button>
         <DialogTitle textAlign="center">Report User</DialogTitle>
         <DialogContent>
-          <DialogContentText mb={2}>
+          <DialogContentText mb={2} textAlign="center">
             Please provide a valid reason for reporting this user.
           </DialogContentText>
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <TextField
+                sx={{ mt: 1, mb: 2 }}
+                label="Report Subject"
+                fullWidth
+                placeholder="Write your report subject here."
+                {...getFieldProps("subject")}
+                error={Boolean(touched.subject && errors.subject)}
+                helperText={touched.subject && errors.subject}
+              />
+              <TextField
+                mt={2}
+                label="Report Description"
+                multiline
+                fullWidth
+                rows={4}
+                placeholder="Write your reason for reporting this user here."
+                {...getFieldProps("description")}
+                error={Boolean(touched.description && errors.description)}
+                helperText={touched.description && errors.description}
+              />
 
-          <TextField
-            id="outlined-multiline-static"
-            mt={2}
-            label="Report User"
-            multiline
-            fullWidth
-            rows={4}
-            placeholder="Write your reason here."
-          />
+              <LoadingButton
+                type="submit"
+                sx={{ mt: 2, mb: 2, width: "100%" }}
+                variant="contained"
+                loading={isSubmitting}
+              >
+                Report
+              </LoadingButton>
+            </Form>
+          </FormikProvider>
         </DialogContent>
-        <DialogActions>
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
-        </DialogActions>
       </Dialog>
     </div>
   );
