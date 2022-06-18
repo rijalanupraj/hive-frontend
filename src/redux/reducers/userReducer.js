@@ -18,6 +18,7 @@ export default function userReducer(state = initialState, { type, payload }) {
     case TYPES.GET_FOLLOWERS_LOADING:
     case TYPES.FOLLOW_UNFOLLOW_USER_LOADING:
     case TYPES.REPORT_USER_LOADING:
+    case TYPES.SUGGEST_MISSING_CATEGORIES_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -89,6 +90,14 @@ export default function userReducer(state = initialState, { type, payload }) {
         error: null,
       };
 
+    case TYPES.SUGGEST_MISSING_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        suggestedCategory: payload.suggestedCategory,
+        error: null,
+      };
+
     case TYPES.GET_PROFILE_FAIL:
     case TYPES.EDIT_USER_FAIL:
     case TYPES.DELETE_USER_FAIL:
@@ -99,6 +108,7 @@ export default function userReducer(state = initialState, { type, payload }) {
       return {
         ...state,
         isLoading: false,
+        profile: {},
         error: payload.error,
       };
     default:

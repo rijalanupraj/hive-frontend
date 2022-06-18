@@ -141,6 +141,7 @@ export const followUnfollowUser = (id) => async (dispatch, getState) => {
   }
 };
 
+
 export const reportUser =
   (id, reportData, enqueueSnackbar) => async (dispatch, getState) => {
     console.log("hi");
@@ -215,6 +216,29 @@ export const getTimeLinePosts = (username) => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: TYPES.GET_TIMELINE_POSTS_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
+export const suggestMissingCategories = () => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.SUGGEST_MISSING_CATEGORIES_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(
+      `${API_URL}/users/suggest-category`,
+      options
+    );
+
+    dispatch({
+      type: TYPES.SUGGEST_MISSING_CATEGORIES_SUCCESS,
+      payload: { suggestedCategory: response.data.categories },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.SUGGEST_MISSING_CATEGORIES_FAIL,
       payload: { error: err?.response?.data.message || err.message },
     });
   }
