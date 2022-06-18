@@ -9,6 +9,7 @@ import ProfileFollowInfo from "./ProfileFollowInfo";
 import ProfileSocialInfo from "./ProfileSocialInfo";
 import SolutionPostCard from "../../cards/SolutionPostCard";
 import QuestionPostCard from "../../cards/QuestionPostCard";
+import ProfileContribution from "./ProfileContribution";
 
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,7 @@ export default function Profile({ myProfile, posts, profile }) {
         <Stack spacing={3}>
           <ProfileFollowInfo profile={profile} />
           <ProfileAbout profile={profile} />
+          <ProfileContribution profile={profile} />
           <ProfileSocialInfo profile={profile} />
         </Stack>
       </Grid>

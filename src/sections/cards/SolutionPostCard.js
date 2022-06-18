@@ -6,15 +6,11 @@ import {
   Link,
   Card,
   Stack,
-  Paper,
   Avatar,
-  Checkbox,
-  TextField,
   Typography,
   CardHeader,
   IconButton,
-  InputAdornment,
-  FormControlLabel
+  Divider,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Markdown from "../../components/Markdown";
@@ -26,15 +22,22 @@ import { fDate } from "../../utils/formatTime";
 import Image from "../../components/Image";
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
-import EmojiPicker from "../../components/EmojiPicker";
+import CommentCard from "./CommentCard";
 
 import { toggleBookmark } from "../../redux/actions/authActions";
-import { upVoteAnySolution, downVoteAnySolution } from "../../redux/actions/solutionActions";
+import {
+  upVoteAnySolution,
+  downVoteAnySolution,
+} from "../../redux/actions/solutionActions";
+import ReportSolution from "../reports/ReportSolution";
 
 // ----------------------------------------------------------------------
 
 export default function SolutionPostCard({ solution }) {
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
+
+  const [comment, setComment] = useState(false);
+
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
   const [upVoteCount, setUpVoteCount] = useState(solution.upVotes.length);
@@ -45,7 +48,11 @@ export default function SolutionPostCard({ solution }) {
 
   const fileInputRef = useRef(null);
 
-  const [message, setMessage] = useState("");
+  const [isComment, setIsComment] = useState("");
+
+  const handleComment = () => {
+    setComment((prev) => !prev);
+  };
 
   useEffect(() => {
     if (auth.me) {
@@ -109,8 +116,8 @@ export default function SolutionPostCard({ solution }) {
     }
   }, [auth.me]);
 
-  const handleChangeMessage = value => {
-    setMessage(value);
+  const handleIsMessage = (value) => {
+    setIsComment(value);
   };
 
   const handleClickAttach = () => {
@@ -124,14 +131,17 @@ export default function SolutionPostCard({ solution }) {
   return (
     <Card
       style={{
-        marginTop: "1rem"
+        marginTop: "1rem",
       }}
     >
       <CardHeader
         disableTypography
         avatar={
           solution?.user?.profilePhoto?.hasPhoto ? (
-            <Avatar src={solution?.user.profilePhoto.url} alt={solution?.user?.username} />
+            <Avatar
+              src={solution?.user.profilePhoto.url}
+              alt={solution?.user?.username}
+            />
           ) : (
             <MyAvatar />
           )
@@ -139,15 +149,18 @@ export default function SolutionPostCard({ solution }) {
         title={
           <Link
             to={"/profile/" + solution?.user?.username}
-            variant='subtitle2'
-            color='text.primary'
+            variant="subtitle2"
+            color="text.primary"
             component={RouterLink}
           >
             {solution?.user?.username}
           </Link>
         }
         subheader={
-          <Typography variant='caption' sx={{ display: "block", color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            sx={{ display: "block", color: "text.secondary" }}
+          >
             {fDate(solution?.createdAt)}
           </Typography>
         }
@@ -170,7 +183,7 @@ export default function SolutionPostCard({ solution }) {
 
       <Stack spacing={3} sx={{ p: 3 }}>
         {/* Question */}
-        <Typography variant='h6' align='justify'>
+        <Typography variant="h6" align="justify">
           {solution?.question?.title}
         </Typography>
 
@@ -178,8 +191,8 @@ export default function SolutionPostCard({ solution }) {
         <Markdown children={solution?.answer.slice(0, 100) || ""} />
         <Link
           to={"/solution/" + solution?._id}
-          variant='body1'
-          color='text.secondary'
+          variant="body1"
+          color="text.secondary"
           component={RouterLink}
         >
           Continue Reading
@@ -188,44 +201,48 @@ export default function SolutionPostCard({ solution }) {
         {/* image */}
 
         <Image
-          alt='post media'
-          src='https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png'
-          ratio='16/9'
+          alt="post media"
+          src="https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png"
+          ratio="2/1"
           sx={{ borderRadius: 1 }}
         />
 
-        <Stack direction='row' alignItems='center'>
+        {/* status */}
+        <Divider />
+        <Stack direction="row" alignItems="center">
           {/* upvote  */}
           <IconButton
             onClick={() => {
               dispatch(upVoteAnySolution(solution._id));
             }}
           >
-            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} />
+            <Iconify
+              icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+              color={isUpVote ? "#1877f2" : "text.secondary"}
+              width={20}
+              height={20}
+            />
           </IconButton>
-          <Typography variant='caption'>{upVoteCount}</Typography>
+          <Typography variant="caption">{upVoteCount}</Typography>
 
           <IconButton
             onClick={() => {
               dispatch(downVoteAnySolution(solution._id));
             }}
           >
-            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} />
+            <Iconify
+              icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+              color={isDownVote ? "#1877f2" : "text.secondary"}
+              width={20}
+              height={20}
+            />
           </IconButton>
-          <Typography variant='caption'>{downVoteCount}</Typography>
+          <Typography variant="caption">{downVoteCount}</Typography>
           {/* comment */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size='small'
-                color='error'
-                icon={<Iconify icon={"fa-regular:comment"} />}
-                checkedIcon={<Iconify icon={"fa-regular:comment"} />}
-              />
-            }
-            label='5'
-            sx={{ minWidth: 72, mr: 0, ml: 1 }}
-          />
+          <IconButton onClick={handleComment}>
+            <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+          </IconButton>
+          <Typography variant="caption">5</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
@@ -249,6 +266,11 @@ export default function SolutionPostCard({ solution }) {
                     ? "bi:bookmark-dash-fill"
                     : "bi:bookmark-check"
                 }
+                color={
+                  auth.me.bookmarks.includes(solution._id)
+                    ? "#1877f2"
+                    : "text.secondary"
+                }
                 width={20}
                 height={20}
               />
@@ -256,119 +278,32 @@ export default function SolutionPostCard({ solution }) {
           )}
 
           <IconButton>
-            <Iconify icon={"ant-design:share-alt-outlined"} width={20} height={20} />
-          </IconButton>
-          <IconButton onClick={handleClickComment}>
-            <Iconify icon={"ic:outline-report-problem"} width={20} height={20} />
-          </IconButton>
-        </Stack>
-
-        {/* write comment */}
-        <Stack direction='row' alignItems='center'>
-          <MyAvatar />
-          <TextField
-            fullWidth
-            size='small'
-            value={message}
-            inputRef={commentInputRef}
-            placeholder='Write a comment…'
-            onChange={event => handleChangeMessage(event.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton size='small' onClick={handleClickAttach}>
-                    <Iconify icon={"ic:round-add-photo-alternate"} width={24} height={24} />
-                  </IconButton>
-                  <EmojiPicker />
-                </InputAdornment>
-              )
-            }}
-            sx={{
-              ml: 2,
-              mr: 1,
-              "& fieldset": {
-                borderWidth: `1px !important`,
-                borderColor: theme => `${theme.palette.grey[500_32]} !important`
-              }
-            }}
-          />
-          <IconButton>
-            <Iconify icon={"ic:round-send"} width={24} height={24} />
-          </IconButton>
-          <input type='file' ref={fileInputRef} style={{ display: "none" }} />
-        </Stack>
-
-        {/* read Comment 1 */}
-        <Stack spacing={1.5}>
-          <Stack direction='row' spacing={2}>
-            <Avatar alt='profile' src='https://i.ytimg.com/vi/CI2gyevDC6Q/maxresdefault.jpg' />
-            <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}>
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                alignItems={{ sm: "center" }}
-                justifyContent='space-between'
-                sx={{ mb: 0.5 }}
-              >
-                <Typography variant='subtitle2'>
-                  {/* {comment.author.name} */} Aanya Forger
-                </Typography>
-                <Typography variant='caption' sx={{ color: "text.disabled" }}>
-                  {/* {fDate(comment.createdAt)} */} 11 Jun 2022
-                </Typography>
-              </Stack>
-              <Typography variant='body2' sx={{ color: "text.secondary" }}>
-                {/* {comment.message} */} A valid, government-issued photo ID, such as a driver’s
-                license or a passport.
-              </Typography>
-            </Paper>
-          </Stack>
-        </Stack>
-
-        {/* read Comment 2 */}
-        <Stack spacing={1.5}>
-          <Stack direction='row' spacing={2}>
-            <Avatar
-              alt='profile'
-              src='https://i0.wp.com/anitrendz.net/news/wp-content/uploads/2022/02/aharensanwahakarenai_pv2screenshot.png'
+            <Iconify
+              icon={"ant-design:share-alt-outlined"}
+              width={20}
+              height={20}
             />
-            <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}>
-              <Stack
-                direction={{ xs: "column", sm: "row" }}
-                alignItems={{ sm: "center" }}
-                justifyContent='space-between'
-                sx={{ mb: 0.5 }}
-              >
-                <Typography variant='subtitle2'>{/* {comment.author.name} */}Aharen-San</Typography>
-                <Typography variant='caption' sx={{ color: "text.disabled" }}>
-                  {/* {fDate(comment.createdAt)} */} 11 Jun 2022
-                </Typography>
-              </Stack>
-              <Typography variant='body2' sx={{ color: "text.secondary" }}>
-                {/* {comment.message} */} Nondrivers can get a state ID card at the Department of
-                Motor Vehicles office.
-              </Typography>
-            </Paper>
-          </Stack>
-        </Stack>
+          </IconButton>
 
-        {/* view more comment */}
-        <Stack direction='row' alignItems='center'>
-          <FormControlLabel
-            control={
-              <Link href='/' sx={{ color: "text.secondary" }}>
-                View more comments
-              </Link>
-            }
-          />
-          <Box sx={{ flexGrow: 1 }} />
-          <FormControlLabel
-            control={
-              <Typography href='/' sx={{ color: "text.secondary" }}>
-                2 of 5
-              </Typography>
-            }
-          />
+          {auth.isAuthenticated ? (
+            <ReportSolution solution={solution} />
+          ) : (
+            <IconButton
+              onClick={() => {
+                navigate("/login?redirectTo=/solution/" + solution._id);
+              }}
+            >
+              <Iconify
+                icon={"ic:outline-report-problem"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          )}
         </Stack>
+        {/* comment */}
+
+        {comment && CommentCard()}
       </Stack>
     </Card>
   );

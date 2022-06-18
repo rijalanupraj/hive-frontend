@@ -7,6 +7,7 @@ import questionReducer from "./questionReducer";
 import tagReducer from "./tagReducer";
 import viewSolutionReducer from "./viewSolutionReducer";
 import messengerReducer from "./messengerReducer";
+import CategoryReducer from "./categoryReducer";
 
 export {
   authReducer,
@@ -17,5 +18,6 @@ export {
   questionReducer,
   tagReducer,
   viewSolutionReducer,
-  messengerReducer
+  messengerReducer,
+  CategoryReducer,
 };

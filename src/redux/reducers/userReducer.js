@@ -6,7 +6,7 @@ const initialState = {
   isLoading: false,
   error: null,
   followers: [],
-  timelinePosts: []
+  timelinePosts: [],
 };
 
 export default function userReducer(state = initialState, { type, payload }) {
@@ -17,18 +17,20 @@ export default function userReducer(state = initialState, { type, payload }) {
     case TYPES.CHANGE_PASSWORD_LOADING:
     case TYPES.GET_FOLLOWERS_LOADING:
     case TYPES.FOLLOW_UNFOLLOW_USER_LOADING:
+    case TYPES.REPORT_USER_LOADING:
+    case TYPES.SUGGEST_MISSING_CATEGORIES_LOADING:
       return {
         ...state,
         isLoading: true,
         error: null,
-        success: null
+        success: null,
       };
     case TYPES.GET_PROFILE_SUCCESS:
       return {
         ...state,
         isLoading: false,
         profile: payload.profile,
-        error: null
+        error: null,
       };
     case TYPES.EDIT_USER_SUCCESS:
       return {
@@ -36,14 +38,14 @@ export default function userReducer(state = initialState, { type, payload }) {
         isLoading: false,
         profile: payload.user,
         error: null,
-        success: "Profile updated successfully"
+        success: "Profile updated successfully",
       };
     case TYPES.DELETE_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
         profile: {},
-        error: null
+        error: null,
       };
 
     case TYPES.CHANGE_PASSWORD_SUCCESS:
@@ -51,7 +53,7 @@ export default function userReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         error: null,
-        success: "Password changed successfully"
+        success: "Password changed successfully",
       };
 
     case TYPES.GET_FOLLOWERS_SUCCESS:
@@ -59,7 +61,7 @@ export default function userReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         followers: payload.followers,
-        error: null
+        error: null,
       };
 
     case TYPES.FOLLOW_UNFOLLOW_USER_SUCCESS:
@@ -68,8 +70,16 @@ export default function userReducer(state = initialState, { type, payload }) {
         isLoading: false,
         profile: {
           ...state.profile,
-          followers: payload.anotherUser.followers
-        }
+          followers: payload.anotherUser.followers,
+        },
+      };
+
+    case TYPES.REPORT_USER_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        success: "User reported successfully",
       };
 
     case TYPES.GET_TIMELINE_POSTS_SUCCESS:
@@ -77,7 +87,15 @@ export default function userReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         timelinePosts: payload.posts,
-        error: null
+        error: null,
+      };
+
+    case TYPES.SUGGEST_MISSING_CATEGORIES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        suggestedCategory: payload.suggestedCategory,
+        error: null,
       };
 
     case TYPES.GET_PROFILE_FAIL:
@@ -86,11 +104,12 @@ export default function userReducer(state = initialState, { type, payload }) {
     case TYPES.CHANGE_PASSWORD_FAIL:
     case TYPES.GET_FOLLOWERS_FAIL:
     case TYPES.FOLLOW_UNFOLLOW_USER_FAIL:
+    case TYPES.REPORT_USER_FAIL:
       return {
         ...state,
         isLoading: false,
         profile: {},
-        error: payload.error
+        error: payload.error,
       };
     default:
       return state;
