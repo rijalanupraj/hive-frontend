@@ -45,7 +45,7 @@ import {
   QuestionSolutionComment,
   QuestionSolutionReview,
   SimilarSolutionsPost,
-} from "../../sections/blog";
+} from "../../sections/QuestionSolutions";
 import Image from "../../components/Image";
 
 // ----------------------------------------------------------------------
@@ -80,6 +80,33 @@ export default function QuestionSolutions() {
               {/* end cover */}
 
               <Box sx={{ p: { xs: 3, md: 5 }, mb: 1 }}>
+                <Box sx={{ my: 2, mt: -2}}>
+                <Divider />
+                  <Box sx={{ display: "flex", alignItems: "center", p:2 }}>
+                    <Avatar
+                      alt="experts"
+                      src="https://64.media.tumblr.com/99d03efc97ddb990cac5ed9966bb1a04/20cfea4bd0512deb-d7/s1280x1920/66081a68797116b4247d0c0b1cae220a0c84e4e1.png"
+                      sx={{ width: 42, height: 42 }}
+                    />
+                    <Box sx={{ ml: 2 }}>
+                      <Typography
+                        variant="subtitle1"
+                      >
+                        Answered By:
+                      </Typography>
+                      <Typography
+                        variant="button"
+                      >
+                        Mamba Dai
+                      </Typography>
+                      <Typography variant="caption" sx={{ color: "grey.500" }}>
+                        {/* {fDate(createdAt)} */} 14 Jun 2022
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider />
+                </Box>
+
                 {/* start body description */}
                 <Typography variant="subtitle1" align="justify">
                   You can open a bank account online or at a branch, if the bank
@@ -149,9 +176,7 @@ export default function QuestionSolutions() {
             // sx={{ display: { xs: "none", xl: "block" } }}
             order={{ xs: 1, md: 1 }}
           >
-            
             <SimilarSolutionsPost />
-            
           </Grid>
         </Grid>
       </Container>

@@ -7,28 +7,24 @@ import {
   Link,
   Card,
   Stack,
-  Paper,
   Avatar,
   Checkbox,
-  TextField,
   Typography,
   CardHeader,
   IconButton,
-  AvatarGroup,
-  InputAdornment,
   FormControlLabel
 } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
+
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 // utils
 import { fDate } from "../../utils/formatTime";
-import { fShortenNumber } from "../../utils/formatNumber";
+
 // components
-import Image from "../../components/Image";
+
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
-import EmojiPicker from "../../components/EmojiPicker";
+
 import SvgIconStyle from "../../components/SvgIconStyle";
 
 import { upVoteAnyQuestion, downVoteAnyQuestion } from "../../redux/actions/questionActions";
@@ -155,9 +151,15 @@ export default function QuestionPostCard({ question }) {
           {question?.title}
         </Typography>
 
-        <Typography variant='caption' align='justify'>
-          {question?.answers?.length}
+        <Typography variant='body1' align='justify'>
+          {question?.description}
         </Typography>
+
+        <Link href='#'>
+          <Typography variant='h7' align='justify'>
+            {question?.answers?.length} Answers
+          </Typography>
+        </Link>
 
         {/* image */}
 
