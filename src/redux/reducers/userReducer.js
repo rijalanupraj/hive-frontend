@@ -95,10 +95,10 @@ export default function userReducer(state = initialState, { type, payload }) {
     case TYPES.CHANGE_PASSWORD_FAIL:
     case TYPES.GET_FOLLOWERS_FAIL:
     case TYPES.FOLLOW_UNFOLLOW_USER_FAIL:
+    case TYPES.REPORT_USER_FAIL:
       return {
         ...state,
         isLoading: false,
-        profile: {},
         error: payload.error,
       };
     default:

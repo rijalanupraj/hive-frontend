@@ -53,13 +53,15 @@ export default function ProfileAbout({ profile }) {
           </Typography>
         </Stack>
 
-        <Stack direction="row">
-          <Link component="span" variant="subtitle2" color="text.primary">
-            <ReportUser />
-          </Link>
-        </Stack>
+        {auth.isAuthenticated && auth.me._id !== profile._id && (
+          <Stack direction="row">
+            <Link component="span" variant="subtitle2" color="text.primary">
+              <ReportUser profile={profile} auth={auth} />
+            </Link>
+          </Stack>
+        )}
 
-        {auth.me.id === profile?.id && (
+        {auth.isAuthenticated && auth.me._id === profile?.id && (
           <Stack direction="row">
             <Link component="span" variant="subtitle2" color="text.primary">
               <RequestVerification />

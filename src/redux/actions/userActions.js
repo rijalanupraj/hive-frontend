@@ -141,33 +141,40 @@ export const followUnfollowUser = (id) => async (dispatch, getState) => {
   }
 };
 
-export const reportUser = (id) => async (dispatch, getState) => {
-  try {
-    dispatch({
-      type: TYPES.REPORT_USER_LOADING,
-    });
-    const options = attachTokenToHeaders(getState);
+export const reportUser =
+  (id, reportData, enqueueSnackbar) => async (dispatch, getState) => {
+    console.log("hi");
+    try {
+      dispatch({
+        type: TYPES.REPORT_USER_LOADING,
+      });
+      const options = attachTokenToHeaders(getState);
 
-    const response = await axios.post(
-      `${API_URL}report-user/add/${id}`,
-      {},
-      options
-    );
+      const response = await axios.post(
+        `${API_URL}/report-user/add/${id}`,
+        reportData,
+        options
+      );
 
-    dispatch({
-      type: TYPES.REPORT_USER_SUCCESS,
-      payload: {
-        anotherUser: response.data.anotherUser,
-        myReports: response.data.me,
-      },
-    });
-  } catch (err) {
-    dispatch({
-      type: TYPES.REPORT_USER_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-};
+      dispatch({
+        type: TYPES.REPORT_USER_SUCCESS,
+        payload: {
+          report: response.data.report,
+        },
+      });
+      enqueueSnackbar("Reported user successfully", {
+        variant: "success",
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.REPORT_USER_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+      enqueueSnackbar("Failed to report user", {
+        variant: "error",
+      });
+    }
+  };
 
 export const followUnfollowAnyUser = (id) => async (dispatch, getState) => {
   try {

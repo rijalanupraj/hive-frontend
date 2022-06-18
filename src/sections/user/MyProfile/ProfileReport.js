@@ -14,26 +14,24 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { useFormik, Form, FormikProvider } from "formik";
 import { LoadingButton } from "@mui/lab";
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 //Internal Import
 import { reportUser } from "../../../redux/actions/userActions";
 import { Grid } from "@mui/material";
 
-export default function ReportUser() {
-  const dispatch = useDispatch;
+export default function ReportUser({ auth, profile }) {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const user = useSelector((state) => state.user);
 
-  const [open, setOpen] = React.useState(false);
-
-  useEffect(() => {
-    if (!user.isLoading) {
-      formik.setSubmitting(false);
-    } else {
-      formik.setSubmitting(true);
-    }
-  }, [user.isLoading]);
-
   const handleClickOpen = () => {
+    if (!auth.isAuthenticated) {
+      navigate(`/login?redirectTo=${window.location.pathname}`);
+    }
     setOpen(true);
   };
 
@@ -53,7 +51,9 @@ export default function ReportUser() {
     },
     validationSchema: ReportUserSchema,
     onSubmit: (values) => {
-      dispatch(reportUser(formik.values));
+      dispatch(reportUser(profile._id, values, enqueueSnackbar));
+      formik.resetForm();
+      setOpen(false);
     },
   });
 
@@ -75,7 +75,7 @@ export default function ReportUser() {
         <Button
           variant="text"
           display="flex"
-          justifyContent="flex-end"
+          // justifyContent="flex-end"
           onClick={handleClose}
         >
           <CancelIcon style={{ color: "red" }} />
