@@ -1,31 +1,47 @@
-import { GET_USERS_LOADING, GET_USERS_SUCCESS, GET_USERS_FAIL } from '../types';
+import * as TYPES from "../types";
 
 const initialState = {
   users: [],
+  topUsers: [],
   isLoading: false,
   error: null
 };
 
 export default function usersReducer(state = initialState, { type, payload }) {
   switch (type) {
-    case GET_USERS_LOADING:
+    case TYPES.GET_USERS_LOADING:
+    case TYPES.GET_TOP_USERS_LOADING:
       return {
         ...state,
         isLoading: true,
         error: null
       };
-    case GET_USERS_SUCCESS:
+    case TYPES.GET_USERS_SUCCESS:
       return {
         ...state,
         isLoading: false,
         users: payload.users
       };
-    case GET_USERS_FAIL:
+    case TYPES.GET_USERS_FAIL:
       return {
         ...state,
         isLoading: false,
         users: [],
-        error: payload
+        error: payload.error
+      };
+    case TYPES.GET_TOP_USERS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        topUsers: payload.topUsers
+      };
+
+    case TYPES.GET_TOP_USERS_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        topUsers: [],
+        error: payload.error
       };
     default:
       return state;

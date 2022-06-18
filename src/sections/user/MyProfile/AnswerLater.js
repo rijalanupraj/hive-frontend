@@ -16,36 +16,37 @@ import Iconify from "../../../components/Iconify";
 import InputStyle from "../../../components/InputStyle";
 import SearchNotFound from "../../../components/SearchNotFound";
 import SolutionPostCard from "../../../sections/cards/SolutionPostCard";
+import QuestionPostCard from "../../cards/QuestionPostCard";
 
 // ----------------------------------------------------------------------
 
-MyBookmarks.propTypes = {
-  bookmarks: PropTypes.array,
-  findBookmarks: PropTypes.string,
-  onFindBookmarks: PropTypes.func,
+AnswerLater.propTypes = {
+  answerLater: PropTypes.array,
+  findAnswerLater: PropTypes.string,
+  onFindAnswerLater: PropTypes.func,
 };
 
-export default function MyBookmarks({
-  bookmarks,
-  findBookmarks,
-  onFindBookmarks,
+export default function AnswerLater({
+  answerLater,
+  findAnswerLater,
+  onFindAnswerLater,
   auth,
 }) {
-  const bookmarksFiltered = applyFilter(bookmarks, findBookmarks);
+  const questionFiltered = applyFilter(answerLater, findAnswerLater);
 
-  const isNotFound = bookmarksFiltered.length === 0;
+  const isNotFound = questionFiltered.length === 0;
   return (
     <Container maxWidth="md">
       <Box sx={{ mt: 5 }} alignItem="center">
         <Typography variant="h4" sx={{ mb: 3 }}>
-          Bookmarks
+          Answer Later
         </Typography>
 
         <InputStyle
           stretchStart={240}
-          value={findBookmarks}
-          onChange={(event) => onFindBookmarks(event.target.value)}
-          placeholder="Find Bookmarks..."
+          value={findAnswerLater}
+          onChange={(event) => onFindAnswerLater(event.target.value)}
+          placeholder="Find your answer later..."
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
@@ -60,13 +61,13 @@ export default function MyBookmarks({
         />
 
         <Grid container spacing={3}>
-          {bookmarksFiltered.map((solution) => {
-            if (!auth.me.bookmarks.includes(solution._id)) {
+          {questionFiltered.map((question) => {
+            if (!auth.me.answerLater.includes(question._id)) {
               return;
             }
             return (
-              <Grid key={solution._id} item xs={12} md={12}>
-                <SolutionPostCard solution={solution} />
+              <Grid key={question._id} item xs={12} md={12}>
+                <QuestionPostCard question={question} />
               </Grid>
             );
           })}
@@ -74,7 +75,7 @@ export default function MyBookmarks({
 
         {isNotFound && (
           <Box sx={{ mt: 5 }}>
-            <SearchNotFound searchQuery={findBookmarks} />
+            <SearchNotFound searchQuery={findAnswerLater} />
           </Box>
         )}
       </Box>
@@ -85,9 +86,11 @@ export default function MyBookmarks({
 function applyFilter(array, query) {
   if (query) {
     return array.filter(
-      (solution) =>
-        solution.question.title.toLowerCase().indexOf(query.toLowerCase()) !==
-        -1
+      (question) =>
+        question.title.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+        question.description.toLowerCase().indexOf(query.toLowerCase()) !==
+          -1 ||
+        question.user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
 

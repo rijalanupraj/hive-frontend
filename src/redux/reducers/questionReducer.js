@@ -1,9 +1,9 @@
 // Internal Import
-import * as TYPES from '../types';
+import * as TYPES from "../types";
 
 const initialState = {
   isLoading: false,
-  error: null
+  error: null,
 };
 
 export default function questionReducer(state = initialState, action) {
@@ -13,26 +13,26 @@ export default function questionReducer(state = initialState, action) {
     case TYPES.SEARCH_QUESTION_LOADING:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       };
     case TYPES.ASK_QUESTION_SUCCESS:
       return {
         isLoading: false,
-        question: action.payload
+        question: action.payload,
       };
     case TYPES.ASK_QUESTION_FAIL:
     case TYPES.GET_ALL_QUESTIONS_FAIL:
     case TYPES.SEARCH_QUESTION_FAIL:
       return {
         isLoading: false,
-        error: action.payload
+        error: action.payload,
       };
 
     case TYPES.GET_ALL_QUESTIONS_SUCCESS:
     case TYPES.SEARCH_QUESTION_SUCCESS:
       return {
         isLoading: false,
-        questions: action.payload.questions
+        questions: action.payload.questions,
       };
 
     default:

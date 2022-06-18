@@ -7,7 +7,7 @@ const initialState = {
   isLoading: false,
   me: null,
   error: null,
-  appLoaded: false
+  appLoaded: false,
 };
 
 export default function AuthReducer(state = initialState, { type, payload }) {
@@ -17,14 +17,14 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: true,
         appLoaded: false,
-        error: null
+        error: null,
       };
     case TYPES.LOGIN_WITH_EMAIL_LOADING:
     case TYPES.LOGIN_WITH_OAUTH_LOADING:
       return {
         ...state,
         isLoading: true,
-        error: null
+        error: null,
       };
     case TYPES.LOGIN_WITH_EMAIL_SUCCESS:
     case TYPES.LOGIN_WITH_OAUTH_SUCCESS:
@@ -35,7 +35,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         isLoading: false,
         token: payload.token,
         me: payload.me,
-        error: null
+        error: null,
       };
     case TYPES.ME_SUCCESS:
       return {
@@ -44,13 +44,13 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         isLoading: false,
         me: payload.me,
         error: null,
-        appLoaded: true
+        appLoaded: true,
       };
 
     case TYPES.VIEW_MY_FOLLOWINGS_LOADING:
       return {
         ...state,
-        followingLoading: true
+        followingLoading: true,
       };
 
     case TYPES.VIEW_MY_FOLLOWINGS_SUCCESS:
@@ -61,8 +61,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         followingLoading: false,
         me: {
           ...state.me,
-          followingsObject: payload.followings
-        }
+          followingsObject: payload.followings,
+        },
       };
     case TYPES.VIEW_MY_FOLLOWINGS_FAIL:
     case TYPES.ME_FAIL:
@@ -74,7 +74,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         followingLoading: false,
         me: null,
         error: null,
-        appLoaded: true
+        appLoaded: true,
       };
     case TYPES.FOLLOW_UNFOLLOW_ANY_USER_SUCCESS:
       const followingsArray = payload.mineFollowers.followings;
@@ -83,8 +83,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         me: {
           ...state.me,
-          followings: followingsArray
-        }
+          followings: followingsArray,
+        },
       };
 
     case TYPES.TOGGLE_BOOKMARK_SUCCESS:
@@ -92,8 +92,16 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         me: {
           ...state.me,
-          bookmarks: payload.me.bookmarks
-        }
+          bookmarks: payload.me.bookmarks,
+        },
+      };
+    case TYPES.TOGGLE_ANSWER_LATER_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          answerLater: payload.me.answerLater,
+        },
       };
 
     case TYPES.GET_MY_FOLLOWERS_SUCCESS:
@@ -101,8 +109,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         me: {
           ...state.me,
-          expandedFollowers: payload.followers
-        }
+          expandedFollowers: payload.followers,
+        },
       };
 
     case TYPES.GET_MY_FOLLOWINGS_SUCCESS:
@@ -110,8 +118,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         me: {
           ...state.me,
-          expandedFollowings: payload.followings
-        }
+          expandedFollowings: payload.followings,
+        },
       };
 
     case TYPES.GET_MY_BOOKMARKS_SUCCESS:
@@ -119,8 +127,17 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         me: {
           ...state.me,
-          expandedBookmarks: payload.bookmarks
-        }
+          expandedBookmarks: payload.bookmarks,
+        },
+      };
+
+    case TYPES.GET_MY_ANSWER_LATER_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          expandedAnswerLater: payload.answerLater,
+        },
       };
 
     case TYPES.DOWNVOTE_SOLUTION_ANY_SUCCESS:
@@ -130,12 +147,12 @@ export default function AuthReducer(state = initialState, { type, payload }) {
       let updatedSolutionDownVote = [];
       if (downVote) {
         updatedSolutionUpVote = state.me.solutionUpVotes.filter(
-          solution => solution !== solutionId
+          (solution) => solution !== solutionId
         );
         updatedSolutionDownVote = [...state.me.solutionDownVotes, solutionId];
       } else {
         updatedSolutionDownVote = state.me.solutionDownVotes.filter(
-          solution => solution !== solutionId
+          (solution) => solution !== solutionId
         );
       }
       return {
@@ -143,8 +160,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: {
           ...state.me,
           solutionUpVotes: updatedSolutionUpVote,
-          solutionDownVotes: updatedSolutionDownVote
-        }
+          solutionDownVotes: updatedSolutionDownVote,
+        },
       };
     case TYPES.UPVOTE_SOLUTION_ANY_SUCCESS:
       const solutionIdUpVote = payload.solutionId;
@@ -152,13 +169,16 @@ export default function AuthReducer(state = initialState, { type, payload }) {
       let updatedSolutionUpVote1 = [];
       let updatedSolutionDownVote1 = [];
       if (upVote) {
-        updatedSolutionUpVote1 = [...state.me.solutionUpVotes, solutionIdUpVote];
+        updatedSolutionUpVote1 = [
+          ...state.me.solutionUpVotes,
+          solutionIdUpVote,
+        ];
         updatedSolutionDownVote1 = state.me.solutionDownVotes.filter(
-          solution => solution !== solutionIdUpVote
+          (solution) => solution !== solutionIdUpVote
         );
       } else {
         updatedSolutionUpVote1 = state.me.solutionUpVotes.filter(
-          solution => solution !== solutionIdUpVote
+          (solution) => solution !== solutionIdUpVote
         );
       }
       return {
@@ -166,8 +186,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: {
           ...state.me,
           solutionUpVotes: updatedSolutionUpVote1,
-          solutionDownVotes: updatedSolutionDownVote1
-        }
+          solutionDownVotes: updatedSolutionDownVote1,
+        },
       };
 
     // Question Upvote & Downvote
@@ -178,12 +198,12 @@ export default function AuthReducer(state = initialState, { type, payload }) {
       let updatedQuestionDownvote = [];
       if (downVoteQuestion) {
         updatedQuestionUpvote = state.me.questionUpVotes.filter(
-          question => question !== questionId
+          (question) => question !== questionId
         );
         updatedQuestionDownvote = [...state.me.questionDownVotes, questionId];
       } else {
         updatedQuestionDownvote = state.me.questionDownVotes.filter(
-          question => question !== questionId
+          (question) => question !== questionId
         );
       }
       return {
@@ -191,8 +211,8 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: {
           ...state.me,
           questionUpVotes: updatedQuestionUpvote,
-          questionDownVotes: updatedQuestionDownvote
-        }
+          questionDownVotes: updatedQuestionDownvote,
+        },
       };
     case TYPES.UPVOTE_QUESTION_ANY_SUCCESS:
       const questionIdUpvote = payload.questionId;
@@ -200,13 +220,16 @@ export default function AuthReducer(state = initialState, { type, payload }) {
       let updatedQuestionUpvote1 = [];
       let updatedQuestionDownvote1 = [];
       if (questionUpVote) {
-        updatedQuestionUpvote1 = [...state.me.questionUpVotes, questionIdUpvote];
+        updatedQuestionUpvote1 = [
+          ...state.me.questionUpVotes,
+          questionIdUpvote,
+        ];
         updatedQuestionDownvote1 = state.me.solutionDownVotes.filter(
-          solution => solution !== questionIdUpvote
+          (solution) => solution !== questionIdUpvote
         );
       } else {
         updatedQuestionUpvote1 = state.me.questionUpVotes.filter(
-          solution => solution !== questionIdUpvote
+          (solution) => solution !== questionIdUpvote
         );
       }
       return {
@@ -214,8 +237,17 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: {
           ...state.me,
           questionUpVotes: updatedQuestionUpvote1,
-          questionDownVotes: updatedQuestionDownvote1
-        }
+          questionDownVotes: updatedQuestionDownvote1,
+        },
+      };
+
+    case TYPES.CHOOSE_INTERESTED_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          interestedCategories: payload.user.interestedCategories,
+        },
       };
 
     case TYPES.LOGOUT_SUCCESS:
@@ -227,7 +259,7 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: null,
         isAuthenticated: false,
         isLoading: false,
-        error: payload.error ? payload.error : null
+        error: payload.error ? payload.error : null,
       };
     default:
       return state;
