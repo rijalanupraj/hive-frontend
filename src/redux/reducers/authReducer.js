@@ -95,6 +95,14 @@ export default function AuthReducer(state = initialState, { type, payload }) {
           bookmarks: payload.me.bookmarks,
         },
       };
+    case TYPES.TOGGLE_ANSWER_LATER_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          answerLater: payload.me.answerLater,
+        },
+      };
 
     case TYPES.GET_MY_FOLLOWERS_SUCCESS:
       return {
@@ -120,6 +128,15 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: {
           ...state.me,
           expandedBookmarks: payload.bookmarks,
+        },
+      };
+
+    case TYPES.GET_MY_ANSWER_LATER_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          expandedAnswerLater: payload.answerLater,
         },
       };
 

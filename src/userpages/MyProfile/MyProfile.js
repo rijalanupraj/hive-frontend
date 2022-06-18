@@ -15,7 +15,7 @@ import {
   _userFeeds,
   _userGallery,
   _userFollowers,
-  _userFollowings
+  _userFollowings,
 } from "../../_mock/_user";
 // components
 import Page from "../../components/Page";
@@ -27,10 +27,16 @@ import {
   ProfileCover,
   MyProfileFollowings,
   ProfileFollowers,
-  ProfileGallery
+  ProfileGallery,
+  AnswerLater,
 } from "../../sections/user/MyProfile";
 
-import { getMyFollowers, getMyFollowings, getMyBookmarks } from "../../redux/actions/authActions";
+import {
+  getMyFollowers,
+  getMyFollowings,
+  getMyBookmarks,
+  getMyAnswerLater,
+} from "../../redux/actions/authActions";
 import MyBookmarks from "../../sections/user/MyProfile/MyBookmarks";
 import { getTimeLinePosts } from "../../redux/actions/userActions";
 
@@ -46,12 +52,12 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up("sm")]: {
-    justifyContent: "center"
+    justifyContent: "center",
   },
   [theme.breakpoints.up("md")]: {
     justifyContent: "flex-end",
-    paddingRight: theme.spacing(3)
-  }
+    paddingRight: theme.spacing(3),
+  },
 }));
 
 // ----------------------------------------------------------------------
@@ -64,9 +70,10 @@ export default function MyProfile() {
   const [findFollowers, setFindFollowers] = useState("");
   const [findFollowings, setFindFollowings] = useState("");
   const [findBookmarks, setFindBookmarks] = useState("");
+  const [findAnswerLater, setFindAnswerLater] = useState("");
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
-  const user = useSelector(state => state.user);
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(getTimeLinePosts(auth.me.username));
@@ -78,34 +85,45 @@ export default function MyProfile() {
     }
   }, [user.timelinePosts]);
 
-  const handleChangeTab = newValue => {
+  const handleChangeTab = (newValue) => {
     if (newValue === "followings") {
       dispatch(getMyFollowings());
     } else if (newValue === "followers") {
       dispatch(getMyFollowers());
     } else if (newValue === "bookmarks") {
       dispatch(getMyBookmarks());
+    } else if (newValue === "answerlater") {
+      dispatch(getMyAnswerLater());
     }
     setCurrentTab(newValue);
   };
 
-  const handleFindFollowings = value => {
+  const handleFindFollowings = (value) => {
     setFindFollowings(value);
   };
 
-  const handleFindFollowers = value => {
+  const handleFindFollowers = (value) => {
     setFindFollowers(value);
   };
 
-  const handleFindBookmarks = value => {
+  const handleFindBookmarks = (value) => {
     setFindBookmarks(value);
   };
 
+  const handleAnswerLater = (value) => {
+    setFindAnswerLater(value);
+  };
   const PROFILE_TABS = [
     {
       value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} profile={auth.me} posts={timelinePosts} />
+      component: (
+        <Profile
+          myProfile={_userAbout}
+          profile={auth.me}
+          posts={timelinePosts}
+        />
+      ),
     },
     {
       value: "followers",
@@ -117,7 +135,7 @@ export default function MyProfile() {
           onFindFollowers={handleFindFollowers}
           profile={auth.me}
         />
-      )
+      ),
     },
     {
       value: "followings",
@@ -129,7 +147,7 @@ export default function MyProfile() {
           onFindFollowings={handleFindFollowings}
           auth={auth}
         />
-      )
+      ),
     },
     {
       value: "bookmarks",
@@ -141,8 +159,20 @@ export default function MyProfile() {
           onFindBookmarks={handleFindBookmarks}
           auth={auth}
         />
-      )
-    }
+      ),
+    },
+    {
+      value: "answerlater",
+      icon: <Iconify icon={"eva:bookmark-fill"} width={20} height={20} />,
+      component: (
+        <AnswerLater
+          answerLater={auth.me.expandedAnswerLater || []}
+          findAnswerLater={findAnswerLater}
+          onFindAnswerLater={handleAnswerLater}
+          auth={auth}
+        />
+      ),
+    },
     // {
     //   value: "Questions",
     //   icon: <Iconify icon={"ic:round-perm-media"} width={20} height={20} />,
@@ -151,7 +181,7 @@ export default function MyProfile() {
   ];
 
   return (
-    <Page title='User: Profile'>
+    <Page title="User: Profile">
       <Container maxWidth={themeStretch ? false : "lg"}>
         {/* <HeaderBreadcrumbs
           heading="Profile"
@@ -165,7 +195,7 @@ export default function MyProfile() {
           sx={{
             mb: 3,
             height: 280,
-            position: "relative"
+            position: "relative",
           }}
         >
           <ProfileCover myProfile={_userAbout} profile={auth.me} />
@@ -173,12 +203,12 @@ export default function MyProfile() {
           <TabsWrapperStyle>
             <Tabs
               value={currentTab}
-              scrollButtons='auto'
-              variant='scrollable'
+              scrollButtons="auto"
+              variant="scrollable"
               allowScrollButtonsMobile
               onChange={(e, value) => handleChangeTab(value)}
             >
-              {PROFILE_TABS.map(tab => (
+              {PROFILE_TABS.map((tab) => (
                 <Tab
                   disableRipple
                   key={tab.value}
@@ -191,7 +221,7 @@ export default function MyProfile() {
           </TabsWrapperStyle>
         </Card>
 
-        {PROFILE_TABS.map(tab => {
+        {PROFILE_TABS.map((tab) => {
           const isMatched = tab.value === currentTab;
           return isMatched && <Box key={tab.value}>{tab.component}</Box>;
         })}
