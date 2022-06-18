@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { sentenceCase } from "change-case";
-import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 // @mui
 import {
   Box,
@@ -9,38 +8,14 @@ import {
   Divider,
   Container,
   Typography,
-  Pagination,
-  Stack,
-  TextField,
-  IconButton,
-  InputAdornment,
-  FormControlLabel,
   Avatar,
-  Link,
-  Paper,
 } from "@mui/material";
-// routes
 
-import MyAvatar from "../../components/MyAvatar";
-import EmojiPicker from "../../components/EmojiPicker";
-import Iconify from "../../components/Iconify";
-
-// hooks
-import useSettings from "../../hooks/useSettings";
-import useIsMountedRef from "../../hooks/useIsMountedRef";
-// utils
-// import axios from '../../utils/axios';
 // components
 import Page from "../../components/Page";
 import Markdown from "../../components/Markdown";
-import { SkeletonPost } from "../../components/skeleton";
 // sections
 import {
-  BlogPostHero,
-  BlogPostTags,
-  BlogPostRecent,
-  BlogPostCommentList,
-  BlogPostCommentForm,
   QuestionSolutionHeader,
   QuestionSolutionComment,
   QuestionSolutionReview,
@@ -57,83 +32,10 @@ export default function SolutionView() {
   const dispatch = useDispatch();
   const { solutionId } = useParams();
   const solution = useSelector((state) => state.viewSolutions);
-  const auth = useSelector((state) => state.auth);
-  const navigate = useNavigate();
-  const [isUpVote, setIsUpVote] = useState(false);
-  const [isDownVote, setIsDownVote] = useState(false);
-  const [upVoteCount, setUpVoteCount] = useState(0);
-  const [downVoteCount, setDownVoteCount] = useState(0);
-  //   if (viewSolution.isLoading && viewSolution.solution) {
-  //     <div>...loading</div>;
-  //   }
-  //   const solution = viewSolution.solution;
+
   useEffect(() => {
     dispatch(viewSolution(solutionId));
   }, []);
-  useEffect(() => {
-    let sol = solution.solution;
-    if (auth.me && sol) {
-      setUpVoteCount(solution.solution.upVoteCount);
-      setDownVoteCount(solution.solution.downVoteCount);
-      if (
-        auth.me.solutionUpVotes.includes(sol._id) &&
-        sol.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(true);
-        setUpVoteCount(sol.upVotes.length);
-      } else if (
-        auth.me.solutionUpVotes.includes(sol._id) &&
-        !sol.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(true);
-        setUpVoteCount(sol.upVotes.length + 1);
-      } else if (
-        !auth.me.solutionUpVotes.includes(sol._id) &&
-        sol.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(false);
-        setUpVoteCount(sol.upVotes.length - 1);
-      } else if (
-        !auth.me.solutionUpVotes.includes(sol._id) &&
-        !sol.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(false);
-        setUpVoteCount(sol.upVotes.length);
-      } else {
-        setIsUpVote(false);
-        setUpVoteCount(sol.upVotes.length);
-      }
-
-      if (
-        auth.me.solutionDownVotes.includes(sol._id) &&
-        sol.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(true);
-        setDownVoteCount(sol.downVotes.length);
-      } else if (
-        auth.me.solutionDownVotes.includes(sol._id) &&
-        !sol.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(true);
-        setDownVoteCount(sol.downVotes.length + 1);
-      } else if (
-        !auth.me.solutionDownVotes.includes(sol._id) &&
-        sol.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(false);
-        setDownVoteCount(sol.downVotes.length - 1);
-      } else if (
-        !auth.me.solutionDownVotes.includes(sol._id) &&
-        !sol.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(false);
-        setDownVoteCount(sol.downVotes.length);
-      } else {
-        setIsDownVote(false);
-        setDownVoteCount(sol.downVotes.length);
-      }
-    }
-  }, [auth.me, solution.solution]);
 
   if (!solution.solution) {
     return <div>Loading...</div>;
@@ -166,7 +68,8 @@ export default function SolutionView() {
                         variant="caption"
                         sx={{ ml: 1, color: "grey.500" }}
                       >
-                        {moment(solution?.solution?.user?.createdAt).fromNow()}
+                        {moment(solution?.solution?.createdAt).fromNow()}
+                       
                       </Typography>
                     </Box>
                   </Box>
