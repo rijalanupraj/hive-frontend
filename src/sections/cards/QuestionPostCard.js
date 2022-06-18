@@ -35,6 +35,8 @@ import {
   downVoteAnyQuestion,
 } from "../../redux/actions/questionActions";
 
+import { toggleAnswerLater } from "../../redux/actions/authActions";
+
 // ----------------------------------------------------------------------
 
 const getIcon = (name) => (
@@ -166,12 +168,12 @@ export default function QuestionPostCard({ question }) {
           {question?.title}
         </Typography>
 
-        <Typography variant='body1' align='justify'>
+        <Typography variant="body1" align="justify">
           {question?.description}
         </Typography>
 
-        <Link href='#'>
-          <Typography variant='h7' align='justify'>
+        <Link href="#">
+          <Typography variant="h7" align="justify">
             {question?.answers?.length} Answers
           </Typography>
         </Link>
@@ -227,6 +229,7 @@ export default function QuestionPostCard({ question }) {
               icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
               width={20}
               height={20}
+              color={isUpVote ? "#1877f2" : "text.secondary"}
             />
           </IconButton>
           <Typography variant="caption">{upVoteCount}</Typography>
@@ -240,15 +243,43 @@ export default function QuestionPostCard({ question }) {
               icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
               width={20}
               height={20}
+              color={isDownVote ? "#1877f2" : "text.secondary"}
             />
           </IconButton>
           <Typography variant="caption">{downVoteCount}</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <IconButton>
-            <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
-          </IconButton>
+          {!auth.isAuthenticated ? (
+            <IconButton
+              onClick={() => {
+                navigate("/login?redirectTo=/question/" + question.slug);
+              }}
+            >
+              <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+            </IconButton>
+          ) : (
+            <IconButton
+              onClick={() => {
+                dispatch(toggleAnswerLater(question._id));
+              }}
+            >
+              <Iconify
+                icon={
+                  auth.me.answerLater.includes(question._id)
+                    ? "bi:bookmark-dash-fill"
+                    : "bi:bookmark-check"
+                }
+                color={
+                  auth.me.answerLater.includes(question._id)
+                    ? "#1877f2"
+                    : "text.secondary"
+                }
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          )}
 
           <IconButton>
             <Iconify
@@ -260,6 +291,12 @@ export default function QuestionPostCard({ question }) {
 
           <IconButton>
             <ReportQuestion />
+
+            <Iconify
+              icon={"ic:outline-report-problem"}
+              width={20}
+              height={20}
+            />
           </IconButton>
         </Stack>
       </Stack>

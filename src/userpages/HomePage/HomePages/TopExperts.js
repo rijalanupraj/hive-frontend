@@ -8,7 +8,7 @@ import {
   Typography,
   Button,
   Divider,
-  Skeleton
+  Skeleton,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 // utils
@@ -28,9 +28,9 @@ import { style } from "@mui/system";
 
 // ----------------------------------------------------------------------
 
-export default function TopExperts() {
+export default function TopExperts({ auth }) {
   const dispatch = useDispatch();
-  const { topUsers, isLoading } = useSelector(state => state.users);
+  const { topUsers, isLoading } = useSelector((state) => state.users);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,13 +39,18 @@ export default function TopExperts() {
 
   const renderTopUsers = () => {
     if (topUsers.length === 0) {
-      return <Skeleton variant='text' />;
+      return <Skeleton variant="text" />;
     }
     return (
       <>
-        {topUsers.slice(0, 5).map(user => {
+        {topUsers.slice(0, 5).map((user) => {
           return (
-            <Stack id={user._id} direction='row' alignItems='center' spacing={2}>
+            <Stack
+              id={user._id}
+              direction="row"
+              alignItems="center"
+              spacing={2}
+            >
               <Avatar
                 alt={user?.username}
                 src={user?.profilePhoto?.hasPhoto ? user.profilePhoto.url : ""}
@@ -53,9 +58,9 @@ export default function TopExperts() {
               />
               <Box sx={{ flexGrow: 1 }}>
                 <Typography
-                  variant='subtitle2'
+                  variant="subtitle2"
                   style={{
-                    cursor: "pointer"
+                    cursor: "pointer",
                   }}
                   onClick={() => {
                     navigate("/profile/" + user.username);
@@ -64,19 +69,39 @@ export default function TopExperts() {
                   {user?.username}
                 </Typography>
                 <Typography
-                  variant='caption'
+                  variant="caption"
                   sx={{
                     mt: 0.5,
                     display: "flex",
                     alignItems: "center",
-                    color: "text.secondary"
+                    color: "text.secondary",
                   }}
                 >
-                  <Iconify icon={"simple-icons:fandom"} sx={{ width: 16, height: 16, mr: 0.5 }} />
+                  <Iconify
+                    icon={"simple-icons:fandom"}
+                    sx={{ width: 16, height: 16, mr: 0.5 }}
+                    color={"orange"}
+                  />
                   {fShortenNumber(user?.followers?.length)}
                 </Typography>
               </Box>
-              <FollowerButton profile={user} />
+              {auth.isAuthenticated ? (
+                <FollowerButton profile={user} />
+              ) : (
+                <Button
+                  size="small"
+                  style={{
+                    margin: "0.5vh",
+                  }}
+                  onClick={() =>
+                    navigate("/login?redirectTo=/profile/" + user.username)
+                  }
+                  variant={"contained"}
+                  color={"primary"}
+                >
+                  Follow
+                </Button>
+              )}
             </Stack>
           );
         })}
@@ -86,13 +111,13 @@ export default function TopExperts() {
 
   return (
     <Card>
-      <CardHeader title='Top Experts' />
+      <CardHeader title="Top Experts" />
       <Stack spacing={3} sx={{ p: 3 }}>
         {isLoading ? (
           <>
-            <Skeleton variant='rect' animation='wave' height={40} />
-            <Skeleton variant='rect' animation='wave' height={40} />
-            <Skeleton variant='rect' animation='wave' height={40} />
+            <Skeleton variant="rect" animation="wave" height={40} />
+            <Skeleton variant="rect" animation="wave" height={40} />
+            <Skeleton variant="rect" animation="wave" height={40} />
           </>
         ) : (
           renderTopUsers()
@@ -102,9 +127,9 @@ export default function TopExperts() {
       <Divider />
       <Box sx={{ p: 1, textAlign: "right" }}>
         <Button
-          to='#'
-          size='small'
-          color='inherit'
+          to="#"
+          size="small"
+          color="inherit"
           endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
         >
           View all
@@ -119,11 +144,13 @@ export default function TopExperts() {
 function FollowerButton({ profile }) {
   const [toggle, setToogle] = useState();
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
-    auth.me.followings.includes(profile._id) ? setToogle(true) : setToogle(false);
+    auth.me.followings.includes(profile._id)
+      ? setToogle(true)
+      : setToogle(false);
   }, [auth]);
 
   const handleFollow = () => {
@@ -136,12 +163,14 @@ function FollowerButton({ profile }) {
 
   return (
     <Button
-      size='small'
+      size="small"
       style={{
-        margin: "0.5vh"
+        margin: "0.5vh",
       }}
       onClick={() =>
-        auth.me ? handleFollow() : navigate("/login?redirectTo=/profile/" + profile.username)
+        auth.me
+          ? handleFollow()
+          : navigate("/login?redirectTo=/profile/" + profile.username)
       }
       variant={toggle ? "text" : "contained"}
       color={toggle ? "primary" : "primary"}
