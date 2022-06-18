@@ -7,14 +7,11 @@ import {
   Link,
   Card,
   Stack,
-
   Avatar,
   Checkbox,
-
   Typography,
   CardHeader,
   IconButton,
-
   FormControlLabel
 } from "@mui/material";
 
@@ -155,18 +152,16 @@ export default function QuestionPostCard({ question }) {
         </Typography>
 
         <Typography variant='body1' align='justify'>
-          I have a question about the bank account.Hown to open a bank account? What is the process? What is the fee?
+          {question?.description}
         </Typography>
 
-        <Link href="#">
-        <Typography variant='h7' align='justify'>
-          {question?.answers?.length} Answers
-        </Typography>
+        <Link href='#'>
+          <Typography variant='h7' align='justify'>
+            {question?.answers?.length} Answers
+          </Typography>
         </Link>
-        
 
         {/* image */}
-        
 
         <Stack direction='row' alignItems='center'>
           {/* write  */}
@@ -187,7 +182,7 @@ export default function QuestionPostCard({ question }) {
               dispatch(upVoteAnyQuestion(question._id));
             }}
           >
-            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} />
+            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} color={isUpVote? "#1877f2" : "text.secondary"}/>
           </IconButton>
           <Typography variant='caption'>{upVoteCount}</Typography>
 
@@ -196,7 +191,7 @@ export default function QuestionPostCard({ question }) {
               dispatch(downVoteAnyQuestion(question._id));
             }}
           >
-            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} />
+            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} color={isDownVote? "#1877f2" : "text.secondary"}/>
           </IconButton>
           <Typography variant='caption'>{downVoteCount}</Typography>
 

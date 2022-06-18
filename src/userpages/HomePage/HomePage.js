@@ -21,6 +21,7 @@ import {
   InputAdornment,
   OutlinedInput,
   FormHelperText,
+  Card,
 } from "@mui/material";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
@@ -66,9 +67,8 @@ function HomePage() {
         <Grid container spacing={3}>
           {/* left */}
 
-          <Grid item xs={12} md={4} lg={3} order={{ xs: 3, md: 1 }} sx={{ display: { xs: 'none', xl: 'block' } }}>
-            <TopExperts />
-            <br/>
+          <Grid item xs={12} md={4} lg={3} order={{ xs: 3, md: 1 }} sx={{ display: { xs: 'none', xl: 'block' }}} alignSelf={'start'} position={'sticky'}>
+            <TopExperts position='sticky'/>
             <br/>
             <Footer />
           </Grid>
@@ -76,9 +76,10 @@ function HomePage() {
           {/* center posts */}
 
           <Grid item xs={12} mb={3} lg={6} order={{ xs: 2, md: 1 }}>
-            {/* question header */}
 
-            <Paper
+            {/* start question header */}
+
+            <Card
               variant="outlined"
               style={{
                 paddingTop: "0.5rem",
@@ -87,7 +88,7 @@ function HomePage() {
                
               }}
             >
-              {/* profile pic and ask question */}
+              {/* start profile pic and ask question */}
               <Grid container spacing={3}>
                 {/* header */}
                 <Grid item md={1} mt={0.5}>
@@ -97,7 +98,7 @@ function HomePage() {
                   />
                 </Grid>
 
-                {/* ask question */}
+                {/* start ask question */}
                 <Grid item lg={8.5}>
                   <Link href="/ask-question">
                     <FormControl fullWidth>
@@ -110,18 +111,25 @@ function HomePage() {
                   </Link>
                 </Grid>
 
-                <Grid item mt={1.5}>
+                <Grid item mt={1.5} sx={{ display: { xs: 'none', xl: 'block' } }}>
                   <Iconify icon="akar-icons:image" width={25} height={25} />
                 </Grid>
-                <Grid item mt={1.5}>
+                <Grid item mt={1.5} sx={{ display: { xs: 'none', xl: 'block' } }}>
                   <Iconify
                     icon="akar-icons:link-chain"
                     width={25}
                     height={25}
                   />
                 </Grid>
+                {/* end ask questions */}
+
+
               </Grid>
-            </Paper>
+
+              {/* end profile and ask question */}
+            </Card>
+
+            {/* end question header */}
 
             {solution.homeSolutions &&
               solution.homeSolutions.map((post) => (
