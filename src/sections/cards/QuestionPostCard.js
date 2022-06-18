@@ -166,13 +166,12 @@ export default function QuestionPostCard({ question }) {
           {question?.title}
         </Typography>
 
-        <Typography variant="body1" align="justify">
-          I have a question about the bank account.Hown to open a bank account?
-          What is the process? What is the fee?
+        <Typography variant='body1' align='justify'>
+          {question?.description}
         </Typography>
 
-        <Link href="#">
-          <Typography variant="h7" align="justify">
+        <Link href='#'>
+          <Typography variant='h7' align='justify'>
             {question?.answers?.length} Answers
           </Typography>
         </Link>

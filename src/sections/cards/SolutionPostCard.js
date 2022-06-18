@@ -14,7 +14,8 @@ import {
   CardHeader,
   IconButton,
   InputAdornment,
-  FormControlLabel
+  FormControlLabel,
+  Divider,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Markdown from "../../components/Markdown";
@@ -190,10 +191,13 @@ export default function SolutionPostCard({ solution }) {
         <Image
           alt='post media'
           src='https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png'
-          ratio='16/9'
+          ratio='2/1'
           sx={{ borderRadius: 1 }}
         />
+   
 
+        {/* status */}
+        <Divider />
         <Stack direction='row' alignItems='center'>
           {/* upvote  */}
           <IconButton

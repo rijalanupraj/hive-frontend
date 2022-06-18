@@ -37,6 +37,8 @@ import Page from "../../components/Page";
 import { askQuestion } from "../../redux/actions/questionActions";
 import { getAllAvailableTags } from "../../redux/actions/tagActions";
 import { postSolution } from "../../redux/actions/solutionActions";
+import SelectedQuestionCard from "../../sections/cards/SelectedQuestionCard";
+import useSettings from "../../hooks/useSettings";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -58,6 +60,7 @@ const categoriesList = ["Government", "Health", "Education", "Vechiles"];
 
 export default function AskQuestion1() {
   const dispatch = useDispatch();
+  const { themeStretch } = useSettings();
   const tags = useSelector((state) => state.tag);
   const navigate = useNavigate();
   const { questionId } = useParams();
@@ -146,9 +149,11 @@ export default function AskQuestion1() {
   return (
     <Page title="Post Solution">
       <RootStyle>
-        <Container
-          component="main"
-        >
+        <Container component="main">
+
+        <Typography variant="h4" sx={{pl:2}}> Post Solution </Typography>
+        <br/>
+         <SelectedQuestionCard  />
           <Paper variant="outlined" sx={{ my: { xs: 3 } }}>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3}>
