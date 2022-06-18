@@ -122,9 +122,11 @@ export default function AskQuestion() {
   };
 
   return (
+         
     <Page title='Ask Question'>
       <Container component='main'>
         <Paper variant='outlined' sx={{ my: { xs: 3 }, p: { xs: 3 } }}>
+
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8}>
