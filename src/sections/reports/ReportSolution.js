@@ -7,16 +7,16 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import Iconify from "../../../components/Iconify";
+import Iconify from "../../components/Iconify";
 import { IconButton } from "@mui/material";
 import { useFormik, Form, FormikProvider } from "formik";
 import * as Yup from "yup";
 import { LoadingButton } from "@mui/lab";
 import { useDispatch, useSelector } from "react-redux";
-import { reportQuestion } from "../../../redux/actions/questionActions";
+import { reportSolution } from "../../redux/actions/solutionActions";
 import { useSnackbar } from "notistack";
 
-export default function ReportQuestion({ question }) {
+export default function ReportSolution({ solution }) {
   const [open, setOpen] = React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ export default function ReportQuestion({ question }) {
     setOpen(false);
   };
 
-  const QuestionReportSchema = Yup.object().shape({
+  const SolutionReportSchema = Yup.object().shape({
     subject: Yup.string().required("Subject is required"),
     description: Yup.string().required("Description is required"),
   });
@@ -39,9 +39,9 @@ export default function ReportQuestion({ question }) {
       title: "",
       description: "",
     },
-    validationSchema: QuestionReportSchema,
+    validationSchema: SolutionReportSchema,
     onSubmit: (values) => {
-      dispatch(reportQuestion(question._id, values, enqueueSnackbar));
+      dispatch(reportSolution(solution._id, values, enqueueSnackbar));
       formik.resetForm();
       handleClose();
     },

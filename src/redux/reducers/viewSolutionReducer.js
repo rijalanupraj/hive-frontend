@@ -44,14 +44,6 @@ export default function viewSolutionReducer(
           downVotes: payload.updatedSolution.downVotes,
         },
       };
-    case TYPES.REPORT_SOLUTION_SUCCESS:
-      return {
-        ...state,
-        solution: {
-          ...state.solution,
-          reportSol: [...state.solution.report, payload.newReport],
-        },
-      };
 
     case TYPES.UPVOTE_SOLUTION_FAIL:
     case TYPES.DOWNVOTE_SOLUTION_FAIL:
