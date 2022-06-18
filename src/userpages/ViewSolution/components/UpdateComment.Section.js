@@ -68,7 +68,7 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
   return (
     <div>
       <ButtonGroup
-        variant="contained"
+        variant="text"
         size="small"
         justifyContent="space-between"
         alignItems="center"
@@ -76,7 +76,7 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
         aria-label="outlined primary button group"
       >
         <Button variant="text" onClick={handleEditOpen}>
-          <EditIcon />
+          Edit
         </Button>
 
         <Dialog
@@ -134,10 +134,10 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
 
         <Button
           variant="text"
+          style={{ color: "red" }}
           onClick={handleDeleteOpen}
-          style={{ color: "red", background: "none" }}
         >
-          <DeleteRoundedIcon />
+          Delete
         </Button>
 
         <Dialog
