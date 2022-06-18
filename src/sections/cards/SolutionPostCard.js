@@ -11,7 +11,6 @@ import {
   CardHeader,
   IconButton,
   Divider,
-
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Markdown from "../../components/Markdown";
@@ -30,9 +29,9 @@ import {
   upVoteAnySolution,
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
+import ReportSolution from "../reports/ReportSolution";
 
 // ----------------------------------------------------------------------
-
 
 export default function SolutionPostCard({ solution }) {
   const auth = useSelector((state) => state.auth);
@@ -219,7 +218,7 @@ export default function SolutionPostCard({ solution }) {
           >
             <Iconify
               icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
-              color={isUpVote? "#1877f2" : "text.secondary"}
+              color={isUpVote ? "#1877f2" : "text.secondary"}
               width={20}
               height={20}
             />
@@ -233,7 +232,7 @@ export default function SolutionPostCard({ solution }) {
           >
             <Iconify
               icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
-              color={isDownVote? "#1877f2" : "text.secondary"}
+              color={isDownVote ? "#1877f2" : "text.secondary"}
               width={20}
               height={20}
             />
@@ -241,11 +240,7 @@ export default function SolutionPostCard({ solution }) {
           <Typography variant="caption">{downVoteCount}</Typography>
           {/* comment */}
           <IconButton onClick={handleComment}>
-            <Iconify
-              icon={"fa-regular:comment"}
-              width={20}
-              height={20}
-            />
+            <Iconify icon={"fa-regular:comment"} width={20} height={20} />
           </IconButton>
           <Typography variant="caption">5</Typography>
 
@@ -271,7 +266,11 @@ export default function SolutionPostCard({ solution }) {
                     ? "bi:bookmark-dash-fill"
                     : "bi:bookmark-check"
                 }
-                color={auth.me.bookmarks.includes(solution._id)? "#1877f2" : "text.secondary"}
+                color={
+                  auth.me.bookmarks.includes(solution._id)
+                    ? "#1877f2"
+                    : "text.secondary"
+                }
                 width={20}
                 height={20}
               />
@@ -286,22 +285,26 @@ export default function SolutionPostCard({ solution }) {
             />
           </IconButton>
 
-          <IconButton>
-            <Iconify
-              icon={"ic:outline-report-problem"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-
+          {auth.isAuthenticated ? (
+            <ReportSolution solution={solution} />
+          ) : (
+            <IconButton
+              onClick={() => {
+                navigate("/login?redirectTo=/solution/" + solution._id);
+              }}
+            >
+              <Iconify
+                icon={"ic:outline-report-problem"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          )}
         </Stack>
         {/* comment */}
 
         {comment && CommentCard()}
-
       </Stack>
     </Card>
   );
 }
-
-
