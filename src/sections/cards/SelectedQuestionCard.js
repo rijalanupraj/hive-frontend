@@ -32,7 +32,7 @@ import MyAvatar from "../../components/MyAvatar";
 
 export default function SelectedQuestionCard() {
   return (
-    <Card>
+    <Card maxWidth="sm">
       <CardHeader
         disableTypography
         
