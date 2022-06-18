@@ -41,7 +41,7 @@ export default function SolutionView() {
     return <div>Loading...</div>;
   }
   return (
-    <Page title="Blog: Post Details">
+    <Page title={solution.solution.question.title}>
       <Container>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={8} order={{ xs: 2, md: 1 }}>
@@ -69,7 +69,6 @@ export default function SolutionView() {
                         sx={{ ml: 1, color: "grey.500" }}
                       >
                         {moment(solution?.solution?.createdAt).fromNow()}
-                       
                       </Typography>
                     </Box>
                   </Box>
