@@ -35,7 +35,6 @@ import HotQuestions from "./HomePages/HotQuestions";
 
 import Footer from "./HomePages/Footer";
 
-
 // const RootStyle = styled('div')(({ theme }) => ({
 //   [theme.breakpoints.up('md')]: {
 //     display: 'flex',
@@ -63,20 +62,28 @@ function HomePage() {
 
   return (
     <Page title="Home">
-      <Container maxWidth='full' >
+      <Container maxWidth="full">
         <Grid container spacing={3}>
           {/* left */}
 
-          <Grid item xs={12} md={4} lg={3} order={{ xs: 3, md: 1 }} sx={{ display: { xs: 'none', xl: 'block' }}} alignSelf={'start'} position={'sticky'}>
-            <TopExperts position='sticky'/>
-            <br/>
+          <Grid
+            item
+            xs={12}
+            md={4}
+            lg={3}
+            order={{ xs: 3, md: 1 }}
+            sx={{ display: { xs: "none", xl: "block" } }}
+            alignSelf={"start"}
+            position={"sticky"}
+          >
+            <TopExperts auth={auth} position="sticky" />
+            <br />
             <Footer />
           </Grid>
 
           {/* center posts */}
 
           <Grid item xs={12} mb={3} lg={6} order={{ xs: 2, md: 1 }}>
-
             {/* start question header */}
 
             <Card
@@ -85,7 +92,6 @@ function HomePage() {
                 paddingTop: "0.5rem",
                 paddingBottom: "0.5rem",
                 paddingLeft: "1.2rem",
-               
               }}
             >
               {/* start profile pic and ask question */}
@@ -111,10 +117,18 @@ function HomePage() {
                   </Link>
                 </Grid>
 
-                <Grid item mt={1.5} sx={{ display: { xs: 'none', xl: 'block' } }}>
+                <Grid
+                  item
+                  mt={1.5}
+                  sx={{ display: { xs: "none", xl: "block" } }}
+                >
                   <Iconify icon="akar-icons:image" width={25} height={25} />
                 </Grid>
-                <Grid item mt={1.5} sx={{ display: { xs: 'none', xl: 'block' } }}>
+                <Grid
+                  item
+                  mt={1.5}
+                  sx={{ display: { xs: "none", xl: "block" } }}
+                >
                   <Iconify
                     icon="akar-icons:link-chain"
                     width={25}
@@ -122,8 +136,6 @@ function HomePage() {
                   />
                 </Grid>
                 {/* end ask questions */}
-
-
               </Grid>
 
               {/* end profile and ask question */}
@@ -143,11 +155,10 @@ function HomePage() {
             xs={12}
             md={4}
             lg={3}
-            sx={{ display: { xs: 'none', xl: 'block' } }}
+            sx={{ display: { xs: "none", xl: "block" } }}
             order={{ xs: 1, md: 1 }}
           >
             <HotQuestions />
-
           </Grid>
         </Grid>
 

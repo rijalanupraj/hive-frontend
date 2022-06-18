@@ -1,5 +1,10 @@
-import * as React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useFormik, Form, FormikProvider } from "formik";
+import * as Yup from "yup";
+import { LoadingButton } from "@mui/lab";
+import { useDispatch, useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
 
 // @mui
 import {
@@ -26,6 +31,8 @@ import Iconify from "../../components/Iconify";
 import InputStyle from "../../components/InputStyle";
 import SearchNotFound from "../../components/SearchNotFound";
 import { Controller } from "react-hook-form";
+import { suggestNewCategory } from "../../redux/actions/categoryAction";
+import { useNavigate } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -41,21 +48,51 @@ export default function Category({
   onFindCategories,
 }) {
   const categoryFiltered = applyFilter(categories, findCategories);
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const auth = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   const isNotFound = categoryFiltered.length === 0;
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    if (auth.isAuthenticated) {
+      setOpen(true);
+    } else {
+      navigate(`/login?redirectTo=${window.location.pathname}`);
+      enqueueSnackbar("You must log in to suggest a category", {
+        variant: "error",
+      });
+    }
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
+  const NewCategorySchema = Yup.object().shape({
+    title: Yup.string().required("Category Title is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+    },
+    validationSchema: NewCategorySchema,
+    onSubmit: (values) => {
+      dispatch(suggestNewCategory(values, enqueueSnackbar));
+      formik.resetForm();
+      handleClose();
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+    formik;
+
   return (
-    <Box sx={{ mt: -7 }}>
+    <Box>
       <Box m={1} display="flex" justifyContent="center" alignItems="center">
         <Button variant="contained" onClick={handleClickOpen}>
           Suggest Category
@@ -69,55 +106,33 @@ export default function Category({
           >
             <CancelIcon style={{ color: "red" }} />
           </Button>
-          <DialogTitle>Suggest Category</DialogTitle>
+          <DialogTitle>Suggest New Category</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              You can only add categories which are not available.
+              You can only suggest categories which are not available.
             </DialogContentText>
-            <Controller
-              name="tags"
-              // control={control}
-              render={({ field }) => (
-                <Autocomplete
-                  multiple
-                  freeSolo
-                  onChange={(event, newValue) => field.onChange(newValue)}
-                  // options={tagsList.map((option) => option)}
-                  renderTags={(value, getTagProps) =>
-                    value.map((option, index) => (
-                      <Chip
-                        {...getTagProps({ index })}
-                        key={option}
-                        size="small"
-                        label={option}
-                      />
-                    ))
-                  }
-                  renderInput={(params) => (
-                    <TextField
-                      name="text"
-                      placeholder="Suggest category"
-                      variant="outlined"
-                      fullWidth
-                      rows={4}
-                      rowsMax={5}
-                      sx={{
-                        mt: 2,
-                      }}
-                      {...params}
-                    />
-                  )}
+            <FormikProvider value={formik}>
+              <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Title"
+                  {...getFieldProps("title")}
+                  error={Boolean(touched.title && errors.title)}
+                  helperText={touched.title && errors.title}
                 />
-              )}
-            />
+                <LoadingButton
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                  loading={isSubmitting}
+                >
+                  Suggest Category
+                </LoadingButton>
+              </Form>
+            </FormikProvider>
           </DialogContent>
-
-          <DialogActions>
-            <Button variant="contained" onClick={handleClose}>
-              {" "}
-              Submit
-            </Button>
-          </DialogActions>
         </Dialog>
       </Box>
       <Typography variant="h4" sx={{ mb: 3 }}>
