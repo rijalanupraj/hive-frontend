@@ -115,6 +115,29 @@ export const toggleBookmark = (solutionId) => async (dispatch, getState) => {
   }
 };
 
+export const toggleAnswerLater = (questionId) => async (dispatch, getState) => {
+  dispatch({ type: TYPES.TOGGLE_ANSWER_LATER_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(
+      `${API_URL}/users/answerLater/${questionId}`,
+      {},
+      options
+    );
+
+    dispatch({
+      type: TYPES.TOGGLE_ANSWER_LATER_SUCCESS,
+      payload: { me: response.data.me },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.TOGGLE_ANSWER_LATER_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
+
 export const getMyFollowers = () => async (dispatch, getState) => {
   dispatch({ type: TYPES.GET_MY_FOLLOWERS_LOADING });
 
@@ -175,6 +198,28 @@ export const getMyBookmarks = () => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: TYPES.GET_MY_BOOKMARKS_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
+
+export const getMyAnswerLater = () => async (dispatch, getState) => {
+  dispatch({ type: TYPES.GET_MY_ANSWER_LATER_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(
+      `${API_URL}/users/allanswerlater`,
+      options
+    );
+
+    dispatch({
+      type: TYPES.GET_MY_ANSWER_LATER_SUCCESS,
+      payload: { answerLater: response.data.questions },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_MY_ANSWER_LATER_FAIL,
       payload: { error: err.response.data.message },
     });
   }

@@ -23,6 +23,36 @@ export const getAllCategory = () => async (dispatch, getState) => {
   }
 };
 
+export const suggestNewCategory =
+  (categoryData, enqueueSnackbar) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.SUGGEST_MISSING_CATEGORIES_LOADING });
+
+      const options = attachTokenToHeaders(getState);
+
+      const { data } = await axios.post(
+        `${API_URL}/users/suggest-category`,
+        categoryData,
+        options
+      );
+      dispatch({
+        type: TYPES.SUGGEST_MISSING_CATEGORIES_SUCCESS,
+        payload: data,
+      });
+      enqueueSnackbar("Category Suggested Successfully", {
+        variant: "success",
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.SUGGEST_MISSING_CATEGORIES_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+      enqueueSnackbar(err?.response?.data.message || err.message, {
+        variant: "error",
+      });
+    }
+  };
+
 export const attachTokenToHeaders = (getState) => {
   const token = getState().auth.token;
 

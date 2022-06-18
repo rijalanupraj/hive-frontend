@@ -7,22 +7,27 @@ import { BACKEND_API_URL } from "../../constants";
 
 const API_URL = BACKEND_API_URL;
 
-export const askQuestion = (formData, navigate) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: TYPES.ASK_QUESTION_LOADING });
+export const askQuestion =
+  (formData, navigate) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.ASK_QUESTION_LOADING });
 
-    const options = attachTokenToHeaders(getState);
+      const options = attachTokenToHeaders(getState);
 
-    const { data } = await axios.post(`${API_URL}/question`, formData, options);
-    dispatch({ type: TYPES.ASK_QUESTION_SUCCESS, payload: data });
-    navigate(`/questions`);
-  } catch (err) {
-    dispatch({
-      type: TYPES.ASK_QUESTION_FAIL,
-      payload: { error: err?.response?.data.message || err.message }
-    });
-  }
-};
+      const { data } = await axios.post(
+        `${API_URL}/question`,
+        formData,
+        options
+      );
+      dispatch({ type: TYPES.ASK_QUESTION_SUCCESS, payload: data });
+      navigate(`/questions`);
+    } catch (err) {
+      dispatch({
+        type: TYPES.ASK_QUESTION_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+    }
+  };
 
 export const getAllQuestion = () => async (dispatch, getState) => {
   try {
@@ -33,13 +38,13 @@ export const getAllQuestion = () => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: TYPES.GET_ALL_QUESTIONS_FAIL,
-      payload: { error: err?.response?.data.message || err.message }
+      payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
 
 //search question
-export const searchQuestion = search => async (dispatch, getState) => {
+export const searchQuestion = (search) => async (dispatch, getState) => {
   try {
     dispatch({ type: TYPES.GET_ALL_QUESTIONS_LOADING });
 
@@ -48,51 +53,94 @@ export const searchQuestion = search => async (dispatch, getState) => {
   } catch (err) {
     dispatch({
       type: TYPES.GET_ALL_QUESTIONS_FAIL,
-      payload: { error: err?.response?.data.message || err.message }
+      payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
 
-export const upVoteAnyQuestion = questionId => async (dispatch, getState) => {
+export const upVoteAnyQuestion = (questionId) => async (dispatch, getState) => {
   dispatch({ type: TYPES.UPVOTE_QUESTION_ANY_LOADING });
   const options = attachTokenToHeaders(getState);
   try {
-    const response = await axios.post(`${API_URL}/question/upvote/${questionId}`, {}, options);
+    const response = await axios.post(
+      `${API_URL}/question/upvote/${questionId}`,
+      {},
+      options
+    );
     dispatch({
       type: TYPES.UPVOTE_QUESTION_ANY_SUCCESS,
-      payload: { questionId, upVote: response.data.upVote }
+      payload: { questionId, upVote: response.data.upVote },
     });
   } catch (err) {
     dispatch({
       type: TYPES.UPVOTE_QUESTION_ANY_FAIL,
-      payload: { error: err?.response?.data.message || err.message }
+      payload: { error: err?.response?.data.message || err.message },
     });
   }
 };
-export const downVoteAnyQuestion = questionId => async (dispatch, getState) => {
-  dispatch({ type: TYPES.DOWNVOTE_QUESTION_ANY_LOADING });
-  const options = attachTokenToHeaders(getState);
-  try {
-    const response = await axios.post(`${API_URL}/question/downvote/${questionId}`, {}, options);
-    dispatch({
-      type: TYPES.DOWNVOTE_QUESTION_ANY_SUCCESS,
-      payload: { questionId, downVote: response.data.downVote }
-    });
-  } catch (err) {
-    dispatch({
-      type: TYPES.DOWNVOTE_QUESTION_ANY_FAIL,
-      payload: { error: err?.response?.data.message || err.message }
-    });
-  }
-};
+export const downVoteAnyQuestion =
+  (questionId) => async (dispatch, getState) => {
+    dispatch({ type: TYPES.DOWNVOTE_QUESTION_ANY_LOADING });
+    const options = attachTokenToHeaders(getState);
+    try {
+      const response = await axios.post(
+        `${API_URL}/question/downvote/${questionId}`,
+        {},
+        options
+      );
+      dispatch({
+        type: TYPES.DOWNVOTE_QUESTION_ANY_SUCCESS,
+        payload: { questionId, downVote: response.data.downVote },
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.DOWNVOTE_QUESTION_ANY_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+    }
+  };
 
-export const attachTokenToHeaders = getState => {
+export const reportQuestion =
+  (id, reportData, enqueueSnackbar) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: TYPES.REPORT_QUESTION_LOADING,
+      });
+      const options = attachTokenToHeaders(getState);
+
+      const response = await axios.post(
+        `${API_URL}/report-question/add/${id}`,
+        reportData,
+        options
+      );
+
+      dispatch({
+        type: TYPES.REPORT_QUESTION_SUCCESS,
+        payload: {
+          report: response.data.report,
+        },
+      });
+      enqueueSnackbar("Reported question successfully", {
+        variant: "success",
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.REPORT_QUESTION_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+      enqueueSnackbar("Failed to report question", {
+        variant: "error",
+      });
+    }
+  };
+
+export const attachTokenToHeaders = (getState) => {
   const token = getState().auth.token;
 
   const config = {
     headers: {
-      "Content-type": "application/json"
-    }
+      "Content-type": "application/json",
+    },
   };
 
   if (token) {

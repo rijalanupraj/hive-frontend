@@ -28,7 +28,8 @@ import Iconify from "../../components/Iconify";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import SharesolutionButton from "./components/shareButton";
-import EditDeleteButton from "./components/EditDeleteButton";
+import EditDeleteButoon from "./components/EditDeleteButton";
+import ReportSolution from "./components/ReportSolution";
 const theme = createTheme();
 
 export default function ViewSolution() {
@@ -213,7 +214,7 @@ export default function ViewSolution() {
 
               {auth.me.id === solution?.solution?.user?.id && (
                 <Item sx={{ mt: 2 }}>
-                  <EditDeleteButton solution={solution} />
+                  <EditDeleteButoon solution={solution} />
                 </Item>
               )}
               <Item>
@@ -232,6 +233,11 @@ export default function ViewSolution() {
                   <SharesolutionButton solution={solution} />
                 </Dialog>
               </Item>
+              {auth.me._id !== solution?.solution?.user?._id && (
+                <Item>
+                  <ReportSolution solution={solution?.solution}  />
+                </Item>
+              )}
             </Grid>
             <Grid item xs={7}>
               <Item
