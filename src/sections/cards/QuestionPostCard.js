@@ -7,14 +7,11 @@ import {
   Link,
   Card,
   Stack,
-
   Avatar,
   Checkbox,
-
   Typography,
   CardHeader,
   IconButton,
-
   FormControlLabel
 } from "@mui/material";
 
@@ -155,18 +152,16 @@ export default function QuestionPostCard({ question }) {
         </Typography>
 
         <Typography variant='body1' align='justify'>
-          I have a question about the bank account.Hown to open a bank account? What is the process? What is the fee?
+          {question?.description}
         </Typography>
 
-        <Link href="#">
-        <Typography variant='h7' align='justify'>
-          {question?.answers?.length} Answers
-        </Typography>
+        <Link href='#'>
+          <Typography variant='h7' align='justify'>
+            {question?.answers?.length} Answers
+          </Typography>
         </Link>
-        
 
         {/* image */}
-        
 
         <Stack direction='row' alignItems='center'>
           {/* write  */}
