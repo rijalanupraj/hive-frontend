@@ -100,6 +100,28 @@ export const downVoteAnyQuestion =
     }
   };
 
+export const getQuestionForPostSolution =
+  (questionId, navigate, enqueueSnackbar) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.GET_QUESTION_FOR_POST_SOLUTION_LOADING });
+
+      const { data } = await axios.get(`${API_URL}/question/id/${questionId}`);
+      dispatch({
+        type: TYPES.GET_QUESTION_FOR_POST_SOLUTION_SUCCESS,
+        payload: data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.GET_QUESTION_FOR_POST_SOLUTION_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+      navigate(`/questions`);
+      enqueueSnackbar(err?.response?.data.message || err.message, {
+        variant: "error",
+      });
+    }
+  };
+
 export const reportQuestion =
   (id, reportData, enqueueSnackbar) => async (dispatch, getState) => {
     try {

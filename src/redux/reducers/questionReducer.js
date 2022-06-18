@@ -4,6 +4,7 @@ import * as TYPES from "../types";
 const initialState = {
   isLoading: false,
   error: null,
+  question: null,
 };
 
 export default function questionReducer(state = initialState, action) {
@@ -33,6 +34,12 @@ export default function questionReducer(state = initialState, action) {
       return {
         isLoading: false,
         questions: action.payload.questions,
+      };
+
+    case TYPES.GET_QUESTION_FOR_POST_SOLUTION_SUCCESS:
+      return {
+        isLoading: false,
+        question: action.payload.question,
       };
 
     default:
