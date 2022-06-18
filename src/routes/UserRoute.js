@@ -25,6 +25,8 @@ import {
   AnotherQuestionSolutions,
 } from "../userpages";
 
+import Messenger from "../chats/Messenger.jsx";
+
 // Internal Import
 import Navbar from "../components/Navbar/Navbar";
 import DashboardLayout from "../layouts/dashboard";
@@ -42,6 +44,7 @@ const UserRoute = () => {
 
       <Routes>
         {/* Normal Routes Starts */}
+
         <Route exact path="/" element={<HomePage />} />
         <Route exact path="/questions" element={<QuestionsPage />} />
         <Route exact path="/register" element={<Register />} />
@@ -109,7 +112,9 @@ const UserRoute = () => {
             element={<QuestionSolutions />}
           />
         </Route>
-
+        <Route exact path="/chat" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/chat" element={<Messenger />} />
+        </Route>
         <Route
           exact
           path="/anotherquestionSolutions"
