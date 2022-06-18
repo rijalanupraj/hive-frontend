@@ -1,65 +1,56 @@
 import React, { useState, useEffect } from "react";
-import * as Yup from "yup";
 import CssBaseline from "@mui/material/CssBaseline";
-import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import EditIcon from "@mui/icons-material/Edit";
 import Markdown from "../../components/Markdown";
-
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import {
-  Stack,
-  TextField,
-  Button,
-  CardContent,
-  Collapse,
-  CardActions,
-  CardMedia
-} from "@mui/material";
-import { useFormik, Form, FormikProvider } from "formik";
-import { LoadingButton } from "@mui/lab";
+import { Stack, Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
 import Avatar from "@mui/material/Avatar";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import moment from "moment";
-import {
-  viewSolution,
-  upVoteSolution,
-  downVoteSolution
-} from "../../redux/actions/viewSolutionActions";
-import { deleteSolution } from "../../redux/actions/solutionActions";
+import { viewSolution } from "../../redux/actions/viewSolutionActions";
 import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CommentSection from "./components/CommentSection";
 import { red } from "@mui/material/colors";
-import { DeleteRounded, ExpandMore } from "@mui/icons-material";
-import { upVoteAnySolution, downVoteAnySolution } from "../../redux/actions/solutionActions";
+import {
+  upVoteAnySolution,
+  downVoteAnySolution,
+} from "../../redux/actions/solutionActions";
+
 import Iconify from "../../components/Iconify";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import SharesolutionButton from "./components/shareButton";
+import EditDeleteButoon from "./components/EditDeleteButton";
 const theme = createTheme();
 
 export default function ViewSolution() {
   const dispatch = useDispatch();
   const { solutionId } = useParams();
-  const solution = useSelector(state => state.viewSolutions);
-  const auth = useSelector(state => state.auth);
-  const user = useSelector(state => state.user);
+  const solution = useSelector((state) => state.viewSolutions);
+  const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
   const [upVoteCount, setUpVoteCount] = useState(0);
   const [downVoteCount, setDownVoteCount] = useState(0);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     dispatch(viewSolution(solutionId));
@@ -70,16 +61,28 @@ export default function ViewSolution() {
     if (auth.me && sol) {
       setUpVoteCount(solution.solution.upVoteCount);
       setDownVoteCount(solution.solution.downVoteCount);
-      if (auth.me.solutionUpVotes.includes(sol._id) && sol.upVotes.includes(auth.me._id)) {
+      if (
+        auth.me.solutionUpVotes.includes(sol._id) &&
+        sol.upVotes.includes(auth.me._id)
+      ) {
         setIsUpVote(true);
         setUpVoteCount(sol.upVotes.length);
-      } else if (auth.me.solutionUpVotes.includes(sol._id) && !sol.upVotes.includes(auth.me._id)) {
+      } else if (
+        auth.me.solutionUpVotes.includes(sol._id) &&
+        !sol.upVotes.includes(auth.me._id)
+      ) {
         setIsUpVote(true);
         setUpVoteCount(sol.upVotes.length + 1);
-      } else if (!auth.me.solutionUpVotes.includes(sol._id) && sol.upVotes.includes(auth.me._id)) {
+      } else if (
+        !auth.me.solutionUpVotes.includes(sol._id) &&
+        sol.upVotes.includes(auth.me._id)
+      ) {
         setIsUpVote(false);
         setUpVoteCount(sol.upVotes.length - 1);
-      } else if (!auth.me.solutionUpVotes.includes(sol._id) && !sol.upVotes.includes(auth.me._id)) {
+      } else if (
+        !auth.me.solutionUpVotes.includes(sol._id) &&
+        !sol.upVotes.includes(auth.me._id)
+      ) {
         setIsUpVote(false);
         setUpVoteCount(sol.upVotes.length);
       } else {
@@ -87,7 +90,10 @@ export default function ViewSolution() {
         setUpVoteCount(sol.upVotes.length);
       }
 
-      if (auth.me.solutionDownVotes.includes(sol._id) && sol.downVotes.includes(auth.me._id)) {
+      if (
+        auth.me.solutionDownVotes.includes(sol._id) &&
+        sol.downVotes.includes(auth.me._id)
+      ) {
         setIsDownVote(true);
         setDownVoteCount(sol.downVotes.length);
       } else if (
@@ -115,12 +121,6 @@ export default function ViewSolution() {
     }
   }, [auth.me, solution.solution]);
 
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleChange = panel => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
   if (!solution.solution) {
     return <div>Loading...</div>;
   }
@@ -131,8 +131,8 @@ export default function ViewSolution() {
     textAlign: "center",
     boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
     "&:hover": {
-      boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
-    }
+      boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
+    },
   }));
 
   return (
@@ -149,7 +149,7 @@ export default function ViewSolution() {
                     avatar={
                       <Avatar
                         sx={{ bgcolor: red[500] }}
-                        aria-label='recipe'
+                        aria-label="recipe"
                         src={solution?.solution?.user?.profilePhoto}
                       ></Avatar>
                     }
@@ -160,7 +160,7 @@ export default function ViewSolution() {
 
               <Item
                 sx={{
-                  mt: 2
+                  mt: 2,
                 }}
               >
                 {auth.isAuthenticated && (
@@ -171,10 +171,10 @@ export default function ViewSolution() {
                         alignItems: "center",
 
                         pl: 2,
-                        pb: 0
+                        pb: 0,
                       }}
                     >
-                      <Stack direction='row' alignItems='center'>
+                      <Stack direction="row" alignItems="center">
                         {/* upvote  */}
                         <IconButton
                           onClick={() => {
@@ -187,11 +187,13 @@ export default function ViewSolution() {
                             height={20}
                           />
                         </IconButton>
-                        <Typography variant='caption'>{upVoteCount}</Typography>
+                        <Typography variant="caption">{upVoteCount}</Typography>
 
                         <IconButton
                           onClick={() => {
-                            dispatch(downVoteAnySolution(solution.solution._id));
+                            dispatch(
+                              downVoteAnySolution(solution.solution._id)
+                            );
                           }}
                         >
                           <Iconify
@@ -200,27 +202,10 @@ export default function ViewSolution() {
                             height={20}
                           />
                         </IconButton>
-                        <Typography variant='caption'>{downVoteCount}</Typography>
+                        <Typography variant="caption">
+                          {downVoteCount}
+                        </Typography>
                       </Stack>
-                      {/* <IconButton
-                        style={{
-                          color: "#006d07",
-                          fontWeight: 25,
-                          fontSize: 20
-                        }}
-                        onClick={() => dispatch(upVoteSolution(solution?.solution?._id))}
-                      >
-                        <ArrowUpwardIcon />
-                        {solution?.solution?.upVotes.length}
-                      </IconButton>
-
-                      <IconButton
-                        style={{ color: "red", fontWeight: 25, fontSize: 20 }}
-                        onClick={() => dispatch(downVoteSolution(solution?.solution?._id))}
-                      >
-                        <ArrowDownwardIcon />
-                        {solution?.solution?.downVotes.length}
-                      </IconButton> */}
                     </Box>
                   </Card>
                 )}
@@ -228,33 +213,32 @@ export default function ViewSolution() {
 
               {auth.me.id === solution?.solution?.user?.id && (
                 <Item sx={{ mt: 2 }}>
-                  <Button
-                    variant='outlined'
-                    onClick={() => {
-                      navigate(`/update-solution/${solution?.solution?._id}`);
-                    }}
-                  >
-                    <EditIcon />
-                  </Button>
-
-                  <Button
-                    onClick={() => {
-                      dispatch(deleteSolution(solution?.solution?._id, navigate));
-                    }}
-                    variant='contained'
-                    style={{ background: "red" }}
-                  >
-                    <DeleteRounded />
-                  </Button>
+                  <EditDeleteButoon solution={solution} />
                 </Item>
               )}
+              <Item>
+                <Button variant="outlined" onClick={handleClickOpen}>
+                  Share
+                </Button>
+                <Dialog
+                  open={open}
+                  onClose={handleClose}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Share this solution"}
+                  </DialogTitle>
+                  <SharesolutionButton solution={solution} />
+                </Dialog>
+              </Item>
             </Grid>
             <Grid item xs={7}>
               <Item
                 sx={{
                   borderBottomLeftRadius: 16,
                   borderBottomRightRadius: 16,
-                  border: " solid #fff"
+                  border: " solid #fff",
                 }}
               >
                 <Box
@@ -264,17 +248,17 @@ export default function ViewSolution() {
                     "& > :not(style)": {
                       m: 1,
                       width: "100%",
-                      height: "10%"
-                    }
+                      height: "10%",
+                    },
                   }}
                 >
                   <Paper elevation={0} />
                   <Box
-                    component='img'
-                    alt='The house from the offer.'
-                    src='https://i.ibb.co/zQfhxnq/question-question-mark-symbol-140746-1920x1080.jpg'
+                    component="img"
+                    alt="The house from the offer."
+                    src="https://i.ibb.co/zQfhxnq/question-question-mark-symbol-140746-1920x1080.jpg"
                     sx={{
-                      maxHeight: "250px"
+                      maxHeight: "250px",
                     }}
                   />
                   <Paper />
@@ -283,10 +267,14 @@ export default function ViewSolution() {
                   sx={{
                     display: "flex",
                     flexWrap: "wrap",
-                    "& > :not(style)": {}
+                    "& > :not(style)": {},
                   }}
                 >
-                  <Typography variant='h6' sx={{ fontWeight: "bold" }} gutterBottom>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold" }}
+                    gutterBottom
+                  >
                     {solution?.solution?.question?.title}
                   </Typography>
                   <Typography
@@ -294,20 +282,22 @@ export default function ViewSolution() {
                       fontWeight: "bold",
                       typography: "body2",
                       color: "#858585",
-                      ml: 5
+                      ml: 5,
                     }}
-                    component='div'
+                    component="div"
                     gutterBottom
                   >
                     {solution?.solution?.question?.category}
 
                     <Chip
-                      label={` ${moment(solution?.solution?.question?.updatedAt).fromNow()}`}
-                      variant='outlined'
+                      label={` ${moment(
+                        solution?.solution?.question?.updatedAt
+                      ).fromNow()}`}
+                      variant="outlined"
                       sx={{
                         border: "none",
                         typography: "body2",
-                        color: "#858585"
+                        color: "#858585",
                       }}
                     />
                   </Typography>
@@ -320,7 +310,7 @@ export default function ViewSolution() {
                   borderBottomLeftRadius: 16,
                   borderBottomRightRadius: 16,
                   border: " solid #fff",
-                  mt: 2
+                  mt: 2,
                 }}
               >
                 <Stack
@@ -328,22 +318,22 @@ export default function ViewSolution() {
                     display: "flex",
                     flexWrap: "wrap",
                     "& > :not(style)": {
-                      mx: 5
-                    }
+                      mx: 5,
+                    },
                   }}
                 >
                   <Typography
-                    variant='h6'
+                    variant="h6"
                     sx={{ fontWeight: "bold", my: 2 }}
-                    component='div'
+                    component="div"
                     gutterBottom
                   >
                     Introduction
                   </Typography>
                   <Markdown children={solution?.solution?.answer || ""} />
-                  <Stack direction='row' spacing={1} sx={{ my: 10 }}>
-                    {solution?.solution?.tags.map(tag => (
-                      <Chip label={tag} variant='outlined' />
+                  <Stack direction="row" spacing={1} sx={{ my: 10 }}>
+                    {solution?.solution?.tags.map((tag) => (
+                      <Chip label={tag} variant="outlined" />
                     ))}
                   </Stack>
                 </Stack>
@@ -356,17 +346,21 @@ export default function ViewSolution() {
 
                   borderBottomRightRadius: 16,
                   mt: 2,
-                  mb: 5
+                  mb: 5,
                 }}
               >
-                {auth.isAuthenticated && <CommentSection solution={solution?.solution} />}
+                {auth.isAuthenticated && (
+                  <CommentSection solution={solution?.solution} />
+                )}
                 {!auth.isAuthenticated && (
-                  <Typography variant='body2' gutterBottom>
+                  <Typography variant="body2" gutterBottom>
                     <Button
-                      variant='contained'
-                      color='primary'
+                      variant="contained"
+                      color="primary"
                       onClick={() => {
-                        navigate("/login?redirectTo=" + window.location.pathname);
+                        navigate(
+                          "/login?redirectTo=" + window.location.pathname
+                        );
                       }}
                     >
                       Login to comment
@@ -380,13 +374,13 @@ export default function ViewSolution() {
                 sx={{
                   borderBottomLeftRadius: 16,
                   borderBottomRightRadius: 16,
-                  border: " solid #fff"
+                  border: " solid #fff",
                 }}
               >
                 <Typography
-                  variant='h6'
+                  variant="h6"
                   sx={{ fontWeight: "bold", my: 2 }}
-                  component='div'
+                  component="div"
                   gutterBottom
                 >
                   Related Solution

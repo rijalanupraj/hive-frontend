@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import Cookies from "js-cookie";
 import { CircularProgress, Grid } from "@mui/material";
+import NotistackProvider from "./components/NotistackProvider";
 import "./App.css";
 
 // theme
@@ -17,14 +18,12 @@ import RtlLayout from "./components/RtlLayout";
 // Route Import
 import UserRoute from "./routes/UserRoute";
 
-
-
 // Redux Action Import
 import { logInUserWithOauth, loadMe } from "./redux/actions/authActions";
 
 const App = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector(state => state.auth);
 
   useEffect(() => {
     dispatch(loadMe());
@@ -41,21 +40,10 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (
-      !auth.appLoaded &&
-      !auth.isLoading &&
-      auth.token &&
-      !auth.isAuthenticated
-    ) {
+    if (!auth.appLoaded && !auth.isLoading && auth.token && !auth.isAuthenticated) {
       loadMe();
     }
-  }, [
-    auth.isAuthenticated,
-    auth.token,
-    loadMe,
-    auth.isLoading,
-    auth.appLoaded,
-  ]);
+  }, [auth.isAuthenticated, auth.token, loadMe, auth.isLoading, auth.appLoaded]);
 
   // Render Loading Spinner while app is loading
   const renderLoadingSpinner = () => {
@@ -63,9 +51,9 @@ const App = () => {
       <Grid
         container
         spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
+        direction='column'
+        alignItems='center'
+        justifyContent='center'
         style={{ minHeight: "100vh" }}
       >
         <Grid item xs={3}>
@@ -79,10 +67,9 @@ const App = () => {
     <ThemeProvider>
       <ThemeColorPresets>
         <RtlLayout>
-          <BrowserRouter>
-            
-            {auth.appLoaded ? <UserRoute /> : renderLoadingSpinner()}
-          </BrowserRouter>
+          <NotistackProvider>
+            <BrowserRouter>{auth.appLoaded ? <UserRoute /> : renderLoadingSpinner()}</BrowserRouter>
+          </NotistackProvider>
         </RtlLayout>
       </ThemeColorPresets>
     </ThemeProvider>
