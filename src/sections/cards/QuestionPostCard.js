@@ -182,7 +182,7 @@ export default function QuestionPostCard({ question }) {
               dispatch(upVoteAnyQuestion(question._id));
             }}
           >
-            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} />
+            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} color={isUpVote? "#1877f2" : "text.secondary"}/>
           </IconButton>
           <Typography variant='caption'>{upVoteCount}</Typography>
 
@@ -191,7 +191,7 @@ export default function QuestionPostCard({ question }) {
               dispatch(downVoteAnyQuestion(question._id));
             }}
           >
-            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} />
+            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} color={isDownVote? "#1877f2" : "text.secondary"}/>
           </IconButton>
           <Typography variant='caption'>{downVoteCount}</Typography>
 

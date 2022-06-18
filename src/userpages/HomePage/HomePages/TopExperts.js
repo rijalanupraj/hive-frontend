@@ -72,7 +72,7 @@ export default function TopExperts() {
                     color: "text.secondary"
                   }}
                 >
-                  <Iconify icon={"simple-icons:fandom"} sx={{ width: 16, height: 16, mr: 0.5 }} />
+                  <Iconify icon={"simple-icons:fandom"} sx={{ width: 16, height: 16, mr: 0.5 }} color={"orange"}/>
                   {fShortenNumber(user?.followers?.length)}
                 </Typography>
               </Box>
