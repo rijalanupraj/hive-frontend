@@ -38,7 +38,7 @@ ProfileContribution.propTypes = {
 };
 
 export default function ProfileContribution({ profile }) {
-  const { Contribution } = profile;
+  const { contribution } = profile;
 
   return (
     <Card>
@@ -49,7 +49,7 @@ export default function ProfileContribution({ profile }) {
       >
         <Stack width={1} textAlign="center">
           <Typography variant="h4">
-            {/* {followers ? followers.length : "0"} */}1
+            {contribution.totalQuestionAdded}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Question Asked
@@ -58,7 +58,7 @@ export default function ProfileContribution({ profile }) {
 
         <Stack width={1} textAlign="center">
           <Typography variant="h4">
-            {/* {followings ? followings.length : "0"} */}0
+            {contribution.totalSolutionAdded}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Solution Provided
@@ -72,19 +72,42 @@ export default function ProfileContribution({ profile }) {
       >
         <Stack width={1} textAlign="center">
           <Typography variant="h4">
-            {/* {followers ? followers.length : "0"} */}1
+            {contribution.totalQuestionUpvotes}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Total Upvotes
+            Total Question Upvotes
           </Typography>
         </Stack>
 
         <Stack width={1} textAlign="center">
           <Typography variant="h4">
-            {/* {followings ? followings.length : "0"} */}0
+            {contribution.totalQuestiondownVotes}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
-            Total Downvotes
+            Total Question Downvotes
+          </Typography>
+        </Stack>
+      </Stack>
+      <Stack
+        direction="row"
+        sx={{ mt: 3, mb: 3 }}
+        divider={<Divider orientation="vertical" flexItem />}
+      >
+        <Stack width={1} textAlign="center">
+          <Typography variant="h4">
+            {contribution.totalSolutionUpVotes}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Total Solution Upvotes
+          </Typography>
+        </Stack>
+
+        <Stack width={1} textAlign="center">
+          <Typography variant="h4">
+            {contribution.totalSolutiondownVotes}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            Total Solution Downvotes
           </Typography>
         </Stack>
       </Stack>
