@@ -12,6 +12,8 @@ import {
   Typography,
   CardHeader,
   IconButton,
+  AvatarGroup,
+  InputAdornment,
   FormControlLabel,
 } from "@mui/material";
 
@@ -26,11 +28,13 @@ import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
 
 import SvgIconStyle from "../../components/SvgIconStyle";
+import ReportQuestion from "../../userpages/QuestionsPage/components/ReportQuestion";
 
 import {
   upVoteAnyQuestion,
   downVoteAnyQuestion,
 } from "../../redux/actions/questionActions";
+
 import { toggleAnswerLater } from "../../redux/actions/authActions";
 
 // ----------------------------------------------------------------------
@@ -117,6 +121,7 @@ export default function QuestionPostCard({ question }) {
   return (
     <Card
       style={{
+        border: "2px solid #e0e0e0",
         marginTop: "1rem",
       }}
     >
@@ -257,13 +262,22 @@ export default function QuestionPostCard({ question }) {
               height={20}
             />
           </IconButton>
-          <IconButton>
-            <Iconify
-              icon={"ic:outline-report-problem"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
+
+          {auth.isAuthenticated ? (
+            <ReportQuestion question={question} />
+          ) : (
+            <IconButton
+              onClick={() => {
+                navigate("/login?redirectTo=/question/" + question.slug);
+              }}
+            >
+              <Iconify
+                icon={"ic:outline-report-problem"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          )}
         </Stack>
       </Stack>
     </Card>
