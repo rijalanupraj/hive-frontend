@@ -193,32 +193,6 @@ export default function QuestionPostCard({ question }) {
             label="answer"
             sx={{ minWidth: 72, mr: 2 }}
           />
-          {/* upvote */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size="small"
-                color="error"
-                icon={<Iconify icon={"bx:upvote"} />}
-                checkedIcon={<Iconify icon={"bx:upvote"} />}
-              />
-            }
-            label="3"
-            sx={{ minWidth: 72, mr: 0 }}
-          />
-          {/*  downvote */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size="small"
-                color="error"
-                icon={<Iconify icon={"bx:downvote"} />}
-                checkedIcon={<Iconify icon={"bx:downvote"} />}
-              />
-            }
-            label="11"
-            sx={{ minWidth: 72, mr: 0 }}
-          />
           {/* upvote  */}
           <IconButton
             onClick={() => {
@@ -289,15 +263,21 @@ export default function QuestionPostCard({ question }) {
             />
           </IconButton>
 
-          <IconButton>
-            <ReportQuestion />
-
-            <Iconify
-              icon={"ic:outline-report-problem"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
+          {auth.isAuthenticated ? (
+            <ReportQuestion question={question} />
+          ) : (
+            <IconButton
+              onClick={() => {
+                navigate("/login?redirectTo=/question/" + question.slug);
+              }}
+            >
+              <Iconify
+                icon={"ic:outline-report-problem"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          )}
         </Stack>
       </Stack>
     </Card>

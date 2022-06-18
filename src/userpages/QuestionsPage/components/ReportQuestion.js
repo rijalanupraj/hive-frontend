@@ -8,9 +8,18 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Iconify from "../../../components/Iconify";
+import { IconButton } from "@mui/material";
+import { useFormik, Form, FormikProvider } from "formik";
+import * as Yup from "yup";
+import { LoadingButton } from "@mui/lab";
+import { useDispatch, useSelector } from "react-redux";
+import { reportQuestion } from "../../../redux/actions/questionActions";
+import { useSnackbar } from "notistack";
 
-export default function ReportQuestion() {
+export default function ReportQuestion({ question }) {
   const [open, setOpen] = React.useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,19 +29,32 @@ export default function ReportQuestion() {
     setOpen(false);
   };
 
+  const QuestionReportSchema = Yup.object().shape({
+    subject: Yup.string().required("Subject is required"),
+    description: Yup.string().required("Description is required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+    },
+    validationSchema: QuestionReportSchema,
+    onSubmit: (values) => {
+      dispatch(reportQuestion(question._id, values, enqueueSnackbar));
+      formik.resetForm();
+      handleClose();
+    },
+  });
+
+  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
+    formik;
+
   return (
-    <div>
-      {/* <Button
-        variant="text"
-        style={{ color: "blue" }}
-        onClick={handleClickOpen}
-      ></Button> */}
-      <Iconify
-        onClick={handleClickOpen}
-        icon={"ic:outline-report-problem"}
-        width={20}
-        height={20}
-      />
+    <>
+      <IconButton onClick={handleClickOpen}>
+        <Iconify icon={"ic:outline-report-problem"} width={20} height={20} />
+      </IconButton>
       <Dialog open={open} onClose={handleClose}>
         <Button
           variant="text"
@@ -44,25 +66,39 @@ export default function ReportQuestion() {
         </Button>
         <DialogTitle textAlign="center">Report</DialogTitle>
         <DialogContent>
-          <DialogContentText mb={2}>
+          <DialogContentText mb={2} textAlign="center">
             Please provide a valid reason for reporting this solution.
           </DialogContentText>
 
-          <TextField
-            sx={{ mt: 2, mb: 2 }}
-            label="Subject"
-            multiline
-            fullWidth
-            placeholder="Subject"
-          />
-          <TextField
-            mt={2}
-            label="Discription"
-            multiline
-            fullWidth
-            rows={4}
-            placeholder="Description"
-          />
+          <FormikProvider value={formik}>
+            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
+              <TextField
+                fullWidth
+                type="text"
+                label="Subject"
+                {...getFieldProps("subject")}
+                error={Boolean(touched.subject && errors.subject)}
+                helperText={touched.subject && errors.subject}
+              />
+              <TextField
+                fullWidth
+                type="text"
+                label="Description"
+                {...getFieldProps("description")}
+                error={Boolean(touched.description && errors.description)}
+                helperText={touched.description && errors.description}
+              />
+              <LoadingButton
+                fullWidth
+                size="large"
+                type="submit"
+                variant="contained"
+                loading={isSubmitting}
+              >
+                Suggest Category
+              </LoadingButton>
+            </Form>
+          </FormikProvider>
         </DialogContent>
         <DialogActions>
           <Button variant="contained" type="submit">
@@ -70,6 +106,6 @@ export default function ReportQuestion() {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
