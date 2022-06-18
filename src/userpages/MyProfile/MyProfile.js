@@ -35,6 +35,7 @@ import {
   getMyFollowers,
   getMyFollowings,
   getMyBookmarks,
+  getMyAnswerLater,
 } from "../../redux/actions/authActions";
 import MyBookmarks from "../../sections/user/MyProfile/MyBookmarks";
 import { getTimeLinePosts } from "../../redux/actions/userActions";
@@ -91,6 +92,8 @@ export default function MyProfile() {
       dispatch(getMyFollowers());
     } else if (newValue === "bookmarks") {
       dispatch(getMyBookmarks());
+    } else if (newValue === "answerlater") {
+      dispatch(getMyAnswerLater());
     }
     setCurrentTab(newValue);
   };
