@@ -27,9 +27,11 @@ import { useDispatch, useSelector } from "react-redux";
 // ----------------------------------------------------------------------
 import { viewSolution } from "../../redux/actions/viewSolutionActions";
 import moment from "moment";
+import EditDeleteButon from "./components/EditDeleteButton";
 
 export default function SolutionView() {
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const { solutionId } = useParams();
   const solution = useSelector((state) => state.viewSolutions);
 
@@ -41,7 +43,7 @@ export default function SolutionView() {
     return <div>Loading...</div>;
   }
   return (
-    <Page title={solution.solution.question.title}>
+    <Page title={solution?.solution?.question?.title}>
       <Container>
         <Grid container spacing={3}>
           <Grid item xs={12} lg={8} order={{ xs: 2, md: 1 }}>
@@ -62,7 +64,7 @@ export default function SolutionView() {
                     <Box sx={{ ml: 2 }}>
                       <Typography variant="subtitle1">Answered By:</Typography>
                       <Typography variant="button">
-                        {solution?.solution?.user?.name}
+                        {solution?.solution?.user?.username}
                       </Typography>
                       <Typography
                         variant="caption"
@@ -70,6 +72,11 @@ export default function SolutionView() {
                       >
                         {moment(solution?.solution?.createdAt).fromNow()}
                       </Typography>
+                    </Box>
+                    <Box sx={{ ml: "auto" }}>
+                      {auth.me.id === solution?.solution?.user?.id && (
+                        <EditDeleteButon solution={solution} />
+                      )}
                     </Box>
                   </Box>
                   <Divider />

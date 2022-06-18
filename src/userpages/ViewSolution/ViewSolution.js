@@ -28,7 +28,7 @@ import Iconify from "../../components/Iconify";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import SharesolutionButton from "./components/shareButton";
-import EditDeleteButoon from "./components/EditDeleteButton";
+import EditDeleteButton from "./components/EditDeleteButton";
 const theme = createTheme();
 
 export default function ViewSolution() {
@@ -213,7 +213,7 @@ export default function ViewSolution() {
 
               {auth.me.id === solution?.solution?.user?.id && (
                 <Item sx={{ mt: 2 }}>
-                  <EditDeleteButoon solution={solution} />
+                  <EditDeleteButton solution={solution} />
                 </Item>
               )}
               <Item>
