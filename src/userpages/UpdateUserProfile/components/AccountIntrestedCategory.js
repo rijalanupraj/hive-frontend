@@ -24,14 +24,15 @@ import { FormProvider } from "../../../components/hook-form";
 
 // Internal Import
 import { askQuestion } from "../../../redux/actions/questionActions";
-import { IntrestedCategorys } from "../../../redux/actions/userActions";
 import { getAllCategory } from "../../../redux/actions/categoryAction";
+import { intrestedCategories } from "../../../redux/actions/userActions";
 
 // ----------------------------------------------------------------------
 
 export default function AccountIntrestedCategory() {
   const dispatch = useDispatch();
   const [categoriesList, setcategoryList] = useState([]);
+
   const category = useSelector((state) => state.category);
 
   const navigate = useNavigate();
@@ -79,12 +80,10 @@ export default function AccountIntrestedCategory() {
 
   const onSubmit = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      dispatch(askQuestion(values, navigate));
-      reset();
-      // enqueueSnackbar("Post success!");
+      dispatch(intrestedCategories(values.category));
+      navigate("/user/account");
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
@@ -126,6 +125,7 @@ export default function AccountIntrestedCategory() {
                     variant="contained"
                     size="large"
                     loading={isSubmitting}
+                    // onClick={() => dispatch(intrestedCategories)}
                   >
                     Choose Category
                   </LoadingButton>
