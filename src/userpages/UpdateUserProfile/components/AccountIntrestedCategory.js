@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useSnackbar } from "notistack";
 // @mui
 import { LoadingButton } from "@mui/lab";
 import {
@@ -23,8 +24,7 @@ import {
 import { FormProvider } from "../../../components/hook-form";
 
 // Internal Import
-import { askQuestion } from "../../../redux/actions/questionActions";
-import { IntrestedCategorys } from "../../../redux/actions/userActions";
+import { chooseInterestedCategory } from "../../../redux/actions/authActions";
 import { getAllCategory } from "../../../redux/actions/categoryAction";
 
 // ----------------------------------------------------------------------
@@ -33,6 +33,8 @@ export default function AccountIntrestedCategory() {
   const dispatch = useDispatch();
   const [categoriesList, setcategoryList] = useState([]);
   const category = useSelector((state) => state.category);
+  const auth = useSelector((state) => state.auth);
+  const { enqueueSnackbar } = useSnackbar();
 
   const navigate = useNavigate();
 
@@ -49,20 +51,11 @@ export default function AccountIntrestedCategory() {
     setcategoryList(categoriesl);
   }, [category.categoryList]);
 
-  const IntrestedCategorySchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
-    content: Yup.string().min(100).required("Content is required"),
-    category: Yup.string().min(3).required("Category is required"),
-    cover: Yup.mixed(),
-  });
-
   const defaultValues = {
-    category: ["Logan"],
+    categories: auth?.me?.interestedCategories || [],
   };
 
   const methods = useForm({
-    resolver: yupResolver(IntrestedCategorySchema),
     defaultValues,
   });
 
@@ -79,10 +72,7 @@ export default function AccountIntrestedCategory() {
 
   const onSubmit = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      dispatch(askQuestion(values, navigate));
-      reset();
-      // enqueueSnackbar("Post success!");
+      dispatch(chooseInterestedCategory(values, enqueueSnackbar));
     } catch (error) {
       console.error(error);
     }
@@ -97,12 +87,12 @@ export default function AccountIntrestedCategory() {
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
                   <Controller
-                    name="Category"
+                    name="categories"
                     control={control}
                     render={({ field }) => (
                       <Autocomplete
                         multiple
-                        freeSolo
+                        value={values.categories}
                         onChange={(event, newValue) => field.onChange(newValue)}
                         options={categoriesList.map((option) => option)}
                         renderTags={(value, getTagProps) =>
@@ -116,7 +106,7 @@ export default function AccountIntrestedCategory() {
                           ))
                         }
                         renderInput={(params) => (
-                          <TextField label="Category" {...params} />
+                          <TextField label="Interested Category" {...params} />
                         )}
                       />
                     )}
