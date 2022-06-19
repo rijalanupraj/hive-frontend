@@ -230,7 +230,11 @@ export default function QuestionPostCard({ question }) {
                 navigate("/login?redirectTo=/question/" + question.slug);
               }}
             >
-              <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+              <Iconify
+                icon={"ph:clock-afternoon-light"}
+                width={20}
+                height={20}
+              />
             </IconButton>
           ) : (
             <IconButton
@@ -241,8 +245,8 @@ export default function QuestionPostCard({ question }) {
               <Iconify
                 icon={
                   auth.me.answerLater.includes(question._id)
-                    ? "bi:bookmark-dash-fill"
-                    : "bi:bookmark-check"
+                    ? "ph:clock-afternoon-fill"
+                    : "ph:clock-afternoon-light"
                 }
                 color={
                   auth.me.answerLater.includes(question._id)
