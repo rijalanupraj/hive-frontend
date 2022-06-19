@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+
 // @mui
 import {
   Box,
@@ -42,6 +43,7 @@ export default function SolutionView() {
   if (!solution.solution) {
     return <div>Loading...</div>;
   }
+
   return (
     <Page title={solution?.solution?.question?.title}>
       <Container>
