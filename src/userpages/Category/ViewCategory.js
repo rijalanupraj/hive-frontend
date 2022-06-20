@@ -49,9 +49,6 @@ export default function ViewCategory() {
     <Page title="User: Profile">
       <Container
         maxWidth={themeStretch ? false : "lg"}
-        style={{
-          marginTop: "13vh",
-        }}
       >
         {/* <HeaderBreadcrumbs
           heading="Profile"

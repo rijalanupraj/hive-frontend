@@ -15,6 +15,7 @@ import {
   AvatarGroup,
   InputAdornment,
   FormControlLabel,
+  Tooltip,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -173,7 +174,7 @@ export default function QuestionPostCard({ question }) {
         </Typography>
 
         <Link href="#">
-          <Typography variant="h7" align="justify">
+          <Typography variant="body2" align="justify">
             {question?.answers?.length} Answers
           </Typography>
         </Link>
@@ -182,106 +183,113 @@ export default function QuestionPostCard({ question }) {
 
         <Stack direction="row" alignItems="center">
           {/* write  */}
-          <FormControlLabel
-            control={
-              <Link href={"/post-solution/" + question._id}>
-                <IconButton>
-                  <Iconify icon={"jam:write-f"} width={20} height={20} />
-                </IconButton>
-              </Link>
-            }
-            label="answer"
-            sx={{ minWidth: 72, mr: 2 }}
-          />
+          <Link href={'/post-solution/'+question._id}>
+            <Tooltip title="write">
+              <IconButton>
+                <Iconify icon={"jam:write-f"} width={20} height={20} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+          <Typography variant="caption">Answer</Typography>
           {/* upvote  */}
-          <IconButton
-            onClick={() => {
-              dispatch(upVoteAnyQuestion(question._id));
-            }}
-          >
-            <Iconify
-              icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
-              width={20}
-              height={20}
-              color={isUpVote ? "#1877f2" : "text.secondary"}
-            />
-          </IconButton>
+          <Tooltip title="upvote">
+            <IconButton
+              onClick={() => {
+                dispatch(upVoteAnyQuestion(question._id));
+              }}
+            >
+              <Iconify
+                icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+                width={20}
+                height={20}
+                color={isUpVote ? "#1877f2" : "text.secondary"}
+              />
+            </IconButton>
+          </Tooltip>
           <Typography variant="caption">{upVoteCount}</Typography>
 
-          <IconButton
-            onClick={() => {
-              dispatch(downVoteAnyQuestion(question._id));
-            }}
-          >
-            <Iconify
-              icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
-              width={20}
-              height={20}
-              color={isDownVote ? "#1877f2" : "text.secondary"}
-            />
-          </IconButton>
+          <Tooltip title="downvote">
+            <IconButton
+              onClick={() => {
+                dispatch(downVoteAnyQuestion(question._id));
+              }}
+            >
+              <Iconify
+                icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+                width={20}
+                height={20}
+                color={isDownVote ? "#1877f2" : "text.secondary"}
+              />
+            </IconButton>
+          </Tooltip>
           <Typography variant="caption">{downVoteCount}</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          {!auth.isAuthenticated ? (
-            <IconButton
-              onClick={() => {
-                navigate("/login?redirectTo=/question/" + question.slug);
-              }}
-            >
-              <Iconify
-                icon={"ph:clock-afternoon-light"}
-                width={20}
-                height={20}
-              />
-            </IconButton>
-          ) : (
-            <IconButton
-              onClick={() => {
-                dispatch(toggleAnswerLater(question._id));
-              }}
-            >
-              <Iconify
-                icon={
-                  auth.me.answerLater.includes(question._id)
-                    ? "ph:clock-afternoon-fill"
-                    : "ph:clock-afternoon-light"
-                }
-                color={
-                  auth.me.answerLater.includes(question._id)
-                    ? "#1877f2"
-                    : "text.secondary"
-                }
-                width={20}
-                height={20}
-              />
-            </IconButton>
-          )}
+          <Tooltip title="Answer Later">
+            {!auth.isAuthenticated ? (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/question/" + question.slug);
+                }}
+              >
+                <Iconify
+                  icon={"ph:clock-afternoon-light"}
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() => {
+                  dispatch(toggleAnswerLater(question._id));
+                }}
+              >
+                <Iconify
+                  icon={
+                    auth.me.answerLater.includes(question._id)
+                      ? "ph:clock-afternoon-fill"
+                      : "ph:clock-afternoon-light"
+                  }
+                  color={
+                    auth.me.answerLater.includes(question._id)
+                      ? "#1877f2"
+                      : "text.secondary"
+                  }
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
 
-          <IconButton>
-            <Iconify
-              icon={"ant-design:share-alt-outlined"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-
-          {auth.isAuthenticated ? (
-            <ReportQuestion question={question} />
-          ) : (
-            <IconButton
-              onClick={() => {
-                navigate("/login?redirectTo=/question/" + question.slug);
-              }}
-            >
+          <Tooltip title="Share">
+            <IconButton>
               <Iconify
-                icon={"ic:outline-report-problem"}
+                icon={"ant-design:share-alt-outlined"}
                 width={20}
                 height={20}
               />
             </IconButton>
-          )}
+          </Tooltip>
+
+          <Tooltip title="Report">
+            {auth.isAuthenticated ? (
+              <ReportQuestion question={question} />
+            ) : (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/question/" + question.slug);
+                }}
+              >
+                <Iconify
+                  icon={"ic:outline-report-problem"}
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
         </Stack>
       </Stack>
     </Card>
