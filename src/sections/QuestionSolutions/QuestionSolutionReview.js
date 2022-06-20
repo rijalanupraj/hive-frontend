@@ -28,6 +28,7 @@ import {
 } from "../../redux/actions/solutionActions";
 import SharesolutionButton from "../../userpages/ViewSolution/components/shareButton";
 import { toggleBookmark } from "../../redux/actions/authActions";
+import ReportSolution from "../reports/ReportSolution";
 
 // ----------------------------------------------------------------------
 
@@ -229,9 +230,22 @@ export default function QuestionSolutionsReview() {
           </DialogTitle>
           <SharesolutionButton solution={solution} />
         </Dialog>
-        <IconButton>
-          <Iconify icon={"ic:outline-report-problem"} width={20} height={20} />
-        </IconButton>
+
+        {auth.isAuthenticated ? (
+          <ReportSolution solution={solution?.solution} />
+        ) : (
+          <IconButton
+            onClick={() => {
+              navigate("/login?redirectTo=/solution/" + solution._id);
+            }}
+          >
+            <Iconify
+              icon={"ic:outline-report-problem"}
+              width={20}
+              height={20}
+            />
+          </IconButton>
+        )}
       </Stack>
     </Box>
   );
