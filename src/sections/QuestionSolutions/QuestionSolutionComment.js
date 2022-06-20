@@ -26,10 +26,9 @@ import { addComment } from "../../redux/actions/viewSolutionActions";
 import moment from "moment";
 import UpdateSolutionCommentSection from "../../userpages/ViewSolution/components/UpdateComment.Section";
 
-export default function QuestionSolutionComment({ solution }) {
+export default function QuestionSolutionComment({ solution, auth }) {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const auth = useSelector((state) => state.auth);
   const commentSchema = Yup.object().shape({
     text: Yup.string()
       .required("Comment is required")
@@ -59,51 +58,61 @@ export default function QuestionSolutionComment({ solution }) {
   return (
     <Box sx={{ py: 3 }}>
       {/* write comment */}
-      <FormikProvider value={formik}>
-        <Form>
-          <Stack direction="row" alignItems="center">
-            <MyAvatar />
+      {auth.isAuthenticated ? (
+        <FormikProvider value={formik}>
+          <Form>
+            <Stack direction="row" alignItems="center">
+              <MyAvatar />
 
-            <TextField
-              fullWidth
-              size="small"
-              value={message}
-              inputRef={commentInputRef}
-              placeholder="Write a comment…"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton size="small">
-                      <Iconify
-                        icon={"ic:round-add-photo-alternate"}
-                        width={24}
-                        height={24}
-                      />
-                    </IconButton>
-                    <EmojiPicker />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                ml: 2,
-                mr: 1,
-                "& fieldset": {
-                  borderWidth: `1px !important`,
-                  borderColor: (theme) =>
-                    `${theme.palette.grey[500_32]} !important`,
-                },
-              }}
-              {...formik.getFieldProps("text")}
-              helperText={formik.touched.text && formik.errors.text}
-              error={formik.touched.text && !!formik.errors.text}
-            />
-            <IconButton type="submit">
-              <Iconify icon={"ic:round-send"} width={24} height={24} />
-            </IconButton>
-            <input type="file" ref={fileInputRef} style={{ display: "none" }} />
-          </Stack>
-        </Form>
-      </FormikProvider>
+              <TextField
+                fullWidth
+                size="small"
+                value={message}
+                inputRef={commentInputRef}
+                placeholder="Write a comment…"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton size="small">
+                        <Iconify
+                          icon={"ic:round-add-photo-alternate"}
+                          width={24}
+                          height={24}
+                        />
+                      </IconButton>
+                      <EmojiPicker />
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  ml: 2,
+                  mr: 1,
+                  "& fieldset": {
+                    borderWidth: `1px !important`,
+                    borderColor: (theme) =>
+                      `${theme.palette.grey[500_32]} !important`,
+                  },
+                }}
+                {...formik.getFieldProps("text")}
+                helperText={formik.touched.text && formik.errors.text}
+                error={formik.touched.text && !!formik.errors.text}
+              />
+              <IconButton type="submit">
+                <Iconify icon={"ic:round-send"} width={24} height={24} />
+              </IconButton>
+              <input
+                type="file"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+              />
+            </Stack>
+          </Form>
+        </FormikProvider>
+      ) : (
+        <Box sx={{ textAlign: "center" }}>
+          <Link href="/login">Login to comment</Link>
+        </Box>
+      )}
 
       {/* read Comment 1 */}
       <Stack spacing={1.5}>
@@ -128,7 +137,8 @@ export default function QuestionSolutionComment({ solution }) {
                 {/* {comment.message} */}
                 {comment.text}
               </Typography>
-              {auth.me._id === comment.user._id && (
+
+              {auth.isAuthenticated && auth.me._id === comment.user._id && (
                 <UpdateSolutionCommentSection
                   comment={comment}
                   solutionId={solution._id}
