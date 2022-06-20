@@ -174,7 +174,7 @@ export default function QuestionPostCard({ question }) {
         </Typography>
 
         <Link href="#">
-          <Typography variant="body2" align="justify">
+          <Typography variant="body2" align="justify" color='#3971f1'>
             {question?.answers?.length} Answers
           </Typography>
         </Link>
