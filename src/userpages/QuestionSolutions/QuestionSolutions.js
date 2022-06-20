@@ -139,12 +139,14 @@ export default function QuestionSolutions() {
                 {/* end body description */}
 
                 {/* start image */}
-                <Image
+                
+                {/* <Image
                   alt="post media"
                   src="https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png"
                   ratio="16/9"
                   sx={{ borderRadius: 1, mt: 4 }}
-                />
+                /> */}
+
                 {/* end image */}
 
                 {/* start upVote/downvote */}

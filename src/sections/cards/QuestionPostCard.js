@@ -17,6 +17,7 @@ import {
   FormControlLabel,
   Tooltip,
   Chip,
+  Divider
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -166,7 +167,7 @@ export default function QuestionPostCard({ question }) {
       <Stack spacing={0.5} sx={{ p: 3 }}>
         {/* Question */}
         <Link to={"/question/" + question?.slug} component={RouterLink}>
-          <Typography variant="h6" align="justify" sx={{ mb: -1 }}>
+          <Typography variant="h6" align="justify" sx={{ mb: 0.5 }}>
             {question?.title}
           </Typography>
         </Link>
@@ -174,28 +175,30 @@ export default function QuestionPostCard({ question }) {
         <Typography variant="body1" align="justify">
           {question?.description}
         </Typography>
+        
         <Typography variant="body1" align="justify">
           <Stack direction="row" spacing={1}>
             {question?.tags.map((tag) => (
               <Chip
                 label={tag}
-                color="secondary"
-                variant="contained"
+                variant="outlined"
+                size="small"
                 clickable
               />
             ))}
           </Stack>
         </Typography>
-
+        
+        
         <Link href="#">
-          <Typography variant="body2" align="justify" color="#3971f1">
+          <Typography variant="body2" align="justify" color="#3971f1" sx={{mt:2}}>
             {question?.answers?.length} Answers
           </Typography>
         </Link>
 
         {/* image */}
-
-        <Stack direction="row" alignItems="center">
+        <Divider/>
+        <Stack direction="row" alignItems="center" sx={{ml:-1}}>
           {/* write  */}
           <Link href={"/post-solution/" + question._id}>
             <Tooltip title="write">

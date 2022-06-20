@@ -48,9 +48,9 @@ export default function SolutionView() {
 
   return (
     <Page title={solution?.solution?.question?.title}>
-      <Container>
+      <Container maxWidth="md">
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={8} order={{ xs: 2, md: 1 }}>
+          {/* <Grid item xs={12} lg={8} order={{ xs: 2, md: 1 }}> */}
             <Card>
               {/* cover */}
               <QuestionSolutionHeader que={solution?.solution?.question} />
@@ -90,24 +90,24 @@ export default function SolutionView() {
 
                 {/* start body description */}
 
-                <Markdown children={solution?.solution?.answer || ""} />
+                <Markdown children={solution?.solution?.answer || ""}  align='justify' />
                 {/* end body description */}
 
                 {/* start image */}
-                <Image
+                {/* <Image
                   alt="post media"
                   src="https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png"
                   ratio="16/9"
                   sx={{ borderRadius: 1, mt: 4 }}
-                />
+                /> */}
                 {/* end image */}
 
-                <Stack direction="row" spacing={1} sx={{ mt: 5 }}>
+                <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
                   {solution?.solution?.tags.map((tag) => (
                     <Chip
                       label={tag}
-                      variant="contained"
-                      color="secondary"
+                      variant="outlined"
+                      size="small"
                       clickable
                     />
                   ))}
@@ -127,7 +127,7 @@ export default function SolutionView() {
 
                 {/* start comment */}
 
-                <Box sx={{ my: 3 }}>
+                <Box sx={{ my: 3, mt:-2 }}>
                   <QuestionSolutionComment
                     solution={solution?.solution}
                     auth={auth}
@@ -137,9 +137,9 @@ export default function SolutionView() {
                 {/* end comment */}
               </Box>
             </Card>
-          </Grid>
+          {/* </Grid> */}
 
-          <Grid
+          {/* <Grid
             item
             xs={12}
             md={4}
@@ -148,7 +148,7 @@ export default function SolutionView() {
             order={{ xs: 1, md: 1 }}
           >
             <SimilarSolutionsPost />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </Page>
