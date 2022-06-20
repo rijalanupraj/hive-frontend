@@ -68,7 +68,7 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
   return (
     <div>
       <ButtonGroup
-        variant="contained"
+        variant="text"
         size="small"
         justifyContent="space-between"
         alignItems="center"
@@ -76,7 +76,7 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
         aria-label="outlined primary button group"
       >
         <Button variant="text" onClick={handleEditOpen}>
-          <EditIcon />
+          Edit
         </Button>
 
         <Dialog
@@ -132,12 +132,8 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
           </FormikProvider>
         </Dialog>
 
-        <Button
-          variant="text"
-          onClick={handleDeleteOpen}
-          style={{ color: "red", background: "none" }}
-        >
-          <DeleteRoundedIcon />
+        <Button variant="text" color="error" onClick={handleDeleteOpen}>
+          Delete
         </Button>
 
         <Dialog

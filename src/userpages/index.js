@@ -17,7 +17,6 @@ import PersonalFeed from "./PersonalFeed/PersonalFeed";
 import QuestionSolutions from "./QuestionSolutions/QuestionSolutions";
 import AnotherQuestionSolutions from "./QuestionSolutions/AnotherQuestionSolutions";
 
-
 export {
   Login,
   Register,
@@ -37,5 +36,4 @@ export {
   PersonalFeed,
   QuestionSolutions,
   AnotherQuestionSolutions,
-
 };

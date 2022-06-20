@@ -34,9 +34,12 @@ import { BACKEND_API_URL } from "../../constants";
 import Page from "../../components/Page";
 
 // Internal Import
-import { askQuestion } from "../../redux/actions/questionActions";
+import { getQuestionForPostSolution } from "../../redux/actions/questionActions";
 import { getAllAvailableTags } from "../../redux/actions/tagActions";
 import { postSolution } from "../../redux/actions/solutionActions";
+import useSettings from "../../hooks/useSettings";
+import QuestionPostCard from "../../sections/cards/QuestionPostCard";
+import { useSnackbar } from "notistack";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -52,30 +55,29 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));
 
-const categoriesList = ["Government", "Health", "Education", "Vechiles"];
-
 // ----------------------------------------------------------------------
 
 export default function AskQuestion1() {
   const dispatch = useDispatch();
+  const { themeStretch } = useSettings();
   const tags = useSelector((state) => state.tag);
+  const qState = useSelector((state) => state.question);
   const navigate = useNavigate();
   const { questionId } = useParams();
+  const [question, setQuestion] = useState({});
+  const { enqueueSnackbar } = useSnackbar();
 
   const tagsList = tags.tagsList;
 
   useEffect(() => {
-    const checkQuestionIdIsValid = async () => {
-      if (questionId) {
-        const response = await fetch(`${BACKEND_API_URL}/question/id/${questionId}`);
-        if (response.status === 200) {
-        } else {
-          navigate("/404");
-        }
-      }
-    };
-    checkQuestionIdIsValid();
-  }, [questionId]);
+    dispatch(getQuestionForPostSolution(questionId, navigate, enqueueSnackbar));
+  }, []);
+
+  useEffect(() => {
+    if (qState.question) {
+      setQuestion(qState.question);
+    }
+  }, [qState.question]);
 
   useEffect(() => {
     dispatch(getAllAvailableTags());
@@ -84,18 +86,16 @@ export default function AskQuestion1() {
   // const { enqueueSnackbar } = useSnackbar();
 
   const NewQuestionSchema = Yup.object().shape({
-    answer: Yup.string().min(100).required("Content is required"),
+    answer: Yup.string().min(500).required("Content is required"),
+    tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
     cover: Yup.mixed(),
   });
 
   const defaultValues = {
     answer: "",
     cover: null,
-    tags: ["Logan"],
+    tags: [],
     isDraft: true,
-    metaTitle: "",
-    metaDescription: "",
-    metaKeywords: ["Logan"],
   };
 
   const methods = useForm({
@@ -109,19 +109,15 @@ export default function AskQuestion1() {
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
   } = methods;
 
   const values = watch();
 
   const onSubmit = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
       const newValue = { ...values, isDraft: !values.isDraft };
-      console.log(newValue);
-      dispatch(postSolution(questionId, newValue, navigate));
-      //   reset();
-      // enqueueSnackbar("Post success!");
+      dispatch(postSolution(questionId, newValue, navigate, enqueueSnackbar));
     } catch (error) {
       console.error(error);
     }
@@ -146,9 +142,14 @@ export default function AskQuestion1() {
   return (
     <Page title="Post Solution">
       <RootStyle>
-        <Container
-          component="main"
-        >
+        <Container component="main">
+          <Typography variant="h4" sx={{ pl: 2 }}>
+            {" "}
+            Post Solution{" "}
+          </Typography>
+          <br />
+          {qState.question && <QuestionPostCard question={qState.question} />}
+          {/* <SelectedQuestionCard /> */}
           <Paper variant="outlined" sx={{ my: { xs: 3 } }}>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3}>
@@ -208,49 +209,17 @@ export default function AskQuestion1() {
                               ))
                             }
                             renderInput={(params) => (
-                              <TextField label="Tags" {...params} />
+                              <TextField
+                                label="Tags"
+                                {...params}
+                                error={errors.tags}
+                                helperText={errors.tags?.message}
+                              />
                             )}
                           />
                         )}
                       />
 
-                      <RHFTextField name="metaTitle" label="Meta title" />
-
-                      <RHFTextField
-                        name="metaDescription"
-                        label="Meta description"
-                        fullWidth
-                        multiline
-                        rows={3}
-                      />
-
-                      <Controller
-                        name="metaKeywords"
-                        control={control}
-                        render={({ field }) => (
-                          <Autocomplete
-                            multiple
-                            freeSolo
-                            onChange={(event, newValue) =>
-                              field.onChange(newValue)
-                            }
-                            options={tagsList.map((option) => option)}
-                            renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                <Chip
-                                  {...getTagProps({ index })}
-                                  key={option}
-                                  size="small"
-                                  label={option}
-                                />
-                              ))
-                            }
-                            renderInput={(params) => (
-                              <TextField label="Meta keywords" {...params} />
-                            )}
-                          />
-                        )}
-                      />
                       <div>
                         <RHFSwitch
                           name="isDraft"

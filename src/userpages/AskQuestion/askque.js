@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 // @mui
 import { LoadingButton } from "@mui/lab";
 import { styled } from "@mui/material/styles";
+import { useSnackbar } from "notistack";
 import {
   Grid,
   Card,
@@ -19,6 +20,9 @@ import {
   Autocomplete,
   Paper,
   Container,
+  Switch,
+  FormControlLabel,
+  FormGroup,
 } from "@mui/material";
 // routes
 // components
@@ -35,6 +39,7 @@ import Page from "../../components/Page";
 // Internal Import
 import { askQuestion } from "../../redux/actions/questionActions";
 import { getAllAvailableTags } from "../../redux/actions/tagActions";
+import { getAllCategory } from "../../redux/actions/categoryAction";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -50,44 +55,53 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
 }));
 
-const categoriesList = ["Government", "Health", "Education", "Vechiles"];
-
 // ----------------------------------------------------------------------
 
 export default function AskQuestion() {
   const dispatch = useDispatch();
   const question = useSelector((state) => state.question);
+  const [showMetaData, setShowMetaData] = useState(false);
   const tags = useSelector((state) => state.tag);
+  const category = useSelector((state) => state.category);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+  const [categoriesList, setCategoriesList] = useState([]);
 
   const tagsList = tags.tagsList;
 
   useEffect(() => {
     dispatch(getAllAvailableTags());
+    dispatch(getAllCategory());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (category.categoryList) {
+      setCategoriesList(category.categoryList);
+    }
+  }, [category.categoryList]);
   // const { enqueueSnackbar } = useSnackbar();
 
   const NewQuestionSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
-    content: Yup.string().min(100).required("Content is required"),
-    category: Yup.string().min(3).required("Category is required"),
-    cover: Yup.mixed(),
+    title: Yup.string()
+      .required("Title is required")
+      .min(20, "Title must be at least 20 characters")
+      .max(400, "Title must be less than 400 characters"),
+    description: Yup.string()
+      .required("Description is required")
+      .min(30, "Description must be at least 30 characters"),
+    category: Yup.string().required("Category is required"),
+    tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
   });
 
   const defaultValues = {
     title: "",
     description: "",
-    content: "",
-    cover: null,
     category: "",
-    tags: ["Logan"],
+    tags: [],
     publish: true,
-    comments: true,
     metaTitle: "",
     metaDescription: "",
-    metaKeywords: ["Logan"],
+    metaKeywords: [],
   };
 
   const methods = useForm({
@@ -101,48 +115,31 @@ export default function AskQuestion() {
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
   } = methods;
 
   const values = watch();
 
   const onSubmit = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
       dispatch(askQuestion(values, navigate));
       reset();
-      // enqueueSnackbar("Post success!");
+      enqueueSnackbar("Question asked successfully", {
+        variant: "success",
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-
-      if (file) {
-        setValue(
-          "cover",
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
-      }
-    },
-    [setValue]
-  );
-
   return (
     <Page title="Ask Question">
       <Container component="main">
-        <Paper variant="outlined" sx={{ my: { xs: 3} }}>
+        <Paper variant="outlined" sx={{ my: { xs: 3 }, p: { xs: 3 } }}>
           <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={3}>
               <Grid item xs={12} md={8}>
-                <Card
-                  sx={{ p: 3 }}
-                >
+                <Card sx={{ p: 3 }}>
                   <Stack spacing={3}>
                     <RHFTextField name="title" label="Question Title" />
 
@@ -150,48 +147,36 @@ export default function AskQuestion() {
                       name="description"
                       label="Description"
                       multiline
-                      rows={3}
+                      rows={5}
                     />
-
-                    <div>
-                      <LabelStyle>Content</LabelStyle>
-                      <RHFEditor name="content" />
-                    </div>
-
-                    <div>
-                      <LabelStyle>Cover</LabelStyle>
-                      <RHFUploadSingleFile
-                        name="cover"
-                        accept="image/*"
-                        maxSize={3145728}
-                        onDrop={handleDrop}
-                      />
-                    </div>
                   </Stack>
                 </Card>
               </Grid>
 
               <Grid item xs={12} md={4}>
-                <Card
-                  sx={{ p: 3 }}
-                >
+                <Card sx={{ p: 3 }}>
                   <Stack spacing={3}>
                     <Controller
                       name="category"
                       control={control}
                       render={({ field }) => (
                         <Autocomplete
-                          freeSolo
                           onChange={(event, newValue) =>
                             field.onChange(newValue)
                           }
-                          options={categoriesList.map((option) => option)}
+                          options={categoriesList.map((option) => option.title)}
                           renderInput={(params) => (
-                            <TextField label="Category" {...params} />
+                            <TextField
+                              label="Category"
+                              {...params}
+                              error={errors.category}
+                              helperText={errors.category?.message}
+                            />
                           )}
                         />
                       )}
                     />
+
                     <Controller
                       name="tags"
                       control={control}
@@ -214,49 +199,69 @@ export default function AskQuestion() {
                             ))
                           }
                           renderInput={(params) => (
-                            <TextField label="Tags" {...params} />
+                            <TextField
+                              label="Tags"
+                              {...params}
+                              error={errors.tags}
+                              helperText={errors.tags?.message}
+                            />
                           )}
                         />
                       )}
                     />
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            value={showMetaData}
+                            onChange={() => setShowMetaData(!showMetaData)}
+                          />
+                        }
+                        label="Meta Data"
+                      />
+                    </FormGroup>
 
-                    <RHFTextField name="metaTitle" label="Meta title" />
+                    {showMetaData && (
+                      <>
+                        <RHFTextField name="metaTitle" label="Meta title" />
 
-                    <RHFTextField
-                      name="metaDescription"
-                      label="Meta description"
-                      fullWidth
-                      multiline
-                      rows={3}
-                    />
+                        <RHFTextField
+                          name="metaDescription"
+                          label="Meta description"
+                          fullWidth
+                          multiline
+                          rows={3}
+                        />
 
-                    <Controller
-                      name="metaKeywords"
-                      control={control}
-                      render={({ field }) => (
-                        <Autocomplete
-                          multiple
-                          freeSolo
-                          onChange={(event, newValue) =>
-                            field.onChange(newValue)
-                          }
-                          options={tagsList.map((option) => option)}
-                          renderTags={(value, getTagProps) =>
-                            value.map((option, index) => (
-                              <Chip
-                                {...getTagProps({ index })}
-                                key={option}
-                                size="small"
-                                label={option}
-                              />
-                            ))
-                          }
-                          renderInput={(params) => (
-                            <TextField label="Meta keywords" {...params} />
+                        <Controller
+                          name="metaKeywords"
+                          control={control}
+                          render={({ field }) => (
+                            <Autocomplete
+                              multiple
+                              freeSolo
+                              onChange={(event, newValue) =>
+                                field.onChange(newValue)
+                              }
+                              options={tagsList.map((option) => option)}
+                              renderTags={(value, getTagProps) =>
+                                value.map((option, index) => (
+                                  <Chip
+                                    {...getTagProps({ index })}
+                                    key={option}
+                                    size="small"
+                                    label={option}
+                                  />
+                                ))
+                              }
+                              renderInput={(params) => (
+                                <TextField label="Meta keywords" {...params} />
+                              )}
+                            />
                           )}
                         />
-                      )}
-                    />
+                      </>
+                    )}
                   </Stack>
                 </Card>
 

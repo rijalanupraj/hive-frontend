@@ -11,6 +11,8 @@ import {
   questionReducer,
   tagReducer,
   viewSolutionReducer,
+  messengerReducer,
+  CategoryReducer,
 } from "./reducers/";
 
 const reducer = combineReducers({
@@ -21,7 +23,9 @@ const reducer = combineReducers({
   solution: solutionReducer,
   question: questionReducer,
   tag: tagReducer,
+  category: CategoryReducer,
   viewSolutions: viewSolutionReducer,
+  messenger: messengerReducer,
 });
 
 let initialState = {};
