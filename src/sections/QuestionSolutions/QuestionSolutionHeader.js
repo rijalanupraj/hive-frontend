@@ -132,9 +132,9 @@ export default function QuestionSolutionHeader({ que }) {
         backgroundColor: "#1A2027",
       }}
     >
-      <TitleStyle>{que.title} </TitleStyle>
+      <TitleStyle>{que?.title} </TitleStyle>
 
-      <TitleStyle1>{que.description}</TitleStyle1>
+      <TitleStyle1>{que?.description}</TitleStyle1>
 
       <FooterStyle>
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -148,10 +148,10 @@ export default function QuestionSolutionHeader({ que }) {
               Questioned By:
             </Typography>
             <Typography variant="button" sx={{ color: "common.white" }}>
-              {que.user}
+              {que?.user?.username}
             </Typography>
             <Typography variant="caption" sx={{ ml: 1, color: "grey.500" }}>
-              {moment(que.createdAt).fromNow()}
+              {moment(que?.createdAt).fromNow()}
             </Typography>
           </Box>
         </Box>
