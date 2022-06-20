@@ -132,11 +132,7 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
           </FormikProvider>
         </Dialog>
 
-        <Button
-          variant="text"
-          style={{ color: "red" }}
-          onClick={handleDeleteOpen}
-        >
+        <Button variant="text" color="error" onClick={handleDeleteOpen}>
           Delete
         </Button>
 

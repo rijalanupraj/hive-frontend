@@ -27,6 +27,7 @@ import {
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
 import SharesolutionButton from "../../userpages/ViewSolution/components/shareButton";
+import { toggleBookmark } from "../../redux/actions/authActions";
 // ----------------------------------------------------------------------
 
 export default function QuestionSolutionsReview() {
@@ -161,8 +162,12 @@ export default function QuestionSolutionsReview() {
             <Checkbox
               size="small"
               color="error"
-              icon={<Iconify icon={"fa-regular:comment"} />}
-              checkedIcon={<Iconify icon={"fa-regular:comment"} />}
+              icon={
+                <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+              }
+              checkedIcon={
+                <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+              }
             />
           }
           label={solution?.solution?.comments?.length}
@@ -172,14 +177,14 @@ export default function QuestionSolutionsReview() {
         <Box sx={{ flexGrow: 1 }} />
 
         <IconButton>
-          <Iconify icon={"bi:bookmark-check"} width={30} height={30} />
+          <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
         </IconButton>
 
         <IconButton onClick={handleClickOpen}>
           <Iconify
             icon={"ant-design:share-alt-outlined"}
-            width={30}
-            height={30}
+            width={20}
+            height={20}
           />
         </IconButton>
         <Dialog
@@ -194,7 +199,7 @@ export default function QuestionSolutionsReview() {
           <SharesolutionButton solution={solution} />
         </Dialog>
         <IconButton>
-          <Iconify icon={"ic:outline-report-problem"} width={30} height={30} />
+          <Iconify icon={"ic:outline-report-problem"} width={20} height={20} />
         </IconButton>
       </Stack>
     </Box>
