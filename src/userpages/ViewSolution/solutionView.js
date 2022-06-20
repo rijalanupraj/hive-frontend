@@ -76,7 +76,7 @@ export default function SolutionView() {
                       </Typography>
                     </Box>
                     <Box sx={{ ml: "auto" }}>
-                      {auth.me.id === solution?.solution?.user?.id && (
+                      {auth.me._id === solution?.solution?.user?._id && (
                         <EditDeleteButon solution={solution} />
                       )}
                     </Box>

@@ -28,6 +28,7 @@ import {
 } from "../../redux/actions/solutionActions";
 import SharesolutionButton from "../../userpages/ViewSolution/components/shareButton";
 import { toggleBookmark } from "../../redux/actions/authActions";
+
 // ----------------------------------------------------------------------
 
 export default function QuestionSolutionsReview() {
@@ -176,9 +177,39 @@ export default function QuestionSolutionsReview() {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <IconButton>
+        {/* <IconButton>
           <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
-        </IconButton>
+        </IconButton> */}
+        {!auth.isAuthenticated ? (
+          <IconButton
+            onClick={() => {
+              navigate("/login?redirectTo=/solution/" + solution._id);
+            }}
+          >
+            <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={() => {
+              dispatch(toggleBookmark(solution._id));
+            }}
+          >
+            <Iconify
+              icon={
+                auth.me.bookmarks.includes(solution._id)
+                  ? "bi:bookmark-dash-fill"
+                  : "bi:bookmark-check"
+              }
+              color={
+                auth.me.bookmarks.includes(solution._id)
+                  ? "#1877f2"
+                  : "text.secondary"
+              }
+              width={20}
+              height={20}
+            />
+          </IconButton>
+        )}
 
         <IconButton onClick={handleClickOpen}>
           <Iconify
