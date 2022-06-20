@@ -10,6 +10,8 @@ import {
   Container,
   Typography,
   Avatar,
+  Stack,
+  Chip,
 } from "@mui/material";
 
 // components
@@ -99,6 +101,12 @@ export default function SolutionView() {
                   sx={{ borderRadius: 1, mt: 4 }}
                 />
                 {/* end image */}
+
+                <Stack direction="row" spacing={1} sx={{ my: 10 }}>
+                  {solution?.solution?.tags.map((tag) => (
+                    <Chip label={tag} variant="contained" clickable />
+                  ))}
+                </Stack>
 
                 {/* start upVote/downvote */}
 
