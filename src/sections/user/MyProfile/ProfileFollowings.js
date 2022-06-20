@@ -34,7 +34,7 @@ export default function ProfileFollowings({
   return (
     <Box sx={{ mt: 5 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Followers
+        Followings
       </Typography>
 
       <InputStyle
@@ -82,28 +82,25 @@ function FollowingCard({ following }) {
   const { name, country, avatarUrl, isFollowing } = following;
 
   const [toggle, setToogle] = useState(isFollowing);
-  if(isFollowing) {
+  if (isFollowing) {
     return (
-    
       <Card sx={{ display: "flex", alignItems: "center", p: 3 }}>
-       
-          <Avatar alt={name} src={avatarUrl} sx={{ width: 48, height: 48 }} />
-          <Box sx={{ flexGrow: 1, minWidth: 0, pl: 2, pr: 1 }}>
-            <Typography variant="subtitle2" noWrap>
-              {name}
+        <Avatar alt={name} src={avatarUrl} sx={{ width: 48, height: 48 }} />
+        <Box sx={{ flexGrow: 1, minWidth: 0, pl: 2, pr: 1 }}>
+          <Typography variant="subtitle2" noWrap>
+            {name}
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Iconify
+              icon={"eva:pin-fill"}
+              sx={{ width: 16, height: 16, mr: 0.5, flexShrink: 0 }}
+            />
+            <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
+              {country}
             </Typography>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Iconify
-                icon={"eva:pin-fill"}
-                sx={{ width: 16, height: 16, mr: 0.5, flexShrink: 0 }}
-              />
-              <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-                {country}
-              </Typography>
-            </Box>
           </Box>
-        
-        
+        </Box>
+
         <Button
           size="small"
           onClick={() => setToogle(!toggle)}
@@ -116,14 +113,13 @@ function FollowingCard({ following }) {
       </Card>
     );
   }
-
-  
 }
 
 function applyFilter(array, query) {
   if (query) {
     return array.filter(
-      (following) => following.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (following) =>
+        following.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
 

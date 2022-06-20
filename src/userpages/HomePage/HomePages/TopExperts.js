@@ -117,7 +117,7 @@ export default function TopExperts({ auth }) {
 
   return (
     <Card>
-      <CardHeader title="Top Experts" />
+      <CardHeader title="Top Contributors" />
       <Stack spacing={3} sx={{ p: 3 }}>
         {isLoading ? (
           <>

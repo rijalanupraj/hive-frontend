@@ -241,7 +241,11 @@ export default function SolutionPostCard({ solution }) {
           <Tooltip title="Upvote">
             <IconButton
               onClick={() => {
-                dispatch(upVoteAnySolution(solution._id));
+                if (auth.me) {
+                  dispatch(upVoteAnySolution(solution._id));
+                } else {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }
               }}
             >
               <Iconify
@@ -257,7 +261,11 @@ export default function SolutionPostCard({ solution }) {
           <Tooltip title="Downvote">
             <IconButton
               onClick={() => {
-                dispatch(downVoteAnySolution(solution._id));
+                if (auth.isAuthenticated) {
+                  dispatch(downVoteAnySolution(solution._id));
+                } else {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }
               }}
             >
               <Iconify

@@ -51,7 +51,7 @@ const UserRoute = () => {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/profile/:username" element={<UserProfile />} />
-        <Route exact path="/solution/:solutionId" element={<ViewSolution />} />
+        <Route exact path="/solution/:solutionId" element={<SolutionView />} />
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
         <Route exact path="/category" element={<ViewCategory />} />
