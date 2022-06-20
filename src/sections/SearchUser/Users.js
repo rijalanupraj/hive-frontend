@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 
 // @mui
 import {
@@ -12,6 +13,7 @@ import {
   styled,
   Stack,
   Divider,
+  Link,
 } from "@mui/material";
 //utils
 import cssStyles from "../../utils/cssStyles";
@@ -71,7 +73,7 @@ export default function UserSearch({ Users, findUsers, onFindUsers }) {
 
       <Grid container spacing={3}>
         {userFiltered.map((user) => (
-          <Grid key={user.id} item xs={12} md={4}>
+          <Grid key={user._id} item xs={12} md={4}>
             <UserCard user={user} />
           </Grid>
         ))}
@@ -91,41 +93,8 @@ UserCard.propTypes = {
   user: PropTypes.object,
 };
 
-// function UserCard() {
-//   // const { name, country, avatarUrl, isFollowed } = category;
-
-//   return (
-//     <Card sx={{ display: "flex", alignItems: "center", p: 3 }}>
-//       <Avatar
-//         alt="government"
-//         src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
-//         sx={{ width: 48, height: 48 }}
-//       />
-//       <Box sx={{ flexGrow: 1, minWidth: 0, pl: 2, pr: 1 }}>
-//         <Typography variant="subtitle2" noWrap>
-//           Samir Thapaliya
-//         </Typography>
-//         {/* <Box sx={{ display: "flex", alignItems: "center" }}>
-//           <Iconify
-//             icon={"akar-icons:circle-plus"}
-//             sx={{ width: 16, height: 16, mr: 0.5, flexShrink: 0 }}
-//           />
-//           <Typography
-//             variant="body2"
-//             sx={{ color: "text.secondary" }}
-//             noWrap
-//           ></Typography>
-//         </Box> */}
-//       </Box>
-//       <Button size="small" variant={"outlined"} color={"primary"}>
-//         Follow
-//       </Button>
-//     </Card>
-//   );
-// }
-
 function UserCard({ user }) {
-  const { name, country, avatarUrl, isFollowed } = user;
+  const { name, username } = user;
   return (
     <Card sx={{ textAlign: "center" }}>
       <Box sx={{ position: "relative" }}>
@@ -143,9 +112,10 @@ function UserCard({ user }) {
             color: "background.paper",
           }}
         />
+
         <Avatar
           alt={name}
-          src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+          src={user?.profilePhoto?.hasPhoto ? user?.profilePhoto.url : ""}
           sx={{
             width: 64,
             height: 64,
@@ -158,16 +128,18 @@ function UserCard({ user }) {
           }}
         />
         <OverlayStyle />
-        <Image
+        <h1>Hell</h1>
+        {/* <Image
           src="https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
           alt="cover"
           ratio="16/9"
-        />
+        /> */}
       </Box>
 
       <Typography variant="subtitle1" sx={{ mt: 6 }}>
-        {/* <Link href={PATH_DASHBOARD.user.root}>{name}</Link> */}Samir
-        Thapaliya
+        <Link to={`/profile/${username}`} component={RouterLink}>
+          {user.username}
+        </Link>
       </Typography>
 
       <Stack alignItems="center">
@@ -187,9 +159,7 @@ function UserCard({ user }) {
           >
             Follower
           </Typography>
-          <Typography variant="subtitle1">
-            {/* {fShortenNumber(follower)} */}0
-          </Typography>
+          <Typography variant="subtitle1">{user.followers.length}</Typography>
         </div>
 
         <div>
@@ -198,11 +168,9 @@ function UserCard({ user }) {
             component="div"
             sx={{ mb: 0.75, color: "text.disabled" }}
           >
-            Following
+            XP Points
           </Typography>
-          <Typography variant="subtitle1">
-            {/* {fShortenNumber(following)} */}2
-          </Typography>
+          <Typography variant="subtitle1">{user?.XPpoints}</Typography>
         </div>
 
         <div>
@@ -211,9 +179,9 @@ function UserCard({ user }) {
             component="div"
             sx={{ mb: 0.75, color: "text.disabled" }}
           >
-            Total Solutions
+            Level
           </Typography>
-          <Typography variant="subtitle1">100</Typography>
+          <Typography variant="subtitle1">{user?.XPLevel}</Typography>
         </div>
       </Box>
     </Card>
@@ -223,7 +191,7 @@ function UserCard({ user }) {
 function applyFilter(array, query) {
   if (query) {
     return array.filter(
-      (friend) => friend.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      (user) => user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1
     );
   }
 
