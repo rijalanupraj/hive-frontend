@@ -256,6 +256,29 @@ export const chooseInterestedCategory =
     }
   };
 
+export const getPersonalFeed = () => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.GET_PERSONAL_FEED_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(
+      `${API_URL}/solution/personal/feed`,
+      options
+    );
+
+    dispatch({
+      type: TYPES.GET_PERSONAL_FEED_SUCCESS,
+      payload: { feed: response.data.feed },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_PERSONAL_FEED_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
+
 // Log user out
 export const logOutUser = (navigate) => async (dispatch) => {
   try {

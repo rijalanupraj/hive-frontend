@@ -8,6 +8,7 @@ const initialState = {
   me: null,
   error: null,
   appLoaded: false,
+  feed: [],
 };
 
 export default function AuthReducer(state = initialState, { type, payload }) {
@@ -248,6 +249,14 @@ export default function AuthReducer(state = initialState, { type, payload }) {
           ...state.me,
           interestedCategories: payload.user.interestedCategories,
         },
+      };
+
+    case TYPES.GET_PERSONAL_FEED_SUCCESS:
+      return {
+        ...state,
+        feed: payload.feed,
+        isLoading: false,
+        error: null,
       };
 
     case TYPES.LOGOUT_SUCCESS:

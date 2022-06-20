@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 // import "./css/Homepage.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import Page from "../../components/Page";
 import Iconify from "../../components/Iconify";
 import { logOutUser } from "../../redux/actions/authActions";
@@ -23,6 +23,7 @@ import {
   FormHelperText,
   Card,
 } from "@mui/material";
+import MyAvatar from "../../components/MyAvatar";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 
@@ -98,15 +99,23 @@ function HomePage() {
               <Grid container spacing={3}>
                 {/* header */}
                 <Grid item md={1} mt={0.5}>
-                  <Avatar
-                    alt="profile"
-                    src="https://i.ytimg.com/vi/CI2gyevDC6Q/maxresdefault.jpg"
-                  />
+                  {auth.isAuthenticated ? (
+                    <Avatar
+                      alt={auth.me.username}
+                      src={
+                        auth?.me?.profilePhoto?.hasPhoto
+                          ? auth?.me?.profilePhoto.url
+                          : ""
+                      }
+                    />
+                  ) : (
+                    <MyAvatar />
+                  )}
                 </Grid>
 
                 {/* start ask question */}
                 <Grid item lg={8.5}>
-                  <Link href="/ask-question">
+                  <Link to="/ask-question" component={RouterLink}>
                     <FormControl fullWidth>
                       <OutlinedInput
                         startAdornment={
@@ -161,8 +170,6 @@ function HomePage() {
             <HotQuestions />
           </Grid>
         </Grid>
-
-        
       </Container>
     </Page>
   );

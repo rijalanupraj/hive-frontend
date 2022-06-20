@@ -12,7 +12,7 @@ import {
   seenMessage,
   updateMessage,
   getTheme,
-  themeSet
+  themeSet,
 } from "../redux/actions/messengerActions";
 import { logOutUser as userLogout } from "../redux/actions/authActions";
 import { Avatar } from "@mui/material";
@@ -31,9 +31,15 @@ const Messenger = () => {
   const scrollRef = useRef();
   const socket = useRef();
 
-  const { friends, message, mesageSendSuccess, message_get_success, themeMood, new_user_add } =
-    useSelector(state => state.messenger);
-  const { me } = useSelector(state => state.auth);
+  const {
+    friends,
+    message,
+    mesageSendSuccess,
+    message_get_success,
+    themeMood,
+    new_user_add,
+  } = useSelector((state) => state.messenger);
+  const { me } = useSelector((state) => state.auth);
 
   const [currentfriend, setCurrentFriend] = useState("");
   const [newMessage, setNewMessage] = useState("");
@@ -44,48 +50,51 @@ const Messenger = () => {
 
   useEffect(() => {
     socket.current = io("ws://localhost:8000");
-    socket.current.on("getMessage", data => {
+    socket.current.on("getMessage", (data) => {
       setSocketMessage(data);
     });
 
-    socket.current.on("typingMessageGet", data => {
+    socket.current.on("typingMessageGet", (data) => {
       setTypingMessage(data);
     });
 
-    socket.current.on("msgSeenResponse", msg => {
+    socket.current.on("msgSeenResponse", (msg) => {
       dispatch({
         type: "SEEN_MESSAGE",
         payload: {
-          msgInfo: msg
-        }
+          msgInfo: msg,
+        },
       });
     });
 
-    socket.current.on("msgDelivaredResponse", msg => {
+    socket.current.on("msgDelivaredResponse", (msg) => {
       dispatch({
         type: "DELIVARED_MESSAGE",
         payload: {
-          msgInfo: msg
-        }
+          msgInfo: msg,
+        },
       });
     });
 
-    socket.current.on("seenSuccess", data => {
+    socket.current.on("seenSuccess", (data) => {
       dispatch({
         type: "SEEN_ALL",
-        payload: data
+        payload: data,
       });
     });
   }, []);
 
   useEffect(() => {
     if (socketMessage && currentfriend) {
-      if (socketMessage.senderId === currentfriend._id && socketMessage.reseverId === me._id) {
+      if (
+        socketMessage.senderId === currentfriend._id &&
+        socketMessage.reseverId === me._id
+      ) {
         dispatch({
           type: "SOCKET_MESSAGE",
           payload: {
-            message: socketMessage
-          }
+            message: socketMessage,
+          },
         });
         dispatch(seenMessage(socketMessage));
         socket.current.emit("messageSeen", socketMessage);
@@ -93,8 +102,8 @@ const Messenger = () => {
           type: "UPDATE_FRIEND_MESSAGE",
           payload: {
             msgInfo: socketMessage,
-            status: "seen"
-          }
+            status: "seen",
+          },
         });
       }
     }
@@ -106,17 +115,17 @@ const Messenger = () => {
   }, []);
 
   useEffect(() => {
-    socket.current.on("getUser", users => {
-      const filterUser = users.filter(u => u.userId !== me._id);
+    socket.current.on("getUser", (users) => {
+      const filterUser = users.filter((u) => u.userId !== me._id);
       setActiveUser(filterUser);
     });
 
-    socket.current.on("new_user_add", data => {
+    socket.current.on("new_user_add", (data) => {
       dispatch({
         type: "NEW_USER_ADD",
         payload: {
-          new_user_add: data
-        }
+          new_user_add: data,
+        },
       });
     });
   }, []);
@@ -127,7 +136,7 @@ const Messenger = () => {
       socketMessage.senderId !== currentfriend._id &&
       socketMessage.reseverId === me._id
     ) {
-      notificationSPlay();
+      // notificationSPlay();
       toast.success(`${socketMessage.senderName} Send a New Message`);
       dispatch(updateMessage(socketMessage));
       socket.current.emit("delivaredMessage", socketMessage);
@@ -135,36 +144,36 @@ const Messenger = () => {
         type: "UPDATE_FRIEND_MESSAGE",
         payload: {
           msgInfo: socketMessage,
-          status: "delivared"
-        }
+          status: "delivared",
+        },
       });
     }
   }, [socketMessage]);
 
-  const inputHendle = e => {
+  const inputHendle = (e) => {
     setNewMessage(e.target.value);
 
     socket.current.emit("typingMessage", {
       senderId: me._id,
       reseverId: currentfriend._id,
-      msg: e.target.value
+      msg: e.target.value,
     });
   };
 
-  const sendMessage = e => {
+  const sendMessage = (e) => {
     e.preventDefault();
-    sendingSPlay();
+    // sendingSPlay();
     const data = {
       senderName: me.username,
       reseverId: currentfriend._id,
-      message: newMessage ? newMessage : "❤"
+      message: newMessage ? newMessage : "❤",
     };
     console.log(data);
 
     socket.current.emit("typingMessage", {
       senderId: me._id,
       reseverId: currentfriend._id,
-      msg: ""
+      msg: "",
     });
 
     dispatch(messageSend(data));
@@ -177,11 +186,11 @@ const Messenger = () => {
       dispatch({
         type: "UPDATE_FRIEND_MESSAGE",
         payload: {
-          msgInfo: message[message.length - 1]
-        }
+          msgInfo: message[message.length - 1],
+        },
       });
       dispatch({
-        type: "MESSAGE_SEND_SUCCESS_CLEAR"
+        type: "MESSAGE_SEND_SUCCESS_CLEAR",
       });
     }
   }, [mesageSendSuccess]);
@@ -211,15 +220,18 @@ const Messenger = () => {
         dispatch({
           type: "UPDATE",
           payload: {
-            id: currentfriend._id
-          }
+            id: currentfriend._id,
+          },
         });
-        socket.current.emit("seen", { senderId: currentfriend._id, reseverId: me._id });
+        socket.current.emit("seen", {
+          senderId: currentfriend._id,
+          reseverId: me._id,
+        });
         dispatch(seenMessage({ _id: message[message.length - 1]._id }));
       }
     }
     dispatch({
-      type: "MESSAGE_GET_SUCCESS_CLEAR"
+      type: "MESSAGE_GET_SUCCESS_CLEAR",
     });
   }, [message_get_success]);
 
@@ -227,18 +239,18 @@ const Messenger = () => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [message]);
 
-  const emojiSend = emu => {
+  const emojiSend = (emu) => {
     setNewMessage(`${newMessage}` + emu);
     socket.current.emit("typingMessage", {
       senderId: me._id,
       reseverId: currentfriend._id,
-      msg: emu
+      msg: emu,
     });
   };
 
-  const ImageSend = e => {
+  const ImageSend = (e) => {
     if (e.target.files.length !== 0) {
-      sendingSPlay();
+      // sendingSPlay();
       const imagename = e.target.files[0].name;
       const newImageName = Date.now() + imagename;
 
@@ -249,8 +261,8 @@ const Messenger = () => {
         time: new Date(),
         message: {
           text: "",
-          image: newImageName
-        }
+          image: newImageName,
+        },
       });
 
       const formData = new FormData();
@@ -274,7 +286,7 @@ const Messenger = () => {
     dispatch(getTheme());
   }, []);
 
-  const search = e => {
+  const search = (e) => {
     const getFriendClass = document.getElementsByClassName("hover-friend");
     const frienNameClass = document.getElementsByClassName("Fd_name");
     for (var i = 0; i < getFriendClass.length, i < frienNameClass.length; i++) {
@@ -294,91 +306,96 @@ const Messenger = () => {
         reverseOrder={false}
         toastOptions={{
           style: {
-            fontSize: "18px"
-          }
+            fontSize: "18px",
+          },
         }}
       />
 
-      <div className='row'>
-        <div className='col-3'>
-          <div className='left-side'>
-            <div className='top'>
-              <div className='image-name'>
-                <div className='image'>
+      <div className="row">
+        <div className="col-3">
+          <div className="left-side">
+            <div className="top">
+              <div className="image-name">
+                <div className="image">
                   {me?.profilePhoto?.hasPhoto ? (
                     <Avatar src={me.profilePhoto.url} alt={me?.username} />
                   ) : (
                     <MyAvatar />
                   )}
                 </div>
-                <div className='name'>
+                <div className="name">
                   <h3>{me.username} </h3>
                 </div>
               </div>
 
-              <div className='icons'>
-                <div onClick={() => setHide(!hide)} className='icon'>
+              {/* <div className="icons">
+                <div onClick={() => setHide(!hide)} className="icon">
                   <FaEllipsisH />
                 </div>
-                <div className='icon'>
+                <div className="icon">
                   <FaEdit />
                 </div>
 
                 <div className={hide ? "theme_logout" : "theme_logout show"}>
                   <h3>Dark Mode </h3>
-                  <div className='on'>
-                    <label htmlFor='dark'>ON</label>
+                  <div className="on">
+                    <label htmlFor="dark">ON</label>
                     <input
-                      onChange={e => dispatch(themeSet(e.target.value))}
-                      type='radio'
-                      value='dark'
-                      name='theme'
-                      id='dark'
+                      onChange={(e) => dispatch(themeSet(e.target.value))}
+                      type="radio"
+                      value="dark"
+                      name="theme"
+                      id="dark"
                     />
                   </div>
 
-                  <div className='of'>
-                    <label htmlFor='white'>OFF</label>
+                  <div className="of">
+                    <label htmlFor="white">OFF</label>
                     <input
-                      onChange={e => dispatch(themeSet(e.target.value))}
-                      type='radio'
-                      value='white'
-                      name='theme'
-                      id='white'
+                      onChange={(e) => dispatch(themeSet(e.target.value))}
+                      type="radio"
+                      value="white"
+                      name="theme"
+                      id="white"
                     />
                   </div>
 
-                  <div onClick={logout} className='logout'>
+                  <div onClick={logout} className="logout">
                     <FaSignOutAlt /> Logout
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
-            <div className='friend-search'>
-              <div className='search'>
+            <div className="friend-search">
+              <div className="search">
                 <button>
                   {" "}
                   <FaSistrix />{" "}
                 </button>
                 <input
                   onChange={search}
-                  type='text'
-                  placeholder='Search'
-                  className='form-control'
+                  type="text"
+                  placeholder="Search"
+                  className="form-control"
                 />
               </div>
             </div>
 
-            <div className='active-friends'>
+            <div className="active-friends">
               {activeUser && activeUser.length > 0
-                ? activeUser.map(u => <ActiveFriend setCurrentFriend={setCurrentFriend} user={u} />)
+                ? activeUser.map((u) => (
+                    <ActiveFriend
+                      setCurrentFriend={setCurrentFriend}
+                      user={u}
+                    />
+                  ))
                 : ""}
             </div>
 
-            <div className='friends'>
+            <div className="friends">
               {friends && friends.length > 0
-                ? friends.map(fd => (
+                ? friends.map((fd) => (
                     <div
                       onClick={() => setCurrentFriend(fd.fndInfo)}
                       className={
@@ -387,7 +404,11 @@ const Messenger = () => {
                           : "hover-friend"
                       }
                     >
-                      <Friends activeUser={activeUser} myId={me._id} friend={fd} />
+                      <Friends
+                        activeUser={activeUser}
+                        myId={me._id}
+                        friend={fd}
+                      />
                     </div>
                   ))
                 : "No Friend"}

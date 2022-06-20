@@ -20,7 +20,7 @@ import Iconify from "../../../components/Iconify";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { getTopUsers } from "../../../redux/actions/usersActions";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { followUnfollowAnyUser } from "../../../redux/actions/userActions";
 import { style } from "@mui/system";
 
@@ -132,14 +132,15 @@ export default function TopExperts({ auth }) {
 
       <Divider />
       <Box sx={{ p: 1, textAlign: "right" }}>
-        <Button
-          to="#"
-          size="small"
-          color="inherit"
-          endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
-        >
-          View all
-        </Button>
+        <Link to="/users">
+          <Button
+            size="small"
+            color="inherit"
+            endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
+          >
+            View all
+          </Button>
+        </Link>
       </Box>
     </Card>
   );
