@@ -12,6 +12,7 @@ import {
   IconButton,
   Divider,
   Tooltip,
+  Chip,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Markdown from "../../components/Markdown";
@@ -195,6 +196,18 @@ export default function SolutionPostCard({ solution }) {
             color="black"
           >
             {solution?.question?.title}
+          </Typography>
+          <Typography align="justify" sx={{ mt: 2 }} color="black">
+            <Stack direction="row" spacing={1}>
+              {solution?.tags.map((tag) => (
+                <Chip
+                  label={tag}
+                  color="secondary"
+                  variant="contained"
+                  clickable
+                />
+              ))}
+            </Stack>
           </Typography>
         </Link>
 
