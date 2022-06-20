@@ -97,7 +97,7 @@ function PersonalFeed() {
                 <Grid item xs={6}></Grid>
               </Grid>
             </Paper>
-
+           
             {/* Solution */}
             {solutions &&
               solutions.map((sol, index) => <SolutionCard key={index} solution={sol} />)}

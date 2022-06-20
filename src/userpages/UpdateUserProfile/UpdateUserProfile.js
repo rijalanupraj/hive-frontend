@@ -2,13 +2,12 @@ import { capitalCase } from "change-case";
 import React, { useState } from "react";
 
 // @mui
-import { Container, Tab, Box, Tabs } from "@mui/material";
+import { Container, Tab, Box, Tabs, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 // components
 import Page from "../../components/Page";
 import Iconify from "../../components/Iconify";
-import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs";
 // sections
 import {
   AccountGeneral,
@@ -21,7 +20,6 @@ import {
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
     display: "flex",
-    marginTop: "8vh",
   },
 }));
 
@@ -50,14 +48,9 @@ export default function UpdateUserProfile() {
     <Page title="User: Account Settings">
       <RootStyle>
         <Container>
-          <HeaderBreadcrumbs
-            heading="Account"
-            links={[
-              { name: "Dashboard", href: "" },
-              { name: "User", href: "" },
-              { name: "Account Settings" },
-            ]}
-          />
+          <Typography variant="h4" sx={{ mb: 3 }}>
+            Account Settings
+          </Typography>
 
           <Tabs
             value={currentTab}
