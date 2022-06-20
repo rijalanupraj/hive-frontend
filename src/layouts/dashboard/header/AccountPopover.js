@@ -30,7 +30,7 @@ const MENU_OPTIONS = [
     linkTo: "/",
   },
   {
-    label: "Update Profile",
+    label: "Settings",
     linkTo: "/update-profile",
   },
 ];

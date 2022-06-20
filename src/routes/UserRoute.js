@@ -28,7 +28,6 @@ import {
 import Messenger from "../chats/Messenger.jsx";
 
 // Internal Import
-import Navbar from "../components/Navbar/Navbar";
 import DashboardLayout from "../layouts/dashboard";
 
 // Helper Route Import

@@ -29,18 +29,8 @@ export const colorPresets = [
     darker: '#053D7A',
     contrastText: palette.light.grey[800],
   },
-  // BLUE
-  
-  // {
-  //   name: 'blue',
-  //   lighter: '#D1E9FC',
-  //   light: '#76B0F1',
-  //   main: '#2065D1',
-  //   dark: '#103996',
-  //   darker: '#061B64',
-  //   contrastText: '#fff',
-  // },
-  
+
+  //blue
   {
     name: 'blue',
     lighter: '#1877f2',
