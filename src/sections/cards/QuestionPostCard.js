@@ -16,6 +16,7 @@ import {
   InputAdornment,
   FormControlLabel,
   Tooltip,
+  Chip,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -173,6 +174,18 @@ export default function QuestionPostCard({ question }) {
 
         <Typography variant="body1" align="justify">
           {question?.description}
+        </Typography>
+        <Typography variant="body1" align="justify">
+          <Stack direction="row" spacing={1}>
+            {question?.tags.map((tag) => (
+              <Chip
+                label={tag}
+                color="secondary"
+                variant="contained"
+                clickable
+              />
+            ))}
+          </Stack>
         </Typography>
 
         <Link href="#">

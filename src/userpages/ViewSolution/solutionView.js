@@ -102,9 +102,14 @@ export default function SolutionView() {
                 />
                 {/* end image */}
 
-                <Stack direction="row" spacing={1} sx={{ my: 10 }}>
+                <Stack direction="row" spacing={1} sx={{ mt: 5 }}>
                   {solution?.solution?.tags.map((tag) => (
-                    <Chip label={tag} variant="contained" clickable />
+                    <Chip
+                      label={tag}
+                      variant="contained"
+                      color="secondary"
+                      clickable
+                    />
                   ))}
                 </Stack>
 
