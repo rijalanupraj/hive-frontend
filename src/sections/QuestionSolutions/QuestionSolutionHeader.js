@@ -133,8 +133,9 @@ export default function QuestionSolutionHeader({ que }) {
       }}
     >
       <TitleStyle>{que?.title} </TitleStyle>
+      
 
-      <TitleStyle1>{que?.description}</TitleStyle1>
+      <TitleStyle1 sx={{mt:3}}>{que?.description}</TitleStyle1>
 
       <FooterStyle>
         <Box sx={{ display: "flex", alignItems: "center" }}>
