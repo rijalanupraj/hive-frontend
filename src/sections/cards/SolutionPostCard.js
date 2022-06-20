@@ -201,10 +201,7 @@ export default function SolutionPostCard({ solution }) {
         {/* Answer */}
         {/* <Markdown children={solution?.answer.slice(0, 100) || ""} /> */}
         <Typography variant="body1" sx={{ mb: -1 }}>
-          Just-in-time, or JIT, is an inventory management method in which goods
-          are received from suppliers only as they are needed. The main
-          objective of this method is to reduce inventory holding costs and
-          increase inventory turnover...
+          {solution?.description}
           <Link
             to={"/solution/" + solution?._id}
             variant="body1"

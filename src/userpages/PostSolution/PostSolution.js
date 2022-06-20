@@ -88,12 +88,16 @@ export default function AskQuestion1() {
   const NewQuestionSchema = Yup.object().shape({
     answer: Yup.string().min(500).required("Content is required"),
     tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
+    description: Yup.string()
+      .required("Short Intro is required")
+      .min(30, "Short Intro must be at least 30 characters"),
     cover: Yup.mixed(),
   });
 
   const defaultValues = {
     answer: "",
     cover: null,
+    description: "",
     tags: [],
     isDraft: true,
   };
@@ -161,6 +165,12 @@ export default function AskQuestion1() {
                     }}
                   >
                     <Stack spacing={3}>
+                      <RHFTextField
+                        name="description"
+                        label="Short Intro"
+                        multiline
+                        rows={3}
+                      />
                       <div>
                         <LabelStyle>Content</LabelStyle>
                         <RHFEditor name="answer" />
