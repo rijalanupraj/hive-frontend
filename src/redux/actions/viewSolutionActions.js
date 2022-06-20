@@ -6,25 +6,34 @@ import { BACKEND_API_URL } from "../../constants";
 
 const API_URL = BACKEND_API_URL;
 
-export const viewSolution = (solutionId) => async (dispatch, getState) => {
-  try {
-    dispatch({ type: TYPES.VIEW_SOLUTION_LOADING });
+export const viewSolution =
+  (solutionId, navigate, enqueueSnackbar) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.VIEW_SOLUTION_LOADING });
 
-    const response = await axios.get(`${API_URL}/solution/${solutionId}`);
+      const response = await axios.get(`${API_URL}/solution/${solutionId}`);
 
-    dispatch({
-      type: TYPES.VIEW_SOLUTION_SUCCESS,
-      payload: response.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: TYPES.VIEW_SOLUTION_FAIL,
-      payload: {
-        error: err?.response?.data.message || err.message,
-      },
-    });
-  }
-};
+      dispatch({
+        type: TYPES.VIEW_SOLUTION_SUCCESS,
+        payload: response.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.VIEW_SOLUTION_FAIL,
+        payload: {
+          error: err?.response?.data.message || err.message,
+        },
+      });
+      if (navigate) {
+        navigate("/");
+      }
+      if (enqueueSnackbar) {
+        enqueueSnackbar(err?.response?.data.message || err.message, {
+          variant: "error",
+        });
+      }
+    }
+  };
 
 export const upVoteSolution = (solutionId) => async (dispatch, getState) => {
   try {

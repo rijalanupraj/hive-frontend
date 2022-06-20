@@ -1,8 +1,9 @@
-import { pxToRem, responsiveFontSizes } from '../utils/getFontValue';
+import { color } from "@mui/system";
+import { pxToRem, responsiveFontSizes } from "../utils/getFontValue";
 
 // ----------------------------------------------------------------------
 
-const FONT_PRIMARY = 'Public Sans, sans-serif'; // Google Font
+const FONT_PRIMARY = "Public Sans, sans-serif"; // Google Font
 // const FONT_SECONDARY = 'CircularStd, sans-serif'; // Local Font
 
 const typography = {
@@ -73,13 +74,13 @@ const typography = {
     fontWeight: 700,
     lineHeight: 1.5,
     fontSize: pxToRem(12),
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   button: {
     fontWeight: 700,
     lineHeight: 24 / 14,
     fontSize: pxToRem(14),
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
   },
 };
 

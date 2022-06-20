@@ -86,18 +86,16 @@ export default function AskQuestion1() {
   // const { enqueueSnackbar } = useSnackbar();
 
   const NewQuestionSchema = Yup.object().shape({
-    answer: Yup.string().min(100).required("Content is required"),
+    answer: Yup.string().min(500).required("Content is required"),
+    tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
     cover: Yup.mixed(),
   });
 
   const defaultValues = {
     answer: "",
     cover: null,
-    tags: ["Logan"],
+    tags: [],
     isDraft: true,
-    metaTitle: "",
-    metaDescription: "",
-    metaKeywords: ["Logan"],
   };
 
   const methods = useForm({
@@ -111,7 +109,7 @@ export default function AskQuestion1() {
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
   } = methods;
 
   const values = watch();
@@ -211,49 +209,17 @@ export default function AskQuestion1() {
                               ))
                             }
                             renderInput={(params) => (
-                              <TextField label="Tags" {...params} />
+                              <TextField
+                                label="Tags"
+                                {...params}
+                                error={errors.tags}
+                                helperText={errors.tags?.message}
+                              />
                             )}
                           />
                         )}
                       />
 
-                      <RHFTextField name="metaTitle" label="Meta title" />
-
-                      <RHFTextField
-                        name="metaDescription"
-                        label="Meta description"
-                        fullWidth
-                        multiline
-                        rows={3}
-                      />
-
-                      <Controller
-                        name="metaKeywords"
-                        control={control}
-                        render={({ field }) => (
-                          <Autocomplete
-                            multiple
-                            freeSolo
-                            onChange={(event, newValue) =>
-                              field.onChange(newValue)
-                            }
-                            options={tagsList.map((option) => option)}
-                            renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                <Chip
-                                  {...getTagProps({ index })}
-                                  key={option}
-                                  size="small"
-                                  label={option}
-                                />
-                              ))
-                            }
-                            renderInput={(params) => (
-                              <TextField label="Meta keywords" {...params} />
-                            )}
-                          />
-                        )}
-                      />
                       <div>
                         <RHFSwitch
                           name="isDraft"

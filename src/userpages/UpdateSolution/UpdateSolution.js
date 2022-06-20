@@ -20,6 +20,8 @@ import {
   Paper,
   Container,
 } from "@mui/material";
+import { useSnackbar } from "notistack";
+
 // routes
 // components
 import {
@@ -37,6 +39,7 @@ import { askQuestion } from "../../redux/actions/questionActions";
 import { getAllAvailableTags } from "../../redux/actions/tagActions";
 import { updateSolution } from "../../redux/actions/solutionActions";
 import { viewSolution } from "../../redux/actions/viewSolutionActions";
+import QuestionPostCard from "../../sections/cards/QuestionPostCard";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -61,6 +64,7 @@ export default function UpdateSolution() {
   const { solutionId } = useParams();
   const solution = useSelector((state) => state.viewSolutions);
   const auth = useSelector((state) => state.auth);
+  const { enqueueSnackbar } = useSnackbar();
 
   const tags = useSelector((state) => state.tag);
   const navigate = useNavigate();
@@ -69,7 +73,7 @@ export default function UpdateSolution() {
   const tagsList = tags.tagsList;
 
   useEffect(() => {
-    dispatch(viewSolution(solutionId));
+    dispatch(viewSolution(solutionId, navigate, enqueueSnackbar));
     dispatch(getAllAvailableTags());
   }, [dispatch]);
 
@@ -81,6 +85,7 @@ export default function UpdateSolution() {
 
   const NewQuestionSchema = Yup.object().shape({
     answer: Yup.string().min(100).required("Content is required"),
+    tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
     cover: Yup.mixed(),
   });
 
@@ -113,16 +118,14 @@ export default function UpdateSolution() {
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
   } = methods;
 
   const values = watch();
 
   const onSubmit = async () => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
       const newValue = { ...values, isDraft: !values.isDraft };
-      console.log(newValue);
       dispatch(updateSolution(solutionId, newValue, navigate));
       reset();
       // enqueueSnackbar("Post success!");
@@ -148,7 +151,7 @@ export default function UpdateSolution() {
   );
 
   return (
-    <Page title="Post Solution">
+    <Page title="Update Solution">
       <RootStyle>
         <Container
           component="main"
@@ -157,6 +160,14 @@ export default function UpdateSolution() {
             marginTop: "5rem",
           }}
         >
+          <Typography variant="h4" sx={{ pl: 2 }}>
+            {" "}
+            Update Solution{" "}
+          </Typography>
+          <br />
+          {solution?.solution?.question && (
+            <QuestionPostCard question={solution?.solution?.question} />
+          )}
           <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 } }}>
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={3}>
@@ -207,49 +218,17 @@ export default function UpdateSolution() {
                               ))
                             }
                             renderInput={(params) => (
-                              <TextField label="Tags" {...params} />
+                              <TextField
+                                label="Tags"
+                                {...params}
+                                error={errors.tags}
+                                helperText={errors.tags?.message}
+                              />
                             )}
                           />
                         )}
                       />
 
-                      <RHFTextField name="metaTitle" label="Meta title" />
-
-                      <RHFTextField
-                        name="metaDescription"
-                        label="Meta description"
-                        fullWidth
-                        multiline
-                        rows={3}
-                      />
-
-                      <Controller
-                        name="metaKeywords"
-                        control={control}
-                        render={({ field }) => (
-                          <Autocomplete
-                            multiple
-                            freeSolo
-                            onChange={(event, newValue) =>
-                              field.onChange(newValue)
-                            }
-                            options={tagsList.map((option) => option)}
-                            renderTags={(value, getTagProps) =>
-                              value.map((option, index) => (
-                                <Chip
-                                  {...getTagProps({ index })}
-                                  key={option}
-                                  size="small"
-                                  label={option}
-                                />
-                              ))
-                            }
-                            renderInput={(params) => (
-                              <TextField label="Meta keywords" {...params} />
-                            )}
-                          />
-                        )}
-                      />
                       <div>
                         <RHFSwitch
                           name="isDraft"
