@@ -95,21 +95,11 @@ export default function Category({
   return (
     <Box>
       <Box m={1} display="flex" justifyContent="center" alignItems="center">
-        <Button variant="contained" onClick={handleClickOpen}>
-          Suggest Category
-        </Button>
         <Dialog open={open} onClose={handleClose}>
-          <Button
-            variant="text"
-            display="flex"
-            justifyContent="flex-end"
-            onClick={handleClose}
-          >
-            <CancelIcon style={{ color: "red" }} />
-          </Button>
-          <DialogTitle>Suggest New Category</DialogTitle>
+          
+          <DialogTitle sx={{mb:1}}>Suggest New Category</DialogTitle>
           <DialogContent>
-            <DialogContentText>
+            <DialogContentText sx={{mb:3}}>
               You can only suggest categories which are not available.
             </DialogContentText>
             <FormikProvider value={formik}>
@@ -118,9 +108,11 @@ export default function Category({
                   fullWidth
                   type="text"
                   label="Title"
+                  variant="outlined"
                   {...getFieldProps("title")}
                   error={Boolean(touched.title && errors.title)}
                   helperText={touched.title && errors.title}
+                  sx={{mb:2}}
                 />
                 <LoadingButton
                   fullWidth
@@ -128,6 +120,7 @@ export default function Category({
                   type="submit"
                   variant="contained"
                   loading={isSubmitting}
+                  sx={{mb:2}}
                 >
                   Suggest Category
                 </LoadingButton>
@@ -136,6 +129,7 @@ export default function Category({
           </DialogContent>
         </Dialog>
       </Box>
+
       <Typography variant="h4" sx={{ mb: 3 }}>
         Categories
       </Typography>
@@ -157,6 +151,10 @@ export default function Category({
         }}
         sx={{ mb: 5 }}
       />
+
+      <Button variant="contained" onClick={handleClickOpen} sx={{ml:3, p:1.7}}>
+        Suggest Category
+      </Button>
 
       <Grid container spacing={3}>
         {categoryFiltered.map((category) => (
