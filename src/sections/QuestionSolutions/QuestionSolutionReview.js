@@ -27,6 +27,8 @@ import {
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
 import SharesolutionButton from "../../userpages/ViewSolution/components/shareButton";
+import { toggleBookmark } from "../../redux/actions/authActions";
+
 // ----------------------------------------------------------------------
 
 export default function QuestionSolutionsReview() {
@@ -135,8 +137,9 @@ export default function QuestionSolutionsReview() {
         >
           <Iconify
             icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
-            width={30}
-            height={30}
+            color={isUpVote ? "#1877f2" : "text.secondary"}
+            width={20}
+            height={20}
           />
         </IconButton>
         <Typography variant="caption">{upVoteCount}</Typography>
@@ -148,8 +151,9 @@ export default function QuestionSolutionsReview() {
         >
           <Iconify
             icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
-            width={30}
-            height={30}
+            color={isDownVote ? "#1877f2" : "text.secondary"}
+            width={20}
+            height={20}
           />
         </IconButton>
         <Typography variant="caption">{downVoteCount}</Typography>
@@ -159,8 +163,12 @@ export default function QuestionSolutionsReview() {
             <Checkbox
               size="small"
               color="error"
-              icon={<Iconify icon={"fa-regular:comment"} />}
-              checkedIcon={<Iconify icon={"fa-regular:comment"} />}
+              icon={
+                <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+              }
+              checkedIcon={
+                <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+              }
             />
           }
           label={solution?.solution?.comments?.length}
@@ -169,15 +177,45 @@ export default function QuestionSolutionsReview() {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <IconButton>
-          <Iconify icon={"bi:bookmark-check"} width={30} height={30} />
-        </IconButton>
+        {/* <IconButton>
+          <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+        </IconButton> */}
+        {!auth.isAuthenticated ? (
+          <IconButton
+            onClick={() => {
+              navigate("/login?redirectTo=/solution/" + solution._id);
+            }}
+          >
+            <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={() => {
+              dispatch(toggleBookmark(solution._id));
+            }}
+          >
+            <Iconify
+              icon={
+                auth.me.bookmarks.includes(solution._id)
+                  ? "bi:bookmark-dash-fill"
+                  : "bi:bookmark-check"
+              }
+              color={
+                auth.me.bookmarks.includes(solution._id)
+                  ? "#1877f2"
+                  : "text.secondary"
+              }
+              width={20}
+              height={20}
+            />
+          </IconButton>
+        )}
 
         <IconButton onClick={handleClickOpen}>
           <Iconify
             icon={"ant-design:share-alt-outlined"}
-            width={30}
-            height={30}
+            width={20}
+            height={20}
           />
         </IconButton>
         <Dialog
@@ -192,7 +230,7 @@ export default function QuestionSolutionsReview() {
           <SharesolutionButton solution={solution} />
         </Dialog>
         <IconButton>
-          <Iconify icon={"ic:outline-report-problem"} width={30} height={30} />
+          <Iconify icon={"ic:outline-report-problem"} width={20} height={20} />
         </IconButton>
       </Stack>
     </Box>

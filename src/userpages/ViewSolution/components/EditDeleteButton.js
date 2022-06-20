@@ -84,7 +84,7 @@ export default function EditDeleteButton() {
           </DialogActions>
         </Dialog>
         {/* for deleting solution */}
-        <Button variant="text" sx={{ color: "red" }}>
+        <Button variant="text" onClick={handleDeleteOpen} color="error">
           Delete
         </Button>
         <Dialog
