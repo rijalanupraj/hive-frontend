@@ -4,30 +4,32 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { Avatar } from "@mui/material";
 import MyAvatar from "../components/MyAvatar";
 
-const Friends = props => {
+const Friends = (props) => {
   const { fndInfo, msgInfo } = props.friend;
   const myId = props.myId;
   const { activeUser } = props;
 
   return (
-    <div className='friend'>
-      <div className='friend-image'>
-        <div className='image'>
+    <div className="friend">
+      <div className="friend-image">
+        <div className="image">
           {fndInfo?.profilePhoto?.hasPhoto ? (
             <Avatar src={fndInfo.profilePhoto.url} alt={fndInfo?.username} />
           ) : (
             <MyAvatar />
           )}
-          {activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === fndInfo._id) ? (
-            <div className='active_icon'></div>
+          {activeUser &&
+          activeUser.length > 0 &&
+          activeUser.some((u) => u.userId === fndInfo._id) ? (
+            <div className="active_icon"></div>
           ) : (
             ""
           )}
         </div>
       </div>
 
-      <div className='friend-name-seen'>
-        <div className='friend-name'>
+      <div className="friend-name-seen">
+        <div className="friend-name">
           <h4
             className={
               msgInfo?.senderId !== myId &&
@@ -40,7 +42,7 @@ const Friends = props => {
             {fndInfo.username}
           </h4>
 
-          <div className='msg-time'>
+          <div className="msg-time">
             {msgInfo && msgInfo.senderId === myId ? (
               <span>You </span>
             ) : (
@@ -72,7 +74,7 @@ const Friends = props => {
             ) : msgInfo && msgInfo.message.image ? (
               <span>Send A image </span>
             ) : (
-              <span>Connect You </span>
+              ""
             )}
             <span>
               {msgInfo
@@ -83,26 +85,29 @@ const Friends = props => {
         </div>
 
         {myId === msgInfo?.senderId ? (
-          <div className='seen-unseen-icon'>
+          <div className="seen-unseen-icon">
             {msgInfo.status === "seen" ? (
               fndInfo?.profilePhoto?.hasPhoto ? (
-                <Avatar src={fndInfo.profilePhoto.url} alt={fndInfo?.username} />
+                <Avatar
+                  src={fndInfo.profilePhoto.url}
+                  alt={fndInfo?.username}
+                />
               ) : (
                 <MyAvatar />
               )
             ) : msgInfo.status === "delivared" ? (
-              <div className='delivared'>
+              <div className="delivared">
                 {" "}
                 <FaRegCheckCircle />{" "}
               </div>
             ) : (
-              <div className='unseen'> </div>
+              <div className="unseen"> </div>
             )}
           </div>
         ) : (
-          <div className='seen-unseen-icon'>
+          <div className="seen-unseen-icon">
             {msgInfo?.status !== undefined && msgInfo?.status !== "seen" ? (
-              <div className='seen-icon'> </div>
+              <div className="seen-icon"> </div>
             ) : (
               ""
             )}

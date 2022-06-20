@@ -6,7 +6,7 @@ import MessageSend from "./MessageSend";
 import { Avatar } from "@mui/material";
 import MyAvatar from "../components/MyAvatar";
 
-const RightSide = props => {
+const RightSide = (props) => {
   const {
     currentfriend,
     inputHendle,
@@ -17,49 +17,52 @@ const RightSide = props => {
     emojiSend,
     ImageSend,
     activeUser,
-    typingMessage
+    typingMessage,
   } = props;
 
   return (
-    <div className='col-9'>
-      <div className='right-side'>
-        <input type='checkbox' id='dot' />
-        <div className='row'>
-          <div className='col-8'>
-            <div className='message-send-show'>
-              <div className='header'>
-                <div className='image-name'>
-                  <div className='image'>
+    <div className="col-9">
+      <div className="right-side">
+        <input type="checkbox" id="dot" />
+        <div className="row">
+          <div className="col-8">
+            <div className="message-send-show">
+              <div className="header">
+                <div className="image-name">
+                  <div className="image">
                     {currentfriend?.profilePhoto?.hasPhoto ? (
-                      <Avatar src={currentfriend.profilePhoto.url} alt={currentfriend?.username} />
+                      <Avatar
+                        src={currentfriend.profilePhoto.url}
+                        alt={currentfriend?.username}
+                      />
                     ) : (
                       <MyAvatar />
                     )}
 
                     {activeUser &&
                     activeUser.length > 0 &&
-                    activeUser.some(u => u.userId === currentfriend._id) ? (
-                      <div className='active-icon'></div>
+                    activeUser.some((u) => u.userId === currentfriend._id) ? (
+                      <div className="active-icon"></div>
                     ) : (
                       ""
                     )}
                   </div>
-                  <div className='name'>
+                  <div className="name">
                     <h3>{currentfriend.name} </h3>
                   </div>
                 </div>
 
-                <div className='icons'>
-                  <div className='icon'>
+                <div className="icons">
+                  {/* <div className='icon'>
                     <FaPhoneAlt />
                   </div>
 
                   <div className='icon'>
                     <FaVideo />
-                  </div>
+                  </div> */}
 
-                  <div className='icon'>
-                    <label htmlFor='dot'>
+                  <div className="icon">
+                    <label htmlFor="dot">
                       {" "}
                       <FaRocketchat />{" "}
                     </label>
@@ -84,8 +87,12 @@ const RightSide = props => {
             </div>
           </div>
 
-          <div className='col-4'>
-            <FriendInfo message={message} currentfriend={currentfriend} activeUser={activeUser} />
+          <div className="col-4">
+            <FriendInfo
+              message={message}
+              currentfriend={currentfriend}
+              activeUser={activeUser}
+            />
           </div>
         </div>
       </div>

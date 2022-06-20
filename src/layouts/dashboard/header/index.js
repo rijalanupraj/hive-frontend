@@ -99,7 +99,7 @@ export default function DashboardHeader({
           alignItems="center"
           spacing={{ xs: 0.5, sm: 1.5 }}
         >
-          <NotificationsPopover />
+          {/* <NotificationsPopover /> */}
           <Chat />
 
           {/* <ContactsPopover /> */}
