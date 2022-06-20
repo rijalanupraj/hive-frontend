@@ -82,8 +82,13 @@ export default function AskQuestion() {
   // const { enqueueSnackbar } = useSnackbar();
 
   const NewQuestionSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
+    title: Yup.string()
+      .required("Title is required")
+      .min(20, "Title must be at least 20 characters")
+      .max(400, "Title must be less than 400 characters"),
+    description: Yup.string()
+      .required("Description is required")
+      .min(30, "Description must be at least 30 characters"),
     category: Yup.string().required("Category is required"),
     tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
   });
@@ -94,7 +99,6 @@ export default function AskQuestion() {
     category: "",
     tags: [],
     publish: true,
-    comments: true,
     metaTitle: "",
     metaDescription: "",
     metaKeywords: [],
@@ -111,7 +115,7 @@ export default function AskQuestion() {
     control,
     setValue,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { isSubmitting, isValid, errors },
   } = methods;
 
   const values = watch();
@@ -162,11 +166,17 @@ export default function AskQuestion() {
                           }
                           options={categoriesList.map((option) => option.title)}
                           renderInput={(params) => (
-                            <TextField label="Category" {...params} />
+                            <TextField
+                              label="Category"
+                              {...params}
+                              error={errors.category}
+                              helperText={errors.category?.message}
+                            />
                           )}
                         />
                       )}
                     />
+
                     <Controller
                       name="tags"
                       control={control}
@@ -189,7 +199,12 @@ export default function AskQuestion() {
                             ))
                           }
                           renderInput={(params) => (
-                            <TextField label="Tags" {...params} />
+                            <TextField
+                              label="Tags"
+                              {...params}
+                              error={errors.tags}
+                              helperText={errors.tags?.message}
+                            />
                           )}
                         />
                       )}
