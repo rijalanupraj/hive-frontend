@@ -101,6 +101,12 @@ export default function UpdateSolution() {
 
   useEffect(() => {
     if (solution.solution) {
+      if (solution.solution.user._id !== auth.me._id) {
+        navigate("/");
+        enqueueSnackbar("You are not authorized to edit this solution", {
+          variant: "error",
+        });
+      }
       setValue("answer", solution.solution.answer);
       setValue("tags", solution.solution.tags);
       setValue("isDraft", !solution.solution.isDraft);
@@ -126,7 +132,7 @@ export default function UpdateSolution() {
   const onSubmit = async () => {
     try {
       const newValue = { ...values, isDraft: !values.isDraft };
-      dispatch(updateSolution(solutionId, newValue, navigate));
+      dispatch(updateSolution(solutionId, newValue, navigate, enqueueSnackbar));
       reset();
       // enqueueSnackbar("Post success!");
     } catch (error) {

@@ -117,7 +117,7 @@ export default function AskQuestion1() {
   const onSubmit = async () => {
     try {
       const newValue = { ...values, isDraft: !values.isDraft };
-      dispatch(postSolution(questionId, newValue, navigate));
+      dispatch(postSolution(questionId, newValue, navigate, enqueueSnackbar));
     } catch (error) {
       console.error(error);
     }

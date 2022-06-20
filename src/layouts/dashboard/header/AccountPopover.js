@@ -3,7 +3,14 @@ import { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 // @mui
 import { alpha } from "@mui/material/styles";
-import { Box, Divider, Typography, Stack, MenuItem } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Typography,
+  Stack,
+  MenuItem,
+  Avatar,
+} from "@mui/material";
 // routes
 // import { PATH_DASHBOARD, PATH_AUTH } from '../../../routes/paths';
 // hooks
@@ -20,23 +27,19 @@ import { logOutUser } from "../../../redux/actions/authActions";
 const MENU_OPTIONS = [
   {
     label: "Home",
-    linkTo: "/"
+    linkTo: "/",
   },
   {
-    label: "Profile",
-    linkTo: "/"
+    label: "Update Profile",
+    linkTo: "/update-profile",
   },
-  {
-    label: "Settings",
-    linkTo: "/"
-  }
 ];
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
   const navigate = useNavigate();
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   // const { user, logout } = useAuth();
@@ -45,7 +48,7 @@ export default function AccountPopover() {
 
   const [open, setOpen] = useState(null);
 
-  const handleOpen = event => {
+  const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
@@ -80,12 +83,21 @@ export default function AccountPopover() {
               height: "100%",
               borderRadius: "50%",
               position: "absolute",
-              bgcolor: theme => alpha(theme.palette.grey[900], 0.8)
-            }
-          })
+              bgcolor: (theme) => alpha(theme.palette.grey[900], 0.8),
+            },
+          }),
         }}
       >
-        <MyAvatar />
+        {auth.isAuthenticated ? (
+          <Avatar
+            alt={auth.me.username}
+            src={
+              auth?.me?.profilePhoto?.hasPhoto ? auth?.me?.profilePhoto.url : ""
+            }
+          />
+        ) : (
+          <MyAvatar />
+        )}
       </IconButtonAnimate>
 
       <MenuPopover
@@ -98,16 +110,16 @@ export default function AccountPopover() {
           ml: 0.75,
           "& .MuiMenuItem-root": {
             typography: "body2",
-            borderRadius: 0.75
-          }
+            borderRadius: 0.75,
+          },
         }}
       >
         {auth.isAuthenticated && (
           <Box sx={{ my: 1.5, px: 2.5 }}>
-            <Typography variant='subtitle2' noWrap>
+            <Typography variant="subtitle2" noWrap>
               {auth.me.name}
             </Typography>
-            <Typography variant='body2' sx={{ color: "text.secondary" }} noWrap>
+            <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
               {auth.me.username}
             </Typography>
           </Box>
@@ -116,7 +128,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: "dashed" }} />
 
         <Stack sx={{ p: 1 }}>
-          {MENU_OPTIONS.map(option => (
+          {MENU_OPTIONS.map((option) => (
             <MenuItem
               key={option.label}
               to={option.linkTo}

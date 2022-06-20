@@ -82,7 +82,13 @@ export default function TopExperts({ auth }) {
                     sx={{ width: 16, height: 16, mr: 0.5 }}
                     color={"orange"}
                   />
-                  {fShortenNumber(user?.followers?.length)}
+                  {fShortenNumber(user?.XPpoints)}
+                  <Iconify
+                    icon={"icon-park:level"}
+                    sx={{ width: 16, height: 16, mr: 0.5, ml: 0.5 }}
+                    color={"orange"}
+                  />
+                  {fShortenNumber(user?.XPLevel)}
                 </Typography>
               </Box>
               {auth.isAuthenticated ? (
