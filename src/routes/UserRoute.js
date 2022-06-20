@@ -33,6 +33,8 @@ import DashboardLayout from "../layouts/dashboard";
 
 // Helper Route Import
 import PrivateRoute from "./PrivateRoute";
+
+import SearchUser from "../userpages/SearchUser/SearchUser";
 import SolutionView from "../userpages/ViewSolution/solutionView";
 
 const UserRoute = () => {
@@ -50,10 +52,12 @@ const UserRoute = () => {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/profile/:username" element={<UserProfile />} />
-        <Route exact path="/solution/:solutionId" element={<SolutionView />} />
+        <Route exact path="/solution/:solutionId" element={<ViewSolution />} />
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
         <Route exact path="/category" element={<ViewCategory />} />
+        <Route exact path="/users" element={<SearchUser />} />
+
         {/* Normal Routes Ends */}
 
         {/* Private Routes Starts */}
