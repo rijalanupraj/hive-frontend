@@ -184,7 +184,10 @@ export default function SolutionPostCard({ solution }) {
 
       <Stack spacing={2} sx={{ p: 3 }}>
         {/* Question */}
-        <Link>
+        <Link
+          to={`/question/${solution?.question?.slug}`}
+          component={RouterLink}
+        >
           <Typography
             variant="h6"
             align="justify"

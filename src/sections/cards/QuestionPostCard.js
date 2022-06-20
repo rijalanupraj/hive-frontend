@@ -165,16 +165,18 @@ export default function QuestionPostCard({ question }) {
 
       <Stack spacing={0.5} sx={{ p: 3 }}>
         {/* Question */}
-        <Typography variant="h6" align="justify">
-          {question?.title}
-        </Typography>
+        <Link to={"/question/" + question?.slug} component={RouterLink}>
+          <Typography variant="h6" align="justify" sx={{ mb: -1 }}>
+            {question?.title}
+          </Typography>
+        </Link>
 
         <Typography variant="body1" align="justify">
           {question?.description}
         </Typography>
 
         <Link href="#">
-          <Typography variant="body2" align="justify" color='#3971f1'>
+          <Typography variant="body2" align="justify" color="#3971f1">
             {question?.answers?.length} Answers
           </Typography>
         </Link>
@@ -183,7 +185,7 @@ export default function QuestionPostCard({ question }) {
 
         <Stack direction="row" alignItems="center">
           {/* write  */}
-          <Link href={'/post-solution/'+question._id}>
+          <Link href={"/post-solution/" + question._id}>
             <Tooltip title="write">
               <IconButton>
                 <Iconify icon={"jam:write-f"} width={20} height={20} />

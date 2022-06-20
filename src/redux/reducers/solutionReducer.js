@@ -4,6 +4,7 @@ import * as TYPES from "../types";
 const initialState = {
   isLoading: false,
   error: null,
+  solutions: [],
 };
 
 export default function solutionReducer(
@@ -31,6 +32,15 @@ export default function solutionReducer(
         error: null,
         homeSolutions: payload.solutions,
       };
+
+    case TYPES.GET_SOLUTIONS_BY_QUESTION_SLUG_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        error: null,
+        solutions: payload.solutions,
+      };
+
     case TYPES.POST_SOLUTION_FAIL:
     case TYPES.GET_ALL_SOLUTIONS_FAIL:
     case TYPES.UPDATE_SOLUTION_FAIL:

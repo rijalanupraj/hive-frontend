@@ -219,3 +219,25 @@ export const getAllSolutionHome = () => async (dispatch, getState) => {
     });
   }
 };
+
+// Get all solutions of a question using question slug
+export const getAllSolutionByQuestionSlug =
+  (questionSlug) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.GET_SOLUTIONS_BY_QUESTION_SLUG_LOADING });
+      const options = attachTokenToHeaders(getState);
+      const response = await axios.get(
+        `${API_URL}/solution/get/question-solutions/${questionSlug}`,
+        options
+      );
+      dispatch({
+        type: TYPES.GET_SOLUTIONS_BY_QUESTION_SLUG_SUCCESS,
+        payload: { solutions: response.data.solutions },
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.GET_SOLUTIONS_BY_QUESTION_SLUG_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+    }
+  };
