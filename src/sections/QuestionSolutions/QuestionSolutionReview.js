@@ -135,8 +135,9 @@ export default function QuestionSolutionsReview() {
         >
           <Iconify
             icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
-            width={30}
-            height={30}
+            color={isUpVote ? "#1877f2" : "text.secondary"}
+            width={20}
+            height={20}
           />
         </IconButton>
         <Typography variant="caption">{upVoteCount}</Typography>
@@ -148,8 +149,9 @@ export default function QuestionSolutionsReview() {
         >
           <Iconify
             icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
-            width={30}
-            height={30}
+            color={isDownVote ? "#1877f2" : "text.secondary"}
+            width={20}
+            height={20}
           />
         </IconButton>
         <Typography variant="caption">{downVoteCount}</Typography>
