@@ -115,18 +115,12 @@ const UserRoute = () => {
         <Route exact path="/chat" element={<PrivateRoute auth={auth} />}>
           <Route exact path="/chat" element={<Messenger />} />
         </Route>
+
         <Route
           exact
-          path="/anotherquestionSolutions"
-          element={<PrivateRoute auth={auth} />}
-        >
-          <Route
-            exact
-            path="/anotherquestionSolutions"
-            element={<AnotherQuestionSolutions />}
-          />
-        </Route>
-
+          path="/question/:slug"
+          element={<AnotherQuestionSolutions />}
+        />
         {/* Private Routes End */}
 
         {/* Remaining Route Ends */}

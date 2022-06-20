@@ -56,17 +56,10 @@ export default function ReportQuestion({ question }) {
         <Iconify icon={"ic:outline-report-problem"} width={20} height={20} />
       </IconButton>
       <Dialog open={open} onClose={handleClose}>
-        <Button
-          variant="text"
-          display="flex"
-          justifyContent="flex-end"
-          onClick={handleClose}
-        >
-          <CancelIcon style={{ color: "red" }} />
-        </Button>
-        <DialogTitle textAlign="center">Report</DialogTitle>
+        
+        <DialogTitle mb={1}>Report</DialogTitle>
         <DialogContent>
-          <DialogContentText mb={2} textAlign="center">
+          <DialogContentText mb={2}>
             Please provide a valid reason for reporting this solution.
           </DialogContentText>
 
@@ -79,6 +72,7 @@ export default function ReportQuestion({ question }) {
                 {...getFieldProps("subject")}
                 error={Boolean(touched.subject && errors.subject)}
                 helperText={touched.subject && errors.subject}
+                sx={{mb:2}}
               />
               <TextField
                 fullWidth
@@ -87,6 +81,7 @@ export default function ReportQuestion({ question }) {
                 {...getFieldProps("description")}
                 error={Boolean(touched.description && errors.description)}
                 helperText={touched.description && errors.description}
+                sx={{mb:2}}
               />
               <LoadingButton
                 fullWidth
@@ -94,17 +89,13 @@ export default function ReportQuestion({ question }) {
                 type="submit"
                 variant="contained"
                 loading={isSubmitting}
+                sx={{mb:2}}
               >
                 Report
               </LoadingButton>
             </Form>
           </FormikProvider>
         </DialogContent>
-        <DialogActions>
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
-        </DialogActions>
       </Dialog>
     </>
   );

@@ -14,6 +14,7 @@ const ICONS = {
   post:getIcon("ic_post"),
   profile: getIcon("ic_profile"),
   category:getIcon("ic_category"),
+  chat:getIcon("ic_chat"),
 };
 
 const navConfig = [
@@ -26,7 +27,8 @@ const navConfig = [
       { title: "Ask Question", path: "/ask-question", icon: ICONS.askquestion },
       { title: "Questions", path: "/questions", icon: ICONS.post },
       { title: "Profile", path: "/myprofile", icon: ICONS.profile },
-      { title: "Categories", path: "/category", icon: ICONS.category }
+      { title: "Categories", path: "/category", icon: ICONS.category },
+      { title: "Chat", path: "/chat", icon: ICONS.chat },
     ]
   }
 

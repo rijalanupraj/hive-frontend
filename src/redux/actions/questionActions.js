@@ -4,6 +4,7 @@ import axios from "axios";
 // Internal Import
 import * as TYPES from "../types";
 import { BACKEND_API_URL } from "../../constants";
+import fi from "date-fns/esm/locale/fi/index.js";
 
 const API_URL = BACKEND_API_URL;
 
@@ -153,6 +154,33 @@ export const reportQuestion =
       enqueueSnackbar("Failed to report question", {
         variant: "error",
       });
+    }
+  };
+
+export const getQuestionBySlug =
+  (slug, navigate, enqueueSnackbar) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.GET_QUESTION_BY_SLUG_LOADING });
+
+      const response = await axios.get(`${API_URL}/question/slug/${slug}`);
+
+      dispatch({
+        type: TYPES.GET_QUESTION_BY_SLUG_SUCCESS,
+        payload: { question: response.data.question },
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.GET_QUESTION_BY_SLUG_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+      if (navigate) {
+        navigate(`/questions`);
+      }
+      if (enqueueSnackbar) {
+        enqueueSnackbar(err?.response?.data.message || err.message, {
+          variant: "error",
+        });
+      }
     }
   };
 

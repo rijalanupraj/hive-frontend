@@ -162,27 +162,7 @@ function HomePage() {
           </Grid>
         </Grid>
 
-        {/* <div
-          style={{
-            margin: "20vh",
-            backgroundColor: "#fff",
-            textAlign: "center",
-          }}
-        >
-          This is Home Page
-          {auth.isAuthenticated ? (
-            <p>You are logged in</p>
-          ) : (
-            <p>You are not logged in</p>
-          )}
-          {auth.isAuthenticated ? (
-            <button onClick={() => dispatch(logOutUser(navigate))}>
-              Log Out
-            </button>
-          ) : (
-            <button onClick={() => navigate("/login")}>Log In</button>
-          )}
-        </div> */}
+        
       </Container>
     </Page>
   );

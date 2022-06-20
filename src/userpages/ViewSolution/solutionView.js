@@ -75,11 +75,13 @@ export default function SolutionView() {
                         {moment(solution?.solution?.createdAt).fromNow()}
                       </Typography>
                     </Box>
-                    <Box sx={{ ml: "auto" }}>
-                      {auth.me._id === solution?.solution?.user?._id && (
-                        <EditDeleteButon solution={solution} />
-                      )}
-                    </Box>
+                    {auth.isAuthenticated && (
+                      <Box sx={{ ml: "auto" }}>
+                        {auth.me._id === solution?.solution?.user?._id && (
+                          <EditDeleteButon solution={solution} />
+                        )}
+                      </Box>
+                    )}
                   </Box>
                   <Divider />
                 </Box>
@@ -113,7 +115,10 @@ export default function SolutionView() {
                 {/* start comment */}
 
                 <Box sx={{ my: 3 }}>
-                  <QuestionSolutionComment solution={solution?.solution} />
+                  <QuestionSolutionComment
+                    solution={solution?.solution}
+                    auth={auth}
+                  />
                 </Box>
 
                 {/* end comment */}

@@ -8,7 +8,8 @@ import { BACKEND_API_URL } from "../../constants";
 const API_URL = BACKEND_API_URL;
 
 export const postSolution =
-  (questionId, jsonData, navigate) => async (dispatch, getState) => {
+  (questionId, jsonData, navigate, enqueueSnackbar) =>
+  async (dispatch, getState) => {
     try {
       dispatch({ type: TYPES.POST_SOLUTION_REQUEST });
 
@@ -24,6 +25,9 @@ export const postSolution =
         type: TYPES.POST_SOLUTION_SUCCESS,
       });
       navigate(`/solution/${response.data.answer._id}`);
+      enqueueSnackbar("Solution posted successfully", {
+        variant: "success",
+      });
     } catch (err) {
       dispatch({
         type: TYPES.POST_SOLUTION_FAIL,
@@ -31,11 +35,15 @@ export const postSolution =
           error: err?.response?.data.message || err.message,
         },
       });
+      enqueueSnackbar("Error posting solution", {
+        variant: "error",
+      });
     }
   };
 
 export const updateSolution =
-  (solutionId, jsonData, navigate) => async (dispatch, getState) => {
+  (solutionId, jsonData, navigate, enqueueSnackbar) =>
+  async (dispatch, getState) => {
     try {
       dispatch({ type: TYPES.UPDATE_SOLUTION_REQUEST });
 
@@ -51,6 +59,11 @@ export const updateSolution =
       if (navigate) {
         navigate(`/solution/${solutionId}`);
       }
+      if (enqueueSnackbar) {
+        enqueueSnackbar("Solution updated successfully", {
+          variant: "success",
+        });
+      }
     } catch (err) {
       dispatch({
         type: TYPES.UPDATE_SOLUTION_FAIL,
@@ -58,6 +71,11 @@ export const updateSolution =
           error: err?.response?.data.message || err.message,
         },
       });
+      if (enqueueSnackbar) {
+        enqueueSnackbar("Error updating solution", {
+          variant: "error",
+        });
+      }
     }
   };
 
@@ -201,3 +219,25 @@ export const getAllSolutionHome = () => async (dispatch, getState) => {
     });
   }
 };
+
+// Get all solutions of a question using question slug
+export const getAllSolutionByQuestionSlug =
+  (questionSlug) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.GET_SOLUTIONS_BY_QUESTION_SLUG_LOADING });
+      const options = attachTokenToHeaders(getState);
+      const response = await axios.get(
+        `${API_URL}/solution/get/question-solutions/${questionSlug}`,
+        options
+      );
+      dispatch({
+        type: TYPES.GET_SOLUTIONS_BY_QUESTION_SLUG_SUCCESS,
+        payload: { solutions: response.data.solutions },
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.GET_SOLUTIONS_BY_QUESTION_SLUG_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+    }
+  };

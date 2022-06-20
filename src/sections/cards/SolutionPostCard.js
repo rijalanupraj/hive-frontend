@@ -11,6 +11,7 @@ import {
   CardHeader,
   IconButton,
   Divider,
+  Tooltip,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Markdown from "../../components/Markdown";
@@ -181,125 +182,155 @@ export default function SolutionPostCard({ solution }) {
         // }
       />
 
-      <Stack spacing={3} sx={{ p: 3 }}>
+      <Stack spacing={2} sx={{ p: 3 }}>
         {/* Question */}
-        <Typography variant="h6" align="justify">
-          {solution?.question?.title}
-        </Typography>
-
-        {/* Answer */}
-        <Markdown children={solution?.answer.slice(0, 100) || ""} />
         <Link
-          to={"/solution/" + solution?._id}
-          variant="body1"
-          color="text.secondary"
+          to={`/question/${solution?.question?.slug}`}
           component={RouterLink}
         >
-          Continue Reading
+          <Typography
+            variant="h6"
+            align="justify"
+            sx={{ mb: -1 }}
+            color="black"
+          >
+            {solution?.question?.title}
+          </Typography>
         </Link>
+
+        {/* Answer */}
+        {/* <Markdown children={solution?.answer.slice(0, 100) || ""} /> */}
+        <Typography variant="body1" sx={{ mb: -1 }}>
+          Just-in-time, or JIT, is an inventory management method in which goods
+          are received from suppliers only as they are needed. The main
+          objective of this method is to reduce inventory holding costs and
+          increase inventory turnover...
+          <Link
+            to={"/solution/" + solution?._id}
+            variant="body1"
+            color="text.SUCCESS"
+            component={RouterLink}
+          >
+            ( more )
+          </Link>
+        </Typography>
 
         {/* image */}
 
-        <Image
+        {/* <Image
           alt="post media"
           src="https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png"
           ratio="2/1"
           sx={{ borderRadius: 1 }}
-        />
+        /> */}
 
         {/* status */}
         <Divider />
         <Stack direction="row" alignItems="center">
           {/* upvote  */}
-          <IconButton
-            onClick={() => {
-              dispatch(upVoteAnySolution(solution._id));
-            }}
-          >
-            <Iconify
-              icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
-              color={isUpVote ? "#1877f2" : "text.secondary"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
+          <Tooltip title="Upvote">
+            <IconButton
+              onClick={() => {
+                dispatch(upVoteAnySolution(solution._id));
+              }}
+            >
+              <Iconify
+                icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+                color={isUpVote ? "#1877f2" : "text.secondary"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          </Tooltip>
           <Typography variant="caption">{upVoteCount}</Typography>
 
-          <IconButton
-            onClick={() => {
-              dispatch(downVoteAnySolution(solution._id));
-            }}
-          >
-            <Iconify
-              icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
-              color={isDownVote ? "#1877f2" : "text.secondary"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
+          <Tooltip title="Downvote">
+            <IconButton
+              onClick={() => {
+                dispatch(downVoteAnySolution(solution._id));
+              }}
+            >
+              <Iconify
+                icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+                color={isDownVote ? "#1877f2" : "text.secondary"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          </Tooltip>
+
           <Typography variant="caption">{downVoteCount}</Typography>
           {/* comment */}
-          <IconButton onClick={handleComment}>
-            <Iconify icon={"fa-regular:comment"} width={20} height={20} />
-          </IconButton>
+          <Tooltip title="Comment">
+            <IconButton onClick={handleComment}>
+              <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+            </IconButton>
+          </Tooltip>
+
           <Typography variant="caption">5</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          {!auth.isAuthenticated ? (
-            <IconButton
-              onClick={() => {
-                navigate("/login?redirectTo=/solution/" + solution._id);
-              }}
-            >
-              <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
-            </IconButton>
-          ) : (
-            <IconButton
-              onClick={() => {
-                dispatch(toggleBookmark(solution._id));
-              }}
-            >
+          <Tooltip title="Bookmark">
+            {!auth.isAuthenticated ? (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }}
+              >
+                <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() => {
+                  dispatch(toggleBookmark(solution._id));
+                }}
+              >
+                <Iconify
+                  icon={
+                    auth.me.bookmarks.includes(solution._id)
+                      ? "bi:bookmark-dash-fill"
+                      : "bi:bookmark-check"
+                  }
+                  color={
+                    auth.me.bookmarks.includes(solution._id)
+                      ? "#1877f2"
+                      : "text.secondary"
+                  }
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
+
+          <Tooltip title="Share">
+            <IconButton>
               <Iconify
-                icon={
-                  auth.me.bookmarks.includes(solution._id)
-                    ? "bi:bookmark-dash-fill"
-                    : "bi:bookmark-check"
-                }
-                color={
-                  auth.me.bookmarks.includes(solution._id)
-                    ? "#1877f2"
-                    : "text.secondary"
-                }
+                icon={"ant-design:share-alt-outlined"}
                 width={20}
                 height={20}
               />
             </IconButton>
-          )}
+          </Tooltip>
 
-          <IconButton>
-            <Iconify
-              icon={"ant-design:share-alt-outlined"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-
-          {auth.isAuthenticated ? (
-            <ReportSolution solution={solution} />
-          ) : (
-            <IconButton
-              onClick={() => {
-                navigate("/login?redirectTo=/solution/" + solution._id);
-              }}
-            >
-              <Iconify
-                icon={"ic:outline-report-problem"}
-                width={20}
-                height={20}
-              />
-            </IconButton>
-          )}
+          <Tooltip title="Report">
+            {auth.isAuthenticated ? (
+              <ReportSolution solution={solution} />
+            ) : (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }}
+              >
+                <Iconify
+                  icon={"ic:outline-report-problem"}
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
         </Stack>
         {/* comment */}
 
