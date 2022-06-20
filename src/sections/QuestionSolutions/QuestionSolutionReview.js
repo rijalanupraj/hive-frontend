@@ -183,7 +183,9 @@ export default function QuestionSolutionsReview() {
         {!auth.isAuthenticated ? (
           <IconButton
             onClick={() => {
-              navigate("/login?redirectTo=/solution/" + solution._id);
+              navigate(
+                "/login?redirectTo=/solution/" + solution?.solution?._id
+              );
             }}
           >
             <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
@@ -191,19 +193,19 @@ export default function QuestionSolutionsReview() {
         ) : (
           <IconButton
             onClick={() => {
-              dispatch(toggleBookmark(solution._id));
+              dispatch(toggleBookmark(solution?.solution?._id));
             }}
           >
             <Iconify
               icon={
-                auth.me.bookmarks.includes(solution._id)
+                auth.me.bookmarks.includes(solution?.solution?._id)
                   ? "bi:bookmark-dash-fill"
                   : "bi:bookmark-check"
               }
               color={
                 auth.me.bookmarks.includes(solution._id)
-                  ? "#1877f2"
-                  : "text.secondary"
+                  ? "text.secondary"
+                  : "#1877f2"
               }
               width={20}
               height={20}
