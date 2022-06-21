@@ -14,6 +14,7 @@ import {
   Typography,
   Dialog,
   DialogTitle,
+  Tooltip,
 } from "@mui/material";
 // utils
 import { fShortenNumber } from "../../utils/formatNumber";
@@ -29,6 +30,7 @@ import {
 import SharesolutionButton from "../../userpages/ViewSolution/components/shareButton";
 import { toggleBookmark } from "../../redux/actions/authActions";
 import ReportSolution from "../reports/ReportSolution";
+import SolutionStats from "../../userpages/ViewSolution/components/SolutionStats";
 
 // ----------------------------------------------------------------------
 
@@ -47,13 +49,19 @@ export default function QuestionSolutionsReview() {
   //   }
   //   const solution = viewSolution.solution;
   const [open, setOpen] = React.useState(false);
+  const [openStats, setOpenStats] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
+  const handleClickOpenStats = () => {
+    setOpenStats(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
+    setOpenStats(false);
   };
 
   useEffect(() => {
@@ -144,7 +152,6 @@ export default function QuestionSolutionsReview() {
           />
         </IconButton>
         <Typography variant="caption">{upVoteCount}</Typography>
-
         <IconButton
           onClick={() => {
             dispatch(downVoteAnySolution(solution.solution._id));
@@ -175,9 +182,7 @@ export default function QuestionSolutionsReview() {
           label={solution?.solution?.comments?.length}
           sx={{ minWidth: 72, mr: 0, ml: 1 }}
         />
-
         <Box sx={{ flexGrow: 1 }} />
-
         {/* <IconButton>
           <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
         </IconButton> */}
@@ -213,7 +218,6 @@ export default function QuestionSolutionsReview() {
             />
           </IconButton>
         )}
-
         <IconButton onClick={handleClickOpen}>
           <Iconify
             icon={"ant-design:share-alt-outlined"}
@@ -232,6 +236,11 @@ export default function QuestionSolutionsReview() {
           </DialogTitle>
           <SharesolutionButton solution={solution} />
         </Dialog>
+        {auth.isAuthenticated && auth.me._id === solution.solution.user._id && (
+          <Tooltip title="Solution Stats">
+            <SolutionStats solution={solution} />
+          </Tooltip>
+        )}
 
         {auth.isAuthenticated ? (
           <ReportSolution solution={solution?.solution} />
