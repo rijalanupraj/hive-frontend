@@ -42,10 +42,6 @@ export default function RequestVerification() {
   };
 
   const RequestVerificationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("Name is required")
-      .min(3, "Name must be at least 3 characters"),
-
     phone: Yup.string()
       .required("Phone number is required")
 
@@ -65,7 +61,6 @@ export default function RequestVerification() {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
       phone: "",
       citizenship: "",
       permanentAddress: "",
@@ -92,14 +87,6 @@ export default function RequestVerification() {
         Request Verification
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <Button
-          variant="text"
-          display="flex"
-          justifyContent="flex-end"
-          onClick={handleClose}
-        >
-          <CancelIcon style={{ color: "red" }} />
-        </Button>
         <DialogTitle textAlign="center">Request Verification</DialogTitle>
         <DialogContent>
           <DialogContentText mb={2} textAlign="center">
@@ -107,15 +94,6 @@ export default function RequestVerification() {
           </DialogContentText>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <TextField
-                sx={{ mt: 1, mb: 2 }}
-                label="Full Name"
-                fullWidth
-                placeholder="Write your full name in your document"
-                {...getFieldProps("name")}
-                error={Boolean(touched.name && errors.name)}
-                helperText={touched.name && errors.name}
-              />
               <TextField
                 sx={{ mt: 1, mb: 2 }}
                 label="Phone Number"
