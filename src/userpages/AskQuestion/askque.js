@@ -84,11 +84,9 @@ export default function AskQuestion() {
   const NewQuestionSchema = Yup.object().shape({
     title: Yup.string()
       .required("Title is required")
-      .min(20, "Title must be at least 20 characters")
+      .min(15, "Title must be at least 15 characters")
       .max(400, "Title must be less than 400 characters"),
-    description: Yup.string()
-      .required("Description is required")
-      .min(30, "Description must be at least 30 characters"),
+    description: Yup.string(),
     category: Yup.string().required("Category is required"),
     tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
   });

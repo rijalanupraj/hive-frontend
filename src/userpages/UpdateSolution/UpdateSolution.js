@@ -84,7 +84,10 @@ export default function UpdateSolution() {
   // const { enqueueSnackbar } = useSnackbar();
 
   const NewQuestionSchema = Yup.object().shape({
-    answer: Yup.string().min(100).required("Content is required"),
+    answer: Yup.string(),
+    description: Yup.string()
+      .required("Description is required")
+      .min(10, "Description must be at least 10 characters"),
     tags: Yup.array().required("Tags is required").min(1, "Tags is required"),
     cover: Yup.mixed(),
   });
@@ -92,6 +95,7 @@ export default function UpdateSolution() {
   const defaultValues = {
     answer: solution?.solution?.answer || "",
     cover: null,
+    description: solution?.solution?.description,
     tags: solution?.solution?.tags || [],
     isDraft: true,
     metaTitle: "",
@@ -110,6 +114,7 @@ export default function UpdateSolution() {
       setValue("answer", solution.solution.answer);
       setValue("tags", solution.solution.tags);
       setValue("isDraft", !solution.solution.isDraft);
+      setValue("description", solution.solution.description);
     }
   }, [solution.solution]);
 
@@ -180,6 +185,12 @@ export default function UpdateSolution() {
                 <Grid item xs={12} md={8}>
                   <Card sx={{ p: 3 }}>
                     <Stack spacing={3}>
+                      <RHFTextField
+                        name="description"
+                        label="Description"
+                        multiline
+                        rows={3}
+                      />
                       <div>
                         <LabelStyle>Introduction</LabelStyle>
                         <RHFEditor name="answer" />
