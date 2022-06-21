@@ -11,7 +11,6 @@ import {
   UpdateUserProfile,
   HomePage,
   AskQuestion,
-  ViewSolution,
   PostSolution,
   ForgotPassword,
   ResetPassword,
@@ -23,6 +22,7 @@ import {
   UpdateSolution,
   QuestionSolutions,
   AnotherQuestionSolutions,
+  ViewTags,
 } from "../userpages";
 
 import Messenger from "../chats/Messenger.jsx";
@@ -55,6 +55,7 @@ const UserRoute = () => {
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
         <Route exact path="/category" element={<ViewCategory />} />
+        <Route exact path="/tags" element={<ViewTags />} />
         <Route exact path="/users" element={<SearchUser />} />
 
         {/* Normal Routes Ends */}

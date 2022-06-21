@@ -16,6 +16,7 @@ import ViewCategory from "./Category/ViewCategory";
 import PersonalFeed from "./PersonalFeed/PersonalFeed";
 import QuestionSolutions from "./QuestionSolutions/QuestionSolutions";
 import AnotherQuestionSolutions from "./QuestionSolutions/AnotherQuestionSolutions";
+import ViewTags from "./Tags/ViewTags";
 
 export {
   Login,
@@ -36,4 +37,5 @@ export {
   PersonalFeed,
   QuestionSolutions,
   AnotherQuestionSolutions,
+  ViewTags,
 };
