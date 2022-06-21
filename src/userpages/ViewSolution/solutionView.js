@@ -50,7 +50,7 @@ export default function SolutionView() {
     <Page title={solution?.solution?.question?.title}>
       <Container maxWidth="md">
         <Grid container spacing={3}>
-          {/* <Grid item xs={12} lg={8} order={{ xs: 2, md: 1 }}> */}
+          <Grid item xs={12} lg={12} order={{ xs: 2, md: 1 }}>
             <Card>
               {/* cover */}
               <QuestionSolutionHeader que={solution?.solution?.question} />
@@ -90,7 +90,10 @@ export default function SolutionView() {
 
                 {/* start body description */}
 
-                <Markdown children={solution?.solution?.answer || ""}  align='justify' />
+                <Markdown
+                  children={solution?.solution?.answer || ""}
+                  align="justify"
+                />
                 {/* end body description */}
 
                 {/* start image */}
@@ -127,7 +130,7 @@ export default function SolutionView() {
 
                 {/* start comment */}
 
-                <Box sx={{ my: 3, mt:-2 }}>
+                <Box sx={{ my: 3, mt: -2 }}>
                   <QuestionSolutionComment
                     solution={solution?.solution}
                     auth={auth}
@@ -137,7 +140,7 @@ export default function SolutionView() {
                 {/* end comment */}
               </Box>
             </Card>
-          {/* </Grid> */}
+          </Grid>
 
           {/* <Grid
             item

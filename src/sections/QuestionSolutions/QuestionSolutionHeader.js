@@ -133,17 +133,12 @@ export default function QuestionSolutionHeader({ que }) {
       }}
     >
       <TitleStyle>{que?.title} </TitleStyle>
-      
 
-      <TitleStyle1 sx={{mt:3}}>{que?.description}</TitleStyle1>
+      <TitleStyle1 sx={{ mt: 3 }}>{que?.description}</TitleStyle1>
 
       <FooterStyle>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar
-            alt="experts"
-            src="https://64.media.tumblr.com/99d03efc97ddb990cac5ed9966bb1a04/20cfea4bd0512deb-d7/s1280x1920/66081a68797116b4247d0c0b1cae220a0c84e4e1.png"
-            sx={{ width: 42, height: 42 }}
-          />
+          <Avatar alt="profile" src={que?.user?.profilePhoto?.url} />
           <Box sx={{ ml: 2 }}>
             <Typography variant="subtitle1" sx={{ color: "common.white" }}>
               Questioned By:
