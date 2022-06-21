@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import TextField from "@mui/material/TextField";
+import TextField, { textFieldClasses } from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -96,10 +96,9 @@ export default function Category({
     <Box>
       <Box m={1} display="flex" justifyContent="center" alignItems="center">
         <Dialog open={open} onClose={handleClose}>
-          
-          <DialogTitle sx={{mb:1}}>Suggest New Category</DialogTitle>
+          <DialogTitle sx={{ mb: 1 }}>Suggest New Category</DialogTitle>
           <DialogContent>
-            <DialogContentText sx={{mb:3}}>
+            <DialogContentText sx={{ mb: 3 }}>
               You can only suggest categories which are not available.
             </DialogContentText>
             <FormikProvider value={formik}>
@@ -112,7 +111,7 @@ export default function Category({
                   {...getFieldProps("title")}
                   error={Boolean(touched.title && errors.title)}
                   helperText={touched.title && errors.title}
-                  sx={{mb:2}}
+                  sx={{ mb: 2 }}
                 />
                 <LoadingButton
                   fullWidth
@@ -120,7 +119,7 @@ export default function Category({
                   type="submit"
                   variant="contained"
                   loading={isSubmitting}
-                  sx={{mb:2}}
+                  sx={{ mb: 2 }}
                 >
                   Suggest Category
                 </LoadingButton>
@@ -152,7 +151,11 @@ export default function Category({
         sx={{ mb: 5 }}
       />
 
-      <Button variant="contained" onClick={handleClickOpen} sx={{ml:3, p:1.7}}>
+      <Button
+        variant="contained"
+        onClick={handleClickOpen}
+        sx={{ ml: 3, p: 1.7 }}
+      >
         Suggest Category
       </Button>
 
@@ -183,11 +186,16 @@ function CategoryCard({ category }) {
 
   return (
     <Card sx={{ display: "flex", alignItems: "center", p: 3 }}>
-      <Avatar
+      <Iconify
+        icon={category.icon}
+        color="#1877f2"
+        sx={{ width: 48, height: 48 }}
+      />
+      {/* <Avatar
         alt={category.title}
         src="http://survedmonton.ca/wp-content/uploads/2015/10/office-icon-350x350.png"
         sx={{ width: 48, height: 48 }}
-      />
+      /> */}
       <Box sx={{ flexGrow: 1, minWidth: 0, pl: 2, pr: 1 }}>
         <Typography variant="subtitle2" noWrap>
           {capitalCase(category.title)}
