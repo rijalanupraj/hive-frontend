@@ -44,6 +44,26 @@ export const getAllQuestion = () => async (dispatch, getState) => {
   }
 };
 
+export const scrollLoadingQuestions =
+  (pageNumber) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.QUESTIONS_SCROLL_LOADING });
+
+      const { data } = await axios.get(
+        `${API_URL}/question?page=${pageNumber}`
+      );
+      dispatch({
+        type: TYPES.QUESTIONS_SCROLL_SUCCESS,
+        payload: data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.QUESTIONS_SCROLL_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+    }
+  };
+
 //search question
 export const searchQuestion = (search) => async (dispatch, getState) => {
   try {

@@ -10,17 +10,31 @@ import {
   Typography,
   Paper,
   Container,
+  CircularProgress,
 } from "@mui/material";
+import handleViewport from "react-in-viewport";
 
 import QuestionPostCard from "../../sections/cards/QuestionPostCard";
 import {
   getAllQuestion,
   searchQuestion,
+  scrollLoadingQuestions,
 } from "../../redux/actions/questionActions";
 import InputStyle from "../../components/InputStyle";
 import Iconify from "../../components/Iconify";
 
 import useSettings from "../../hooks/useSettings";
+
+const Block = (props: { inViewport: boolean }) => {
+  const { inViewport, forwardedRef } = props;
+  return (
+    <div className="viewport-block" ref={forwardedRef}>
+      <div style={{ width: "400px", height: "100px" }} />
+    </div>
+  );
+};
+
+const ViewportBlock = handleViewport(Block);
 
 const QuestionsPage = () => {
   const { themeStretch } = useSettings();
@@ -29,15 +43,29 @@ const QuestionsPage = () => {
   const [questions, setQuestions] = useState([]);
   const [questionFilter, setQuestionFilter] = useState(false);
 
+  // useEffect(() => {
+  //   dispatch(getAllQuestion());
+  // }, [dispatch]);
+
   useEffect(() => {
-    dispatch(getAllQuestion());
-  }, [dispatch]);
+    onViewPortEnter();
+  }, []);
 
   const onFindQuestion = (e) => {
     if (e.target.value === "") {
       dispatch(getAllQuestion());
     } else {
       dispatch(searchQuestion(e.target.value));
+    }
+  };
+
+  const onViewPortEnter = () => {
+    if (!question.allLoaded) {
+      if (question.pageNumber === null) {
+        dispatch(scrollLoadingQuestions(1));
+      } else {
+        dispatch(scrollLoadingQuestions(question.pageNumber + 1));
+      }
     }
   };
 
@@ -62,7 +90,6 @@ const QuestionsPage = () => {
         <Typography variant="h4" sx={{ mb: 2 }}>
           Question
         </Typography>
-
         <InputStyle
           stretchStart={240}
           onChange={onFindQuestion}
@@ -78,7 +105,6 @@ const QuestionsPage = () => {
             ),
           }}
         />
-
         <ToggleButtonGroup
           color="primary"
           value={questionFilter}
@@ -100,6 +126,24 @@ const QuestionsPage = () => {
           {questions &&
             questions.map((q) => <QuestionPostCard key={q._id} question={q} />)}
         </Grid>
+        {question.scrollLoading && <CircularProgress size={30} />}
+        {question.allLoaded && (
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: "center",
+              mt: 3,
+            }}
+          >
+            All questions are loaded
+          </Typography>
+        )}
+        {!question.isLoading && question.questions.length > 0 && (
+          <ViewportBlock
+            onEnterViewport={() => onViewPortEnter()}
+            onLeaveViewport={() => console.log("leave")}
+          />
+        )}
       </Container>
     </Page>
   );

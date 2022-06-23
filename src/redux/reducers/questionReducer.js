@@ -6,6 +6,10 @@ const initialState = {
   error: null,
   question: null,
   questions: [],
+  pageNumber: null,
+  allLoaded: false,
+  scrollLoading: false,
+  totalPage: null,
 };
 
 export default function questionReducer(state = initialState, action) {
@@ -20,6 +24,7 @@ export default function questionReducer(state = initialState, action) {
       };
     case TYPES.ASK_QUESTION_SUCCESS:
       return {
+        ...state,
         isLoading: false,
         question: action.payload,
       };
@@ -28,6 +33,7 @@ export default function questionReducer(state = initialState, action) {
     case TYPES.SEARCH_QUESTION_FAIL:
     case TYPES.GET_QUESTION_BY_SLUG_FAIL:
       return {
+        ...state,
         isLoading: false,
         error: action.payload || action.payload.error,
       };
@@ -35,20 +41,49 @@ export default function questionReducer(state = initialState, action) {
     case TYPES.GET_ALL_QUESTIONS_SUCCESS:
     case TYPES.SEARCH_QUESTION_SUCCESS:
       return {
+        ...state,
         isLoading: false,
         questions: action.payload.questions,
+        pageNumber: action.payload.page,
+        totalPage: action.payload.pages,
+        allLoaded: action.payload.pages === action.payload.page,
       };
 
     case TYPES.GET_QUESTION_FOR_POST_SOLUTION_SUCCESS:
       return {
+        ...state,
         isLoading: false,
         question: action.payload.question,
       };
 
     case TYPES.GET_QUESTION_BY_SLUG_SUCCESS:
       return {
+        ...state,
         isLoading: false,
         question: action.payload.question,
+      };
+
+    case TYPES.QUESTIONS_SCROLL_LOADING:
+      return {
+        ...state,
+        scrollLoading: true,
+      };
+
+    case TYPES.QUESTIONS_SCROLL_SUCCESS:
+      return {
+        ...state,
+        questions: [...state.questions, ...action.payload.questions],
+        scrollLoading: false,
+        pageNumber: action.payload.page,
+        totalPage: action.payload.pages,
+        allLoaded: action.payload.pages === action.payload.page,
+      };
+
+    case TYPES.QUESTIONS_SCROLL_FAIL:
+      return {
+        ...state,
+        scrollLoading: false,
+        error: action.payload || action.payload.error,
       };
 
     default:
