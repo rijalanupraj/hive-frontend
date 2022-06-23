@@ -42,7 +42,7 @@ function PersonalFeed() {
       <Paper
         style={{
           width: "100%",
-          backgroundColor: "#f1f2f2",
+
           boxShadow: "none",
         }}
       >
