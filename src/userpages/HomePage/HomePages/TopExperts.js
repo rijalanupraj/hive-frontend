@@ -96,6 +96,7 @@ export default function TopExperts({ auth }) {
               ) : (
                 <Button
                   size="small"
+                  
                   style={{
                     margin: "0.5vh",
                   }}
@@ -179,7 +180,7 @@ function FollowerButton({ profile }) {
           ? handleFollow()
           : navigate("/login?redirectTo=/profile/" + profile.username)
       }
-      variant={toggle ? "text" : "contained"}
+      variant={toggle ? "text" : "outlined"}
       color={toggle ? "primary" : "primary"}
       startIcon={toggle && <Iconify icon={"eva:checkmark-fill"} />}
     >

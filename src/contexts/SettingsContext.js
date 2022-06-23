@@ -6,10 +6,12 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import getColorPresets, { colorPresets, redPreset, defaultPreset,bluePreset } from "../utils/getColorPresets";
 // config
 
+import { defaultSettings } from '../config';
+
 // ----------------------------------------------------------------------
 
 const initialState = {
-  themeMode: "light", // light, dark
+  ...defaultSettings, // light, dark
   onChangeMode: () => {},
   onToggleMode: () => {},
   onChangeDirection: () => {},
@@ -17,7 +19,7 @@ const initialState = {
   onToggleStretch: () => {},
   onChangeLayout: () => {},
   onResetSetting: () => {},
-  setColor: bluePreset,
+  setColor: defaultPreset,
   colorOption: []
 };
 
