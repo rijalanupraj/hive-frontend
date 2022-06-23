@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 // import "./css/Homepage.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,6 +22,8 @@ import {
   OutlinedInput,
   FormHelperText,
   Card,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import MyAvatar from "../../components/MyAvatar";
 
@@ -33,6 +35,8 @@ import useSettings from "../../hooks/useSettings";
 import { _userFeeds } from "../../_mock/_user";
 import TopExperts from "./HomePages/TopExperts";
 import HotQuestions from "./HomePages/HotQuestions";
+
+import HomeFilter from "./HomePages/HomeFilter";
 
 import Footer from "./HomePages/Footer";
 
@@ -56,6 +60,12 @@ function HomePage() {
   const solution = useSelector((state) => state.solution);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [alignment, setAlignment] = useState("web");
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
 
   useEffect(() => {
     dispatch(getAllSolutionHome());
@@ -149,6 +159,12 @@ function HomePage() {
 
               {/* end profile and ask question */}
             </Card>
+
+            {/* start filter */}
+
+            <HomeFilter />
+            
+            {/* end filter */}
 
             {/* end question header */}
 
