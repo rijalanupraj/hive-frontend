@@ -193,7 +193,7 @@ export default function SolutionPostCard({ solution }) {
             variant="h6"
             align="justify"
             sx={{ mb: -1 }}
-            color="black"
+            
           >
             {solution?.question?.title}
           </Typography>
@@ -210,10 +210,9 @@ export default function SolutionPostCard({ solution }) {
           <Link
             to={"/solution/" + solution?._id}
             variant="body1"
-            color="text.SUCCESS"
             component={RouterLink}
           >
-            ( more )
+            (more)
           </Link>
         </Typography>
         <Typography align="justify" sx={{ mt: 2 }} color="black">
