@@ -136,7 +136,7 @@ export default function TopExperts({ auth }) {
         <Link to="/users">
           <Button
             size="small"
-            color="inherit"
+
             endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
           >
             View all
