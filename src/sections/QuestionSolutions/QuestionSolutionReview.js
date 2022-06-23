@@ -238,7 +238,7 @@ export default function QuestionSolutionsReview() {
         </Dialog>
         {auth.isAuthenticated && auth.me._id === solution.solution.user._id && (
           <Tooltip title="Solution Stats">
-            <SolutionStats solution={solution} />
+            <SolutionStats solution={solution?.solution} />
           </Tooltip>
         )}
 
