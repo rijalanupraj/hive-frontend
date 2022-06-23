@@ -4,12 +4,7 @@ import { Card, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 import Iconify from "../../../components/Iconify";
 
-const HomeFilter = () => {
-  const [alignment, setAlignment] = useState("web");
-
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
-  };
+const HomeFilter = ({ currentFilter, handleFilterChange }) => {
   return (
     <>
       <Card
@@ -23,9 +18,9 @@ const HomeFilter = () => {
       >
         <ToggleButtonGroup
           color="primary"
-          value={alignment}
+          value={currentFilter}
           exclusive
-          onChange={handleChange}
+          onChange={handleFilterChange}
           border="none"
         >
           <ToggleButton value="preference">
@@ -68,6 +63,16 @@ const HomeFilter = () => {
               mr={1}
             />
             Hot
+          </ToggleButton>
+          <ToggleButton value="oldest">
+            <Iconify
+              icon="emojione:old-man"
+              width={20}
+              height={20}
+              ml={1}
+              mr={1}
+            />
+            Oldest
           </ToggleButton>
         </ToggleButtonGroup>
       </Card>

@@ -26,6 +26,7 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import MyAvatar from "../../components/MyAvatar";
+import handleViewport from "react-in-viewport";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 
@@ -54,22 +55,45 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const Block = (props: { inViewport: boolean }) => {
+  const { inViewport, forwardedRef } = props;
+  return (
+    <div className="viewport-block" ref={forwardedRef}>
+      <div style={{ width: "400px", height: "100px" }} />
+    </div>
+  );
+};
+
+const ViewportBlock = handleViewport(Block);
+
 function HomePage() {
   const { themeStretch } = useSettings();
   const auth = useSelector((state) => state.auth);
   const solution = useSelector((state) => state.solution);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [currentFilter, setCurrentFilter] = useState("recent");
 
-  const [alignment, setAlignment] = useState("web");
-
-  const handleChange = (event, newAlignment) => {
-    setAlignment(newAlignment);
+  const handleFilterChange = (event, newValue) => {
+    setCurrentFilter(newValue);
   };
 
+  const onViewPortEnter = () => {
+    if (!solution.homeAllLoaded) {
+      if (solution.homePageNumber === null) {
+        dispatch(getAllSolutionHome(1, currentFilter));
+      } else {
+        dispatch(
+          getAllSolutionHome(solution.homePageNumber + 1, currentFilter)
+        );
+      }
+    }
+  };
+
+  // Only on filter change
   useEffect(() => {
-    dispatch(getAllSolutionHome());
-  }, []);
+    dispatch(getAllSolutionHome(1, currentFilter));
+  }, [currentFilter]);
 
   return (
     <Page title="Home">
@@ -162,8 +186,11 @@ function HomePage() {
 
             {/* start filter */}
 
-            <HomeFilter />
-            
+            <HomeFilter
+              currentFilter={currentFilter}
+              handleFilterChange={handleFilterChange}
+            />
+
             {/* end filter */}
 
             {/* end question header */}
@@ -172,6 +199,12 @@ function HomePage() {
               solution.homeSolutions.map((post) => (
                 <SolutionPostCard key={post._id} solution={post} />
               ))}
+            {solution.homeSolutions.length > 0 && (
+              <ViewportBlock
+                onEnterViewport={() => onViewPortEnter()}
+                onLeaveViewport={() => console.log("leave")}
+              />
+            )}
           </Grid>
 
           {/* right */}
