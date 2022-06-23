@@ -32,6 +32,7 @@ import {
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
 import ReportSolution from "../reports/ReportSolution";
+import SolutionStats from "../../userpages/ViewSolution/components/SolutionStats";
 
 // ----------------------------------------------------------------------
 
@@ -197,14 +198,11 @@ export default function SolutionPostCard({ solution }) {
           >
             {solution?.question?.title}
           </Typography>
-          
         </Link>
 
         {/* Answer */}
         {/* <Markdown children={solution?.answer.slice(0, 100) || ""} /> */}
 
-        
-          
         <Typography variant="body1" sx={{ mb: -1 }}>
           {solution?.description}
           <Link
@@ -216,18 +214,18 @@ export default function SolutionPostCard({ solution }) {
           </Link>
         </Typography>
         <Typography align="justify" sx={{ mt: 2 }} color="black">
-            <Stack direction="row" spacing={1}>
-              {solution?.tags.map((tag) => (
-                <Chip
-                  label={tag}
-                  variant="outline"
-                  size="small"
-                  clickable
-                  // sx={{width:'10%'}}
-                />
-              ))}
-            </Stack>
-          </Typography>
+          <Stack direction="row" spacing={1}>
+            {solution?.tags.map((tag) => (
+              <Chip
+                label={tag}
+                variant="outline"
+                size="small"
+                clickable
+                // sx={{width:'10%'}}
+              />
+            ))}
+          </Stack>
+        </Typography>
 
         {/* image */}
 
@@ -335,6 +333,11 @@ export default function SolutionPostCard({ solution }) {
               />
             </IconButton>
           </Tooltip>
+          {auth.isAuthenticated && auth.me._id === solution.user._id && (
+            <Tooltip title="Solution Stats">
+              <SolutionStats solution={solution} />
+            </Tooltip>
+          )}
 
           <Tooltip title="Report">
             {auth.isAuthenticated ? (
