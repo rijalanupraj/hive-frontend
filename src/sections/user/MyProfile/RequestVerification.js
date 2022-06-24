@@ -42,29 +42,29 @@ export default function RequestVerification() {
   };
 
   const RequestVerificationSchema = Yup.object().shape({
-    phone: Yup.string()
-      .required("Phone number is required")
+    contact: Yup.string()
+      .required("Contact number is required")
 
       .min(10, "Phone number must be at least 10 characters"),
-    citizenship: Yup.string()
-      .required("Citizenship is required")
-      .min(3, "Citizenship must be at least 5 characters"),
 
     permanentAddress: Yup.string()
       .required("Permanent address is required")
       .max(100, "Permanent address must be at least 100 characters"),
 
-    description: Yup.string()
-      .required("Description is required")
-      .min(10, "Description must be at least 10 characters"),
+    citizenship: Yup.string()
+      .required("Citizenship is required")
+      .min(3, "Citizenship must be at least 5 characters"),
+    citizenshipImage: Yup.string().required(
+      "Please add your citizenship in jpeg, png or jpg format"
+    ),
   });
 
   const formik = useFormik({
     initialValues: {
-      phone: "",
-      citizenship: "",
+      contact: "",
       permanentAddress: "",
-      description: "",
+      citizenship: "",
+      citizenshipImage: "",
     },
     validationSchema: RequestVerificationSchema,
     onSubmit: (values) => {
