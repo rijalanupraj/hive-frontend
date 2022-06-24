@@ -17,7 +17,7 @@ import {
   FormControlLabel,
   Tooltip,
   Chip,
-  Divider
+  Divider,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -26,6 +26,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fDate } from "../../utils/formatTime";
 
 // components
+import { useTheme } from "@mui/material/styles";
 
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
@@ -58,6 +59,8 @@ export default function QuestionPostCard({ question }) {
   const [downVoteCount, setDownVoteCount] = useState(question.downVotes.length);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
+  console.log(theme.themeMode);
 
   useEffect(() => {
     if (auth.me) {
@@ -166,7 +169,13 @@ export default function QuestionPostCard({ question }) {
 
       <Stack spacing={0.5} sx={{ p: 3 }}>
         {/* Question */}
-        <Link to={"/question/" + question?.slug} component={RouterLink}>
+        <Link
+          to={"/question/" + question?.slug}
+          style={{
+            textDecoration: "none",
+          }}
+          component={RouterLink}
+        >
           <Typography variant="h6" align="justify" sx={{ mb: 0.5 }}>
             {question?.title}
           </Typography>
@@ -175,30 +184,29 @@ export default function QuestionPostCard({ question }) {
         <Typography variant="body1" align="justify">
           {question?.description}
         </Typography>
-        
+
         <Typography variant="body1" align="justify">
           <Stack direction="row" spacing={1}>
             {question?.tags.map((tag) => (
-              <Chip
-                label={tag}
-                variant="outlined"
-                size="small"
-                clickable
-              />
+              <Chip label={tag} variant="outlined" size="small" clickable />
             ))}
           </Stack>
         </Typography>
-        
-        
+
         <Link href="#">
-          <Typography variant="body2" align="justify" color="#3971f1" sx={{mt:2}}>
+          <Typography
+            variant="body2"
+            align="justify"
+            color="#3971f1"
+            sx={{ mt: 2 }}
+          >
             {question?.answers?.length} Answers
           </Typography>
         </Link>
 
         {/* image */}
-        <Divider/>
-        <Stack direction="row" alignItems="center" sx={{ml:-1}}>
+        <Divider />
+        <Stack direction="row" alignItems="center" sx={{ ml: -1 }}>
           {/* write  */}
           <Link href={"/post-solution/" + question._id}>
             <Tooltip title="write">

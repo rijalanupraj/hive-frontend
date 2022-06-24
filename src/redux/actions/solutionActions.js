@@ -200,25 +200,28 @@ export const attachTokenToHeaders = (getState) => {
 };
 
 //get all solution
-export const getAllSolutionHome = () => async (dispatch, getState) => {
-  try {
-    dispatch({ type: TYPES.GET_ALL_SOLUTIONS_LOADING });
+export const getAllSolutionHome =
+  (pageNumber, filter) => async (dispatch, getState) => {
+    try {
+      dispatch({ type: TYPES.GET_ALL_SOLUTIONS_LOADING });
 
-    const response = await axios.get(`${API_URL}/solution`);
+      const response = await axios.get(
+        `${API_URL}/solution?page=${pageNumber}&filter=${filter}`
+      );
 
-    dispatch({
-      type: TYPES.GET_ALL_SOLUTIONS_SUCCESS,
-      payload: response.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: TYPES.GET_ALL_SOLUTIONS_FAIL,
-      payload: {
-        error: err?.response?.data.message || err.message,
-      },
-    });
-  }
-};
+      dispatch({
+        type: TYPES.GET_ALL_SOLUTIONS_SUCCESS,
+        payload: response.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.GET_ALL_SOLUTIONS_FAIL,
+        payload: {
+          error: err?.response?.data.message || err.message,
+        },
+      });
+    }
+  };
 
 // Get all solutions of a question using question slug
 export const getAllSolutionByQuestionSlug =

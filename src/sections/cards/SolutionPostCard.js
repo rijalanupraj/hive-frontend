@@ -32,6 +32,7 @@ import {
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
 import ReportSolution from "../reports/ReportSolution";
+import SolutionStats from "../../userpages/ViewSolution/components/SolutionStats";
 
 // ----------------------------------------------------------------------
 
@@ -193,42 +194,38 @@ export default function SolutionPostCard({ solution }) {
             variant="h6"
             align="justify"
             sx={{ mb: -1 }}
-            color="black"
+            
           >
             {solution?.question?.title}
           </Typography>
-          
         </Link>
 
         {/* Answer */}
         {/* <Markdown children={solution?.answer.slice(0, 100) || ""} /> */}
 
-        
-          
         <Typography variant="body1" sx={{ mb: -1 }}>
           {solution?.description}
           <Link
             to={"/solution/" + solution?._id}
             variant="body1"
-            color="text.SUCCESS"
             component={RouterLink}
           >
-            ( more )
+            (more)
           </Link>
         </Typography>
         <Typography align="justify" sx={{ mt: 2 }} color="black">
-            <Stack direction="row" spacing={1}>
-              {solution?.tags.map((tag) => (
-                <Chip
-                  label={tag}
-                  variant="outline"
-                  size="small"
-                  clickable
-                  // sx={{width:'10%'}}
-                />
-              ))}
-            </Stack>
-          </Typography>
+          <Stack direction="row" spacing={1}>
+            {solution?.tags.map((tag) => (
+              <Chip
+                label={tag}
+                variant="outline"
+                size="small"
+                clickable
+                // sx={{width:'10%'}}
+              />
+            ))}
+          </Stack>
+        </Typography>
 
         {/* image */}
 
@@ -336,6 +333,11 @@ export default function SolutionPostCard({ solution }) {
               />
             </IconButton>
           </Tooltip>
+          {auth.isAuthenticated && auth.me._id === solution.user._id && (
+            <Tooltip title="Solution Stats">
+              <SolutionStats solution={solution} />
+            </Tooltip>
+          )}
 
           <Tooltip title="Report">
             {auth.isAuthenticated ? (
