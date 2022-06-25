@@ -12,9 +12,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import CircleIcon from "@mui/icons-material/Circle";
+import { useSnackbar } from "notistack";
 
 // Internal Import
-import {  userTicket } from "../../../redux/actions/userActions";
+import {
+  createUserTicket,
+  getUserTickets,
+} from "../../../redux/actions/userActions";
 
 // ----------------------------------------------------------------------
 
@@ -22,14 +26,11 @@ export default function TicketInformation() {
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if (!user.isLoading) {
-      formik.setSubmitting(false);
-    } else {
-      formik.setSubmitting(true);
-    }
-  }, [user.isLoading]);
+    dispatch(getUserTickets());
+  }, []);
 
   const TicketSchema = Yup.object().shape({
     request: Yup.string()
@@ -48,7 +49,8 @@ export default function TicketInformation() {
     },
     validationSchema: TicketSchema,
     onSubmit: (values) => {
-      dispatch(userTicket(formik.values));
+      dispatch(createUserTicket(formik.values, enqueueSnackbar));
+      formik.resetForm();
     },
   });
 
@@ -69,59 +71,37 @@ export default function TicketInformation() {
               bgcolor: "background.paper",
             }}
           >
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary="#1111 solution page is not loading"
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: "inline" }}
-                      align="right"
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      <CircleIcon color="success" sx={{ pt: 2 }} />
-                      Open
-                    </Typography>
-                    <Typography
-                      sx={{ display: "inline", ml: 12 }}
-                      component="span"
-                      variant="body2"
-                    >
-                      1 Week Ago
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
+            {user.tickets.map((ticket) => (
+              <ListItem key={ticket._id} alignItems="flex-start">
+                <ListItemText
+                  primary={ticket.request}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        align="right"
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {ticket.description}
+                        <CircleIcon color="success" sx={{ pt: 2 }} />
+                        {ticket.status}
+                      </Typography>
+                      <Typography
+                        sx={{ display: "inline", ml: 1 }}
+                        component="span"
+                        variant="body2"
+                      >
+                        {ticket.createdAt.split("T")[0]}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+            ))}
+
             <Divider />
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary="#1112 Question page is not loading"
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      sx={{ display: "inline" }}
-                      align="right"
-                      component="span"
-                      variant="body2"
-                      color="text.primary"
-                    >
-                      <CircleIcon color="info" sx={{ pt: 2 }} />
-                      Resolved
-                    </Typography>
-                    <Typography
-                      sx={{ display: "inline", ml: 12 }}
-                      component="span"
-                      variant="body2"
-                    >
-                      1 Week Ago
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
-            </ListItem>
           </List>
         </Card>
       </Grid>
