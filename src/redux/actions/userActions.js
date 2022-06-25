@@ -141,7 +141,6 @@ export const followUnfollowUser = (id) => async (dispatch, getState) => {
   }
 };
 
-
 export const reportUser =
   (id, reportData, enqueueSnackbar) => async (dispatch, getState) => {
     console.log("hi");
@@ -243,6 +242,27 @@ export const suggestMissingCategories = () => async (dispatch, getState) => {
     });
   }
 };
+
+export const requestVerification =
+  (formData, enqueueSnackbar) => async (dispatch, getState) => {
+    try {
+      const options = attachTokenToHeaders(getState);
+      // Change content type to image
+      options.headers["Content-Type"] = "multipart/form-data";
+      const response = await axios.post(
+        `${API_URL}/request-verify/create`,
+        formData,
+        options
+      );
+      enqueueSnackbar("Verification request sent successfully", {
+        variant: "success",
+      });
+    } catch (err) {
+      enqueueSnackbar(err?.response?.data.message || err.message, {
+        variant: "error",
+      });
+    }
+  };
 
 // export const deleteUser = (id, history) => async (dispatch, getState) => {
 //   dispatch({

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import * as Yup from "yup";
@@ -7,31 +7,40 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import { useSnackbar } from "notistack";
 
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CancelIcon from "@mui/icons-material/Cancel";
-import { useFormik, Form, FormikProvider } from "formik";
 import { LoadingButton } from "@mui/lab";
+import { Stack } from "@mui/material";
+
+// form
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
+
+import {
+  RHFSwitch,
+  RHFEditor,
+  FormProvider,
+  RHFTextField,
+  RHFUploadSingleFile,
+} from "../../../components/hook-form";
 
 //Internal Import
-import { reportUser } from "../../../redux/actions/userActions";
+import {
+  reportUser,
+  requestVerification,
+} from "../../../redux/actions/userActions";
 import { Grid } from "@mui/material";
 
 export default function RequestVerification() {
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
+  const { enqueueSnackbar } = useSnackbar();
 
   const [open, setOpen] = React.useState(false);
-
-  useEffect(() => {
-    if (!user.isLoading) {
-      formik.setSubmitting(false);
-    } else {
-      formik.setSubmitting(true);
-    }
-  }, [user.isLoading]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,43 +51,75 @@ export default function RequestVerification() {
   };
 
   const RequestVerificationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required("Name is required")
-      .min(3, "Name must be at least 3 characters"),
-
-    phone: Yup.string()
-      .required("Phone number is required")
+    contact: Yup.string()
+      .required("Contact number is required")
 
       .min(10, "Phone number must be at least 10 characters"),
-    citizenship: Yup.string()
-      .required("Citizenship is required")
-      .min(3, "Citizenship must be at least 5 characters"),
 
-    permanentAddress: Yup.string()
+    address: Yup.string()
       .required("Permanent address is required")
       .max(100, "Permanent address must be at least 100 characters"),
 
-    description: Yup.string()
-      .required("Description is required")
-      .min(10, "Description must be at least 10 characters"),
+    citizenshipNumber: Yup.string()
+      .required("Citizenship is required")
+      .min(3, "Citizenship must be at least 5 characters"),
+
+    citizenshipImage: Yup.mixed(),
   });
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      phone: "",
-      citizenship: "",
-      permanentAddress: "",
-      description: "",
-    },
-    validationSchema: RequestVerificationSchema,
-    onSubmit: (values) => {
-      dispatch(reportUser(formik.values));
-    },
+  const defaultValues = {
+    contact: "",
+    address: "",
+    citizenshipNumber: "",
+    citizenshipImage: null,
+  };
+
+  const methods = useForm({
+    resolver: yupResolver(RequestVerificationSchema),
+    defaultValues,
   });
 
-  const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } =
-    formik;
+  const {
+    reset,
+    watch,
+    control,
+    setValue,
+    handleSubmit,
+    formState: { isSubmitting, isValid, errors },
+  } = methods;
+
+  const values = watch();
+
+  const onSubmit = async () => {
+    console.log("hello");
+    try {
+      const formData = new FormData();
+      formData.append("contact", values.contact);
+      formData.append("address", values.address);
+      formData.append("citizenshipNumber", values.citizenshipNumber);
+      formData.append("citizenshipimage", values.citizenshipImage);
+      dispatch(requestVerification(formData, enqueueSnackbar));
+      setOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+
+      if (file) {
+        setValue(
+          "citizenshipImage",
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        );
+      }
+    },
+    [setValue]
+  );
 
   return (
     <div>
@@ -92,83 +133,33 @@ export default function RequestVerification() {
         Request Verification
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <Button
-          variant="text"
-          display="flex"
-          justifyContent="flex-end"
-          onClick={handleClose}
-        >
-          <CancelIcon style={{ color: "red" }} />
-        </Button>
         <DialogTitle textAlign="center">Request Verification</DialogTitle>
         <DialogContent>
           <DialogContentText mb={2} textAlign="center">
             Please provide your detail to request verification.
           </DialogContentText>
-          <FormikProvider value={formik}>
-            <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <TextField
-                sx={{ mt: 1, mb: 2 }}
-                label="Full Name"
-                fullWidth
-                placeholder="Write your full name in your document"
-                {...getFieldProps("name")}
-                error={Boolean(touched.name && errors.name)}
-                helperText={touched.name && errors.name}
-              />
-              <TextField
-                sx={{ mt: 1, mb: 2 }}
-                label="Phone Number"
-                type="number"
-                fullWidth
-                placeholder="Please provide your phone number"
-                {...getFieldProps("phone")}
-                error={Boolean(touched.phone && errors.phone)}
-                helperText={touched.phone && errors.phone}
-              />
-              <TextField
-                sx={{ mt: 1, mb: 2 }}
-                label="Permanent Address"
-                fullWidth
-                placeholder="Please provide your permanent address"
-                {...getFieldProps("permanentAddress")}
-                error={Boolean(
-                  touched.permanentAddress && errors.permanentAddress
-                )}
-                helperText={touched.permanentAddress && errors.permanentAddress}
-              />
-              <TextField
-                sx={{ mt: 1, mb: 2 }}
-                label="Citizenship number"
-                type="number"
-                fullWidth
-                placeholder="Please provide your citizenship number"
-                {...getFieldProps("citizenship")}
-                error={Boolean(touched.citizenship && errors.citizenship)}
-                helperText={touched.citizenship && errors.citizenship}
-              />
-              <TextField
-                mt={2}
-                label="Further Description"
-                multiline
-                fullWidth
-                rows={4}
-                placeholder="Write about yourself in brief"
-                {...getFieldProps("description")}
-                error={Boolean(touched.description && errors.description)}
-                helperText={touched.description && errors.description}
-              />
 
+          <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={3}>
+              <RHFTextField name="address" label="Address" />
+              <RHFTextField name="contact" label="Contact" />
+              <RHFTextField name="citizenshipNumber" label="Citizenship No" />
+              <RHFUploadSingleFile
+                name="citizenshipImage"
+                accept="image/*"
+                maxSize={3145728}
+                onDrop={handleDrop}
+              />
               <LoadingButton
                 type="submit"
                 sx={{ mt: 2, mb: 2, width: "100%" }}
                 variant="contained"
                 loading={isSubmitting}
               >
-                Report
+                Request Verification
               </LoadingButton>
-            </Form>
-          </FormikProvider>
+            </Stack>
+          </FormProvider>
         </DialogContent>
       </Dialog>
     </div>

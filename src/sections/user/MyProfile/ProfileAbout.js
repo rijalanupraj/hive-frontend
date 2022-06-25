@@ -61,7 +61,7 @@ export default function ProfileAbout({ profile }) {
           </Stack>
         )}
 
-        {auth.isAuthenticated && auth.me._id === profile?.id && (
+        {auth.isAuthenticated && auth.me._id === profile?._id && (
           <Stack direction="row">
             <Link component="span" variant="subtitle2" color="text.primary">
               <RequestVerification />
