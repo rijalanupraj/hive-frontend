@@ -264,6 +264,54 @@ export const requestVerification =
     }
   };
 
+export const createUserTicket =
+  (formData, enqueueSnackbar) => async (dispatch, getState) => {
+    dispatch({
+      type: TYPES.CREATE_USER_TICKET_LOADING,
+    });
+
+    try {
+      const options = attachTokenToHeaders(getState);
+      // Change content type to image
+      const response = await axios.post(
+        `${API_URL}/ticket/create-ticket`,
+        formData,
+        options
+      );
+      enqueueSnackbar("Ticket created successfully", {
+        variant: "success",
+      });
+      dispatch({
+        type: TYPES.CREATE_USER_TICKET_SUCCESS,
+        payload: { ticket: response.data.ticket },
+      });
+    } catch (err) {
+      enqueueSnackbar(err?.response?.data.message || err.message, {
+        variant: "error",
+      });
+    }
+  };
+
+export const getUserTickets = () => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.GET_USER_TICKETS_LOADING,
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/ticket/view-ticket`, options);
+    dispatch({
+      type: TYPES.GET_USER_TICKETS_SUCCESS,
+      payload: { tickets: response.data.yourRequestedTicket },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_USER_TICKETS_FAIL,
+      payload: { error: err?.response?.data.message || err.message },
+    });
+  }
+};
+
 // export const deleteUser = (id, history) => async (dispatch, getState) => {
 //   dispatch({
 //     type: TYPES.DELETE_USER_LOADING,

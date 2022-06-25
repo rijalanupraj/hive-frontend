@@ -31,6 +31,10 @@ const MENU_OPTIONS = [
     linkTo: "/",
   },
   {
+    label: "Open Ticket",
+    linkTo: "/ticket",
+  },
+  {
     label: "Settings",
     linkTo: "/update-profile",
   },
