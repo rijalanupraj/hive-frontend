@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 // import "./css/Homepage.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,8 +22,11 @@ import {
   OutlinedInput,
   FormHelperText,
   Card,
+  ToggleButton,
+  ToggleButtonGroup,
 } from "@mui/material";
 import MyAvatar from "../../components/MyAvatar";
+import handleViewport from "react-in-viewport";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 
@@ -33,6 +36,8 @@ import useSettings from "../../hooks/useSettings";
 import { _userFeeds } from "../../_mock/_user";
 import TopExperts from "./HomePages/TopExperts";
 import HotQuestions from "./HomePages/HotQuestions";
+
+import HomeFilter from "./HomePages/HomeFilter";
 
 import Footer from "./HomePages/Footer";
 
@@ -50,16 +55,45 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const Block = (props: { inViewport: boolean }) => {
+  const { inViewport, forwardedRef } = props;
+  return (
+    <div className="viewport-block" ref={forwardedRef}>
+      <div style={{ width: "400px", height: "100px" }} />
+    </div>
+  );
+};
+
+const ViewportBlock = handleViewport(Block);
+
 function HomePage() {
   const { themeStretch } = useSettings();
   const auth = useSelector((state) => state.auth);
   const solution = useSelector((state) => state.solution);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [currentFilter, setCurrentFilter] = useState("recent");
 
+  const handleFilterChange = (event, newValue) => {
+    setCurrentFilter(newValue);
+  };
+
+  const onViewPortEnter = () => {
+    if (!solution.homeAllLoaded) {
+      if (solution.homePageNumber === null) {
+        dispatch(getAllSolutionHome(1, currentFilter));
+      } else {
+        dispatch(
+          getAllSolutionHome(solution.homePageNumber + 1, currentFilter)
+        );
+      }
+    }
+  };
+
+  // Only on filter change
   useEffect(() => {
-    dispatch(getAllSolutionHome());
-  }, []);
+    dispatch(getAllSolutionHome(1, currentFilter));
+  }, [currentFilter]);
 
   return (
     <Page title="Home">
@@ -150,12 +184,27 @@ function HomePage() {
               {/* end profile and ask question */}
             </Card>
 
+            {/* start filter */}
+
+            <HomeFilter
+              currentFilter={currentFilter}
+              handleFilterChange={handleFilterChange}
+            />
+
+            {/* end filter */}
+
             {/* end question header */}
 
             {solution.homeSolutions &&
               solution.homeSolutions.map((post) => (
                 <SolutionPostCard key={post._id} solution={post} />
               ))}
+            {solution.homeSolutions.length > 0 && (
+              <ViewportBlock
+                onEnterViewport={() => onViewPortEnter()}
+                onLeaveViewport={() => console.log("leave")}
+              />
+            )}
           </Grid>
 
           {/* right */}

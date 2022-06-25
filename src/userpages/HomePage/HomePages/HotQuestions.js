@@ -85,7 +85,6 @@ export default function HotQuestions() {
         <Button
           to="#"
           size="small"
-          color="inherit"
           endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
         >
           View all
