@@ -98,7 +98,7 @@ const QuestionsPage = () => {
   return (
     <Page title="Questions">
       <Container maxWidth={themeStretch ? false : "md"}>
-        <Typography variant="h4" sx={{ mb: 2 }}>
+        {/* <Typography variant="h4" sx={{ mb: 2 }}>
           Question
         </Typography>
         <InputStyle
@@ -115,28 +115,14 @@ const QuestionsPage = () => {
               </InputAdornment>
             ),
           }}
-        />
-        <ToggleButtonGroup
-          color="primary"
-          value={currentFilter}
-          exclusive
-          onChange={(event, value) => {
-            setCurrentFilter(value);
-          }}
-          style={{
-            border: "1.5px solid #e0e0e0",
-          }}
-          sx={{
-            ml: 3,
-          }}
-        >
-          <ToggleButton value="unanswered">Unanswered</ToggleButton>
-          <ToggleButton value="newest">Newest</ToggleButton>
-        </ToggleButtonGroup>
+        /> */}
+        
+        {/* start question filter */}
         <FilterQuestion 
           currentFilter={currentFilter}
           handleFilterChange = {handleFilterChange}
         />
+        {/* end question filter */}
         <Grid item>
           {questions &&
             questions.map((q) => <QuestionPostCard key={q._id} question={q} />)}
