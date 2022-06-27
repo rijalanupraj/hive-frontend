@@ -25,6 +25,8 @@ import Iconify from "../../components/Iconify";
 
 import useSettings from "../../hooks/useSettings";
 
+import FilterQuestion from "./components/FilterQuestion";
+
 const Block = (props: { inViewport: boolean }) => {
   const { inViewport, forwardedRef } = props;
   return (
@@ -41,7 +43,7 @@ const QuestionsPage = () => {
   const question = useSelector((state) => state.question);
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
-  const [questionFilter, setQuestionFilter] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState(false);
 
   // useEffect(() => {
   //   dispatch(getAllQuestion());
@@ -50,6 +52,10 @@ const QuestionsPage = () => {
   useEffect(() => {
     onViewPortEnter();
   }, []);
+
+  const handleFilterChange = (event, newValue) => {
+    setCurrentFilter(newValue);
+  };
 
   const onFindQuestion = (e) => {
     if (e.target.value === "") {
@@ -71,18 +77,23 @@ const QuestionsPage = () => {
 
   useEffect(() => {
     let ques = question.questions ? [...question.questions] : [];
-    if (questionFilter === "unanswered") {
+    if (currentFilter === "unanswered") {
       setQuestions(ques.filter((q) => q.answers.length === 0));
-    } else if (questionFilter === "newest") {
+    } 
+    else if (currentFilter === "answered") {
+      setQuestions(ques.filter((q)=>q.answers.length > 0 ) );
+    }
+    else if (currentFilter === "newest") {
       setQuestions(
         ques.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         })
       );
-    } else {
+    }
+    else {
       setQuestions(ques);
     }
-  }, [questionFilter, question.questions]);
+  }, [currentFilter, question.questions]);
 
   return (
     <Page title="Questions">
@@ -107,10 +118,10 @@ const QuestionsPage = () => {
         />
         <ToggleButtonGroup
           color="primary"
-          value={questionFilter}
+          value={currentFilter}
           exclusive
           onChange={(event, value) => {
-            setQuestionFilter(value);
+            setCurrentFilter(value);
           }}
           style={{
             border: "1.5px solid #e0e0e0",
@@ -122,6 +133,10 @@ const QuestionsPage = () => {
           <ToggleButton value="unanswered">Unanswered</ToggleButton>
           <ToggleButton value="newest">Newest</ToggleButton>
         </ToggleButtonGroup>
+        <FilterQuestion 
+          currentFilter={currentFilter}
+          handleFilterChange = {handleFilterChange}
+        />
         <Grid item>
           {questions &&
             questions.map((q) => <QuestionPostCard key={q._id} question={q} />)}
