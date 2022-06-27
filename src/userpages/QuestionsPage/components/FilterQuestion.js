@@ -7,9 +7,9 @@ import Iconify from "../../../components/Iconify";
 import CommentCard from "../../../sections/cards/CommentCard";
 
 const FilterQuestion = ({ currentFilter, handleFilterChange }) => {
-  const [comment, setComment] = useState(false);
-  const handleComment = () => {
-    setComment((prev) => !prev);
+  const [search, setSearch] = useState(false);
+  const handleSearch = () => {
+    setSearch((prev) => !prev);
   };
   return (
     <>
@@ -29,7 +29,7 @@ const FilterQuestion = ({ currentFilter, handleFilterChange }) => {
           onChange={handleFilterChange}
           border="none"
         >
-          <Button endIcon={<SearchIcon fontSize="medium"/> } onClick={handleComment} >
+          <Button endIcon={<SearchIcon fontSize="medium"/> } onClick={handleSearch} >
               Search
             </Button>
           <ToggleButton value="preference">
@@ -89,7 +89,7 @@ const FilterQuestion = ({ currentFilter, handleFilterChange }) => {
             Oldest
           </ToggleButton>
         </ToggleButtonGroup>
-        {comment && CommentCard()}
+        
       </Card>
     </>
   );
