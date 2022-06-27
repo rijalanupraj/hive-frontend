@@ -23,6 +23,7 @@ import {
   QuestionSolutions,
   AnotherQuestionSolutions,
   ViewTags,
+  OpenTicket,
 } from "../userpages";
 
 import Messenger from "../chats/Messenger.jsx";
@@ -118,6 +119,9 @@ const UserRoute = () => {
         </Route>
         <Route exact path="/chat" element={<PrivateRoute auth={auth} />}>
           <Route exact path="/chat" element={<Messenger />} />
+        </Route>
+        <Route exact path="/ticket" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/ticket" element={<OpenTicket />} />
         </Route>
 
         <Route

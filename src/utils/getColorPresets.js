@@ -6,8 +6,13 @@ import palette from '../theme/palette';
 export const colorPresets = [
   // DEFAULT
   {
-    name: 'default',
-    ...palette.light.primary,
+    name: 'blue',
+    lighter: '#1877f2',
+    light: '#1877f2',
+    main: '#1877f2',
+    dark: '#1877f2',
+    darker: '#1877f2',
+    contrastText: '#fff',
   },
   // PURPLE
   {

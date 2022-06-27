@@ -7,6 +7,7 @@ const initialState = {
   error: null,
   followers: [],
   timelinePosts: [],
+  tickets: [],
 };
 
 export default function userReducer(state = initialState, { type, payload }) {
@@ -95,6 +96,14 @@ export default function userReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         suggestedCategory: payload.suggestedCategory,
+        error: null,
+      };
+
+    case TYPES.GET_USER_TICKETS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        tickets: payload.tickets,
         error: null,
       };
 

@@ -21,6 +21,7 @@ import MenuPopover from "../../../components/MenuPopover";
 import { IconButtonAnimate } from "../../../components/animate";
 import { useDispatch, useSelector } from "react-redux";
 import { logOutUser } from "../../../redux/actions/authActions";
+import Theme from "../../../components/settings/SettingMode";
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +29,10 @@ const MENU_OPTIONS = [
   {
     label: "Home",
     linkTo: "/",
+  },
+  {
+    label: "Open Ticket",
+    linkTo: "/ticket",
   },
   {
     label: "Settings",
@@ -139,7 +144,6 @@ export default function AccountPopover() {
             </MenuItem>
           ))}
         </Stack>
-
         <Divider sx={{ borderStyle: "dashed" }} />
 
         {auth.isAuthenticated ? (

@@ -17,6 +17,7 @@ import PersonalFeed from "./PersonalFeed/PersonalFeed";
 import QuestionSolutions from "./QuestionSolutions/QuestionSolutions";
 import AnotherQuestionSolutions from "./QuestionSolutions/AnotherQuestionSolutions";
 import ViewTags from "./Tags/ViewTags";
+import OpenTicket from "./Ticket/OpenTicket";
 
 export {
   Login,
@@ -38,4 +39,5 @@ export {
   QuestionSolutions,
   AnotherQuestionSolutions,
   ViewTags,
+  OpenTicket,
 };
