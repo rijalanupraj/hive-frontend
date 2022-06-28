@@ -15,6 +15,7 @@ import {
   FormControlLabel,
   Divider,
   Collapse,
+  Button,
 } from "@mui/material";
 
 import Image from "../../../components/Image";
@@ -27,14 +28,23 @@ const SearchQuestion = () => {
     <>
       <Paper>
         {/* write comment */}
-        <Stack direction="row" alignItems="center" sx={{ mb: 2, mt:4 }}>
+        <Stack direction="row" alignItems="center" sx={{ mb: 2, mt: 3 }}>
           <TextField
             fullWidth
-            size="small"
+            size="medium"
             placeholder="Search Question"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button size="medium" variant="outlined" >
+                    Search
+                  </Button>
+                </InputAdornment>
+              ),
+            }}
             sx={{
               ml: 2,
-              mr: 1,
+              mr: 5,
               "& fieldset": {
                 borderWidth: `1px !important`,
                 borderColor: (theme) =>
@@ -42,14 +52,11 @@ const SearchQuestion = () => {
               },
             }}
           />
-          <IconButton>
-            <Iconify icon={"ic:round-send"} width={24} height={24} />
-          </IconButton>
+          {/* <IconButton>
+            <Iconify icon={"charm:search"} width={24} height={24} />
+          </IconButton> */}
           <input type="file" style={{ display: "none" }} />
         </Stack>
-
-    
-        
       </Paper>
     </>
   );
