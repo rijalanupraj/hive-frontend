@@ -17,12 +17,7 @@ import {
   FormControlLabel,
   Tooltip,
 } from "@mui/material";
-// import { LoadingButton } from "@mui/lab";
-// import { useNavigate } from "react-router-dom";
-// // utils
-// import { fDate } from "../../utils/formatTime";
-// import { fShortenNumber } from "../../utils/formatNumber";
-// components
+
 
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
@@ -38,75 +33,8 @@ import { toggleAnswerLater } from "../../redux/actions/authActions";
 // ----------------------------------------------------------------------
 
 export default function QuestionSolutionHeader({ question, auth }) {
-  const navigate = useNavigate();
-  const [isUpVote, setIsUpVote] = useState(false);
-  const [isDownVote, setIsDownVote] = useState(false);
-  const [upVoteCount, setUpVoteCount] = useState(question.upVotes.length);
-  const [downVoteCount, setDownVoteCount] = useState(question.downVotes.length);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (auth.me) {
-      if (
-        auth.me.questionUpVotes.includes(question._id) &&
-        question.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(true);
-        setUpVoteCount(question.upVotes.length);
-      } else if (
-        auth.me.questionUpVotes.includes(question._id) &&
-        !question.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(true);
-        setUpVoteCount(question.upVotes.length + 1);
-      } else if (
-        !auth.me.questionUpVotes.includes(question._id) &&
-        question.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(false);
-        setUpVoteCount(question.upVotes.length - 1);
-      } else if (
-        !auth.me.questionUpVotes.includes(question._id) &&
-        !question.upVotes.includes(auth.me._id)
-      ) {
-        setIsUpVote(false);
-        setUpVoteCount(question.upVotes.length);
-      } else {
-        setIsUpVote(false);
-        setUpVoteCount(question.upVotes.length);
-      }
-
-      if (
-        auth.me.questionDownVotes.includes(question._id) &&
-        question.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(true);
-        setDownVoteCount(question.downVotes.length);
-      } else if (
-        auth.me.questionDownVotes.includes(question._id) &&
-        !question.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(true);
-        setDownVoteCount(question.downVotes.length + 1);
-      } else if (
-        !auth.me.questionDownVotes.includes(question._id) &&
-        question.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(false);
-        setDownVoteCount(question.downVotes.length - 1);
-      } else if (
-        !auth.me.questionDownVotes.includes(question._id) &&
-        !question.downVotes.includes(auth.me._id)
-      ) {
-        setIsDownVote(false);
-        setDownVoteCount(question.downVotes.length);
-      } else {
-        setIsDownVote(false);
-        setDownVoteCount(question.downVotes.length);
-      }
-    }
-  }, [auth.me]);
-
+  
   return (
     <Card maxWidth="sm">
       <CardHeader

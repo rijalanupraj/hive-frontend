@@ -73,14 +73,13 @@ export default function QuestionSolutionComment({ solution, auth }) {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton size="small">
+                      <IconButton size="small" type="submit">
                         <Iconify
-                          icon={"ic:round-add-photo-alternate"}
+                          icon={"ic:round-send"}
                           width={24}
                           height={24}
                         />
                       </IconButton>
-                      <EmojiPicker />
                     </InputAdornment>
                   ),
                 }}
@@ -97,9 +96,9 @@ export default function QuestionSolutionComment({ solution, auth }) {
                 helperText={formik.touched.text && formik.errors.text}
                 error={formik.touched.text && !!formik.errors.text}
               />
-              <IconButton type="submit">
+              {/* <IconButton type="submit">
                 <Iconify icon={"ic:round-send"} width={24} height={24} />
-              </IconButton>
+              </IconButton> */}
               <input
                 type="file"
                 ref={fileInputRef}
@@ -150,7 +149,7 @@ export default function QuestionSolutionComment({ solution, auth }) {
       </Stack>
 
       {/* view more comment */}
-      <Stack direction="row" alignItems="center" sx={{ mt: 3, ml: 3 }}>
+      {/* <Stack direction="row" alignItems="center" sx={{ mt: 3, ml: 3 }}>
         <FormControlLabel
           control={
             <Link href="/" sx={{ color: "text.secondary" }}>
@@ -166,7 +165,7 @@ export default function QuestionSolutionComment({ solution, auth }) {
             </Typography>
           }
         />
-      </Stack>
+      </Stack> */}
     </Box>
   );
 }
