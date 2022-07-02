@@ -95,7 +95,6 @@ const QuestionCard = ({ question }) => {
                 Answer
               </Button>
             </Grid>
-          
           </Grid>
         </Grid>
 
