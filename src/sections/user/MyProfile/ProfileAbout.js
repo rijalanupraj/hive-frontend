@@ -61,13 +61,15 @@ export default function ProfileAbout({ profile }) {
           </Stack>
         )}
 
-        {auth.isAuthenticated && auth.me._id === profile?._id && (
-          <Stack direction="row">
-            <Link component="span" variant="subtitle2" color="text.primary">
-              <RequestVerification />
-            </Link>
-          </Stack>
-        )}
+        {auth.isAuthenticated &&
+          auth.me._id === profile?._id &&
+          !auth.me.isVerified && (
+            <Stack direction="row">
+              <Link component="span" variant="subtitle2" color="text.primary">
+                <RequestVerification />
+              </Link>
+            </Stack>
+          )}
 
         {/* <Stack direction='row'>
           <IconStyle icon={"eva:email-fill"} />

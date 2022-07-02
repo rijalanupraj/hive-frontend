@@ -25,6 +25,7 @@ import { Form, FormikProvider, useFormik } from "formik";
 import { addComment } from "../../redux/actions/viewSolutionActions";
 import moment from "moment";
 import UpdateSolutionCommentSection from "../../userpages/ViewSolution/components/UpdateComment.Section";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 export default function QuestionSolutionComment({ solution, auth }) {
   const dispatch = useDispatch();
@@ -125,8 +126,20 @@ export default function QuestionSolutionComment({ solution, auth }) {
                 justifyContent="space-between"
                 sx={{ mb: 0.5 }}
               >
-                <Typography variant="subtitle2">
+                <Typography variant="subtitle2" sx={{ display: "flex" }}>
                   {/* {comment.author.name} */} {comment.user.username}
+                  {comment.user.isVerified && (
+                    <Typography>
+                      <VerifiedIcon
+                        sx={{
+                          ml: 0.5,
+                          fontSize: "small",
+                          color: "#3B8AF0",
+                          verticalAlign: "baseline",
+                        }}
+                      />
+                    </Typography>
+                  )}
                 </Typography>
                 <Typography variant="caption" sx={{ color: "text.disabled" }}>
                   {moment(comment.createdAt).fromNow()}
