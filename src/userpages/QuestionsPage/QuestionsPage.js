@@ -10,28 +10,52 @@ import {
   Typography,
   Paper,
   Container,
+  CircularProgress,
 } from "@mui/material";
+import handleViewport from "react-in-viewport";
 
 import QuestionPostCard from "../../sections/cards/QuestionPostCard";
 import {
   getAllQuestion,
   searchQuestion,
+  scrollLoadingQuestions,
 } from "../../redux/actions/questionActions";
 import InputStyle from "../../components/InputStyle";
 import Iconify from "../../components/Iconify";
 
 import useSettings from "../../hooks/useSettings";
 
+import FilterQuestion from "./components/FilterQuestion";
+
+const Block = (props: { inViewport: boolean }) => {
+  const { inViewport, forwardedRef } = props;
+  return (
+    <div className="viewport-block" ref={forwardedRef}>
+      <div style={{ width: "400px", height: "100px" }} />
+    </div>
+  );
+};
+
+const ViewportBlock = handleViewport(Block);
+
 const QuestionsPage = () => {
   const { themeStretch } = useSettings();
   const question = useSelector((state) => state.question);
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
-  const [questionFilter, setQuestionFilter] = useState(false);
+  const [currentFilter, setCurrentFilter] = useState(false);
+
+  // useEffect(() => {
+  //   dispatch(getAllQuestion());
+  // }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getAllQuestion());
-  }, [dispatch]);
+    onViewPortEnter();
+  }, []);
+
+  const handleFilterChange = (event, newValue) => {
+    setCurrentFilter(newValue);
+  };
 
   const onFindQuestion = (e) => {
     if (e.target.value === "") {
@@ -41,28 +65,42 @@ const QuestionsPage = () => {
     }
   };
 
+  const onViewPortEnter = () => {
+    if (!question.allLoaded) {
+      if (question.pageNumber === null) {
+        dispatch(scrollLoadingQuestions(1));
+      } else {
+        dispatch(scrollLoadingQuestions(question.pageNumber + 1));
+      }
+    }
+  };
+
   useEffect(() => {
     let ques = question.questions ? [...question.questions] : [];
-    if (questionFilter === "unanswered") {
+    if (currentFilter === "unanswered") {
       setQuestions(ques.filter((q) => q.answers.length === 0));
-    } else if (questionFilter === "newest") {
+    } 
+    else if (currentFilter === "answered") {
+      setQuestions(ques.filter((q)=>q.answers.length > 0 ) );
+    }
+    else if (currentFilter === "newest") {
       setQuestions(
         ques.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         })
       );
-    } else {
+    }
+    else {
       setQuestions(ques);
     }
-  }, [questionFilter, question.questions]);
+  }, [currentFilter, question.questions]);
 
   return (
     <Page title="Questions">
       <Container maxWidth={themeStretch ? false : "md"}>
-        <Typography variant="h4" sx={{ mb: 2 }}>
+        {/* <Typography variant="h4" sx={{ mb: 2 }}>
           Question
         </Typography>
-
         <InputStyle
           stretchStart={240}
           onChange={onFindQuestion}
@@ -77,29 +115,36 @@ const QuestionsPage = () => {
               </InputAdornment>
             ),
           }}
+        /> */}
+        
+        {/* start question filter */}
+        <FilterQuestion 
+          currentFilter={currentFilter}
+          handleFilterChange = {handleFilterChange}
         />
-
-        <ToggleButtonGroup
-          color="primary"
-          value={questionFilter}
-          exclusive
-          onChange={(event, value) => {
-            setQuestionFilter(value);
-          }}
-          style={{
-            border: "1.5px solid #e0e0e0",
-          }}
-          sx={{
-            ml: 3,
-          }}
-        >
-          <ToggleButton value="unanswered">Unanswered</ToggleButton>
-          <ToggleButton value="newest">Newest</ToggleButton>
-        </ToggleButtonGroup>
+        {/* end question filter */}
         <Grid item>
           {questions &&
             questions.map((q) => <QuestionPostCard key={q._id} question={q} />)}
         </Grid>
+        {question.scrollLoading && <CircularProgress size={30} />}
+        {question.allLoaded && (
+          <Typography
+            variant="body2"
+            sx={{
+              textAlign: "center",
+              mt: 3,
+            }}
+          >
+            All questions are loaded
+          </Typography>
+        )}
+        {!question.isLoading && question.questions.length > 0 && (
+          <ViewportBlock
+            onEnterViewport={() => onViewPortEnter()}
+            onLeaveViewport={() => console.log("leave")}
+          />
+        )}
       </Container>
     </Page>
   );
