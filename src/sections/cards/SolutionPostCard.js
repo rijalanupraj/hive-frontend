@@ -33,6 +33,7 @@ import {
 } from "../../redux/actions/solutionActions";
 import ReportSolution from "../reports/ReportSolution";
 import SolutionStats from "../../userpages/ViewSolution/components/SolutionStats";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ----------------------------------------------------------------------
 
@@ -154,9 +155,22 @@ export default function SolutionPostCard({ solution }) {
             to={"/profile/" + solution?.user?.username}
             variant="subtitle2"
             color="text.primary"
+            sx={{ display: "flex" }}
             component={RouterLink}
           >
             {solution?.user?.username}
+            {solution?.user?.isVerified && (
+              <Typography display="inline">
+                <VerifiedIcon
+                  sx={{
+                    ml: 0.5,
+                    fontSize: "small",
+                    color: "#3B8AF0",
+                    verticalAlign: "baseline",
+                  }}
+                />
+              </Typography>
+            )}
           </Link>
         }
         subheader={
@@ -190,12 +204,7 @@ export default function SolutionPostCard({ solution }) {
           to={`/question/${solution?.question?.slug}`}
           component={RouterLink}
         >
-          <Typography
-            variant="h6"
-            align="justify"
-            sx={{ mb: -1 }}
-            
-          >
+          <Typography variant="h6" align="justify" sx={{ mb: -1 }}>
             {solution?.question?.title}
           </Typography>
         </Link>

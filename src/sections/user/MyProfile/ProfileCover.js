@@ -70,6 +70,7 @@ export default function ProfileCover({ myProfile, profile }) {
             ml: { md: 3 },
             mt: { xs: 1, md: 0 },
             color: "common.white",
+
             textAlign: { xs: "center", md: "left" },
           }}
         >
@@ -79,9 +80,11 @@ export default function ProfileCover({ myProfile, profile }) {
             {profile.name}
           </Typography>
 
-          <Typography display="inline">
-            <VerifiedIcon sx={{ ml: 0.5 }} />
-          </Typography>
+          {profile.isVerified && (
+            <Typography display="inline">
+              <VerifiedIcon sx={{ ml: 0.5, color: "#3B8AF0" }} />
+            </Typography>
+          )}
 
           <Typography sx={{ opacity: 0.72 }}>{profile.username}</Typography>
         </Box>

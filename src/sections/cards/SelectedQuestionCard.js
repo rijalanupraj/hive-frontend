@@ -26,7 +26,7 @@ import {
 
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
-
+import VerifiedIcon from "@mui/icons-material/Verified";
 import ReportQuestion from "../../userpages/QuestionsPage/components/ReportQuestion";
 
 import {
@@ -113,8 +113,25 @@ export default function SelectedQuestionCard({ question, auth }) {
         disableTypography
         avatar={<MyAvatar />}
         title={
-          <Link href="#" variant="subtitle2" color="text.primary">
+          <Link
+            href="#"
+            variant="subtitle2"
+            sx={{ display: "flex" }}
+            color="text.primary"
+          >
             {question.user.username}
+            {question.user?.isVerified && (
+              <Typography display="inline">
+                <VerifiedIcon
+                  sx={{
+                    ml: 0.5,
+                    fontSize: "small",
+                    color: "#3B8AF0",
+                    verticalAlign: "baseline",
+                  }}
+                />
+              </Typography>
+            )}
           </Link>
         }
         subheader={

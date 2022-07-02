@@ -23,6 +23,7 @@ import { getTopUsers } from "../../../redux/actions/usersActions";
 import { Link, useNavigate } from "react-router-dom";
 import { followUnfollowAnyUser } from "../../../redux/actions/userActions";
 import { style } from "@mui/system";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ----------------------------------------------------------------------
 
@@ -60,6 +61,7 @@ export default function TopExperts({ auth }) {
                 <Typography
                   variant="subtitle2"
                   style={{
+                    display: "flex",
                     cursor: "pointer",
                   }}
                   onClick={() => {
@@ -67,6 +69,18 @@ export default function TopExperts({ auth }) {
                   }}
                 >
                   {user?.username}
+                  {user?.isVerified && (
+                    <Typography display="inline">
+                      <VerifiedIcon
+                        sx={{
+                          ml: 0.5,
+                          fontSize: "small",
+                          color: "#3B8AF0",
+                          verticalAlign: "baseline",
+                        }}
+                      />
+                    </Typography>
+                  )}
                 </Typography>
                 <Typography
                   variant="caption"
@@ -96,7 +110,6 @@ export default function TopExperts({ auth }) {
               ) : (
                 <Button
                   size="small"
-                  
                   style={{
                     margin: "0.5vh",
                   }}
@@ -136,7 +149,6 @@ export default function TopExperts({ auth }) {
         <Link to="/users">
           <Button
             size="small"
-
             endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
           >
             View all

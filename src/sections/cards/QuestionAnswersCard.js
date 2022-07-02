@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { fDate } from "../../utils/formatTime";
 import Markdown from "../../components/Markdown";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 import Image from "../../components/Image";
 
@@ -39,6 +40,18 @@ export default function QuestionAnswersCard({ solution, auth }) {
         title={
           <Link href="#" variant="subtitle2" color="text.primary">
             {solution.user.username}
+            {solution?.user?.isVerified && (
+              <Typography display="inline">
+                <VerifiedIcon
+                  sx={{
+                    ml: 0.5,
+                    fontSize: "small",
+                    color: "#3B8AF0",
+                    verticalAlign: "baseline",
+                  }}
+                />
+              </Typography>
+            )}
           </Link>
         }
         subheader={
