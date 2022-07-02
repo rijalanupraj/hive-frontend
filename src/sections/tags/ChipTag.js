@@ -37,6 +37,7 @@ export default function ChipTags({ tags, findTags, onFindTags }) {
     <Grid container spacing={3}>
       {tagFiltered.map((tag) => (
         <Grid key={tag._id} item>
+        <Grid key={tag._id} item xs={12} md={4}>
           <TagCard tag={tag} />
         </Grid>
       ))}
