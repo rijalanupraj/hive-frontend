@@ -32,8 +32,10 @@ import { viewSolution } from "../../redux/actions/viewSolutionActions";
 import moment from "moment";
 import EditDeleteButon from "./components/EditDeleteButton";
 
+
 export default function SolutionView() {
   const dispatch = useDispatch();
+  const question = useSelector((state) => state.question);
   const auth = useSelector((state) => state.auth);
   const { solutionId } = useParams();
   const solution = useSelector((state) => state.viewSolutions);
@@ -46,6 +48,7 @@ export default function SolutionView() {
     return <div>Loading...</div>;
   }
 
+
   return (
     <Page title={solution?.solution?.question?.title}>
       <Container maxWidth="md">
@@ -53,7 +56,7 @@ export default function SolutionView() {
           <Grid item xs={12} lg={12} order={{ xs: 2, md: 1 }}>
             <Card>
               {/* cover */}
-              <QuestionSolutionHeader que={solution?.solution?.question} />
+              <QuestionSolutionHeader question={solution?.solution?.question} auth={auth} />
               {/* end cover */}
 
               <Box sx={{ p: { xs: 3, md: 5 }, mb: 1 }}>
