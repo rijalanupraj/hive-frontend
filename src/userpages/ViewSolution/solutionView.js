@@ -26,6 +26,7 @@ import {
 } from "../../sections/QuestionSolutions";
 import Image from "../../components/Image";
 import { useDispatch, useSelector } from "react-redux";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ----------------------------------------------------------------------
 import { viewSolution } from "../../redux/actions/viewSolutionActions";
@@ -61,18 +62,30 @@ export default function SolutionView() {
                   <Divider />
                   <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
                     <Avatar
-                      alt="experts"
-                      src={solution?.solution?.user?.profilePhoto}
+                      src={solution?.solution?.user?.profilePhoto?.url}
                       sx={{ width: 42, height: 42 }}
+                      alt={solution?.solution?.user?.username}
                     />
                     <Box sx={{ ml: 2 }}>
                       <Typography variant="subtitle1">Answered By:</Typography>
-                      <Typography variant="button">
+                      <Typography variant="button" sx={{ display: "flex" }}>
                         {solution?.solution?.user?.username}
+                        {solution?.solution?.user?.isVerified && (
+                          <Typography>
+                            <VerifiedIcon
+                              sx={{
+                                ml: 0.5,
+                                fontSize: "small",
+                                color: "#3B8AF0",
+                                verticalAlign: "baseline",
+                              }}
+                            />
+                          </Typography>
+                        )}
                       </Typography>
                       <Typography
                         variant="caption"
-                        sx={{ ml: 1, color: "grey.500" }}
+                        sx={{ ml: 1, color: "grey.500", display: "inline" }}
                       >
                         {moment(solution?.solution?.createdAt).fromNow()}
                       </Typography>

@@ -17,6 +17,7 @@ import Image from "../../components/Image";
 import Iconify from "../../components/Iconify";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ----------------------------------------------------------------------
 
@@ -145,6 +146,18 @@ export default function QuestionSolutionHeader({ que }) {
             </Typography>
             <Typography variant="button" sx={{ color: "common.white" }}>
               {que?.user?.username}
+              {que?.user?.isVerified && (
+                <Typography display="inline">
+                  <VerifiedIcon
+                    sx={{
+                      ml: 0.5,
+                      fontSize: "small",
+                      color: "#3B8AF0",
+                      verticalAlign: "baseline",
+                    }}
+                  />
+                </Typography>
+              )}
             </Typography>
             <Typography variant="caption" sx={{ ml: 1, color: "grey.500" }}>
               {moment(que?.createdAt).fromNow()}
