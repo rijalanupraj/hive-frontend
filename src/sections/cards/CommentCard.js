@@ -38,7 +38,7 @@ const CommentCard = () => {
                 <InputAdornment position="end">
                   <IconButton size="small">
                     <Iconify
-                      icon={"ic:round-add-photo-alternate"}
+                      icon={"ic:round-send"}
                       width={24}
                       height={24}
                     />

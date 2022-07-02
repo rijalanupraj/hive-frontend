@@ -4,7 +4,7 @@ import { Card, ToggleButton, ToggleButtonGroup, Button } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 
 import Iconify from "../../../components/Iconify";
-import CommentCard from "../../../sections/cards/CommentCard";
+import SearchQuestion from "./SearchQuestion";
 
 const FilterQuestion = ({ currentFilter, handleFilterChange }) => {
   const [search, setSearch] = useState(false);
@@ -89,7 +89,7 @@ const FilterQuestion = ({ currentFilter, handleFilterChange }) => {
             Oldest
           </ToggleButton>
         </ToggleButtonGroup>
-        
+        {search && <SearchQuestion />}
       </Card>
     </>
   );
