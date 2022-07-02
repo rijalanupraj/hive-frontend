@@ -40,6 +40,9 @@ import HotQuestions from "./HomePages/HotQuestions";
 import HomeFilter from "./HomePages/HomeFilter";
 
 import Footer from "./HomePages/Footer";
+import TagCard from "../QuestionsPage/components/TagsCard";
+import ViewTags from "../Tags/ViewTags";
+import SidebarTags from "../Tags/SidebarTags";
 
 // const RootStyle = styled('div')(({ theme }) => ({
 //   [theme.breakpoints.up('md')]: {
@@ -213,10 +216,12 @@ function HomePage() {
             xs={12}
             md={4}
             lg={3}
-            sx={{ display: { xs: "none", xl: "block" } }}
+            sx={{ mb: 2, display: { xs: "none", xl: "block" } }}
             order={{ xs: 1, md: 1 }}
           >
             <HotQuestions />
+            <br />
+            <SidebarTags />
           </Grid>
         </Grid>
       </Container>
