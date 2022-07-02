@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Page from "../../components/Page";
 import { logOutUser } from "../../redux/actions/authActions";
 import { Grid, Paper, Box, styled, Typography, Container } from "@mui/material";
+import useSettings from "../../hooks/useSettings";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 import SolutionCard from "./components/SolutionCard";
@@ -11,6 +12,7 @@ import axios from "axios";
 import SolutionPostCard from "../../sections/cards/SolutionPostCard";
 import QuestionPostCard from "../../sections/cards/QuestionPostCard";
 import { getPersonalFeed } from "../../redux/actions/authActions";
+import FilterFeed from "./components/FilterFeed";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -21,11 +23,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function PersonalFeed() {
+  const { themeStretch } = useSettings();
   const auth = useSelector((state) => state.auth);
+  const question = useSelector((state) => state.question);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [questions, setQuestions] = useState([]);
   const [solutions, setSolutions] = React.useState([]);
   const [feedList, setFeedList] = React.useState([]);
+ 
 
   useEffect(() => {
     dispatch(getPersonalFeed());
@@ -39,21 +45,11 @@ function PersonalFeed() {
 
   return (
     <Page title="Personal Feed">
-      <Container maxWidth="full">
-        <Grid
-          container
-          spacing={5}
-          style={{
-            padding: "1.5rem",
-          }}
-        >
-          {/* ======================================================================================================================= */}
-          {/* Left */}
-          <Grid item xs="3"></Grid>
-          {/* ====================================================================================================================== */}
-          {/* Center */}
+      <Container maxWidth={themeStretch ? false : "md"}>
 
-          <Grid item xs={6}>
+        
+          <Grid item>
+            <FilterFeed/>
             {/* Solution */}
             {feedList.length === 0 && (
               <Paper>
@@ -79,9 +75,6 @@ function PersonalFeed() {
           </Grid>
           {/* ============================================================================================================================== */}
 
-          {/* Right */}
-          <Grid item xs="3"></Grid>
-        </Grid>
       </Container>
     </Page>
   );
