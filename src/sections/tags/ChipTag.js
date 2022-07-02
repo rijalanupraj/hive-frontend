@@ -36,6 +36,7 @@ export default function ChipTags({ tags, findTags, onFindTags }) {
   return (
     <Grid container spacing={3}>
       {tagFiltered.map((tag) => (
+        <Grid key={tag._id} item>
         <Grid key={tag._id} item xs={12} md={4}>
           <TagCard tag={tag} />
         </Grid>
@@ -54,6 +55,7 @@ function TagCard({ tag }) {
     <Stack direction="row" spacing={1}>
       <Chip
         label={tag}
+        avatar={<Iconify icon={"ic:tag"} width={24} height={24} />}
         variant="outline"
         size="small"
         clickable
