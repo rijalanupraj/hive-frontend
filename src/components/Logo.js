@@ -19,7 +19,7 @@ export default function Logo({ disabledLink = false, sx }) {
   const PRIMARY_DARK = theme.palette.primary.dark;
 
   const logo = (
-    <Box sx={{ width: 100, height: 110, ...sx }}>
+    <Box sx={{ width: 145, height:120, ...sx }}>
       <img src={logo2} alt="logo" />
       {/* <img src='https://seeklogo.com/images/S/skype-logo-F4A7960445-seeklogo.com.png' alt='logo' /> */}
       {/* <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 512 512'> */}

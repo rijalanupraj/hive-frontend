@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Page from "../../components/Page";
 import { logOutUser } from "../../redux/actions/authActions";
-import { Grid, Paper, Box, styled, Typography } from "@mui/material";
+import { Grid, Paper, Box, styled, Typography, Container } from "@mui/material";
 
 import { getAllSolutionHome } from "../../redux/actions/solutionActions";
 import SolutionCard from "./components/SolutionCard";
@@ -39,13 +39,7 @@ function PersonalFeed() {
 
   return (
     <Page title="Personal Feed">
-      <Paper
-        style={{
-          width: "100%",
-
-          boxShadow: "none",
-        }}
-      >
+      <Container maxWidth="full">
         <Grid
           container
           spacing={5}
@@ -88,7 +82,7 @@ function PersonalFeed() {
           {/* Right */}
           <Grid item xs="3"></Grid>
         </Grid>
-      </Paper>
+      </Container>
     </Page>
   );
 }
