@@ -8,6 +8,8 @@ const initialState = {
   me: null,
   error: null,
   appLoaded: false,
+  feed: [],
+  notifications: [],
 };
 
 export default function AuthReducer(state = initialState, { type, payload }) {
@@ -95,6 +97,14 @@ export default function AuthReducer(state = initialState, { type, payload }) {
           bookmarks: payload.me.bookmarks,
         },
       };
+    case TYPES.TOGGLE_ANSWER_LATER_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          answerLater: payload.me.answerLater,
+        },
+      };
 
     case TYPES.GET_MY_FOLLOWERS_SUCCESS:
       return {
@@ -120,6 +130,15 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         me: {
           ...state.me,
           expandedBookmarks: payload.bookmarks,
+        },
+      };
+
+    case TYPES.GET_MY_ANSWER_LATER_SUCCESS:
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          expandedAnswerLater: payload.answerLater,
         },
       };
 
@@ -232,6 +251,30 @@ export default function AuthReducer(state = initialState, { type, payload }) {
           interestedCategories: payload.user.interestedCategories,
         },
       };
+
+    case TYPES.GET_PERSONAL_FEED_SUCCESS:
+      return {
+        ...state,
+        feed: payload.feed,
+        isLoading: false,
+        error: null,
+      };
+
+    //==============================================Notifications====================================================
+
+    case TYPES.GET_ALL_NOTIFICATIONS_SUCCESS:
+      return {
+        ...state,
+        notifications: payload.notifications,
+      };
+
+    case TYPES.MARK_ALL_NOTIFICATIONS_AS_READ_SUCCESS:
+      return {
+        ...state,
+        notifications: payload.notifications,
+      };
+
+    //==============================================Notifications Ends====================================================
 
     case TYPES.LOGOUT_SUCCESS:
     case TYPES.LOGIN_WITH_EMAIL_FAIL:

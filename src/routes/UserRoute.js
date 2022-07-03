@@ -11,7 +11,6 @@ import {
   UpdateUserProfile,
   HomePage,
   AskQuestion,
-  ViewSolution,
   PostSolution,
   ForgotPassword,
   ResetPassword,
@@ -23,14 +22,20 @@ import {
   UpdateSolution,
   QuestionSolutions,
   AnotherQuestionSolutions,
+  ViewTags,
+  OpenTicket,
 } from "../userpages";
 
+import Messenger from "../chats/Messenger.jsx";
+
 // Internal Import
-import Navbar from "../components/Navbar/Navbar";
 import DashboardLayout from "../layouts/dashboard";
 
 // Helper Route Import
 import PrivateRoute from "./PrivateRoute";
+
+import SearchUser from "../userpages/SearchUser/SearchUser";
+import SolutionView from "../userpages/ViewSolution/solutionView";
 
 const UserRoute = () => {
   const auth = useSelector((state) => state.auth);
@@ -41,15 +46,19 @@ const UserRoute = () => {
 
       <Routes>
         {/* Normal Routes Starts */}
-        <Route exact path='/' element={<HomePage/>} />
-        <Route exact path='/questions' element={<QuestionsPage />} />
-        <Route exact path='/register' element={<Register />} />
-        <Route exact path='/login' element={<Login />} />
-        <Route exact path='/profile/:username' element={<UserProfile />} />
-        <Route exact path='/solution/:solutionId' element={<ViewSolution />} />
-        <Route exact path='/forgot-password' element={<ForgotPassword />} />
-        <Route exact path='/reset-password' element={<ResetPassword />} />
-        <Route exact path='/category' element={<ViewCategory />} />
+
+        <Route exact path="/" element={<HomePage />} />
+        <Route exact path="/questions" element={<QuestionsPage />} />
+        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/profile/:username" element={<UserProfile />} />
+        <Route exact path="/solution/:solutionId" element={<SolutionView />} />
+        <Route exact path="/forgot-password" element={<ForgotPassword />} />
+        <Route exact path="/reset-password" element={<ResetPassword />} />
+        <Route exact path="/category" element={<ViewCategory />} />
+        <Route exact path="/tags" element={<ViewTags />} />
+        <Route exact path="/users" element={<SearchUser />} />
+
         {/* Normal Routes Ends */}
 
         {/* Private Routes Starts */}
@@ -97,14 +106,29 @@ const UserRoute = () => {
           <Route exact path="/feed" element={<PersonalFeed />} />
         </Route>
 
-        <Route exact path="/questionSolutions" element={<PrivateRoute auth={auth} />}>
-          <Route exact path="/questionSolutions" element={<QuestionSolutions />} />
+        <Route
+          exact
+          path="/questionSolutions"
+          element={<PrivateRoute auth={auth} />}
+        >
+          <Route
+            exact
+            path="/questionSolutions"
+            element={<QuestionSolutions />}
+          />
+        </Route>
+        <Route exact path="/chat" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/chat" element={<Messenger />} />
+        </Route>
+        <Route exact path="/ticket" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/ticket" element={<OpenTicket />} />
         </Route>
 
-        <Route exact path="/anotherquestionSolutions" element={<PrivateRoute auth={auth} />}>
-          <Route exact path="/anotherquestionSolutions" element={<AnotherQuestionSolutions />} />
-        </Route>
-
+        <Route
+          exact
+          path="/question/:slug"
+          element={<AnotherQuestionSolutions />}
+        />
         {/* Private Routes End */}
 
         {/* Remaining Route Ends */}

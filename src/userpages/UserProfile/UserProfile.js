@@ -9,7 +9,12 @@ import { Tab, Box, Card, Tabs, Container, Button } from "@mui/material";
 // import useAuth from "../../hooks/useAuth";
 import useSettings from "../../hooks/useSettings";
 // _mock_
-import { _userAbout, _userFeeds, _userGallery, _userFollowings } from "../../_mock/_user";
+import {
+  _userAbout,
+  _userFeeds,
+  _userGallery,
+  _userFollowings,
+} from "../../_mock/_user";
 // components
 import Page from "../../components/Page";
 import Iconify from "../../components/Iconify";
@@ -20,7 +25,7 @@ import {
   ProfileCover,
   ProfileFollowings,
   ProfileGallery,
-  ProfileFollowers
+  ProfileFollowers,
 } from "../../sections/user/MyProfile";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -29,7 +34,7 @@ import {
   getProfile,
   viewFollowers,
   followUnfollowUser,
-  getTimeLinePosts
+  getTimeLinePosts,
 } from "../../redux/actions/userActions";
 // ----------------------------------------------------------------------
 
@@ -43,12 +48,12 @@ const TabsWrapperStyle = styled("div")(({ theme }) => ({
 
   backgroundColor: theme.palette.background.paper,
   [theme.breakpoints.up("sm")]: {
-    justifyContent: "center"
+    justifyContent: "center",
   },
   [theme.breakpoints.up("md")]: {
     justifyContent: "flex-end",
-    paddingRight: theme.spacing(3)
-  }
+    paddingRight: theme.spacing(3),
+  },
 }));
 
 // ----------------------------------------------------------------------
@@ -58,7 +63,7 @@ export default function UserProfile() {
   const { username } = useParams();
   const [timelinePosts, setTimelinePosts] = useState([]);
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.user);
   const [currentTab, setCurrentTab] = useState("profile");
   const [findFollowers, setFindFollowers] = useState("");
   const navigate = useNavigate();
@@ -74,14 +79,14 @@ export default function UserProfile() {
     }
   }, [user.timelinePosts]);
 
-  const handleChangeTab = newValue => {
+  const handleChangeTab = (newValue) => {
     if (newValue === "followers") {
       dispatch(viewFollowers(user.profile._id));
     }
     setCurrentTab(newValue);
   };
 
-  const handleFindFollowers = value => {
+  const handleFindFollowers = (value) => {
     setFindFollowers(value);
   };
 
@@ -89,7 +94,13 @@ export default function UserProfile() {
     {
       value: "profile",
       icon: <Iconify icon={"ic:round-account-box"} width={20} height={20} />,
-      component: <Profile myProfile={_userAbout} posts={timelinePosts} profile={user.profile} />
+      component: (
+        <Profile
+          myProfile={_userAbout}
+          posts={timelinePosts}
+          profile={user.profile}
+        />
+      ),
     },
     {
       value: "followers",
@@ -101,18 +112,18 @@ export default function UserProfile() {
           onFindFollowers={handleFindFollowers}
           profile={user.profile}
         />
-      )
-    }
+      ),
+    },
   ];
 
   return (
-    <Page title='User: Profile'>
+    <Page title="User: Profile">
       <Container maxWidth={themeStretch ? false : "lg"}>
         <Card
           sx={{
             mb: 3,
             height: 280,
-            position: "relative"
+            position: "relative",
           }}
         >
           <ProfileCover myProfile={_userAbout} profile={user.profile} />
@@ -120,12 +131,12 @@ export default function UserProfile() {
           <TabsWrapperStyle>
             <Tabs
               value={currentTab}
-              scrollButtons='auto'
-              variant='scrollable'
+              scrollButtons="auto"
+              variant="scrollable"
               allowScrollButtonsMobile
               onChange={(e, value) => handleChangeTab(value)}
             >
-              {PROFILE_TABS.map(tab => (
+              {PROFILE_TABS.map((tab) => (
                 <Tab
                   disableRipple
                   key={tab.value}
@@ -139,7 +150,7 @@ export default function UserProfile() {
           </TabsWrapperStyle>
         </Card>
 
-        {PROFILE_TABS.map(tab => {
+        {PROFILE_TABS.map((tab) => {
           const isMatched = tab.value === currentTab;
           return isMatched && <Box key={tab.value}>{tab.component}</Box>;
         })}
@@ -151,7 +162,7 @@ export default function UserProfile() {
 function FollowerButton({ profile }) {
   const [toggle, setToogle] = useState();
   const dispatch = useDispatch();
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -174,12 +185,14 @@ function FollowerButton({ profile }) {
 
   return (
     <Button
-      size='small'
+      size="small"
       style={{
-        margin: "0.5vh"
+        margin: "0.5vh",
       }}
       onClick={() =>
-        auth.me ? handleFollow() : navigate("/login?redirectTo=/profile/" + profile.username)
+        auth.me
+          ? handleFollow()
+          : navigate("/login?redirectTo=/profile/" + profile.username)
       }
       variant={toggle ? "text" : "contained"}
       color={toggle ? "primary" : "primary"}

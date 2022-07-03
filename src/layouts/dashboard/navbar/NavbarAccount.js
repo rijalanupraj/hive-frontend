@@ -9,6 +9,7 @@ import useAuth from "../../../hooks/useAuth";
 // import { PATH_DASHBOARD } from '../../../routes/paths';
 // components
 import MyAvatar from "../../../components/MyAvatar";
+import { useSelector } from "react-redux";
 
 // ----------------------------------------------------------------------
 
@@ -19,26 +20,27 @@ const RootStyle = styled("div")(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: theme.palette.grey[500_12],
   transition: theme.transitions.create("opacity", {
-    duration: theme.transitions.duration.shorter
-  })
+    duration: theme.transitions.duration.shorter,
+  }),
 }));
 
 // ----------------------------------------------------------------------
 
 NavbarAccount.propTypes = {
-  isCollapse: PropTypes.bool
+  isCollapse: PropTypes.bool,
 };
 
 export default function NavbarAccount({ isCollapse }) {
+  const auth = useSelector((state) => state.auth);
   // const { user } = useAuth();
 
   return (
-    <Link underline='none' color='inherit' component={RouterLink} to={"/"}>
+    <Link underline="none" color="inherit" component={RouterLink} to={"/"}>
       <RootStyle
         sx={{
           ...(isCollapse && {
-            bgcolor: "transparent"
-          })
+            bgcolor: "transparent",
+          }),
         }}
       >
         <MyAvatar />
@@ -46,22 +48,30 @@ export default function NavbarAccount({ isCollapse }) {
         <Box
           sx={{
             ml: 2,
-            transition: theme =>
+            transition: (theme) =>
               theme.transitions.create("width", {
-                duration: theme.transitions.duration.shorter
+                duration: theme.transitions.duration.shorter,
               }),
             ...(isCollapse && {
               ml: 0,
-              width: 0
-            })
+              width: 0,
+            }),
           }}
         >
-          <Typography variant='subtitle2' noWrap>
-            {"anup"}
-          </Typography>
-          <Typography variant='body2' noWrap sx={{ color: "text.secondary" }}>
-            {"hero"}
-          </Typography>
+          {auth.isAuthenticated && (
+            <>
+              <Typography variant="subtitle2" noWrap>
+                {auth?.me?.username}
+              </Typography>
+              <Typography
+                variant="body2"
+                noWrap
+                sx={{ color: "text.secondary" }}
+              >
+                {auth?.me?.name}
+              </Typography>
+            </>
+          )}
         </Box>
       </RootStyle>
     </Link>

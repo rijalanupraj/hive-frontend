@@ -12,7 +12,12 @@ import {
   Typography,
   CardHeader,
   IconButton,
-  FormControlLabel
+  AvatarGroup,
+  InputAdornment,
+  FormControlLabel,
+  Tooltip,
+  Chip,
+  Divider,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -21,30 +26,42 @@ import { useSelector, useDispatch } from "react-redux";
 import { fDate } from "../../utils/formatTime";
 
 // components
+import { useTheme } from "@mui/material/styles";
 
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
 
 import SvgIconStyle from "../../components/SvgIconStyle";
+import ReportQuestion from "../../userpages/QuestionsPage/components/ReportQuestion";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
-import { upVoteAnyQuestion, downVoteAnyQuestion } from "../../redux/actions/questionActions";
+import {
+  upVoteAnyQuestion,
+  downVoteAnyQuestion,
+} from "../../redux/actions/questionActions";
+
+import { toggleAnswerLater } from "../../redux/actions/authActions";
 
 // ----------------------------------------------------------------------
 
-const getIcon = name => <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />;
+const getIcon = (name) => (
+  <SvgIconStyle src={`/icons/${name}.svg`} sx={{ width: 1, height: 1 }} />
+);
 
 const ICONS = {
-  chat: getIcon("ic_chat")
+  chat: getIcon("ic_chat"),
 };
 
 export default function QuestionPostCard({ question }) {
-  const auth = useSelector(state => state.auth);
+  const auth = useSelector((state) => state.auth);
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
   const [upVoteCount, setUpVoteCount] = useState(question.upVotes.length);
   const [downVoteCount, setDownVoteCount] = useState(question.downVotes.length);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
+  console.log(theme.themeMode);
 
   useEffect(() => {
     if (auth.me) {
@@ -111,14 +128,17 @@ export default function QuestionPostCard({ question }) {
   return (
     <Card
       style={{
-        marginTop: "1rem"
+        marginTop: "1rem",
       }}
     >
       <CardHeader
         disableTypography
         avatar={
           question?.user?.profilePhoto?.hasPhoto ? (
-            <Avatar src={question?.user.profilePhoto.url} alt={question?.user?.username} />
+            <Avatar
+              src={question?.user.profilePhoto.url}
+              alt={question?.user?.username}
+            />
           ) : (
             <MyAvatar />
           )
@@ -126,15 +146,30 @@ export default function QuestionPostCard({ question }) {
         title={
           <Link
             to={"/profile/" + question?.user?.username}
-            variant='subtitle2'
-            color='text.primary'
+            variant="subtitle2"
+            color="text.primary"
+            sx={{ display: "flex" }}
             component={RouterLink}
           >
-            {question?.user?.username}
+            {question?.user?.username}{" "}
+            {question?.user?.isVerified && (
+              <Typography display="inline">
+                <VerifiedIcon
+                  sx={{
+                    fontSize: "small",
+                    color: "#3B8AF0",
+                    ml: 0.5,
+                  }}
+                />
+              </Typography>
+            )}
           </Link>
         }
         subheader={
-          <Typography variant='caption' sx={{ display: "block", color: "text.secondary" }}>
+          <Typography
+            variant="caption"
+            sx={{ display: "block", color: "text.secondary" }}
+          >
             {fDate(question?.createdAt)}
           </Typography>
         }
@@ -147,66 +182,152 @@ export default function QuestionPostCard({ question }) {
 
       <Stack spacing={0.5} sx={{ p: 3 }}>
         {/* Question */}
-        <Typography variant='h6' align='justify'>
-          {question?.title}
-        </Typography>
+        <Link
+          to={"/question/" + question?.slug}
+          style={{
+            textDecoration: "none",
+          }}
+          component={RouterLink}
+        >
+          <Typography variant="h6" align="justify" sx={{ mb: 0.5 }}>
+            {question?.title}
+          </Typography>
+        </Link>
 
-        <Typography variant='body1' align='justify'>
+        <Typography variant="body1" align="justify">
           {question?.description}
         </Typography>
 
-        <Link href='#'>
-          <Typography variant='h7' align='justify'>
+        <Typography variant="body1" align="justify">
+          <Stack direction="row" spacing={1}>
+            {question?.tags.map((tag) => (
+              <Chip label={tag} variant="outlined" size="small" clickable />
+            ))}
+          </Stack>
+        </Typography>
+
+        <Link href="#">
+          <Typography
+            variant="body2"
+            align="justify"
+            color="#3971f1"
+            sx={{ mt: 2 }}
+          >
             {question?.answers?.length} Answers
           </Typography>
         </Link>
 
         {/* image */}
-
-        <Stack direction='row' alignItems='center'>
+        <Divider />
+        <Stack direction="row" alignItems="center" sx={{ ml: -1 }}>
           {/* write  */}
-          <FormControlLabel
-            control={
-              <Link href={"/post-solution/" + question._id}>
-                <IconButton>
-                  <Iconify icon={"jam:write-f"} width={20} height={20} />
-                </IconButton>
-              </Link>
-            }
-            label='answer'
-            sx={{ minWidth: 72, mr: 2 }}
-          />
+          <Link href={"/post-solution/" + question._id}>
+            <Tooltip title="write">
+              <IconButton>
+                <Iconify icon={"jam:write-f"} width={20} height={20} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+          <Typography variant="caption">Answer</Typography>
           {/* upvote  */}
-          <IconButton
-            onClick={() => {
-              dispatch(upVoteAnyQuestion(question._id));
-            }}
-          >
-            <Iconify icon={isUpVote ? "bxs:upvote" : "bx:upvote"} width={20} height={20} color={isUpVote? "#1877f2" : "text.secondary"}/>
-          </IconButton>
-          <Typography variant='caption'>{upVoteCount}</Typography>
+          <Tooltip title="upvote">
+            <IconButton
+              onClick={() => {
+                dispatch(upVoteAnyQuestion(question._id));
+              }}
+            >
+              <Iconify
+                icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+                width={20}
+                height={20}
+                color={isUpVote ? "#1877f2" : "text.secondary"}
+              />
+            </IconButton>
+          </Tooltip>
+          <Typography variant="caption">{upVoteCount}</Typography>
 
-          <IconButton
-            onClick={() => {
-              dispatch(downVoteAnyQuestion(question._id));
-            }}
-          >
-            <Iconify icon={isDownVote ? "bxs:downvote" : "bx:downvote"} width={20} height={20} color={isDownVote? "#1877f2" : "text.secondary"}/>
-          </IconButton>
-          <Typography variant='caption'>{downVoteCount}</Typography>
+          <Tooltip title="downvote">
+            <IconButton
+              onClick={() => {
+                dispatch(downVoteAnyQuestion(question._id));
+              }}
+            >
+              <Iconify
+                icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+                width={20}
+                height={20}
+                color={isDownVote ? "#1877f2" : "text.secondary"}
+              />
+            </IconButton>
+          </Tooltip>
+          <Typography variant="caption">{downVoteCount}</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <IconButton>
-            <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
-          </IconButton>
+          <Tooltip title="Answer Later">
+            {!auth.isAuthenticated ? (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/question/" + question.slug);
+                }}
+              >
+                <Iconify
+                  icon={"ph:clock-afternoon-light"}
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() => {
+                  dispatch(toggleAnswerLater(question._id));
+                }}
+              >
+                <Iconify
+                  icon={
+                    auth.me.answerLater.includes(question._id)
+                      ? "ph:clock-afternoon-fill"
+                      : "ph:clock-afternoon-light"
+                  }
+                  color={
+                    auth.me.answerLater.includes(question._id)
+                      ? "#1877f2"
+                      : "text.secondary"
+                  }
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
 
-          <IconButton>
-            <Iconify icon={"ant-design:share-alt-outlined"} width={20} height={20} />
-          </IconButton>
-          <IconButton>
-            <Iconify icon={"ic:outline-report-problem"} width={20} height={20} />
-          </IconButton>
+          <Tooltip title="Share">
+            <IconButton>
+              <Iconify
+                icon={"ant-design:share-alt-outlined"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          </Tooltip>
+
+          <Tooltip title="Report">
+            {auth.isAuthenticated ? (
+              <ReportQuestion question={question} />
+            ) : (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/question/" + question.slug);
+                }}
+              >
+                <Iconify
+                  icon={"ic:outline-report-problem"}
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
         </Stack>
       </Stack>
     </Card>

@@ -3,7 +3,6 @@ import * as Yup from "yup";
 import {
   ButtonGroup,
   Button,
-  TextareaAutosize,
   DialogContentText,
   TextField,
 } from "@mui/material";
@@ -13,10 +12,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import { useDispatch } from "react-redux";
 import { Form, FormikProvider, useFormik } from "formik";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import Slide from "@mui/material/Slide";
-import CancelIcon from "@mui/icons-material/Cancel";
 //internal import
 import {
   updateComment,
@@ -68,7 +64,7 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
   return (
     <div>
       <ButtonGroup
-        variant="contained"
+        variant="text"
         size="small"
         justifyContent="space-between"
         alignItems="center"
@@ -76,7 +72,7 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
         aria-label="outlined primary button group"
       >
         <Button variant="text" onClick={handleEditOpen}>
-          <EditIcon />
+          Edit
         </Button>
 
         <Dialog
@@ -84,30 +80,13 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
           onClose={handleClose}
           TransitionComponent={Transition}
         >
-          <Button
-            variant="text"
-            display="flex"
-            justifyContent="flex-end"
-            onClick={handleClose}
-          >
-            <CancelIcon style={{ color: "red" }} />
-          </Button>
           <FormikProvider value={formik}>
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-              <DialogTitle textAlign="center">Edit Comment</DialogTitle>
+              <DialogTitle sx={{ mb: 1, textAlign: "centre" }}>
+                Edit Comment
+              </DialogTitle>
 
               <DialogContent>
-                {/* <TextareaAutosize
-                  aria-label="minimum height"
-                  minRows={8}
-                  placeholder="Edit your comment here"
-                  style={{ maxWidth: 300, minWidth: 300 }}
-                  autoFocus
-                  margin="dense"
-                  type="text"
-                  {...getFieldProps("text")}
-                  variant="standard"
-                /> */}
                 <TextField
                   name="text"
                   placeholder="Write your comment here."
@@ -126,18 +105,16 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
                 />
               </DialogContent>
               <DialogActions justify="centre">
-                <Button type="submit">Submit</Button>
+                <Button type="submit" variant="contained">
+                  Submit
+                </Button>
               </DialogActions>
             </Form>
           </FormikProvider>
         </Dialog>
 
-        <Button
-          variant="text"
-          onClick={handleDeleteOpen}
-          style={{ color: "red", background: "none" }}
-        >
-          <DeleteRoundedIcon />
+        <Button variant="text" color="error" onClick={handleDeleteOpen}>
+          Delete
         </Button>
 
         <Dialog
@@ -147,14 +124,6 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
           onClose={handleClose}
           aria-describedby="alert-dialog-slide-description"
         >
-          <Button
-            variant="text"
-            display="flex"
-            justifyContent="flex-end"
-            onClick={handleClose}
-          >
-            <CancelIcon style={{ color: "red" }} />
-          </Button>
           <DialogTitle>
             {"Are you sure you want to Delete this comment?"}
           </DialogTitle>
@@ -165,7 +134,11 @@ const UpdateSolutionCommentSection = ({ solutionId, comment }) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button variant="contained" onClick={handleDeleteComment}>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleDeleteComment}
+            >
               Confirm
             </Button>
           </DialogActions>

@@ -10,7 +10,7 @@ const API_URL = BACKEND_API_URL;
 
 export const getUsers = () => async (dispatch, getState) => {
   dispatch({
-    type: TYPES.GET_USERS_LOADING
+    type: TYPES.GET_USERS_LOADING,
   });
   try {
     const options = attachTokenToHeaders(getState);
@@ -18,19 +18,19 @@ export const getUsers = () => async (dispatch, getState) => {
 
     dispatch({
       type: TYPES.GET_USERS_SUCCESS,
-      payload: { users: response.data.users }
+      payload: { users: response.data.users },
     });
   } catch (err) {
     dispatch({
       type: TYPES.GET_USERS_FAIL,
-      payload: err.message
+      payload: err.message,
     });
   }
 };
 
 export const getTopUsers = () => async (dispatch, getState) => {
   dispatch({
-    type: TYPES.GET_TOP_USERS_LOADING
+    type: TYPES.GET_TOP_USERS_LOADING,
   });
 
   try {
@@ -39,14 +39,42 @@ export const getTopUsers = () => async (dispatch, getState) => {
 
     dispatch({
       type: TYPES.GET_TOP_USERS_SUCCESS,
-      payload: { topUsers: response.data.users }
+      payload: { topUsers: response.data.users },
     });
   } catch (err) {
     dispatch({
       type: TYPES.GET_TOP_USERS_FAIL,
       payload: {
-        error: err?.response?.data.message || err.message
-      }
+        error: err?.response?.data.message || err.message,
+      },
+    });
+  }
+};
+
+export const getAllUsers = () => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.GET_ALL_USERS_LOADING,
+    payload: {
+      loading: true,
+    },
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/users/allusers`, options);
+
+    dispatch({
+      type: TYPES.GET_ALL_USERS_SUCCESS,
+      payload: {
+        users: response.data.allUsers,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_ALL_USERS_FAIL,
+      payload: {
+        error: err?.response?.data.message || err.message,
+      },
     });
   }
 };

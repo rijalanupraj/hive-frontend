@@ -11,7 +11,8 @@ import {
   CardHeader,
   IconButton,
   Divider,
-
+  Tooltip,
+  Chip,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import Markdown from "../../components/Markdown";
@@ -30,9 +31,11 @@ import {
   upVoteAnySolution,
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
+import ReportSolution from "../reports/ReportSolution";
+import SolutionStats from "../../userpages/ViewSolution/components/SolutionStats";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ----------------------------------------------------------------------
-
 
 export default function SolutionPostCard({ solution }) {
   const auth = useSelector((state) => state.auth);
@@ -152,9 +155,22 @@ export default function SolutionPostCard({ solution }) {
             to={"/profile/" + solution?.user?.username}
             variant="subtitle2"
             color="text.primary"
+            sx={{ display: "flex" }}
             component={RouterLink}
           >
             {solution?.user?.username}
+            {solution?.user?.isVerified && (
+              <Typography display="inline">
+                <VerifiedIcon
+                  sx={{
+                    ml: 0.5,
+                    fontSize: "small",
+                    color: "#3B8AF0",
+                    verticalAlign: "baseline",
+                  }}
+                />
+              </Typography>
+            )}
           </Link>
         }
         subheader={
@@ -182,126 +198,178 @@ export default function SolutionPostCard({ solution }) {
         // }
       />
 
-      <Stack spacing={3} sx={{ p: 3 }}>
+      <Stack spacing={2} sx={{ p: 3 }}>
         {/* Question */}
-        <Typography variant="h6" align="justify">
-          {solution?.question?.title}
-        </Typography>
-
-        {/* Answer */}
-        <Markdown children={solution?.answer.slice(0, 100) || ""} />
         <Link
-          to={"/solution/" + solution?._id}
-          variant="body1"
-          color="text.secondary"
+          to={`/question/${solution?.question?.slug}`}
           component={RouterLink}
         >
-          Continue Reading
+          <Typography variant="h6" align="justify" sx={{ mb: -1 }}>
+            {solution?.question?.title}
+          </Typography>
         </Link>
+
+        {/* Answer */}
+        {/* <Markdown children={solution?.answer.slice(0, 100) || ""} /> */}
+
+        <Typography variant="body1" sx={{ mb: -1 }}>
+          {solution?.description}
+          <Link
+            to={"/solution/" + solution?._id}
+            variant="body1"
+            component={RouterLink}
+          >
+            (more)
+          </Link>
+        </Typography>
+        <Typography align="justify" sx={{ mt: 2 }} color="black">
+          <Stack direction="row" spacing={1}>
+            {solution?.tags.map((tag) => (
+              <Chip
+                label={tag}
+                variant="outline"
+                size="small"
+                clickable
+                // sx={{width:'10%'}}
+              />
+            ))}
+          </Stack>
+        </Typography>
 
         {/* image */}
 
-        <Image
+        {/* <Image
           alt="post media"
           src="https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png"
           ratio="2/1"
           sx={{ borderRadius: 1 }}
-        />
+        /> */}
 
         {/* status */}
         <Divider />
         <Stack direction="row" alignItems="center">
           {/* upvote  */}
-          <IconButton
-            onClick={() => {
-              dispatch(upVoteAnySolution(solution._id));
-            }}
-          >
-            <Iconify
-              icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
-              color={isUpVote? "#1877f2" : "text.secondary"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-          <Typography variant="caption">{upVoteCount}</Typography>
-
-          <IconButton
-            onClick={() => {
-              dispatch(downVoteAnySolution(solution._id));
-            }}
-          >
-            <Iconify
-              icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
-              color={isDownVote? "#1877f2" : "text.secondary"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-          <Typography variant="caption">{downVoteCount}</Typography>
-          {/* comment */}
-          <IconButton onClick={handleComment}>
-            <Iconify
-              icon={"fa-regular:comment"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-          <Typography variant="caption">5</Typography>
-
-          <Box sx={{ flexGrow: 1 }} />
-
-          {!auth.isAuthenticated ? (
+          <Tooltip title="Upvote">
             <IconButton
               onClick={() => {
-                navigate("/login?redirectTo=/solution/" + solution._id);
-              }}
-            >
-              <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
-            </IconButton>
-          ) : (
-            <IconButton
-              onClick={() => {
-                dispatch(toggleBookmark(solution._id));
+                if (auth.me) {
+                  dispatch(upVoteAnySolution(solution._id));
+                } else {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }
               }}
             >
               <Iconify
-                icon={
-                  auth.me.bookmarks.includes(solution._id)
-                    ? "bi:bookmark-dash-fill"
-                    : "bi:bookmark-check"
-                }
-                color={auth.me.bookmarks.includes(solution._id)? "#1877f2" : "text.secondary"}
+                icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+                color={isUpVote ? "#1877f2" : "text.secondary"}
                 width={20}
                 height={20}
               />
             </IconButton>
+          </Tooltip>
+          <Typography variant="caption">{upVoteCount}</Typography>
+
+          <Tooltip title="Downvote">
+            <IconButton
+              onClick={() => {
+                if (auth.isAuthenticated) {
+                  dispatch(downVoteAnySolution(solution._id));
+                } else {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }
+              }}
+            >
+              <Iconify
+                icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+                color={isDownVote ? "#1877f2" : "text.secondary"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          </Tooltip>
+
+          <Typography variant="caption">{downVoteCount}</Typography>
+          {/* comment */}
+          <Tooltip title="Comment">
+            <IconButton onClick={handleComment}>
+              <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+            </IconButton>
+          </Tooltip>
+
+          <Typography variant="caption">5</Typography>
+
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Tooltip title="Bookmark">
+            {!auth.isAuthenticated ? (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }}
+              >
+                <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() => {
+                  dispatch(toggleBookmark(solution._id));
+                }}
+              >
+                <Iconify
+                  icon={
+                    auth.me.bookmarks.includes(solution._id)
+                      ? "bi:bookmark-dash-fill"
+                      : "bi:bookmark-check"
+                  }
+                  color={
+                    auth.me.bookmarks.includes(solution._id)
+                      ? "#1877f2"
+                      : "text.secondary"
+                  }
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
+
+          <Tooltip title="Share">
+            <IconButton>
+              <Iconify
+                icon={"ant-design:share-alt-outlined"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          </Tooltip>
+          {auth.isAuthenticated && auth.me._id === solution.user._id && (
+            <Tooltip title="Solution Stats">
+              <SolutionStats solution={solution} />
+            </Tooltip>
           )}
 
-          <IconButton>
-            <Iconify
-              icon={"ant-design:share-alt-outlined"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-
-          <IconButton>
-            <Iconify
-              icon={"ic:outline-report-problem"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
-
+          <Tooltip title="Report">
+            {auth.isAuthenticated ? (
+              <ReportSolution solution={solution} />
+            ) : (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }}
+              >
+                <Iconify
+                  icon={"ic:outline-report-problem"}
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
         </Stack>
         {/* comment */}
 
         {comment && CommentCard()}
-
       </Stack>
     </Card>
   );
 }
-
-

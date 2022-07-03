@@ -115,6 +115,29 @@ export const toggleBookmark = (solutionId) => async (dispatch, getState) => {
   }
 };
 
+export const toggleAnswerLater = (questionId) => async (dispatch, getState) => {
+  dispatch({ type: TYPES.TOGGLE_ANSWER_LATER_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(
+      `${API_URL}/users/answerLater/${questionId}`,
+      {},
+      options
+    );
+
+    dispatch({
+      type: TYPES.TOGGLE_ANSWER_LATER_SUCCESS,
+      payload: { me: response.data.me },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.TOGGLE_ANSWER_LATER_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
+
 export const getMyFollowers = () => async (dispatch, getState) => {
   dispatch({ type: TYPES.GET_MY_FOLLOWERS_LOADING });
 
@@ -180,6 +203,28 @@ export const getMyBookmarks = () => async (dispatch, getState) => {
   }
 };
 
+export const getMyAnswerLater = () => async (dispatch, getState) => {
+  dispatch({ type: TYPES.GET_MY_ANSWER_LATER_LOADING });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(
+      `${API_URL}/users/allanswerlater`,
+      options
+    );
+
+    dispatch({
+      type: TYPES.GET_MY_ANSWER_LATER_SUCCESS,
+      payload: { answerLater: response.data.questions },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_MY_ANSWER_LATER_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
+
 export const chooseInterestedCategory =
   (category, enqueueSnackbar) => async (dispatch, getState) => {
     dispatch({
@@ -210,6 +255,68 @@ export const chooseInterestedCategory =
       });
     }
   };
+
+export const getPersonalFeed = () => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.GET_PERSONAL_FEED_LOADING,
+  });
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(
+      `${API_URL}/solution/personal/feed`,
+      options
+    );
+
+    dispatch({
+      type: TYPES.GET_PERSONAL_FEED_SUCCESS,
+      payload: { feed: response.data.feed },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_PERSONAL_FEED_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
+
+export const getAllNotifications = () => async (dispatch, getState) => {
+  dispatch({
+    type: TYPES.GET_ALL_NOTIFICATIONS_LOADING,
+  });
+
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.get(`${API_URL}/notifications/`, options);
+
+    dispatch({
+      type: TYPES.GET_ALL_NOTIFICATIONS_SUCCESS,
+      payload: { notifications: response.data.notifications },
+    });
+  } catch (err) {
+    dispatch({
+      type: TYPES.GET_ALL_NOTIFICATIONS_FAIL,
+      payload: { error: err.response.data.message },
+    });
+  }
+};
+
+export const markAllNotificationsAsRead = () => async (dispatch, getState) => {
+  try {
+    const options = attachTokenToHeaders(getState);
+    const response = await axios.put(
+      `${API_URL}/notifications/markallopened`,
+      {},
+      options
+    );
+
+    dispatch({
+      type: TYPES.MARK_ALL_NOTIFICATIONS_AS_READ_SUCCESS,
+      payload: { notifications: response.data.notifications },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // Log user out
 export const logOutUser = (navigate) => async (dispatch) => {

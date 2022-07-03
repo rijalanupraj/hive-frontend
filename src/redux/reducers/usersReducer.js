@@ -4,36 +4,44 @@ const initialState = {
   users: [],
   topUsers: [],
   isLoading: false,
-  error: null
+  error: null,
 };
 
 export default function usersReducer(state = initialState, { type, payload }) {
   switch (type) {
     case TYPES.GET_USERS_LOADING:
     case TYPES.GET_TOP_USERS_LOADING:
+    case TYPES.GET_ALL_USERS_LOADING:
       return {
         ...state,
         isLoading: true,
-        error: null
+        error: null,
       };
     case TYPES.GET_USERS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        users: payload.users
+        users: payload.users,
       };
     case TYPES.GET_USERS_FAIL:
       return {
         ...state,
         isLoading: false,
         users: [],
-        error: payload.error
+        error: payload.error,
       };
     case TYPES.GET_TOP_USERS_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        topUsers: payload.topUsers
+        topUsers: payload.topUsers,
+      };
+
+    case TYPES.GET_ALL_USERS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        users: payload.users,
       };
 
     case TYPES.GET_TOP_USERS_FAIL:
@@ -41,7 +49,14 @@ export default function usersReducer(state = initialState, { type, payload }) {
         ...state,
         isLoading: false,
         topUsers: [],
-        error: payload.error
+        error: payload.error,
+      };
+    case TYPES.GET_ALL_USERS_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        users: [],
+        error: payload.error,
       };
     default:
       return state;

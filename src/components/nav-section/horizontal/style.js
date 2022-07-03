@@ -1,20 +1,28 @@
 // @mui
-import { alpha, styled } from '@mui/material/styles';
-import { Button, Popover } from '@mui/material';
+import { alpha, styled } from "@mui/material/styles";
+import { Button, Popover } from "@mui/material";
 // config
-import { NAVBAR } from '../../../config';
+import { NAVBAR } from "../../../config";
 
 // ----------------------------------------------------------------------
 
 export const ListItemStyle = styled(Button, {
-  shouldForwardProp: (prop) => prop !== 'activeRoot' && prop !== 'activeSub' && prop !== 'subItem' && prop !== 'open',
+  shouldForwardProp: (prop) =>
+    prop !== "activeRoot" &&
+    prop !== "activeSub" &&
+    prop !== "subItem" &&
+    prop !== "open",
 })(({ activeRoot, activeSub, subItem, open, theme }) => {
-  const isLight = theme.palette.mode === 'light';
+  const isLight = theme.palette.mode === "light";
 
   const activeRootStyle = {
-    color: theme.palette.grey[800],
+    // color: theme.palette.grey[800],
+    color: theme.palette.primary.main,
     backgroundColor: theme.palette.common.white,
-    boxShadow: `-2px 4px 6px 0 ${alpha(isLight ? theme.palette.grey[500] : theme.palette.common.black, 0.16)}`,
+    boxShadow: `-2px 4px 6px 0 ${alpha(
+      isLight ? theme.palette.primary.main : theme.palette.common.black,
+      0.16
+    )}`,
   };
 
   return {
@@ -23,7 +31,7 @@ export const ListItemStyle = styled(Button, {
     padding: theme.spacing(0, 1),
     color: theme.palette.text.secondary,
     height: NAVBAR.DASHBOARD_ITEM_HORIZONTAL_HEIGHT,
-    '&:hover': {
+    "&:hover": {
       color: theme.palette.text.main,
       backgroundColor: theme.palette.background.paper,
     },
@@ -31,7 +39,7 @@ export const ListItemStyle = styled(Button, {
     ...(activeRoot && {
       ...theme.typography.subtitle2,
       ...activeRootStyle,
-      '&:hover': { ...activeRootStyle },
+      "&:hover": { ...activeRootStyle },
     }),
     // activeSub
     ...(activeSub && {
@@ -40,11 +48,11 @@ export const ListItemStyle = styled(Button, {
     }),
     // subItem
     ...(subItem && {
-      width: '100%',
+      width: "100%",
       margin: 0,
       paddingRight: 0,
       paddingLeft: theme.spacing(1),
-      justifyContent: 'space-between',
+      justifyContent: "space-between",
     }),
     // open
     ...(open &&
@@ -58,10 +66,10 @@ export const ListItemStyle = styled(Button, {
 // ----------------------------------------------------------------------
 
 export const PaperStyle = styled(Popover)(({ theme }) => ({
-  pointerEvents: 'none',
-  '& .MuiPopover-paper': {
+  pointerEvents: "none",
+  "& .MuiPopover-paper": {
     width: 160,
-    pointerEvents: 'auto',
+    pointerEvents: "auto",
     padding: theme.spacing(1),
     borderRadius: Number(theme.shape.borderRadius) * 1.5,
     boxShadow: theme.customShadows.dropdown,
