@@ -1,224 +1,78 @@
 import PropTypes from "prop-types";
+import { useState, useRef, useEffect } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { fDate } from "../../utils/formatTime";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 // @mui
-import { alpha, styled } from "@mui/material/styles";
 import {
   Box,
-  Avatar,
-  SpeedDial,
+  Link,
+  Card,
+  Stack,
+  Checkbox,
   Typography,
-  SpeedDialAction,
+  CardHeader,
+  IconButton,
+  FormControlLabel,
+  Tooltip,
 } from "@mui/material";
-// hooks
-import useResponsive from "../../hooks/useResponsive";
-// utils
-import { fDate } from "../../utils/formatTime";
-// components
-import Image from "../../components/Image";
+
+
 import Iconify from "../../components/Iconify";
-import { useSelector } from "react-redux";
-import moment from "moment";
-import VerifiedIcon from "@mui/icons-material/Verified";
+import MyAvatar from "../../components/MyAvatar";
+
+import ReportQuestion from "../../userpages/QuestionsPage/components/ReportQuestion";
+
+import {
+  upVoteAnyQuestion,
+  downVoteAnyQuestion,
+} from "../../redux/actions/questionActions";
+import { toggleAnswerLater } from "../../redux/actions/authActions";
 
 // ----------------------------------------------------------------------
 
-const SOCIALS = [
-  {
-    name: "Facebook",
-    icon: (
-      <Iconify
-        icon="eva:facebook-fill"
-        width={20}
-        height={20}
-        color="#1877F2"
-      />
-    ),
-  },
-  {
-    name: "Instagram",
-    icon: (
-      <Iconify
-        icon="ant-design:instagram-filled"
-        width={20}
-        height={20}
-        color="#D7336D"
-      />
-    ),
-  },
-  {
-    name: "Linkedin",
-    icon: (
-      <Iconify
-        icon="eva:linkedin-fill"
-        width={20}
-        height={20}
-        color="#006097"
-      />
-    ),
-  },
-  {
-    name: "Twitter",
-    icon: (
-      <Iconify icon="eva:twitter-fill" width={20} height={20} color="#1C9CEA" />
-    ),
-  },
-];
+export default function QuestionSolutionHeader({ question, auth }) {
 
-const OverlayStyle = styled("h1")(({ theme }) => ({
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-  zIndex: 9,
-  position: "absolute",
-  backgroundColor: alpha(theme.palette.grey[900], 0.72),
-}));
-
-const TitleStyle = styled("h1")(({ theme }) => ({
-  ...theme.typography.h4,
-  top: 0,
-  zIndex: 10,
-  width: "100%",
-  position: "absolute",
-  padding: theme.spacing(2),
-  color: theme.palette.common.white,
-  [theme.breakpoints.up("lg")]: {
-    padding: theme.spacing(5),
-  },
-}));
-
-const TitleStyle1 = styled("h1")(({ theme }) => ({
-  ...theme.typography.body2,
-  top: 60,
-  zIndex: 10,
-  width: "100%",
-  alignContent: "justify",
-  position: "absolute",
-  padding: theme.spacing(2),
-  color: theme.palette.common.white,
-  [theme.breakpoints.up("lg")]: {
-    padding: theme.spacing(5),
-  },
-}));
-
-const FooterStyle = styled("div")(({ theme }) => ({
-  bottom: -5,
-  zIndex: 10,
-  width: "100%",
-  display: "flex",
-  position: "absolute",
-  alignItems: "flex-end",
-  paddingLeft: theme.spacing(2),
-  paddingRight: theme.spacing(1),
-  paddingBottom: theme.spacing(2),
-  justifyContent: "space-between",
-  [theme.breakpoints.up("sm")]: {
-    alignItems: "center",
-    paddingRight: theme.spacing(2),
-  },
-  [theme.breakpoints.up("lg")]: {
-    padding: theme.spacing(5),
-  },
-}));
-
-// ----------------------------------------------------------------------
-
-export default function QuestionSolutionHeader({ que }) {
-  const isDesktop = useResponsive("up", "sm");
-
+  
   return (
-    <Box
-      sx={{ position: "relative" }}
-      style={{
-        height: isDesktop ? "40vh" : "40vh",
-        backgroundColor: "#1A2027",
-      }}
-    >
-      <TitleStyle>{que?.title} </TitleStyle>
+    <Card maxWidth="sm">
+      <CardHeader
+        disableTypography
+        avatar={<MyAvatar />}
+        title={
+          <Link href="#" variant="subtitle2" color="text.primary">
+            {question.user.username}
+          </Link>
+        }
+        subheader={
+          <Typography
+            variant="caption"
+            sx={{ display: "block", color: "text.secondary" }}
+          >
+            {fDate(question?.createdAt)}
+          </Typography>
+        }
+        action={
+          <IconButton>
+            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
+          </IconButton>
+        }
+      />
 
-      <TitleStyle1 sx={{ mt: 3 }}>{que?.description}</TitleStyle1>
+      <Stack spacing={0.5} sx={{ p: 3 }}>
+        {/* Question */}
+        <Typography variant="h6" align="justify">
+          {question.title}
+        </Typography>
 
-      <FooterStyle>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar alt="profile" src={que?.user?.profilePhoto?.url} />
-          <Box sx={{ ml: 2 }}>
-            <Typography variant="subtitle1" sx={{ color: "common.white" }}>
-              Questioned By:
-            </Typography>
-            <Typography variant="button" sx={{ color: "common.white" }}>
-              {que?.user?.username}
-              {que?.user?.isVerified && (
-                <Typography display="inline">
-                  <VerifiedIcon
-                    sx={{
-                      ml: 0.5,
-                      fontSize: "small",
-                      color: "#3B8AF0",
-                      verticalAlign: "baseline",
-                    }}
-                  />
-                </Typography>
-              )}
-            </Typography>
-            <Typography variant="caption" sx={{ ml: 1, color: "grey.500" }}>
-              {moment(que?.createdAt).fromNow()}
-            </Typography>
-          </Box>
-        </Box>
+        <Typography variant="body1" align="justify">
+          {question.description}
+        </Typography>
 
-        <SpeedDial
-          direction={isDesktop ? "left" : "up"}
-          ariaLabel="Share post"
-          icon={
-            <Iconify icon="eva:share-fill" sx={{ width: 15, height: 15 }} />
-          }
-          sx={{ "& .MuiSpeedDial-fab": { width: 37, height: 37 } }}
-        >
-          <SpeedDialAction
-            key="facebook"
-            icon={
-              <Iconify
-                icon="eva:facebook-fill"
-                width={20}
-                height={20}
-                color="#1877F2"
-              />
-            }
-            tooltipTitle="Facebook"
-            tooltipPlacement="top"
-            FabProps={{ color: "default" }}
-          />
-          <SpeedDialAction
-            key="linkedin"
-            icon={
-              <Iconify
-                icon="eva:linkedin-fill"
-                width={20}
-                height={20}
-                color="#1877F2"
-              />
-            }
-            tooltipTitle="Linkedin"
-            tooltipPlacement="top"
-            FabProps={{ color: "default" }}
-          />
-          <SpeedDialAction
-            key="twitter"
-            icon={
-              <Iconify
-                icon="eva:twitter-fill"
-                width={20}
-                height={20}
-                color="#1877F2"
-              />
-            }
-            tooltipTitle="Twitter"
-            tooltipPlacement="top"
-            FabProps={{ color: "default" }}
-          />
-        </SpeedDial>
-      </FooterStyle>
+        {/* image */}
 
-      <OverlayStyle />
-    </Box>
+      </Stack>
+    </Card>
   );
 }
