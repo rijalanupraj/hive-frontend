@@ -33,6 +33,7 @@ import MyAvatar from "../../components/MyAvatar";
 
 import SvgIconStyle from "../../components/SvgIconStyle";
 import ReportQuestion from "../../userpages/QuestionsPage/components/ReportQuestion";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 import {
   upVoteAnyQuestion,
@@ -147,9 +148,21 @@ export default function QuestionPostCard({ question }) {
             to={"/profile/" + question?.user?.username}
             variant="subtitle2"
             color="text.primary"
+            sx={{ display: "flex" }}
             component={RouterLink}
           >
-            {question?.user?.username}
+            {question?.user?.username}{" "}
+            {question?.user?.isVerified && (
+              <Typography display="inline">
+                <VerifiedIcon
+                  sx={{
+                    fontSize: "small",
+                    color: "#3B8AF0",
+                    ml: 0.5,
+                  }}
+                />
+              </Typography>
+            )}
           </Link>
         }
         subheader={
