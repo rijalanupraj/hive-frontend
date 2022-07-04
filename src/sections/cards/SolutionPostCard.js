@@ -224,6 +224,13 @@ export default function SolutionPostCard({ solution }) {
         </Typography>
         <Typography align="justify" sx={{ mt: 2 }} color="black">
           <Stack direction="row" spacing={1}>
+            <Chip
+              label={solution?.question?.category}
+              avatar={<Avatar>C</Avatar>}
+              color="info"
+              size="small"
+              sx={{ text: "success" }}
+            ></Chip>
             {solution?.tags.map((tag) => (
               <Chip
                 label={tag}
