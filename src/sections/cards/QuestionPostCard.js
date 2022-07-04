@@ -200,6 +200,13 @@ export default function QuestionPostCard({ question }) {
 
         <Typography variant="body1" align="justify">
           <Stack direction="row" spacing={1}>
+            <Chip
+              label={question?.category}
+              avatar={<Avatar>C</Avatar>}
+              color="info"
+              size="small"
+              sx={{ text: "success" }}
+            ></Chip>
             {question?.tags.map((tag) => (
               <Chip label={tag} variant="outlined" size="small" clickable />
             ))}
