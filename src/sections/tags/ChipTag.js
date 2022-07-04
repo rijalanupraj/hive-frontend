@@ -4,21 +4,10 @@ import PropTypes from "prop-types";
 import { capitalCase } from "change-case";
 
 // @mui
-import {
-  Box,
-  Grid,
-  Card,
-  Button,
-  Typography,
-  InputAdornment,
-  Stack,
-  Chip,
-} from "@mui/material";
+import { Grid, Stack, Chip } from "@mui/material";
 
 // components
 import Iconify from "../../components/Iconify";
-import InputStyle from "../../components/InputStyle";
-import SearchNotFound from "../../components/SearchNotFound";
 
 // ----------------------------------------------------------------------
 
@@ -37,7 +26,6 @@ export default function ChipTags({ tags, findTags, onFindTags }) {
     <Grid container spacing={3}>
       {tagFiltered.map((tag) => (
         <Grid key={tag._id} item>
-        <Grid key={tag._id} item xs={12} md={4}>
           <TagCard tag={tag} />
         </Grid>
       ))}
