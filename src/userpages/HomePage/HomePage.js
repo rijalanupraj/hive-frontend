@@ -151,36 +151,25 @@ function HomePage() {
                 </Grid>
 
                 {/* start ask question */}
-                <Grid item lg={8.5}>
+                <Grid item lg={10} fullWidth>
                   <Link to="/ask-question" component={RouterLink}>
-                    <FormControl fullWidth>
+                    <FormControl lg={10} fullWidth>
                       <OutlinedInput
                         startAdornment={
-                          <InputAdornment>Ask Question</InputAdornment>
+                          <InputAdornment lg={10} fullWidth>
+                            What's on your mind
+                            {auth.isAuthenticated ? (
+                              <p>,&nbsp;{auth.me.username}?</p>
+                            ) : (
+                              <p>?</p>
+                            )}
+                          </InputAdornment>
                         }
                       />
                     </FormControl>
                   </Link>
                 </Grid>
 
-                <Grid
-                  item
-                  mt={1.5}
-                  sx={{ display: { xs: "none", xl: "block" } }}
-                >
-                  <Iconify icon="akar-icons:image" width={25} height={25} />
-                </Grid>
-                <Grid
-                  item
-                  mt={1.5}
-                  sx={{ display: { xs: "none", xl: "block" } }}
-                >
-                  <Iconify
-                    icon="akar-icons:link-chain"
-                    width={25}
-                    height={25}
-                  />
-                </Grid>
                 {/* end ask questions */}
               </Grid>
 
