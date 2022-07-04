@@ -31,7 +31,7 @@ const navConfig = [
       { title: "Questions", path: "/questions", icon: ICONS.post },
       { title: "Profile", path: "/myprofile", icon: ICONS.profile },
       { title: "Categories", path: "/category", icon: ICONS.category },
-      { title: "Chat", path: "/chat", icon: ICONS.chat },
+      // { title: "Chat", path: "/chat", icon: ICONS.chat },
     ]
   }
 
