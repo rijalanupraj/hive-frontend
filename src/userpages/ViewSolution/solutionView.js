@@ -12,6 +12,8 @@ import {
   Avatar,
   Stack,
   Chip,
+  CardHeader,
+  Link
 } from "@mui/material";
 
 // components
@@ -26,7 +28,6 @@ import {
 } from "../../sections/QuestionSolutions";
 import Image from "../../components/Image";
 import { useDispatch, useSelector } from "react-redux";
-import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ----------------------------------------------------------------------
 import { viewSolution } from "../../redux/actions/viewSolutionActions";
@@ -35,6 +36,7 @@ import EditDeleteButon from "./components/EditDeleteButton";
 
 export default function SolutionView() {
   const dispatch = useDispatch();
+  const question = useSelector((state) => state.question);
   const auth = useSelector((state) => state.auth);
   const { solutionId } = useParams();
   const solution = useSelector((state) => state.viewSolutions);
@@ -52,54 +54,42 @@ export default function SolutionView() {
       <Container maxWidth="md">
         <Grid container spacing={3}>
           <Grid item xs={12} lg={12} order={{ xs: 2, md: 1 }}>
-            <Card>
-              {/* cover */}
-              <QuestionSolutionHeader que={solution?.solution?.question} />
-              {/* end cover */}
+            {/* cover */}
+            <QuestionSolutionHeader
+              question={solution?.solution?.question}
+              auth={auth}
+            />
+            {/* end cover */}
 
-              <Box sx={{ p: { xs: 3, md: 5 }, mb: 1 }}>
-                <Box sx={{ my: 2, mt: -2 }}>
-                  <Divider />
-                  <Box sx={{ display: "flex", alignItems: "center", p: 2 }}>
-                    <Avatar
-                      src={solution?.solution?.user?.profilePhoto?.url}
-                      sx={{ width: 42, height: 42 }}
-                      alt={solution?.solution?.user?.username}
-                    />
-                    <Box sx={{ ml: 2 }}>
-                      <Typography variant="subtitle1">Answered By:</Typography>
-                      <Typography variant="button" sx={{ display: "flex" }}>
+            {/* start solution */}
+            <Card sx={{ mt: 3 }}>
+              <Box sx={{ p: { xs: 2, md: 4 }, mb: 1 }}>
+                
+                  <CardHeader
+                    disableTypography
+                    avatar={
+                      <Avatar
+                        alt="experts"
+                        src={solution?.solution?.user?.profilePhoto}
+                        sx={{ width: 42, height: 42 }}
+                      />
+                    }
+                    title={
+                      <Link href="#" variant="subtitle2" color="text.primary">
                         {solution?.solution?.user?.username}
-                        {solution?.solution?.user?.isVerified && (
-                          <Typography>
-                            <VerifiedIcon
-                              sx={{
-                                ml: 0.5,
-                                fontSize: "small",
-                                color: "#3B8AF0",
-                                verticalAlign: "baseline",
-                              }}
-                            />
-                          </Typography>
-                        )}
-                      </Typography>
+                      </Link>
+                    }
+                    subheader={
                       <Typography
                         variant="caption"
-                        sx={{ ml: 1, color: "grey.500", display: "inline" }}
+                        sx={{ display: "block", color: "text.secondary" }}
                       >
                         {moment(solution?.solution?.createdAt).fromNow()}
                       </Typography>
-                    </Box>
-                    {auth.isAuthenticated && (
-                      <Box sx={{ ml: "auto" }}>
-                        {auth.me._id === solution?.solution?.user?._id && (
-                          <EditDeleteButon solution={solution} />
-                        )}
-                      </Box>
-                    )}
-                  </Box>
-                  <Divider />
-                </Box>
+                    }
+                    sx={{mt:-3, mb:3, ml:-3}}
+                  />
+                
 
                 {/* start body description */}
 
@@ -109,16 +99,7 @@ export default function SolutionView() {
                 />
                 {/* end body description */}
 
-                {/* start image */}
-                {/* <Image
-                  alt="post media"
-                  src="https://www.thebalance.com/thmb/vL5vZOQdtTcrRaT-c9cOahUS1_Y=/1500x1000/filters:fill(auto,1)/how-can-i-easily-open-bank-accounts-315723-FINAL-051b5ab589064905b1de8181e2175172.png"
-                  ratio="16/9"
-                  sx={{ borderRadius: 1, mt: 4 }}
-                /> */}
-                {/* end image */}
-
-                <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+                <Stack direction="row" spacing={1} sx={{pt:1, pb:1}}>
                   {solution?.solution?.tags.map((tag) => (
                     <Chip
                       label={tag}
@@ -131,12 +112,12 @@ export default function SolutionView() {
 
                 {/* start upVote/downvote */}
 
-                <Box sx={{ my: 5 }}>
-                  <Divider />
+                <Box sx={{ my: 5, mt: 1 }}>
+                  <Divider sx={{ mb: -2 }} />
 
                   <QuestionSolutionReview />
 
-                  <Divider />
+                  <Divider sx={{ mb: -5, mt: -2 }} />
                 </Box>
 
                 {/* end upVote/downVote */}
@@ -153,18 +134,8 @@ export default function SolutionView() {
                 {/* end comment */}
               </Box>
             </Card>
+            {/* end solution */}
           </Grid>
-
-          {/* <Grid
-            item
-            xs={12}
-            md={4}
-            lg={4}
-            // sx={{ display: { xs: "none", xl: "block" } }}
-            order={{ xs: 1, md: 1 }}
-          >
-            <SimilarSolutionsPost />
-          </Grid> */}
         </Grid>
       </Container>
     </Page>
