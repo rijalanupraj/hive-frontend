@@ -28,8 +28,6 @@ import EmojiPicker from "../../../components/EmojiPicker";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-
-
 const SearchQuestion = () => {
   const category = useSelector((state) => state.category);
   const [categoriesList, setCategoriesList] = useState([]);
@@ -65,7 +63,7 @@ const SearchQuestion = () => {
     resolver: yupResolver(NewQuestionSchema),
     defaultValues,
   });
-  
+
   const {
     reset,
     watch,
@@ -80,7 +78,7 @@ const SearchQuestion = () => {
         {/* write comment */}
         <Stack direction="row" alignItems="center" sx={{ mb: 2, mt: 3 }}>
           <TextField
-            fullWidth
+           
             size="medium"
             placeholder="Search Question"
             InputProps={{
@@ -102,9 +100,11 @@ const SearchQuestion = () => {
               },
             }}
           />
-          
+
           <Controller
+          
             name="category"
+            fullWidth
             control={control}
             render={({ field }) => (
               <Autocomplete
@@ -116,9 +116,19 @@ const SearchQuestion = () => {
                     {...params}
                     error={errors.category}
                     helperText={errors.category?.message}
+                    sx={{
+                      ml:4,
+                      
+                      "& fieldset": {
+                        borderWidth: `1px !important`,
+                        borderColor: (theme) =>
+                          `${theme.palette.grey[500_32]} !important`,
+                      },
+                    }}
                   />
                 )}
               />
+
             )}
           />
 
