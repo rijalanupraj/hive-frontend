@@ -163,12 +163,23 @@ const QuestionsPage = () => {
                 {/* {question?.tags.map((tag) => (
                   <Chip label={tag} variant="outlined" size="small" clickable />
                 ))} */}
-                
+
                 {/* main body */}
-                <Button variant="outlined" size="small" sx={{ mb: 2 }}>
+                <Button
+                  size="small"
+                  sx={{ mb: 2 }}
+                  style={{
+                    backgroundColor: "#a8b2bc",
+                    color: "#101014",
+                  }}
+                >
                   School
                 </Button>
-                <Button disabled sx={{ mb: 2 }}>
+                <Button
+                  disabled
+                  sx={{ mb: 2 }}
+                 
+                >
                   <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
                     x
                   </Typography>
@@ -178,7 +189,17 @@ const QuestionsPage = () => {
                 </Button>
                 <br />
                 {/* end main body */}
-                <Button variant="outlined" size="small" sx={{ mb: 2 }}>
+
+                {/* cut it out */}
+                <Button
+                 
+                  size="small"
+                  sx={{ mb: 2 }}
+                  style={{
+                    backgroundColor: "#a8b2bc",
+                    color: "#101014",
+                  }}
+                >
                   Hospital
                 </Button>
                 <Button disabled sx={{ mb: 2 }}>
@@ -190,7 +211,15 @@ const QuestionsPage = () => {
                   </Typography>
                 </Button>
                 <br />
-                <Button variant="outlined" size="small" sx={{ mb: 2 }}>
+                <Button
+                
+                  size="small"
+                  sx={{ mb: 2 }}
+                  style={{
+                    backgroundColor: "#a8b2bc",
+                    color: "#101014",
+                  }}
+                >
                   Government
                 </Button>
                 <Button disabled sx={{ mb: 2 }}>
@@ -202,13 +231,31 @@ const QuestionsPage = () => {
                   </Typography>
                 </Button>
                 <br />
-                <Button variant="outlined" size="small" sx={{ mb: 2 }}>
+                <Button
+                 
+                  size="small"
+                  sx={{ mb: 2 }}
+                  style={{
+                    backgroundColor: "#a8b2bc",
+                    color: "#101014",
+                  }}
+                >
                   Transportation
                 </Button>
                 <br />
-                <Button variant="outlined" size="small" sx={{ mb: 2 }}>
+                <Button
+                 
+                  size="small"
+                  sx={{ mb: 2 }}
+                  style={{
+                    backgroundColor: "#a8b2bc",
+                    color: "#101014",
+                  }}
+                >
                   Exam
                 </Button>
+
+                {/* end cut it out */}
               </Item>
             </Grid>
             {/* end left */}
