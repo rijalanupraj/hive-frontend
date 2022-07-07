@@ -110,13 +110,13 @@ const QuestionsPage = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             {/* start left */}
-            <Grid item xs={2.5}>
+            <Grid item xs={2}>
               <Item></Item>
             </Grid>
             {/* end left */}
 
             {/* center question body */}
-            <Grid item xs={6.5}>
+            <Grid item xs={7}>
               <Item sx={{ mt: -3 }}>
                 {/* start question filter */}
                 <FilterQuestion

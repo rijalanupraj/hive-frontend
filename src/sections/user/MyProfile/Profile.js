@@ -10,6 +10,7 @@ import ProfileSocialInfo from "./ProfileSocialInfo";
 import SolutionPostCard from "../../cards/SolutionPostCard";
 import QuestionPostCard from "../../cards/QuestionPostCard";
 import ProfileContribution from "./ProfileContribution";
+import UserXpLevel from "./UserXpLevel";
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +26,7 @@ export default function Profile({ myProfile, posts, profile }) {
         <Stack spacing={3}>
           <ProfileFollowInfo profile={profile} />
           <ProfileAbout profile={profile} />
+          <UserXpLevel profile={profile} />
           <ProfileContribution profile={profile} />
           <ProfileSocialInfo profile={profile} />
         </Stack>
