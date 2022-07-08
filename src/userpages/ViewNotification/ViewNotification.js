@@ -104,7 +104,7 @@ export default function ViewNotification() {
                 sx={{ display: "flex", alignItems: "center", py: 2, px: 2.5 }}
               >
                 <Box sx={{ flexGrow: 1 }}>
-                  <Typography variant="subtitle1">Notifications</Typography>
+                  <Typography variant="h4">Notifications</Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     You have {totalUnRead} unread messages
                   </Typography>
