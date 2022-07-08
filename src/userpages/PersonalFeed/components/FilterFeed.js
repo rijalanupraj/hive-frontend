@@ -28,7 +28,7 @@ const FilterFeed = ({ currentFilter, handleFilterChange }) => {
           onChange={handleFilterChange}
           border="none"
         >
-          <ToggleButton value="newest">
+          <ToggleButton value="recent">
             <Iconify icon="el:file-new" width={20} height={20} ml={1} mr={1} />
             Newest
           </ToggleButton>
@@ -43,18 +43,8 @@ const FilterFeed = ({ currentFilter, handleFilterChange }) => {
             />
             Oldest
           </ToggleButton>
-          <ToggleButton value="unanswered">
-            <Iconify
-              icon="material-symbols:pending-outline"
-              width={20}
-              height={20}
-              ml={1}
-              mr={1}
-            />
-            Unanswered
-          </ToggleButton>
 
-          <ToggleButton value="answered">
+          <ToggleButton value="best">
             <Iconify
               icon="ri:question-answer-line"
               width={20}
@@ -62,7 +52,7 @@ const FilterFeed = ({ currentFilter, handleFilterChange }) => {
               ml={1}
               mr={1}
             />
-            Answered
+            Best
           </ToggleButton>
         </ToggleButtonGroup>
       </Card>

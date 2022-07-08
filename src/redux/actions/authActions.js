@@ -256,28 +256,29 @@ export const chooseInterestedCategory =
     }
   };
 
-export const getPersonalFeed = () => async (dispatch, getState) => {
-  dispatch({
-    type: TYPES.GET_PERSONAL_FEED_LOADING,
-  });
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.get(
-      `${API_URL}/solution/personal/feed`,
-      options
-    );
+export const getPersonalFeed =
+  (pageNumber, filter) => async (dispatch, getState) => {
+    dispatch({
+      type: TYPES.GET_PERSONAL_FEED_LOADING,
+    });
+    try {
+      const options = attachTokenToHeaders(getState);
+      const response = await axios.get(
+        `${API_URL}/solution/personal/feed?page=${pageNumber}&filter=${filter}`,
+        options
+      );
 
-    dispatch({
-      type: TYPES.GET_PERSONAL_FEED_SUCCESS,
-      payload: { feed: response.data.feed },
-    });
-  } catch (err) {
-    dispatch({
-      type: TYPES.GET_PERSONAL_FEED_FAIL,
-      payload: { error: err.response.data.message },
-    });
-  }
-};
+      dispatch({
+        type: TYPES.GET_PERSONAL_FEED_SUCCESS,
+        payload: response.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.GET_PERSONAL_FEED_FAIL,
+        payload: { error: err.response.data.message },
+      });
+    }
+  };
 
 export const getAllNotifications = () => async (dispatch, getState) => {
   dispatch({
