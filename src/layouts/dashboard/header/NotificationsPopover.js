@@ -149,7 +149,7 @@ export default function NotificationsPopover() {
 
         <Box sx={{ p: 1 }}>
           <Button fullWidth disableRipple>
-            View All
+            <a href="/allnotification" style={{color:"#3971f1"}}>View All</a>
           </Button>
         </Box>
       </MenuPopover>

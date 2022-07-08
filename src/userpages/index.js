@@ -18,6 +18,7 @@ import QuestionSolutions from "./QuestionSolutions/QuestionSolutions";
 import AnotherQuestionSolutions from "./QuestionSolutions/AnotherQuestionSolutions";
 import ViewTags from "./Tags/ViewTags";
 import OpenTicket from "./Ticket/OpenTicket";
+import ViewNotification from "./ViewNotification/ViewNotification";
 
 export {
   Login,
@@ -40,4 +41,5 @@ export {
   AnotherQuestionSolutions,
   ViewTags,
   OpenTicket,
+  ViewNotification,
 };
