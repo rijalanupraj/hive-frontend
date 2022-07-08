@@ -60,7 +60,6 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 export default function AskQuestion() {
   const dispatch = useDispatch();
   const question = useSelector((state) => state.question);
-  const [showMetaData, setShowMetaData] = useState(false);
   const tags = useSelector((state) => state.tag);
   const category = useSelector((state) => state.category);
   const navigate = useNavigate();
@@ -207,59 +206,6 @@ export default function AskQuestion() {
                         />
                       )}
                     />
-                    <FormGroup>
-                      <FormControlLabel
-                        control={
-                          <Switch
-                            value={showMetaData}
-                            onChange={() => setShowMetaData(!showMetaData)}
-                          />
-                        }
-                        label="Meta Data"
-                      />
-                    </FormGroup>
-
-                    {showMetaData && (
-                      <>
-                        <RHFTextField name="metaTitle" label="Meta title" />
-
-                        <RHFTextField
-                          name="metaDescription"
-                          label="Meta description"
-                          fullWidth
-                          multiline
-                          rows={3}
-                        />
-
-                        <Controller
-                          name="metaKeywords"
-                          control={control}
-                          render={({ field }) => (
-                            <Autocomplete
-                              multiple
-                              freeSolo
-                              onChange={(event, newValue) =>
-                                field.onChange(newValue)
-                              }
-                              options={tagsList.map((option) => option)}
-                              renderTags={(value, getTagProps) =>
-                                value.map((option, index) => (
-                                  <Chip
-                                    {...getTagProps({ index })}
-                                    key={option}
-                                    size="small"
-                                    label={option}
-                                  />
-                                ))
-                              }
-                              renderInput={(params) => (
-                                <TextField label="Meta keywords" {...params} />
-                              )}
-                            />
-                          )}
-                        />
-                      </>
-                    )}
                   </Stack>
                 </Card>
 

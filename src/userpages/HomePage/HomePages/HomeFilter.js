@@ -4,7 +4,7 @@ import { Card, ToggleButton, ToggleButtonGroup } from "@mui/material";
 
 import Iconify from "../../../components/Iconify";
 
-const HomeFilter = ({ currentFilter, handleFilterChange }) => {
+const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
   return (
     <>
       <Card
@@ -23,16 +23,18 @@ const HomeFilter = ({ currentFilter, handleFilterChange }) => {
           onChange={handleFilterChange}
           border="none"
         >
-          <ToggleButton value="preference">
-            <Iconify
-              icon="gis:poi-favorite-o"
-              width={20}
-              height={20}
-              ml={1}
-              mr={1}
-            />
-            Preference
-          </ToggleButton>
+          {auth.isAuthenticated && (
+            <ToggleButton value="preference">
+              <Iconify
+                icon="gis:poi-favorite-o"
+                width={20}
+                height={20}
+                ml={1}
+                mr={1}
+              />
+              Preference
+            </ToggleButton>
+          )}
 
           <ToggleButton value="best">
             <Iconify

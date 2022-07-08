@@ -192,6 +192,7 @@ function HomePage() {
             <HomeFilter
               currentFilter={currentFilter}
               handleFilterChange={handleFilterChange}
+              auth={auth}
             />
 
             {/* end filter */}
