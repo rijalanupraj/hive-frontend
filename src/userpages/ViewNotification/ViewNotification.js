@@ -17,6 +17,8 @@ import {
   ListItemButton,
   Card,
   Grid,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
 // utils
 import { fToNow } from "../../utils/formatTime";
@@ -39,6 +41,8 @@ import { Container } from "@mui/system";
 
 export default function ViewNotification() {
   const [notifications, setNotifications] = useState([]);
+  const [alignment, setAlignment] = useState("All");
+
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
@@ -50,6 +54,10 @@ export default function ViewNotification() {
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
+  };
+
+  const handleChange = (event, newAlignment) => {
+    setAlignment(newAlignment);
   };
 
   const handleClose = () => {
@@ -118,20 +126,18 @@ export default function ViewNotification() {
                 )}
               </Box>
 
-              <Divider sx={{ borderStyle: "dashed" }} />
-
               <Scrollbar sx={{ height: { xs: 340, sm: "auto" } }}>
-                <List
-                  disablePadding
-                  subheader={
-                    <ListSubheader
-                      disableSticky
-                      sx={{ py: 1, px: 2.5, typography: "overline" }}
-                    >
-                      New
-                    </ListSubheader>
-                  }
+                <ToggleButtonGroup
+                  fullWidth
+                  color="primary"
+                  value={alignment}
+                  exclusive
+                  onChange={handleChange}
                 >
+                  <ToggleButton value="All">All</ToggleButton>
+                  <ToggleButton value="Unread">Unread</ToggleButton>
+                </ToggleButtonGroup>
+                <List>
                   {notifications.slice(0, 2).map((notification) => (
                     <NotificationItem
                       key={notification._id}
@@ -140,17 +146,7 @@ export default function ViewNotification() {
                   ))}
                 </List>
 
-                <List
-                  disablePadding
-                  subheader={
-                    <ListSubheader
-                      disableSticky
-                      sx={{ py: 1, px: 2.5, typography: "overline" }}
-                    >
-                      Before that
-                    </ListSubheader>
-                  }
-                >
+                <List>
                   {notifications.slice(2, 4).map((notification) => (
                     <NotificationItem
                       key={notification._id}
@@ -161,12 +157,6 @@ export default function ViewNotification() {
               </Scrollbar>
 
               <Divider sx={{ borderStyle: "dashed" }} />
-
-              <Box sx={{ p: 1 }}>
-                <Button fullWidth disableRipple>
-                  View All
-                </Button>
-              </Box>
             </Card>
           </Grid>
           {/* end notification body */}
