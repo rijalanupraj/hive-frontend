@@ -24,6 +24,7 @@ import {
   AnotherQuestionSolutions,
   ViewTags,
   OpenTicket,
+  ViewNotification,
 } from "../userpages";
 
 import Messenger from "../chats/Messenger.jsx";
@@ -36,6 +37,7 @@ import PrivateRoute from "./PrivateRoute";
 
 import SearchUser from "../userpages/SearchUser/SearchUser";
 import SolutionView from "../userpages/ViewSolution/solutionView";
+
 
 const UserRoute = () => {
   const auth = useSelector((state) => state.auth);
@@ -122,6 +124,10 @@ const UserRoute = () => {
         </Route>
         <Route exact path="/ticket" element={<PrivateRoute auth={auth} />}>
           <Route exact path="/ticket" element={<OpenTicket />} />
+        </Route>
+
+        <Route exact path="/allNotification" element={<PrivateRoute auth={auth} />}>
+          <Route exact path="/allNotification" element={< ViewNotification />} />
         </Route>
 
         <Route
