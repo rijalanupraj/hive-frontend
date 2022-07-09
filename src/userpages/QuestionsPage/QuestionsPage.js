@@ -122,17 +122,16 @@ const QuestionsPage = () => {
 
   return (
     <Page title="Questions">
-      <div style={{ display: "flex", height: "100%" }}>
-        <Box sx={{ flexGrow: 1 }}>
+      
           <Grid container spacing={2}>
             {/* start left */}
-            <Grid item xs={2}>
+            <Grid item xs={3}>
               <Item></Item>
             </Grid>
             {/* end left */}
 
             {/* center question body */}
-            <Grid item xs={7}>
+            <Grid item xs={6}>
               <Item sx={{ mt: 2 }}>
                 {/* start question filter */}
 
@@ -194,105 +193,10 @@ const QuestionsPage = () => {
 
             {/* start left */}
             <Grid item xs={3}>
-              <Item sx={{ ml: 3 }}>
-                <Typography variant="h4" sx={{ mb: 3 }}>
-                  Related Tags
-                </Typography>
-
-                {/* {question?.tags.map((tag) => (
-                  <Chip label={tag} variant="outlined" size="small" clickable />
-                ))} */}
-
-                {/* main body */}
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  School
-                </Button>
-                <Button disabled sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
-                    x
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                    22
-                  </Typography>
-                </Button>
-                <br />
-                {/* end main body */}
-
-                {/* cut it out */}
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Hospital
-                </Button>
-                <Button disabled sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
-                    x
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                    81
-                  </Typography>
-                </Button>
-                <br />
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Government
-                </Button>
-                <Button disabled sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
-                    x
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                    200
-                  </Typography>
-                </Button>
-                <br />
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Transportation
-                </Button>
-                <br />
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Exam
-                </Button>
-
-                {/* end cut it out */}
-              </Item>
+              
             </Grid>
             {/* end left */}
           </Grid>
-        </Box>
-      </div>
     </Page>
   );
 };
