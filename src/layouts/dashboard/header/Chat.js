@@ -19,7 +19,7 @@ const Chat = () => {
           onClick={handleOpen}
           sx={{ width: 50, height: 50 }}
         >
-          <Badge badgeContent="0" color="error">
+          <Badge>
             <Iconify icon="bi:chat-fill" width={25} height={25} />
           </Badge>
         </IconButtonAnimate>
