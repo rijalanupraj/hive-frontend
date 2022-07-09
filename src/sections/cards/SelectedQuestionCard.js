@@ -152,11 +152,6 @@ export default function SelectedQuestionCard({ question, auth }) {
             {fDate(question?.createdAt)}
           </Typography>
         }
-        action={
-          <IconButton>
-            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
-          </IconButton>
-        }
       />
 
       <Stack spacing={0.5} sx={{ p: 3 }}>

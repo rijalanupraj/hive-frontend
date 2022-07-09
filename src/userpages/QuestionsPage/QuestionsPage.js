@@ -60,21 +60,6 @@ const QuestionsPage = () => {
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
   const [currentFilter, setCurrentFilter] = useState(false);
-  console.log(searchParams.get("c"));
-  const [selectedCategory, setSelectedCategory] = useState(
-    searchParams.get("c") || "all"
-  );
-
-  useEffect(() => {
-    setSelectedCategory(searchParams.get("c") || "all");
-    dispatch(
-      scrollLoadingQuestions(
-        1,
-        searchParams.get("q") || "",
-        searchParams.get("c") || "all"
-      )
-    );
-  }, [searchParams.get("c")]);
 
   useEffect(() => {
     dispatch(getAllCategory());
@@ -84,14 +69,28 @@ const QuestionsPage = () => {
   //   dispatch(getAllQuestion());
   // }, [dispatch]);
 
+  // useEffect(() => {
+  //   onViewPortEnter();
+  // }, []);
+
   useEffect(() => {
-    onViewPortEnter();
+    dispatch(
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
+    );
   }, []);
 
   const onSearchSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      scrollLoadingQuestions(1, searchParams.get("q") || "", selectedCategory)
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
     );
   };
 
@@ -102,7 +101,7 @@ const QuestionsPage = () => {
           scrollLoadingQuestions(
             1,
             searchParams.get("q") || "",
-            selectedCategory
+            searchParams.get("c") || "all"
           )
         );
       } else {
@@ -110,7 +109,7 @@ const QuestionsPage = () => {
           scrollLoadingQuestions(
             question.pageNumber + 1,
             searchParams.get("q") || "",
-            selectedCategory
+            searchParams.get("c") || "all"
           )
         );
       }
@@ -136,177 +135,92 @@ const QuestionsPage = () => {
 
   return (
     <Page title="Questions">
-      <div style={{ display: "flex", height: "100%" }}>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
-            {/* start left */}
-            <Grid item xs={2}>
-              <Item></Item>
-            </Grid>
-            {/* end left */}
+      <Grid container spacing={2}>
+        {/* start left */}
+        <Grid
+          item
+          xs={2}
+          md={4}
+          lg={3}
+          order={{ xs: 3, md: 1 }}
+          sx={{ display: { xs: "none", xl: "block" } }}
+        >
 
-            {/* center question body */}
-            <Grid item xs={7}>
-              <Item sx={{ mt: 2 }}>
-                {/* start question filter */}
+        </Grid>
+        {/* end left */}
 
-                {/* <FilterQuestion
+        {/* center question body */}
+        <Grid item xs={12} mb={3} lg={6} order={{ xs: 2, md: 1 }}>
+          <Item sx={{ mt: 2 }}>
+            {/* start question filter */}
+
+            {/* <FilterQuestion
                   currentFilter={currentFilter}
                   handleFilterChange={handleFilterChange}
                 /> */}
 
-                <SearchQuestion
-                  onSearchSubmit={onSearchSubmit}
-                  selectedCategory={selectedCategory}
-                  setSelectedCategory={setSelectedCategory}
-                  setSearchParams={setSearchParams}
-                  searchParams={searchParams}
-                />
-                {/* end question filter */}
-                <Grid item>
-                  {questions &&
-                    questions.map((q) => (
-                      <QuestionPostCard key={q._id} question={q} />
-                    ))}
-                </Grid>
-                {question.scrollLoading && <CircularProgress size={30} />}
-                {question.allLoaded && (
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      textAlign: "center",
-                      mt: 3,
-                    }}
-                  >
-                    All questions are loaded
-                  </Typography>
-                )}
-                {question.questions.length === 0 &&
-                  !question.scrollLoading &&
-                  !question.allLoaded && (
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        textAlign: "center",
-                        mt: 3,
-                      }}
-                    >
-                      No questions found
-                    </Typography>
-                  )}
-
-                {!question.isLoading && question.questions.length > 0 && (
-                  <ViewportBlock
-                    onEnterViewport={() => onViewPortEnter()}
-                    onLeaveViewport={() => console.log("leave")}
-                  />
-                )}
-              </Item>
+            <SearchQuestion
+              onSearchSubmit={onSearchSubmit}
+              setSearchParams={setSearchParams}
+              searchParams={searchParams}
+            />
+            {/* end question filter */}
+            <Grid item>
+              {questions &&
+                questions.map((q) => (
+                  <QuestionPostCard key={q._id} question={q} />
+                ))}
             </Grid>
-
-            {/*  end question body */}
-
-            {/* start left */}
-            <Grid item xs={3}>
-              <Item sx={{ ml: 3 }}>
-                <Typography variant="h4" sx={{ mb: 3 }}>
-                  Related Tags
+            {question.scrollLoading && <CircularProgress size={30} />}
+            {question.allLoaded && (
+              <Typography
+                variant="body2"
+                sx={{
+                  textAlign: "center",
+                  mt: 3,
+                }}
+              >
+                All questions are loaded
+              </Typography>
+            )}
+            {question.questions.length === 0 &&
+              !question.scrollLoading &&
+              !question.allLoaded && (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    textAlign: "center",
+                    mt: 3,
+                  }}
+                >
+                  No questions found
                 </Typography>
+              )}
 
-                {/* {question?.tags.map((tag) => (
-                  <Chip label={tag} variant="outlined" size="small" clickable />
-                ))} */}
+            {!question.isLoading && question.questions.length > 0 && (
+              <ViewportBlock
+                onEnterViewport={() => onViewPortEnter()}
+                onLeaveViewport={() => console.log("leave")}
+              />
+            )}
+          </Item>
+        </Grid>
 
-                {/* main body */}
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  School
-                </Button>
-                <Button disabled sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
-                    x
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                    22
-                  </Typography>
-                </Button>
-                <br />
-                {/* end main body */}
+        {/*  end question body */}
 
-                {/* cut it out */}
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Hospital
-                </Button>
-                <Button disabled sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
-                    x
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                    81
-                  </Typography>
-                </Button>
-                <br />
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Government
-                </Button>
-                <Button disabled sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
-                    x
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                    200
-                  </Typography>
-                </Button>
-                <br />
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Transportation
-                </Button>
-                <br />
-                <Button
-                  size="small"
-                  sx={{ mb: 2 }}
-                  style={{
-                    backgroundColor: "#a8b2bc",
-                    color: "#101014",
-                  }}
-                >
-                  Exam
-                </Button>
+        {/* start left */}
+        <Grid
+          item
+          xs={2}
+          md={4}
+          lg={3}
+          sx={{ mb: 2, display: { xs: "none", xl: "block" } }}
+          order={{ xs: 1, md: 1 }}
+        >
 
-                {/* end cut it out */}
-              </Item>
-            </Grid>
-            {/* end left */}
-          </Grid>
-        </Box>
-      </div>
+        </Grid>
+        {/* end left */}
+      </Grid>
     </Page>
   );
 };
