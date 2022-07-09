@@ -53,9 +53,10 @@ export default function AnotherQuestionSolutions() {
   const { slug } = useParams();
   const dispatch = useDispatch();
   const question = useSelector((state) => state.question);
-  const { solutions } = useSelector((state) => state.solution);
+  const [solutionsList, setSolutionsList] = useState([]);
+  const solution = useSelector((state) => state.solution);
   const auth = useSelector((state) => state.auth);
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("best");
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
@@ -64,8 +65,52 @@ export default function AnotherQuestionSolutions() {
     dispatch(getAllSolutionByQuestionSlug(slug));
   }, [slug]);
 
+  useEffect(() => {
+    setSolutionsList(solution.solutions);
+    console.log("fetched again");
+  }, [solution.solutions]);
+
   const handleChange = (event) => {
+    console.log(event.target.value);
     setSort(event.target.value);
+  };
+
+  useEffect(() => {
+    if (sort === "best") {
+      setSolutionsList(
+        [...solutionsList].sort((a, b) => {
+          return b.score - a.score;
+        })
+      );
+    } else if (sort === "upvote") {
+      setSolutionsList(
+        [...solutionsList].sort((a, b) => {
+          return b.upVotes.length - a.upVotes.length;
+        })
+      );
+    } else if (sort === "new") {
+      setSolutionsList(
+        [...solutionsList].sort((a, b) => {
+          return Date.parse(b.createdAt) - Date.parse(a.createdAt);
+        })
+      );
+    } else if (sort === "old") {
+      setSolutionsList(
+        [...solutionsList].sort((a, b) => {
+          return Date.parse(a.createdAt) - Date.parse(b.createdAt);
+        })
+      );
+    }
+  }, [sort]);
+
+  const hideAnswer = (id) => {
+    let newSolutionsList = [...solutionsList];
+
+    newSolutionsList = newSolutionsList.filter((solution) => {
+      return solution._id !== id;
+    });
+
+    setSolutionsList([...newSolutionsList]);
   };
 
   if (!question.question || question.loading) {
@@ -84,7 +129,7 @@ export default function AnotherQuestionSolutions() {
             <Stack direction="row" alignItems="center" sx={{ pt: 2 }}>
               {/* upvote  */}
               <Typography variant="h6">
-                Solutions ({solutions?.length})
+                Solutions ({solutionsList?.length})
               </Typography>
 
               <Box sx={{ flexGrow: 1 }} />
@@ -99,8 +144,10 @@ export default function AnotherQuestionSolutions() {
                     label="Sort"
                     onChange={handleChange}
                   >
-                    <MenuItem value={10}>Most Recent</MenuItem>
-                    <MenuItem value={20}>Most Upvote</MenuItem>
+                    <MenuItem value="best">Best</MenuItem>
+                    <MenuItem value="new">Most Recent</MenuItem>
+                    <MenuItem value="old">Oldest</MenuItem>
+                    <MenuItem value="upvote">Most Upvote</MenuItem>
                   </Select>
                 </FormControl>
               </Box>
@@ -110,12 +157,13 @@ export default function AnotherQuestionSolutions() {
 
             {/* question answers */}
 
-            {solutions.length > 0 &&
-              solutions.map((solution) => (
+            {solutionsList.length > 0 &&
+              solutionsList.map((solution) => (
                 <QuestionAnswersCard
                   key={solution._id}
                   solution={solution}
                   auth={auth}
+                  hideAnswer={hideAnswer}
                 />
               ))}
           </Grid>
