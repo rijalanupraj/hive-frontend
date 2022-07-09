@@ -101,6 +101,10 @@ const SearchQuestion = ({ onSearchSubmit, searchParams, setSearchParams }) => {
                   size="small"
                   fullWidth
                   value={searchParams.get("c") || "all"}
+                  sx={{
+                    mt: 1,
+                    pr:2,
+                  }}
                   onChange={(e) => {
                     setSearchParams({
                       ...searchParams,
@@ -113,6 +117,7 @@ const SearchQuestion = ({ onSearchSubmit, searchParams, setSearchParams }) => {
                   <MenuItem value="all">All</MenuItem>,
                   {categoriesList.length > 0 &&
                     categoriesList.map((type) => {
+                      
                       return [
                         <MenuItem value={type.title}>{type.title}</MenuItem>,
                       ];
