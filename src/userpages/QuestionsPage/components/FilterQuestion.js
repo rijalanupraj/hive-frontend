@@ -19,10 +19,12 @@ const FilterQuestion = ({ currentFilter, handleFilterChange }) => {
           paddingTop: "0.5rem",
           paddingBottom: "0.5rem",
           paddingLeft: "1.2rem",
+          paddingRight: "1.2rem",
           marginTop: "1rem",
         }}
       >
         <ToggleButtonGroup
+          fullWidth
           color="primary"
           value={currentFilter}
           exclusive

@@ -13,10 +13,12 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
           paddingTop: "0.5rem",
           paddingBottom: "0.5rem",
           paddingLeft: "1.2rem",
+          paddingRight: "1.2rem",
           marginTop: "1rem",
         }}
       >
         <ToggleButtonGroup
+          fullWidth
           color="primary"
           value={currentFilter}
           exclusive
@@ -29,8 +31,7 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
                 icon="gis:poi-favorite-o"
                 width={20}
                 height={20}
-                ml={1}
-                mr={1}
+                
               />
               Preference
             </ToggleButton>
@@ -41,8 +42,7 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
               icon="icon-park-twotone:good-two"
               width={20}
               height={20}
-              ml={1}
-              mr={1}
+             
             />
             Best
           </ToggleButton>
@@ -51,8 +51,7 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
               icon="carbon:recently-viewed"
               width={20}
               height={20}
-              ml={1}
-              mr={1}
+            
             />
             Recent
           </ToggleButton>
@@ -61,8 +60,7 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
               icon="ant-design:fire-twotone"
               width={20}
               height={20}
-              ml={1}
-              mr={1}
+             
             />
             Hot
           </ToggleButton>
@@ -71,8 +69,7 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
               icon="emojione:old-man"
               width={20}
               height={20}
-              ml={1}
-              mr={1}
+             
             />
             Oldest
           </ToggleButton>
