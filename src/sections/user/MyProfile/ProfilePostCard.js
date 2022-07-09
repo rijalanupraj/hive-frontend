@@ -95,11 +95,6 @@ export default function ProfilePostCard({ post }) {
             {fDate(post.createdAt)}
           </Typography>
         }
-        action={
-          <IconButton>
-            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
-          </IconButton>
-        }
       />
 
       <Stack spacing={3} sx={{ p: 3 }}>
