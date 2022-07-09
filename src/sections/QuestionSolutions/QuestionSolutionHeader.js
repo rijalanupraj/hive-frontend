@@ -16,6 +16,7 @@ import {
   IconButton,
   FormControlLabel,
   Tooltip,
+  Avatar,
 } from "@mui/material";
 
 import Iconify from "../../components/Iconify";
@@ -37,7 +38,12 @@ export default function QuestionSolutionHeader({ question, auth }) {
     <Card maxWidth="sm">
       <CardHeader
         disableTypography
-        avatar={<MyAvatar />}
+        avatar={
+          <Avatar
+            alt={question?.user?.username}
+            src={question?.user?.profilePhoto.url}
+          />
+        }
         title={
           <Link href="#" variant="subtitle2" color="text.primary">
             {question.user.username}
