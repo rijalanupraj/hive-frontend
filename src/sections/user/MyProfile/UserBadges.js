@@ -33,7 +33,7 @@ export default function UserBadges({ profile }) {
       <CardHeader title="Achievement" />
 
       <Grid container spacing={3}>
-        {profile.badges.length < 1 && (
+        {profile?.badges?.length < 1 && (
           <Grid item xs={12}>
             <Typography variant="body2">No badges yet.</Typography>
           </Grid>
