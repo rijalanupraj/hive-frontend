@@ -2,31 +2,26 @@ import { useCallback, useState, useEffect } from "react";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  Box,
-  Link,
-  Card,
   Stack,
   Paper,
-  Avatar,
-  Checkbox,
   TextField,
-  Typography,
-  CardHeader,
-  IconButton,
   InputAdornment,
-  FormControlLabel,
   Autocomplete,
-  Divider,
-  Collapse,
   Button,
+  Grid,
 } from "@mui/material";
 
-import Image from "../../../components/Image";
-import Iconify from "../../../components/Iconify";
-import MyAvatar from "../../../components/MyAvatar";
-import EmojiPicker from "../../../components/EmojiPicker";
+import { styled } from "@mui/material/styles";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+const Item = styled(Paper)(({ theme }) => ({
+
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 const SearchQuestion = () => {
   const category = useSelector((state) => state.category);
@@ -76,67 +71,65 @@ const SearchQuestion = () => {
     <>
       <Paper>
         {/* write comment */}
-        <Stack direction="row" alignItems="center" sx={{ mb: 2, mt: 3 }}>
-          <TextField
-           
-            size="medium"
-            placeholder="Search Question"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Button size="medium" variant="outlined">
-                    Search
-                  </Button>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              ml: 2,
-              mr: 5,
-              "& fieldset": {
-                borderWidth: `1px !important`,
-                borderColor: (theme) =>
-                  `${theme.palette.grey[500_32]} !important`,
-              },
-            }}
-          />
-
-          <Controller
-          
-            name="category"
-            fullWidth
-            control={control}
-            render={({ field }) => (
-              <Autocomplete
-                onChange={(event, newValue) => field.onChange(newValue)}
-                options={categoriesList.map((option) => option.title)}
-                renderInput={(params) => (
-                  <TextField
-                    label="Category"
-                    {...params}
-                    error={errors.category}
-                    helperText={errors.category?.message}
-                    sx={{
-                      ml:4,
-                      
-                      "& fieldset": {
-                        borderWidth: `1px !important`,
-                        borderColor: (theme) =>
-                          `${theme.palette.grey[500_32]} !important`,
-                      },
-                    }}
+        <Grid container spacing={2}>
+          <Grid item xs={6} md={8}>
+            <Item>
+              <TextField
+                fullWidth
+                size="medium"
+                placeholder="Search Question"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Button size="medium" variant="outlined">
+                        Search
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  ml: 1,
+                  mr: 5,
+                  "& fieldset": {
+                    borderWidth: `1px !important`,
+                    borderColor: (theme) =>
+                      `${theme.palette.grey[500_32]} !important`,
+                  },
+                }}
+              />
+            </Item>
+          </Grid>
+          <Grid item xs={6} md={4}>
+            <Item>
+              <Controller
+                name="category"
+                fullWidth
+                control={control}
+                render={({ field }) => (
+                  <Autocomplete
+                    onChange={(event, newValue) => field.onChange(newValue)}
+                    options={categoriesList.map((option) => option.title)}
+                    renderInput={(params) => (
+                      <TextField
+                        label="Category"
+                        {...params}
+                        error={errors.category}
+                        helperText={errors.category?.message}
+                        sx={{
+                          "& fieldset": {
+                            borderWidth: `1px !important`,
+                            borderColor: (theme) =>
+                              `${theme.palette.grey[500_32]} !important`,
+                          },
+                        }}
+                      />
+                    )}
                   />
                 )}
               />
-
-            )}
-          />
-
-          {/* <IconButton>
-            <Iconify icon={"charm:search"} width={24} height={24} />
-          </IconButton> */}
-          <input type="file" style={{ display: "none" }} />
-        </Stack>
+            </Item>
+          </Grid>
+        </Grid>
       </Paper>
     </>
   );
