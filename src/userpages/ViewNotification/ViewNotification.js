@@ -133,10 +133,7 @@ export default function ViewNotification() {
                   value={alignment}
                   exclusive
                   onChange={handleChange}
-                >
-                  <ToggleButton value="All">All</ToggleButton>
-                  <ToggleButton value="Unread">Unread</ToggleButton>
-                </ToggleButtonGroup>
+                ></ToggleButtonGroup>
                 <List>
                   {notifications.slice(0, 2).map((notification) => (
                     <NotificationItem

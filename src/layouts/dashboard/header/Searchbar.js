@@ -56,7 +56,7 @@ export default function Searchbar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/questions?q=${searchValue}`);
+    navigate(`/questions?q=${searchValue}&c=all`);
     setSearchValue("");
     setOpen(false);
   };

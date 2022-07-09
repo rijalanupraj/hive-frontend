@@ -25,19 +25,26 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SearchQuestion = ({
-  onSearchSubmit,
-  searchParams,
-  selectedCategory,
-  setSelectedCategory,
-  setSearchParams,
-}) => {
+const SearchQuestion = ({ onSearchSubmit, searchParams, setSearchParams }) => {
   const category = useSelector((state) => state.category);
   const [categoriesList, setCategoriesList] = useState([]);
 
   useEffect(() => {
     if (category.categoryList) {
       setCategoriesList([...category.categoryList]);
+
+      // Check if selected category is in the list
+      if (
+        !category.categoryList.find(
+          (category) => category.title === searchParams.get("c")
+        )
+      ) {
+        setSearchParams({
+          ...searchParams,
+          q: searchParams.get("q") || "",
+          c: "all",
+        });
+      }
     }
   }, [category.categoryList]);
 
@@ -55,7 +62,9 @@ const SearchQuestion = ({
                   value={searchParams.get("q") || ""}
                   onChange={(e) =>
                     setSearchParams({
+                      ...searchParams,
                       q: e.target.value,
+                      c: searchParams.get("c") || "all",
                     })
                   }
                   placeholder="Search Question"
@@ -82,29 +91,36 @@ const SearchQuestion = ({
                 />
               </Item>
             </Grid>
-            <Grid item xs={6} md={4}>
-              <TextField
-                id="business-type-select"
-                label="Category"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={selectedCategory}
-                sx={{ mt:1, mb: 1, pr:1 }}
-                onChange={(e) => {
-                  setSelectedCategory(e.target.value);
-                }}
-                select
-              >
-                <MenuItem value="all">All</MenuItem>,
-                {categoriesList.length > 0 &&
-                  categoriesList.map((type) => {
-                    return [
-                      <MenuItem value={type.title}>{type.title}</MenuItem>,
-                    ];
-                  })}
-              </TextField>
-            </Grid>
+
+            {categoriesList.length > 0 && (
+              <Grid item xs={6} md={4}>
+                <TextField
+                  id="business-type-select"
+                  label="Category"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={searchParams.get("c") || "all"}
+                  onChange={(e) => {
+                    setSearchParams({
+                      ...searchParams,
+                      c: e.target.value,
+                      q: searchParams.get("q") || "",
+                    });
+                  }}
+                  select
+                >
+                  <MenuItem value="all">All</MenuItem>,
+                  {categoriesList.length > 0 &&
+                    categoriesList.map((type) => {
+                      return [
+                        <MenuItem value={type.title}>{type.title}</MenuItem>,
+                      ];
+                    })}
+                </TextField>
+              </Grid>
+            )}
+
           </Grid>
         </form>
       </Paper>

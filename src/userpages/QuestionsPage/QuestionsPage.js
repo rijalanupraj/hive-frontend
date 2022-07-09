@@ -56,11 +56,10 @@ const Item = styled(Paper)(({ theme }) => ({
 const QuestionsPage = () => {
   const { themeStretch } = useSettings();
   const question = useSelector((state) => state.question);
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
   const [currentFilter, setCurrentFilter] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     dispatch(getAllCategory());
@@ -70,14 +69,28 @@ const QuestionsPage = () => {
   //   dispatch(getAllQuestion());
   // }, [dispatch]);
 
+  // useEffect(() => {
+  //   onViewPortEnter();
+  // }, []);
+
   useEffect(() => {
-    onViewPortEnter();
+    dispatch(
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
+    );
   }, []);
 
   const onSearchSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      scrollLoadingQuestions(1, searchParams.get("q") || "", selectedCategory)
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
     );
   };
 
@@ -88,7 +101,7 @@ const QuestionsPage = () => {
           scrollLoadingQuestions(
             1,
             searchParams.get("q") || "",
-            selectedCategory
+            searchParams.get("c") || "all"
           )
         );
       } else {
@@ -96,7 +109,7 @@ const QuestionsPage = () => {
           scrollLoadingQuestions(
             question.pageNumber + 1,
             searchParams.get("q") || "",
-            selectedCategory
+            searchParams.get("c") || "all"
           )
         );
       }
@@ -142,8 +155,6 @@ const QuestionsPage = () => {
 
                 <SearchQuestion
                   onSearchSubmit={onSearchSubmit}
-                  selectedCategory={selectedCategory}
-                  setSelectedCategory={setSelectedCategory}
                   setSearchParams={setSearchParams}
                   searchParams={searchParams}
                 />
