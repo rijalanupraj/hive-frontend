@@ -24,18 +24,20 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
           exclusive
           onChange={handleFilterChange}
           border="none"
+
         >
 
-          <ToggleButton value="best">
+          <ToggleButton value="best" id="bestTest">
             <Iconify
               icon="icon-park-twotone:good-two"
               width={20}
               height={20}
-              sx={{ mr:1}} 
+              sx={{ mr:1}}
+               
             />
             Best
           </ToggleButton>
-          <ToggleButton value="recent">
+          <ToggleButton value="recent" id="recentTest">
             <Iconify
               icon="carbon:recently-viewed"
               width={20}
@@ -45,7 +47,7 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
             Recent
           </ToggleButton>
           
-          <ToggleButton value="oldest">
+          <ToggleButton value="oldest" id="oldestTest">
             <Iconify
               icon="carbon:result-old"
               width={20}

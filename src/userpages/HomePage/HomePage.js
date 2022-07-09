@@ -180,6 +180,7 @@ function HomePage() {
               currentFilter={currentFilter}
               handleFilterChange={handleFilterChange}
               auth={auth}
+             
             />
 
             {/* end filter */}
