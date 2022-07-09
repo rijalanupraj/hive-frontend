@@ -26,7 +26,7 @@ export const updateProfile =
         type: TYPES.EDIT_USER_SUCCESS,
         payload: { user: response.data.user },
       });
-      dispatch(loadMe());
+      // dispatch(loadMe());
       enqueueSnackbar("Profile updated successfully", {
         variant: "success",
       });
@@ -59,11 +59,15 @@ export const updateProfileImage =
         formData,
         options
       );
+      dispatch({
+        type: TYPES.EDIT_USER_SUCCESS,
+        payload: { profilePicture: true, imageUrl: response.data.imageUrl },
+      });
 
       enqueueSnackbar("Profile updated successfully", {
         variant: "success",
       });
-      dispatch(loadMe());
+      // dispatch(loadMe());
     } catch (err) {
       enqueueSnackbar(err?.response?.data.message || err.message, {
         variant: "error",

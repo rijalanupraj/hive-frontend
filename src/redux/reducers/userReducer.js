@@ -33,14 +33,7 @@ export default function userReducer(state = initialState, { type, payload }) {
         profile: payload.profile,
         error: null,
       };
-    case TYPES.EDIT_USER_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        profile: payload.user,
-        error: null,
-        success: "Profile updated successfully",
-      };
+
     case TYPES.DELETE_USER_SUCCESS:
       return {
         ...state,

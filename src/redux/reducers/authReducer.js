@@ -294,6 +294,27 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         notifications: payload.notifications,
       };
 
+    case TYPES.EDIT_USER_SUCCESS:
+      if (payload.profilePicture) {
+        return {
+          ...state,
+          isLoading: false,
+          me: {
+            ...state.me,
+            profilePhoto: {
+              url: payload.imageUrl,
+              hasPhoto: true,
+            },
+          },
+          error: null,
+        };
+      } else {
+        return {
+          ...state,
+          error: null,
+        };
+      }
+
     //==============================================Notifications Ends====================================================
 
     case TYPES.LOGOUT_SUCCESS:
