@@ -16,6 +16,7 @@ import {
 } from "../redux/actions/messengerActions";
 import { logOutUser as userLogout } from "../redux/actions/authActions";
 import { Avatar } from "@mui/material";
+import { SOCKET_URL } from "../constants";
 
 import toast, { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
@@ -49,7 +50,7 @@ const Messenger = () => {
   const [typingMessage, setTypingMessage] = useState("");
 
   useEffect(() => {
-    socket.current = io("ws://localhost:8000");
+    socket.current = io(SOCKET_URL);
     socket.current.on("getMessage", (data) => {
       setSocketMessage(data);
     });
