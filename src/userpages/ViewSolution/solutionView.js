@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // @mui
 import {
@@ -13,7 +14,7 @@ import {
   Stack,
   Chip,
   CardHeader,
-  Link
+  Link,
 } from "@mui/material";
 
 // components
@@ -64,32 +65,42 @@ export default function SolutionView() {
             {/* start solution */}
             <Card sx={{ mt: 3 }}>
               <Box sx={{ p: { xs: 2, md: 4 }, mb: 1 }}>
-                
-                  <CardHeader
-                    disableTypography
-                    avatar={
-                      <Avatar
-                        alt="experts"
-                        src={solution?.solution?.user?.profilePhoto}
-                        sx={{ width: 42, height: 42 }}
-                      />
-                    }
-                    title={
-                      <Link href="#" variant="subtitle2" color="text.primary">
-                        {solution?.solution?.user?.username}
-                      </Link>
-                    }
-                    subheader={
-                      <Typography
-                        variant="caption"
-                        sx={{ display: "block", color: "text.secondary" }}
-                      >
-                        {moment(solution?.solution?.createdAt).fromNow()}
-                      </Typography>
-                    }
-                    sx={{mt:-3, mb:3, ml:-3}}
-                  />
-                
+                <CardHeader
+                  disableTypography
+                  avatar={
+                    <Avatar
+                      alt="experts"
+                      src={solution?.solution?.user?.profilePhoto}
+                      sx={{ width: 42, height: 42 }}
+                    />
+                  }
+                  title={
+                    <Link href="#" variant="subtitle2" color="text.primary">
+                      {solution?.solution?.user?.username}
+                      {solution?.solution?.user?.isVerified && (
+                        <Typography display="inline">
+                          <VerifiedIcon
+                            sx={{
+                              ml: 0.5,
+                              fontSize: "small",
+                              color: "#3B8AF0",
+                              verticalAlign: "baseline",
+                            }}
+                          />
+                        </Typography>
+                      )}
+                    </Link>
+                  }
+                  subheader={
+                    <Typography
+                      variant="caption"
+                      sx={{ display: "block", color: "text.secondary" }}
+                    >
+                      {moment(solution?.solution?.createdAt).fromNow()}
+                    </Typography>
+                  }
+                  sx={{ mt: -3, mb: 3, ml: -3 }}
+                />
 
                 {/* start body description */}
 
@@ -99,7 +110,7 @@ export default function SolutionView() {
                 />
                 {/* end body description */}
 
-                <Stack direction="row" spacing={1} sx={{pt:1, pb:1}}>
+                <Stack direction="row" spacing={1} sx={{ pt: 1, pb: 1 }}>
                   {solution?.solution?.tags.map((tag) => (
                     <Chip
                       label={tag}
