@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Card, ToggleButton, ToggleButtonGroup, Button } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
 import Iconify from "../../../components/Iconify";
 import SearchQuestion from "./SearchQuestion";
@@ -31,11 +31,13 @@ const FilterQuestion = ({ currentFilter, handleFilterChange }) => {
           onChange={handleFilterChange}
           border="none"
         >
-          <Button endIcon={<SearchIcon fontSize="medium"/> } onClick={handleSearch} >
-              Search
-            </Button>
+          <Button
+            endIcon={<SearchIcon fontSize="medium" />}
+            onClick={handleSearch}
+          >
+            Search
+          </Button>
           <ToggleButton value="preference">
-            
             <Iconify
               icon="gis:poi-favorite-o"
               width={20}
