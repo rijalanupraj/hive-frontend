@@ -11,6 +11,7 @@ import {
   Card,
   Stack,
   Checkbox,
+  Avatar,
   Typography,
   CardHeader,
   IconButton,
@@ -111,7 +112,16 @@ export default function SelectedQuestionCard({ question, auth }) {
     <Card maxWidth="sm">
       <CardHeader
         disableTypography
-        avatar={<MyAvatar />}
+        avatar={
+          question?.user?.profilePhoto?.hasPhoto ? (
+            <Avatar
+              src={question?.user.profilePhoto.url}
+              alt={question?.user?.username}
+            />
+          ) : (
+            <MyAvatar />
+          )
+        }
         title={
           <Link
             href="#"
