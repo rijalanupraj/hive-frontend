@@ -166,22 +166,13 @@ export default function QuestionSolutionsReview() {
         </IconButton>
         <Typography variant="caption">{downVoteCount}</Typography>
         {/* comment */}
-        <FormControlLabel
-          control={
-            <Checkbox
-              size="small"
-              color="error"
-              icon={
-                <Iconify icon={"fa-regular:comment"} width={20} height={20} />
-              }
-              checkedIcon={
-                <Iconify icon={"fa-regular:comment"} width={20} height={20} />
-              }
-            />
-          }
-          label={solution?.solution?.comments?.length}
-          sx={{ minWidth: 72, mr: 0, ml: 1 }}
-        />
+        <IconButton>
+          <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+        </IconButton>
+        <Typography variant="caption">
+          {solution.solution.comments.length}
+        </Typography>
+
         <Box sx={{ flexGrow: 1 }} />
         {/* <IconButton>
           <Iconify icon={"bi:bookmark-check"} width={20} height={20} />

@@ -34,6 +34,7 @@ import Image from "../../components/Image";
 
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
+import Label from "../../components/Label";
 
 // ----------------------------------------------------------------------
 
@@ -42,6 +43,7 @@ export default function QuestionAnswersCard({ solution, auth, hideAnswer }) {
   const [isDownVote, setIsDownVote] = useState(false);
   const [upVoteCount, setUpVoteCount] = useState(solution.upVotes.length);
   const [downVoteCount, setDownVoteCount] = useState(solution.downVotes.length);
+  const [commentCount, setCommentCount] = useState(solution.comments.length);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -224,20 +226,17 @@ export default function QuestionAnswersCard({ solution, auth, hideAnswer }) {
               />
             </IconButton>
           </Tooltip>
+
           <Typography variant="caption">{downVoteCount}</Typography>
           {/* comment */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size="small"
-                color="error"
-                icon={<Iconify icon={"fa-regular:comment"} />}
-                checkedIcon={<Iconify icon={"fa-regular:comment"} />}
-              />
-            }
-            label="5"
-            sx={{ minWidth: 72, mr: 0, ml: 1 }}
-          />
+          <Tooltip title="comment">
+            <IconButton>
+              <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+            </IconButton>
+          </Tooltip>
+          <Typography variant="caption" sx={{ color: "black" }}>
+            {solution?.comments.length}
+          </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
