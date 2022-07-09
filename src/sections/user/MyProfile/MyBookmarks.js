@@ -16,6 +16,7 @@ import Iconify from "../../../components/Iconify";
 import InputStyle from "../../../components/InputStyle";
 import SearchNotFound from "../../../components/SearchNotFound";
 import SolutionPostCard from "../../../sections/cards/SolutionPostCard";
+import Image from "../../../components/Image";
 
 // ----------------------------------------------------------------------
 
@@ -36,7 +37,7 @@ export default function MyBookmarks({
   const isNotFound = bookmarksFiltered.length === 0;
   return (
     <Container maxWidth="md">
-      <Box sx={{ mt: 5 }} alignItem="center">
+      <Box sx={{ mt: 5, mb: 5 }} alignItem="center">
         <Typography variant="h4" sx={{ mb: 3 }}>
           Bookmarks
         </Typography>
@@ -75,6 +76,13 @@ export default function MyBookmarks({
         {isNotFound && (
           <Box sx={{ mt: 5 }}>
             <SearchNotFound searchQuery={findBookmarks} />
+            <Image
+              src={require("../../../assets/images/notfound.png")}
+              sx={{
+                width: 500,
+                margin: "auto",
+              }}
+            />
           </Box>
         )}
       </Box>

@@ -17,6 +17,7 @@ import InputStyle from "../../../components/InputStyle";
 import SearchNotFound from "../../../components/SearchNotFound";
 import SolutionPostCard from "../../../sections/cards/SolutionPostCard";
 import QuestionPostCard from "../../cards/QuestionPostCard";
+import Image from "../../../components/Image";
 
 // ----------------------------------------------------------------------
 
@@ -76,6 +77,13 @@ export default function AnswerLater({
         {isNotFound && (
           <Box sx={{ mt: 5 }}>
             <SearchNotFound searchQuery={findAnswerLater} />
+            <Image
+              src={require("../../../assets/images/notfound.png")}
+              sx={{
+                width: 500,
+                margin: "auto",
+              }}
+            />
           </Box>
         )}
       </Box>
