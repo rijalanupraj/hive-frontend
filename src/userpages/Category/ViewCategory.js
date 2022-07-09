@@ -18,12 +18,14 @@ import Page from "../../components/Page";
 import Category from "../../sections/category/Category";
 
 import { getAllCategory } from "../../redux/actions/categoryAction";
+import { useNavigate } from "react-router-dom";
 // ----------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
 
 export default function ViewCategory() {
   const { themeStretch } = useSettings();
+  const navigate = useNavigate();
   // const { user } = useAuth();
 
   const dispatch = useDispatch();
@@ -47,9 +49,7 @@ export default function ViewCategory() {
 
   return (
     <Page title="User: Profile">
-      <Container
-        maxWidth={themeStretch ? false : "lg"}
-      >
+      <Container maxWidth={themeStretch ? false : "lg"}>
         {/* <HeaderBreadcrumbs
           heading="Profile"
           links={[
