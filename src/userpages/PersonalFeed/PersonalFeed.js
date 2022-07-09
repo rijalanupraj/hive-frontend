@@ -14,6 +14,7 @@ import QuestionPostCard from "../../sections/cards/QuestionPostCard";
 import { getPersonalFeed } from "../../redux/actions/authActions";
 import FilterFeed from "./components/FilterFeed";
 import handleViewport from "react-in-viewport";
+import Image from "../../components/Image";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -72,7 +73,13 @@ function PersonalFeed() {
           {auth.feed.length === 0 && (
             <Paper>
               <Typography gutterBottom align="center" variant="subtitle1">
-                Not found
+                <Image
+                  src={require("../../assets/images/notfound.png")}
+                  sx={{
+                    width: 500,
+                    margin: "auto",
+                  }}
+                />
               </Typography>
               <Typography variant="body2" align="center">
                 No results found &nbsp;
