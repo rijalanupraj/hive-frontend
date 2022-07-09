@@ -135,79 +135,92 @@ const QuestionsPage = () => {
 
   return (
     <Page title="Questions">
-      
-          <Grid container spacing={2}>
-            {/* start left */}
-            <Grid item xs={3}>
-              <Item></Item>
-            </Grid>
-            {/* end left */}
+      <Grid container spacing={2}>
+        {/* start left */}
+        <Grid
+          item
+          xs={2}
+          md={4}
+          lg={3}
+          order={{ xs: 3, md: 1 }}
+          sx={{ display: { xs: "none", xl: "block" } }}
+        >
 
-            {/* center question body */}
-            <Grid item xs={6}>
-              <Item sx={{ mt: 2 }}>
-                {/* start question filter */}
+        </Grid>
+        {/* end left */}
 
-                {/* <FilterQuestion
+        {/* center question body */}
+        <Grid item xs={12} mb={3} lg={6} order={{ xs: 2, md: 1 }}>
+          <Item sx={{ mt: 2 }}>
+            {/* start question filter */}
+
+            {/* <FilterQuestion
                   currentFilter={currentFilter}
                   handleFilterChange={handleFilterChange}
                 /> */}
 
-                <SearchQuestion
-                  onSearchSubmit={onSearchSubmit}
-                  setSearchParams={setSearchParams}
-                  searchParams={searchParams}
-                />
-                {/* end question filter */}
-                <Grid item>
-                  {questions &&
-                    questions.map((q) => (
-                      <QuestionPostCard key={q._id} question={q} />
-                    ))}
-                </Grid>
-                {question.scrollLoading && <CircularProgress size={30} />}
-                {question.allLoaded && (
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      textAlign: "center",
-                      mt: 3,
-                    }}
-                  >
-                    All questions are loaded
-                  </Typography>
-                )}
-                {question.questions.length === 0 &&
-                  !question.scrollLoading &&
-                  !question.allLoaded && (
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        textAlign: "center",
-                        mt: 3,
-                      }}
-                    >
-                      No questions found
-                    </Typography>
-                  )}
-
-                {!question.isLoading && question.questions.length > 0 && (
-                  <ViewportBlock
-                    onEnterViewport={() => onViewPortEnter()}
-                    onLeaveViewport={() => console.log("leave")}
-                  />
-                )}
-              </Item>
+            <SearchQuestion
+              onSearchSubmit={onSearchSubmit}
+              setSearchParams={setSearchParams}
+              searchParams={searchParams}
+            />
+            {/* end question filter */}
+            <Grid item>
+              {questions &&
+                questions.map((q) => (
+                  <QuestionPostCard key={q._id} question={q} />
+                ))}
             </Grid>
+            {question.scrollLoading && <CircularProgress size={30} />}
+            {question.allLoaded && (
+              <Typography
+                variant="body2"
+                sx={{
+                  textAlign: "center",
+                  mt: 3,
+                }}
+              >
+                All questions are loaded
+              </Typography>
+            )}
+            {question.questions.length === 0 &&
+              !question.scrollLoading &&
+              !question.allLoaded && (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    textAlign: "center",
+                    mt: 3,
+                  }}
+                >
+                  No questions found
+                </Typography>
+              )}
 
-            {/*  end question body */}
+            {!question.isLoading && question.questions.length > 0 && (
+              <ViewportBlock
+                onEnterViewport={() => onViewPortEnter()}
+                onLeaveViewport={() => console.log("leave")}
+              />
+            )}
+          </Item>
+        </Grid>
 
-            {/* start left */}
-            <Grid item xs={3}>
-              
-            </Grid>
-            {/* end left */}
-          </Grid>
+        {/*  end question body */}
+
+        {/* start left */}
+        <Grid
+          item
+          xs={2}
+          md={4}
+          lg={3}
+          sx={{ mb: 2, display: { xs: "none", xl: "block" } }}
+          order={{ xs: 1, md: 1 }}
+        >
+
+        </Grid>
+        {/* end left */}
+      </Grid>
     </Page>
   );
 };
