@@ -1,31 +1,39 @@
-import { useState } from 'react';
+import { useState } from "react";
 // @mui
-import { styled } from '@mui/material/styles';
-import { Input, Slide, Button, InputAdornment, ClickAwayListener } from '@mui/material';
+import { styled } from "@mui/material/styles";
+import {
+  Input,
+  Slide,
+  Button,
+  InputAdornment,
+  ClickAwayListener,
+} from "@mui/material";
 // utils
-import cssStyles from '../../../utils/cssStyles';
+import cssStyles from "../../../utils/cssStyles";
 // components
-import Iconify from '../../../components/Iconify';
-import { IconButtonAnimate } from '../../../components/animate';
+import Iconify from "../../../components/Iconify";
+import { IconButtonAnimate } from "../../../components/animate";
+import { useNavigate } from "react-router-dom";
+import { set } from "lodash";
 
 // ----------------------------------------------------------------------
 
 const APPBAR_MOBILE = 64;
 const APPBAR_DESKTOP = 92;
 
-const SearchbarStyle = styled('div')(({ theme }) => ({
+const SearchbarStyle = styled("div")(({ theme }) => ({
   ...cssStyles(theme).bgBlur(),
   top: 0,
   left: 0,
   zIndex: 99,
-  width: '100%',
-  display: 'flex',
-  position: 'absolute',
-  alignItems: 'center',
+  width: "100%",
+  display: "flex",
+  position: "absolute",
+  alignItems: "center",
   height: APPBAR_MOBILE,
   padding: theme.spacing(0, 3),
   boxShadow: theme.customShadows.z8,
-  [theme.breakpoints.up('md')]: {
+  [theme.breakpoints.up("md")]: {
     height: APPBAR_DESKTOP,
     padding: theme.spacing(0, 5),
   },
@@ -35,6 +43,8 @@ const SearchbarStyle = styled('div')(({ theme }) => ({
 
 export default function Searchbar() {
   const [isOpen, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen((prev) => !prev);
@@ -44,12 +54,19 @@ export default function Searchbar() {
     setOpen(false);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/questions?q=${searchValue}`);
+    setSearchValue("");
+    setOpen(false);
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClose}>
       <div>
         {!isOpen && (
           <IconButtonAnimate onClick={handleOpen}>
-            <Iconify icon={'eva:search-fill'} width={30} height={25} />
+            <Iconify icon={"eva:search-fill"} width={30} height={25} />
           </IconButtonAnimate>
         )}
 
@@ -60,17 +77,24 @@ export default function Searchbar() {
               fullWidth
               disableUnderline
               placeholder="Search…"
+              value={searchValue}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit(e);
+                }
+              }}
+              onChange={(e) => setSearchValue(e.target.value)}
               startAdornment={
                 <InputAdornment position="start">
                   <Iconify
-                    icon={'eva:search-fill'}
-                    sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                    icon={"eva:search-fill"}
+                    sx={{ color: "text.disabled", width: 20, height: 20 }}
                   />
                 </InputAdornment>
               }
-              sx={{ mr: 1, fontWeight: 'fontWeightBold' }}
+              sx={{ mr: 1, fontWeight: "fontWeightBold" }}
             />
-            <Button variant="contained" onClick={handleClose}>
+            <Button variant="contained" onClick={handleSubmit}>
               Search
             </Button>
           </SearchbarStyle>
