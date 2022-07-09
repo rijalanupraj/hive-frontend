@@ -102,12 +102,17 @@ export default function SolutionView() {
                   sx={{ mt: -3, mb: 3, ml: -3 }}
                 />
 
-                {/* start body description */}
+                <Stack spacing={3} sx={{ pb: 3 }}>
+                  {/* start body description */}
+                  <Typography variant="h6" align="justify">
+                    {solution?.solution?.description}
+                  </Typography>
 
-                <Markdown
-                  children={solution?.solution?.answer || ""}
-                  align="justify"
-                />
+                  <Markdown
+                    children={solution?.solution?.answer || ""}
+                    align="justify"
+                  />
+                </Stack>
                 {/* end body description */}
 
                 <Stack direction="row" spacing={1} sx={{ pt: 1, pb: 1 }}>

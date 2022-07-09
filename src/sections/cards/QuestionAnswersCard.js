@@ -230,21 +230,17 @@ export default function QuestionAnswersCard({ solution, auth, hideAnswer }) {
           <Typography variant="caption">{downVoteCount}</Typography>
           {/* comment */}
           <Tooltip title="comment">
-          <Link
-            to={"/solution/" + solution?._id}
-            variant="body1"
-            component={RouterLink}
-          >
-            <IconButton>
-              <Iconify icon={"fa-regular:comment"} width={20} height={20} />
-            </IconButton>
-          </Link>
-            
+            <Link
+              to={"/solution/" + solution?._id}
+              variant="body1"
+              component={RouterLink}
+            >
+              <IconButton>
+                <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+              </IconButton>
+            </Link>
           </Tooltip>
-          <Typography variant="caption" sx={{ color: "black" }}>
-            {solution?.comments.length}
-            
-          </Typography>
+          <Typography variant="caption">{solution?.comments.length}</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 

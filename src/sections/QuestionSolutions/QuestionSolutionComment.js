@@ -33,7 +33,6 @@ export default function QuestionSolutionComment({ solution, auth }) {
   const commentSchema = Yup.object().shape({
     text: Yup.string()
       .required("Comment is required")
-      .min(10, "Comment must be at least 10 characters long")
       .max(1000, "Comment must be less than 1000 characters long"),
   });
 

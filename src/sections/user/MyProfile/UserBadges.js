@@ -34,8 +34,10 @@ export default function UserBadges({ profile }) {
 
       <Grid container spacing={3}>
         {profile?.badges?.length < 1 && (
-          <Grid item xs={12} sx={{p:4, mt:2}}>
-            <Typography variant="h7" sx={{p:3}}>No badges yet.</Typography>
+          <Grid item xs={12} sx={{ p: 4, mt: 2 }}>
+            <Typography variant="h7" sx={{ p: 3 }}>
+              No badges yet.
+            </Typography>
           </Grid>
         )}
         {profile?.badges?.map((badge) => {
@@ -44,7 +46,7 @@ export default function UserBadges({ profile }) {
               <Avatar
                 alt="badge?.title"
                 src={badge?.image?.url}
-                sx={{ width: 75, height: 75 }}
+                sx={{ width: 150, height: 150, pb: 3 }}
               />
             </Grid>
           );
