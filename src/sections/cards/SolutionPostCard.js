@@ -227,7 +227,6 @@ export default function SolutionPostCard({ solution }) {
             <Chip
               label={solution?.question?.category}
               avatar={<Avatar>C</Avatar>}
-              color="info"
               size="small"
               sx={{ text: "success" }}
             ></Chip>

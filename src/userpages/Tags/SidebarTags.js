@@ -92,36 +92,38 @@ export default function SidebarTags() {
     // </Card>
 
     <>
+      <Typography variant="h6" sx={{ mb: 2, ml: 3, mt: 2 }}>
+        Related Tags
+      </Typography>
 
-        <Typography variant="h6" sx={{ mb: 2, ml: 3, mt: 2 }}>
-          Related Tags
-        </Typography>
-
-        {/* {question?.tags.map((tag) => (
+      {/* {question?.tags.map((tag) => (
                   <Chip label={tag} variant="outlined" size="small" clickable />
                 ))} */}
 
-        {/* main body */}
-        {tagsList.map((tag) => (
-          <>
-            <Button size="small" sx={{ mb: 2, ml: 3 }} style={{
-              backgroundColor:"#a8b2bc",
-              color:"#101014",
-            }}>
-              {tag}
-            </Button>
-            <Button disabled sx={{ mb: 2 }}>
-                  <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
-                    x
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
-                    22
-                  </Typography>
-                </Button>
-            <br />
-            
-          </>
-        ))}
+      {/* main body */}
+      {tagsList.map((tag) => (
+        <>
+          <Button
+            size="small"
+            sx={{ mb: 2, ml: 3 }}
+            style={{
+              backgroundColor: "#EDEFF2",
+              color: "#101014",
+            }}
+          >
+            {tag}
+          </Button>
+          <Button disabled sx={{ mb: 2 }}>
+            <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
+              x
+            </Typography>
+            <Typography variant="subtitle1" sx={{ ml: 1 }}>
+              22
+            </Typography>
+          </Button>
+          <br />
+        </>
+      ))}
     </>
   );
 }

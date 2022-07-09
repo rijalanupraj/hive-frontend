@@ -18,7 +18,6 @@ import {
   Tooltip,
 } from "@mui/material";
 
-
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
 
@@ -29,12 +28,11 @@ import {
   downVoteAnyQuestion,
 } from "../../redux/actions/questionActions";
 import { toggleAnswerLater } from "../../redux/actions/authActions";
+import VerifiedIcon from "@mui/icons-material/Verified";
 
 // ----------------------------------------------------------------------
 
 export default function QuestionSolutionHeader({ question, auth }) {
-
-  
   return (
     <Card maxWidth="sm">
       <CardHeader
@@ -43,6 +41,18 @@ export default function QuestionSolutionHeader({ question, auth }) {
         title={
           <Link href="#" variant="subtitle2" color="text.primary">
             {question.user.username}
+            {question.user.isVerified && (
+              <Typography display="inline">
+                <VerifiedIcon
+                  sx={{
+                    ml: 0.5,
+                    fontSize: "small",
+                    color: "#3B8AF0",
+                    verticalAlign: "baseline",
+                  }}
+                />
+              </Typography>
+            )}
           </Link>
         }
         subheader={
@@ -71,7 +81,6 @@ export default function QuestionSolutionHeader({ question, auth }) {
         </Typography>
 
         {/* image */}
-
       </Stack>
     </Card>
   );

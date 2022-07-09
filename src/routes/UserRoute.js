@@ -38,7 +38,6 @@ import PrivateRoute from "./PrivateRoute";
 import SearchUser from "../userpages/SearchUser/SearchUser";
 import SolutionView from "../userpages/ViewSolution/solutionView";
 
-
 const UserRoute = () => {
   const auth = useSelector((state) => state.auth);
 
@@ -58,7 +57,8 @@ const UserRoute = () => {
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
         <Route exact path="/category" element={<ViewCategory />} />
-        <Route exact path="/tags" element={<ViewTags />} />
+        <Route exact path="/tag/:tag" element={<ViewTags />} />
+
         <Route exact path="/users" element={<SearchUser />} />
 
         {/* Normal Routes Ends */}
@@ -126,8 +126,12 @@ const UserRoute = () => {
           <Route exact path="/ticket" element={<OpenTicket />} />
         </Route>
 
-        <Route exact path="/allNotification" element={<PrivateRoute auth={auth} />}>
-          <Route exact path="/allNotification" element={< ViewNotification />} />
+        <Route
+          exact
+          path="/allNotification"
+          element={<PrivateRoute auth={auth} />}
+        >
+          <Route exact path="/allNotification" element={<ViewNotification />} />
         </Route>
 
         <Route
