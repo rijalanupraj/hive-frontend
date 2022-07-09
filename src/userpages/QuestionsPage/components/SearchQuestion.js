@@ -38,6 +38,15 @@ const SearchQuestion = ({
   useEffect(() => {
     if (category.categoryList) {
       setCategoriesList([...category.categoryList]);
+
+      // Check if selected category is in the list
+      if (
+        !category.categoryList.find(
+          (category) => category.title === selectedCategory
+        )
+      ) {
+        setSelectedCategory("all");
+      }
     }
   }, [category.categoryList]);
 
@@ -55,6 +64,8 @@ const SearchQuestion = ({
                   value={searchParams.get("q") || ""}
                   onChange={(e) =>
                     setSearchParams({
+                      ...searchParams,
+                      c: selectedCategory,
                       q: e.target.value,
                     })
                   }
@@ -80,28 +91,31 @@ const SearchQuestion = ({
                 />
               </Item>
             </Grid>
-            <Grid item xs={6} md={4}>
-              <TextField
-                id="business-type-select"
-                label="Category"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={selectedCategory}
-                onChange={(e) => {
-                  setSelectedCategory(e.target.value);
-                }}
-                select
-              >
-                <MenuItem value="all">All</MenuItem>,
-                {categoriesList.length > 0 &&
-                  categoriesList.map((type) => {
-                    return [
-                      <MenuItem value={type.title}>{type.title}</MenuItem>,
-                    ];
-                  })}
-              </TextField>
-            </Grid>
+
+            {categoriesList.length > 0 && (
+              <Grid item xs={6} md={4}>
+                <TextField
+                  id="business-type-select"
+                  label="Category"
+                  variant="outlined"
+                  size="small"
+                  fullWidth
+                  value={selectedCategory}
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                  }}
+                  select
+                >
+                  <MenuItem value="all">All</MenuItem>,
+                  {categoriesList.length > 0 &&
+                    categoriesList.map((type) => {
+                      return [
+                        <MenuItem value={type.title}>{type.title}</MenuItem>,
+                      ];
+                    })}
+                </TextField>
+              </Grid>
+            )}
           </Grid>
         </form>
       </Paper>

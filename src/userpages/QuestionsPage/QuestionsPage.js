@@ -56,11 +56,25 @@ const Item = styled(Paper)(({ theme }) => ({
 const QuestionsPage = () => {
   const { themeStretch } = useSettings();
   const question = useSelector((state) => state.question);
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
   const [currentFilter, setCurrentFilter] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  console.log(searchParams.get("c"));
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("c") || "all"
+  );
+
+  useEffect(() => {
+    setSelectedCategory(searchParams.get("c") || "all");
+    dispatch(
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
+    );
+  }, [searchParams.get("c")]);
 
   useEffect(() => {
     dispatch(getAllCategory());
