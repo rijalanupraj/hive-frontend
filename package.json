@@ -53,6 +53,7 @@
     "socket.io-client": "^4.5.1",
     "stylis-plugin-rtl": "^2.1.1",
     "use-sound": "^4.0.1",
+    "redux-devtools-extension": "^2.13.9",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
   },
@@ -85,7 +86,6 @@
     "@cucumber/cucumber": "^8.2.0",
     "chai": "^4.3.6",
     "chromedriver": "^101.0.0",
-    "redux-devtools-extension": "^2.13.9",
     "selenium-webdriver": "^4.1.2"
   }
 }
