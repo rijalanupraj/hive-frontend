@@ -111,10 +111,8 @@ function HomePage() {
             lg={3}
             order={{ xs: 3, md: 1 }}
             sx={{ display: { xs: "none", xl: "block" } }}
-            alignSelf={"start"}
-            position={"sticky"}
           >
-            <TopExperts auth={auth} position="sticky" />
+            <TopExperts auth={auth} />
             <br />
             <Footer />
           </Grid>
