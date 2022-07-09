@@ -70,7 +70,9 @@ const SearchQuestion = ({
                   }}
                   sx={{
                     ml: 1,
+                    mt: -1,
                     mr: 5,
+                    mb: 1,
                     "& fieldset": {
                       borderWidth: `1px !important`,
                       borderColor: (theme) =>
@@ -88,6 +90,7 @@ const SearchQuestion = ({
                 size="small"
                 fullWidth
                 value={selectedCategory}
+                sx={{ mt:1, mb: 1, pr:1 }}
                 onChange={(e) => {
                   setSelectedCategory(e.target.value);
                 }}
