@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 import { Grid, Stack } from "@mui/material";
 //
 import ProfileAbout from "./ProfileAbout";
-import ProfilePostCard from "./ProfilePostCard";
-import ProfilePostInput from "./ProfilePostInput";
 import ProfileFollowInfo from "./ProfileFollowInfo";
-import ProfileSocialInfo from "./ProfileSocialInfo";
 import SolutionPostCard from "../../cards/SolutionPostCard";
 import QuestionPostCard from "../../cards/QuestionPostCard";
 import ProfileContribution from "./ProfileContribution";
@@ -30,7 +27,7 @@ export default function Profile({ myProfile, posts, profile }) {
           <UserXpLevel profile={profile} />
           <ProfileContribution profile={profile} />
           <UserBadges profile={profile} />
-          <ProfileSocialInfo profile={profile} />
+          
         </Stack>
       </Grid>
 
