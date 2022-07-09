@@ -32,10 +32,56 @@ Given("Test login functionality", { timeout: 30000 }, async function () {
   await driver.findElement(By.css('button[type="submit"]')).click();
   await driver.sleep(delay);
 
-  const url = await driver.getCurrentUrl();
-  assert.strictEqual(url,"http://localhost:3000/")
+  // const url = await driver.getCurrentUrl();
+  // assert.strictEqual(url,"http://localhost:3000/")
 
   // await driver.wait(until.elementLocated(By.id("registerForm")), 30000);
   // expect(await driver.wait(until.elementLocated(By.id("registerForm"))));
-  // await driver.quit();
+  await driver.quit();
 });
+
+Given("Test homepage functionality", { timeout: 30000 }, async function () {
+  let driver = await new Builder().forBrowser("chrome").build();
+  await driver.get("http://localhost:3000/");
+  // await driver.findElement(By.name("emailOrUsername")).sendKeys(username);
+  // await driver.findElement(By.name("password")).sendKeys("test123@gmail.com");
+  // await driver.sleep(delay);
+
+  await driver.findElement(By.id('bestTest')).click();
+  await driver.sleep(delay);
+  await driver.findElement(By.id('recentTest')).click();
+  await driver.sleep(delay);
+  await driver.findElement(By.id('oldestTest')).click();
+  await driver.sleep(delay);
+
+  await driver.quit();
+
+});
+
+
+
+Given("Test questions functionality", { timeout: 30000 }, async function () {
+  let driver = await new Builder().forBrowser("chrome").build();
+  await driver.get("http://localhost:3000/");
+
+  await driver.sleep(delay);
+  await driver.findElement(By.id('questionsTest')).click();
+  await driver.sleep(delay);
+
+  await driver.quit();
+
+});
+
+Given("Test profile functionality", { timeout: 30000 }, async function () {
+  let driver = await new Builder().forBrowser("chrome").build();
+  await driver.get("http://localhost:3000/");
+
+  await driver.sleep(delay);
+  await driver.findElement(By.id('profileTest')).click();
+  await driver.sleep(delay);
+
+  await driver.quit();
+
+});
+
+
