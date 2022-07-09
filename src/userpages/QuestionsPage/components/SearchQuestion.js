@@ -25,13 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const SearchQuestion = ({
-  onSearchSubmit,
-  searchParams,
-  selectedCategory,
-  setSelectedCategory,
-  setSearchParams,
-}) => {
+const SearchQuestion = ({ onSearchSubmit, searchParams, setSearchParams }) => {
   const category = useSelector((state) => state.category);
   const [categoriesList, setCategoriesList] = useState([]);
 
@@ -42,10 +36,14 @@ const SearchQuestion = ({
       // Check if selected category is in the list
       if (
         !category.categoryList.find(
-          (category) => category.title === selectedCategory
+          (category) => category.title === searchParams.get("c")
         )
       ) {
-        setSelectedCategory("all");
+        setSearchParams({
+          ...searchParams,
+          q: searchParams.get("q") || "",
+          c: "all",
+        });
       }
     }
   }, [category.categoryList]);
@@ -65,8 +63,8 @@ const SearchQuestion = ({
                   onChange={(e) =>
                     setSearchParams({
                       ...searchParams,
-                      c: selectedCategory,
                       q: e.target.value,
+                      c: searchParams.get("c") || "all",
                     })
                   }
                   placeholder="Search Question"
@@ -100,9 +98,13 @@ const SearchQuestion = ({
                   variant="outlined"
                   size="small"
                   fullWidth
-                  value={selectedCategory}
+                  value={searchParams.get("c") || "all"}
                   onChange={(e) => {
-                    setSelectedCategory(e.target.value);
+                    setSearchParams({
+                      ...searchParams,
+                      c: e.target.value,
+                      q: searchParams.get("q") || "",
+                    });
                   }}
                   select
                 >

@@ -60,21 +60,6 @@ const QuestionsPage = () => {
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
   const [currentFilter, setCurrentFilter] = useState(false);
-  console.log(searchParams.get("c"));
-  const [selectedCategory, setSelectedCategory] = useState(
-    searchParams.get("c") || "all"
-  );
-
-  useEffect(() => {
-    setSelectedCategory(searchParams.get("c") || "all");
-    dispatch(
-      scrollLoadingQuestions(
-        1,
-        searchParams.get("q") || "",
-        searchParams.get("c") || "all"
-      )
-    );
-  }, [searchParams.get("c")]);
 
   useEffect(() => {
     dispatch(getAllCategory());
@@ -84,14 +69,28 @@ const QuestionsPage = () => {
   //   dispatch(getAllQuestion());
   // }, [dispatch]);
 
+  // useEffect(() => {
+  //   onViewPortEnter();
+  // }, []);
+
   useEffect(() => {
-    onViewPortEnter();
+    dispatch(
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
+    );
   }, []);
 
   const onSearchSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      scrollLoadingQuestions(1, searchParams.get("q") || "", selectedCategory)
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
     );
   };
 
@@ -102,7 +101,7 @@ const QuestionsPage = () => {
           scrollLoadingQuestions(
             1,
             searchParams.get("q") || "",
-            selectedCategory
+            searchParams.get("c") || "all"
           )
         );
       } else {
@@ -110,7 +109,7 @@ const QuestionsPage = () => {
           scrollLoadingQuestions(
             question.pageNumber + 1,
             searchParams.get("q") || "",
-            selectedCategory
+            searchParams.get("c") || "all"
           )
         );
       }
@@ -157,8 +156,6 @@ const QuestionsPage = () => {
 
                 <SearchQuestion
                   onSearchSubmit={onSearchSubmit}
-                  selectedCategory={selectedCategory}
-                  setSelectedCategory={setSelectedCategory}
                   setSearchParams={setSearchParams}
                   searchParams={searchParams}
                 />
