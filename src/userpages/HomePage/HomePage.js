@@ -106,7 +106,7 @@ function HomePage() {
 
           <Grid
             item
-            xs={12}
+            xs={2}
             md={4}
             lg={3}
             order={{ xs: 3, md: 1 }}
@@ -203,7 +203,7 @@ function HomePage() {
           {/* right */}
           <Grid
             item
-            xs={12}
+            xs={2}
             md={4}
             lg={3}
             sx={{ mb: 2, display: { xs: "none", xl: "block" } }}
