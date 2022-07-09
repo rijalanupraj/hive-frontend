@@ -79,7 +79,9 @@ const SearchQuestion = ({ onSearchSubmit, searchParams, setSearchParams }) => {
                   }}
                   sx={{
                     ml: 1,
+                    mt: -1,
                     mr: 5,
+                    mb: 1,
                     "& fieldset": {
                       borderWidth: `1px !important`,
                       borderColor: (theme) =>
@@ -118,6 +120,7 @@ const SearchQuestion = ({ onSearchSubmit, searchParams, setSearchParams }) => {
                 </TextField>
               </Grid>
             )}
+
           </Grid>
         </form>
       </Paper>

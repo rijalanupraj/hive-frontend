@@ -211,7 +211,7 @@ function HomePage() {
           >
             <HotQuestions />
             <br />
-            <SidebarTags />
+            {/* <SidebarTags /> */}
           </Grid>
         </Grid>
       </Container>
