@@ -69,8 +69,8 @@ export default function SolutionView() {
                   disableTypography
                   avatar={
                     <Avatar
-                      alt="experts"
-                      src={solution?.solution?.user?.profilePhoto}
+                      alt=""
+                      src={solution?.solution?.user?.profilePhoto.url}
                       sx={{ width: 42, height: 42 }}
                     />
                   }
