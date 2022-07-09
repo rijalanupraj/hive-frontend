@@ -133,7 +133,7 @@ const QuestionsPage = () => {
 
             {/* center question body */}
             <Grid item xs={7}>
-              <Item sx={{ mt: 3 }}>
+              <Item sx={{ mt: 2 }}>
                 {/* start question filter */}
 
                 {/* <FilterQuestion
