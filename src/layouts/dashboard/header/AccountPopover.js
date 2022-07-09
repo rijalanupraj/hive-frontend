@@ -1,6 +1,6 @@
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link, Link as RouterLink, useNavigate } from "react-router-dom";
 // @mui
 import { alpha } from "@mui/material/styles";
 import {
@@ -27,8 +27,9 @@ import Theme from "../../../components/settings/SettingMode";
 
 const MENU_OPTIONS = [
   {
-    label: "Home",
-    linkTo: "/",
+    label: "Profile",
+
+    linkTo: "/myprofile",
   },
   {
     label: "Open Ticket",
