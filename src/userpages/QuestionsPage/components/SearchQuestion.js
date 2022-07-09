@@ -88,8 +88,10 @@ const SearchQuestion = () => {
                   ),
                 }}
                 sx={{
+                  mt:-1,
                   ml: 1,
                   mr: 5,
+                  mb:1,
                   "& fieldset": {
                     borderWidth: `1px !important`,
                     borderColor: (theme) =>
@@ -116,6 +118,8 @@ const SearchQuestion = () => {
                         error={errors.category}
                         helperText={errors.category?.message}
                         sx={{
+                          mt: -1,
+                          mb:1,
                           "& fieldset": {
                             borderWidth: `1px !important`,
                             borderColor: (theme) =>
