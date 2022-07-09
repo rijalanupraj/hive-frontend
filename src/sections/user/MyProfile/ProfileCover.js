@@ -91,7 +91,7 @@ export default function ProfileCover({ myProfile, profile }) {
       </InfoStyle>
       <Image
         alt="profile cover"
-        src={cover}
+        src="https://img.freepik.com/free-vector/abstract-geometric-pattern-background_1319-242.jpg?"
         sx={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
       />
     </RootStyle>

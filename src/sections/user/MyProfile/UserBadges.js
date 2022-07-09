@@ -32,29 +32,24 @@ export default function UserBadges({ profile }) {
     <Card>
       <CardHeader title="Achievement" />
 
-      <Grid>
-      <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 3, mt: 2 }}>
-        <Avatar
-          alt="Remy Sharp"
-          src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/master//images/galaxy-brain-default.png"
-          sx={{ width: 100, height: 100 }}
-        />
-        <Avatar
-          alt="Remy Sharp"
-          src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/master//images/pull-shark-default.png"
-          sx={{ width: 100, height: 100 }}
-        />
-
-        <Avatar
-          alt="Remy Sharp"
-          src="https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/master//images/pull-shark-default.png"
-          sx={{ width: 100, height: 100 }}
-        />
-
-      </Stack>
+      <Grid container spacing={3}>
+        {profile?.badges?.length < 1 && (
+          <Grid item xs={12}>
+            <Typography variant="body2">No badges yet.</Typography>
+          </Grid>
+        )}
+        {profile?.badges?.map((badge) => {
+          return (
+            <Grid item xs={12} md={6}>
+              <Avatar
+                alt="badge?.title"
+                src={badge?.image?.url}
+                sx={{ width: 75, height: 75 }}
+              />
+            </Grid>
+          );
+        })}
       </Grid>
-
-      
     </Card>
   );
 }
