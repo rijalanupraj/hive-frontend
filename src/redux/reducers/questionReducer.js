@@ -70,9 +70,16 @@ export default function questionReducer(state = initialState, action) {
       };
 
     case TYPES.QUESTIONS_SCROLL_SUCCESS:
+      let newQuestions = [...state.questions];
+
+      if (action.payload.page === 1) {
+        newQuestions = action.payload.questions;
+      } else {
+        newQuestions = [...newQuestions, ...action.payload.questions];
+      }
       return {
         ...state,
-        questions: [...state.questions, ...action.payload.questions],
+        questions: newQuestions,
         scrollLoading: false,
         pageNumber: action.payload.page,
         totalPage: action.payload.pages,

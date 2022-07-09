@@ -15,6 +15,7 @@ import {
   Chip,
 } from "@mui/material";
 import handleViewport from "react-in-viewport";
+import { useSearchParams } from "react-router-dom";
 
 import QuestionPostCard from "../../sections/cards/QuestionPostCard";
 import {
@@ -22,6 +23,7 @@ import {
   searchQuestion,
   scrollLoadingQuestions,
 } from "../../redux/actions/questionActions";
+import { getAllCategory } from "../../redux/actions/categoryAction";
 import InputStyle from "../../components/InputStyle";
 import Iconify from "../../components/Iconify";
 
@@ -54,9 +56,15 @@ const Item = styled(Paper)(({ theme }) => ({
 const QuestionsPage = () => {
   const { themeStretch } = useSettings();
   const question = useSelector((state) => state.question);
+  let [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
   const [currentFilter, setCurrentFilter] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+
+  useEffect(() => {
+    dispatch(getAllCategory());
+  }, []);
 
   // useEffect(() => {
   //   dispatch(getAllQuestion());
@@ -66,24 +74,31 @@ const QuestionsPage = () => {
     onViewPortEnter();
   }, []);
 
-  const handleFilterChange = (event, newValue) => {
-    setCurrentFilter(newValue);
-  };
-
-  const onFindQuestion = (e) => {
-    if (e.target.value === "") {
-      dispatch(getAllQuestion());
-    } else {
-      dispatch(searchQuestion(e.target.value));
-    }
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      scrollLoadingQuestions(1, searchParams.get("q") || "", selectedCategory)
+    );
   };
 
   const onViewPortEnter = () => {
     if (!question.allLoaded) {
       if (question.pageNumber === null) {
-        dispatch(scrollLoadingQuestions(1));
+        dispatch(
+          scrollLoadingQuestions(
+            1,
+            searchParams.get("q") || "",
+            selectedCategory
+          )
+        );
       } else {
-        dispatch(scrollLoadingQuestions(question.pageNumber + 1));
+        dispatch(
+          scrollLoadingQuestions(
+            question.pageNumber + 1,
+            searchParams.get("q") || "",
+            selectedCategory
+          )
+        );
       }
     }
   };
@@ -118,7 +133,7 @@ const QuestionsPage = () => {
 
             {/* center question body */}
             <Grid item xs={7}>
-              <Item sx={{ mt: -3 }}>
+              <Item sx={{ mt: 2 }}>
                 {/* start question filter */}
 
                 {/* <FilterQuestion
@@ -126,8 +141,13 @@ const QuestionsPage = () => {
                   handleFilterChange={handleFilterChange}
                 /> */}
 
-                <SearchQuestion />
-
+                <SearchQuestion
+                  onSearchSubmit={onSearchSubmit}
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                  setSearchParams={setSearchParams}
+                  searchParams={searchParams}
+                />
                 {/* end question filter */}
                 <Grid item>
                   {questions &&
@@ -147,6 +167,20 @@ const QuestionsPage = () => {
                     All questions are loaded
                   </Typography>
                 )}
+                {question.questions.length === 0 &&
+                  !question.scrollLoading &&
+                  !question.allLoaded && (
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        textAlign: "center",
+                        mt: 3,
+                      }}
+                    >
+                      No questions found
+                    </Typography>
+                  )}
+
                 {!question.isLoading && question.questions.length > 0 && (
                   <ViewportBlock
                     onEnterViewport={() => onViewPortEnter()}
@@ -180,11 +214,7 @@ const QuestionsPage = () => {
                 >
                   School
                 </Button>
-                <Button
-                  disabled
-                  sx={{ mb: 2 }}
-                 
-                >
+                <Button disabled sx={{ mb: 2 }}>
                   <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
                     x
                   </Typography>
@@ -197,7 +227,6 @@ const QuestionsPage = () => {
 
                 {/* cut it out */}
                 <Button
-                 
                   size="small"
                   sx={{ mb: 2 }}
                   style={{
@@ -217,7 +246,6 @@ const QuestionsPage = () => {
                 </Button>
                 <br />
                 <Button
-                
                   size="small"
                   sx={{ mb: 2 }}
                   style={{
@@ -237,7 +265,6 @@ const QuestionsPage = () => {
                 </Button>
                 <br />
                 <Button
-                 
                   size="small"
                   sx={{ mb: 2 }}
                   style={{
@@ -249,7 +276,6 @@ const QuestionsPage = () => {
                 </Button>
                 <br />
                 <Button
-                 
                   size="small"
                   sx={{ mb: 2 }}
                   style={{

@@ -184,9 +184,6 @@ export default function QuestionPostCard({ question }) {
         {/* Question */}
         <Link
           to={"/question/" + question?.slug}
-          style={{
-            textDecoration: "none",
-          }}
           component={RouterLink}
         >
           <Typography variant="h6" align="justify" sx={{ mb: 0.5 }}>

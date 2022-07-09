@@ -34,8 +34,8 @@ export default function UserBadges({ profile }) {
 
       <Grid container spacing={3}>
         {profile?.badges?.length < 1 && (
-          <Grid item xs={12}>
-            <Typography variant="h7" sx={{p:3, mb:3, mt:3}}>No badges yet.</Typography>
+          <Grid item xs={12} sx={{p:4, mt:2}}>
+            <Typography variant="h7" sx={{p:3}}>No badges yet.</Typography>
           </Grid>
         )}
         {profile?.badges?.map((badge) => {
