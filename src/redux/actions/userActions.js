@@ -9,30 +9,71 @@ import { logOutUser, loadMe } from "./authActions";
 
 const API_URL = BACKEND_API_URL;
 
-export const updateProfile = (formData) => async (dispatch, getState) => {
-  dispatch({
-    type: TYPES.EDIT_USER_LOADING,
-  });
-  try {
-    const options = attachTokenToHeaders(getState);
-    const response = await axios.put(
-      `${API_URL}/users/updateprofile`,
-      formData,
-      options
-    );
+export const updateProfile =
+  (formData, enqueueSnackbar) => async (dispatch, getState) => {
+    dispatch({
+      type: TYPES.EDIT_USER_LOADING,
+    });
+    try {
+      const options = attachTokenToHeaders(getState);
+      const response = await axios.put(
+        `${API_URL}/users/updateprofile`,
+        formData,
+        options
+      );
 
-    dispatch({
-      type: TYPES.EDIT_USER_SUCCESS,
-      payload: { user: response.data.user },
-    });
-    dispatch(loadMe());
-  } catch (err) {
-    dispatch({
-      type: TYPES.EDIT_USER_FAIL,
-      payload: { error: err?.response?.data.message || err.message },
-    });
-  }
-};
+      dispatch({
+        type: TYPES.EDIT_USER_SUCCESS,
+        payload: { user: response.data.user },
+      });
+      // dispatch(loadMe());
+      enqueueSnackbar("Profile updated successfully", {
+        variant: "success",
+      });
+    } catch (err) {
+      dispatch({
+        type: TYPES.EDIT_USER_FAIL,
+        payload: { error: err?.response?.data.message || err.message },
+      });
+      if (
+        err?.response?.data?.message.includes("username") &&
+        err?.response?.data?.message.includes("dup key")
+      ) {
+        enqueueSnackbar("Username already exists", {
+          variant: "error",
+        });
+      } else {
+        enqueueSnackbar(err?.response?.data.message || err.message, {
+          variant: "error",
+        });
+      }
+    }
+  };
+
+export const updateProfileImage =
+  (formData, enqueueSnackbar) => async (dispatch, getState) => {
+    try {
+      const options = attachTokenToHeaders(getState);
+      const response = await axios.put(
+        `${API_URL}/users/profilepicture`,
+        formData,
+        options
+      );
+      dispatch({
+        type: TYPES.EDIT_USER_SUCCESS,
+        payload: { profilePicture: true, imageUrl: response.data.imageUrl },
+      });
+
+      enqueueSnackbar("Profile updated successfully", {
+        variant: "success",
+      });
+      // dispatch(loadMe());
+    } catch (err) {
+      enqueueSnackbar(err?.response?.data.message || err.message, {
+        variant: "error",
+      });
+    }
+  };
 
 export const changePassword = (formData) => async (dispatch, getState) => {
   dispatch({

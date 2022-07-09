@@ -1,8 +1,10 @@
 // @mui
+import { useState, useEffect } from "react";
 import {
   Box,
   Link,
   Card,
+  Avatar,
   Stack,
   Checkbox,
   Typography,
@@ -10,10 +12,19 @@ import {
   IconButton,
   FormControlLabel,
   Divider,
+  Tooltip,
 } from "@mui/material";
 import { fDate } from "../../utils/formatTime";
 import Markdown from "../../components/Markdown";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import { useDispatch } from "react-redux";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import ReportSolution from "../reports/ReportSolution";
+import {
+  upVoteAnySolution,
+  downVoteAnySolution,
+} from "../../redux/actions/solutionActions";
+import { toggleBookmark } from "../../redux/actions/authActions";
 
 import Image from "../../components/Image";
 
@@ -23,10 +34,80 @@ import Image from "../../components/Image";
 
 import Iconify from "../../components/Iconify";
 import MyAvatar from "../../components/MyAvatar";
+import Label from "../../components/Label";
 
 // ----------------------------------------------------------------------
 
-export default function QuestionAnswersCard({ solution, auth }) {
+export default function QuestionAnswersCard({ solution, auth, hideAnswer }) {
+  const [isUpVote, setIsUpVote] = useState(false);
+  const [isDownVote, setIsDownVote] = useState(false);
+  const [upVoteCount, setUpVoteCount] = useState(solution.upVotes.length);
+  const [downVoteCount, setDownVoteCount] = useState(solution.downVotes.length);
+  const [commentCount, setCommentCount] = useState(solution.comments.length);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (auth.me) {
+      if (
+        auth.me.solutionUpVotes.includes(solution._id) &&
+        solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(solution.upVotes.length);
+      } else if (
+        auth.me.solutionUpVotes.includes(solution._id) &&
+        !solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(true);
+        setUpVoteCount(solution.upVotes.length + 1);
+      } else if (
+        !auth.me.solutionUpVotes.includes(solution._id) &&
+        solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(solution.upVotes.length - 1);
+      } else if (
+        !auth.me.solutionUpVotes.includes(solution._id) &&
+        !solution.upVotes.includes(auth.me._id)
+      ) {
+        setIsUpVote(false);
+        setUpVoteCount(solution.upVotes.length);
+      } else {
+        setIsUpVote(false);
+        setUpVoteCount(solution.upVotes.length);
+      }
+
+      if (
+        auth.me.solutionDownVotes.includes(solution._id) &&
+        solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(solution.downVotes.length);
+      } else if (
+        auth.me.solutionDownVotes.includes(solution._id) &&
+        !solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(true);
+        setDownVoteCount(solution.downVotes.length + 1);
+      } else if (
+        !auth.me.solutionDownVotes.includes(solution._id) &&
+        solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(solution.downVotes.length - 1);
+      } else if (
+        !auth.me.solutionDownVotes.includes(solution._id) &&
+        !solution.downVotes.includes(auth.me._id)
+      ) {
+        setIsDownVote(false);
+        setDownVoteCount(solution.downVotes.length);
+      } else {
+        setIsDownVote(false);
+        setDownVoteCount(solution.downVotes.length);
+      }
+    }
+  }, [auth.me]);
   return (
     <Card
       style={{
@@ -36,7 +117,16 @@ export default function QuestionAnswersCard({ solution, auth }) {
     >
       <CardHeader
         disableTypography
-        avatar={<MyAvatar />}
+        avatar={
+          solution?.user?.profilePhoto?.hasPhoto ? (
+            <Avatar
+              src={solution?.user.profilePhoto.url}
+              alt={solution?.user?.username}
+            />
+          ) : (
+            <MyAvatar />
+          )
+        }
         title={
           <Link href="#" variant="subtitle2" color="text.primary">
             {solution.user.username}
@@ -63,7 +153,11 @@ export default function QuestionAnswersCard({ solution, auth }) {
           </Typography>
         }
         action={
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              hideAnswer(solution._id);
+            }}
+          >
             <Iconify
               icon={"charm:circle-cross"}
               width={20}
@@ -94,34 +188,98 @@ export default function QuestionAnswersCard({ solution, auth }) {
         <Divider />
         <Stack direction="row" alignItems="center">
           {/* upvote  */}
-          <IconButton>
-            <Iconify icon={"bx:upvote"} width={20} height={20} />
-          </IconButton>
-          <Typography variant="caption">12</Typography>
-
-          <IconButton>
-            <Iconify icon={"bx:downvote"} width={20} height={20} />
-          </IconButton>
-          <Typography variant="caption">14</Typography>
-          {/* comment */}
-          <FormControlLabel
-            control={
-              <Checkbox
-                size="small"
-                color="error"
-                icon={<Iconify icon={"fa-regular:comment"} />}
-                checkedIcon={<Iconify icon={"fa-regular:comment"} />}
+          <Tooltip title="Upvote">
+            <IconButton
+              onClick={() => {
+                if (auth.me) {
+                  dispatch(upVoteAnySolution(solution._id));
+                } else {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }
+              }}
+            >
+              <Iconify
+                icon={isUpVote ? "bxs:upvote" : "bx:upvote"}
+                color={isUpVote ? "#1877f2" : "text.secondary"}
+                width={20}
+                height={20}
               />
-            }
-            label="5"
-            sx={{ minWidth: 72, mr: 0, ml: 1 }}
-          />
+            </IconButton>
+          </Tooltip>
+          <Typography variant="caption">{upVoteCount}</Typography>
+
+          <Tooltip title="Downvote">
+            <IconButton
+              onClick={() => {
+                if (auth.isAuthenticated) {
+                  dispatch(downVoteAnySolution(solution._id));
+                } else {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }
+              }}
+            >
+              <Iconify
+                icon={isDownVote ? "bxs:downvote" : "bx:downvote"}
+                color={isDownVote ? "#1877f2" : "text.secondary"}
+                width={20}
+                height={20}
+              />
+            </IconButton>
+          </Tooltip>
+
+          <Typography variant="caption">{downVoteCount}</Typography>
+          {/* comment */}
+          <Tooltip title="comment">
+          <Link
+            to={"/solution/" + solution?._id}
+            variant="body1"
+            component={RouterLink}
+          >
+            <IconButton>
+              <Iconify icon={"fa-regular:comment"} width={20} height={20} />
+            </IconButton>
+          </Link>
+            
+          </Tooltip>
+          <Typography variant="caption" sx={{ color: "black" }}>
+            {solution?.comments.length}
+            
+          </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <IconButton>
-            <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
-          </IconButton>
+          <Tooltip title="Bookmark">
+            {!auth.isAuthenticated ? (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }}
+              >
+                <Iconify icon={"bi:bookmark-check"} width={20} height={20} />
+              </IconButton>
+            ) : (
+              <IconButton
+                onClick={() => {
+                  dispatch(toggleBookmark(solution._id));
+                }}
+              >
+                <Iconify
+                  icon={
+                    auth.me.bookmarks.includes(solution._id)
+                      ? "bi:bookmark-dash-fill"
+                      : "bi:bookmark-check"
+                  }
+                  color={
+                    auth.me.bookmarks.includes(solution._id)
+                      ? "#1877f2"
+                      : "text.secondary"
+                  }
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
 
           <IconButton>
             <Iconify
@@ -130,13 +288,23 @@ export default function QuestionAnswersCard({ solution, auth }) {
               height={20}
             />
           </IconButton>
-          <IconButton>
-            <Iconify
-              icon={"ic:outline-report-problem"}
-              width={20}
-              height={20}
-            />
-          </IconButton>
+          <Tooltip title="Report">
+            {auth.isAuthenticated ? (
+              <ReportSolution solution={solution} />
+            ) : (
+              <IconButton
+                onClick={() => {
+                  navigate("/login?redirectTo=/solution/" + solution._id);
+                }}
+              >
+                <Iconify
+                  icon={"ic:outline-report-problem"}
+                  width={20}
+                  height={20}
+                />
+              </IconButton>
+            )}
+          </Tooltip>
         </Stack>
       </Stack>
     </Card>

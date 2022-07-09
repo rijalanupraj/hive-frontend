@@ -11,8 +11,11 @@ import {
   Paper,
   Container,
   CircularProgress,
+  Button,
+  Chip,
 } from "@mui/material";
 import handleViewport from "react-in-viewport";
+import { useSearchParams } from "react-router-dom";
 
 import QuestionPostCard from "../../sections/cards/QuestionPostCard";
 import {
@@ -20,12 +23,17 @@ import {
   searchQuestion,
   scrollLoadingQuestions,
 } from "../../redux/actions/questionActions";
+import { getAllCategory } from "../../redux/actions/categoryAction";
 import InputStyle from "../../components/InputStyle";
 import Iconify from "../../components/Iconify";
 
 import useSettings from "../../hooks/useSettings";
 
 import FilterQuestion from "./components/FilterQuestion";
+
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import SearchQuestion from "./components/SearchQuestion";
 
 const Block = (props: { inViewport: boolean }) => {
   const { inViewport, forwardedRef } = props;
@@ -38,39 +46,72 @@ const Block = (props: { inViewport: boolean }) => {
 
 const ViewportBlock = handleViewport(Block);
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#161c24" : "#fafafa",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  color: theme.palette.text.secondary,
+}));
+
 const QuestionsPage = () => {
   const { themeStretch } = useSettings();
   const question = useSelector((state) => state.question);
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const [questions, setQuestions] = useState([]);
   const [currentFilter, setCurrentFilter] = useState(false);
+
+  useEffect(() => {
+    dispatch(getAllCategory());
+  }, []);
 
   // useEffect(() => {
   //   dispatch(getAllQuestion());
   // }, [dispatch]);
 
+  // useEffect(() => {
+  //   onViewPortEnter();
+  // }, []);
+
   useEffect(() => {
-    onViewPortEnter();
+    dispatch(
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
+    );
   }, []);
 
-  const handleFilterChange = (event, newValue) => {
-    setCurrentFilter(newValue);
-  };
-
-  const onFindQuestion = (e) => {
-    if (e.target.value === "") {
-      dispatch(getAllQuestion());
-    } else {
-      dispatch(searchQuestion(e.target.value));
-    }
+  const onSearchSubmit = (e) => {
+    e.preventDefault();
+    dispatch(
+      scrollLoadingQuestions(
+        1,
+        searchParams.get("q") || "",
+        searchParams.get("c") || "all"
+      )
+    );
   };
 
   const onViewPortEnter = () => {
     if (!question.allLoaded) {
       if (question.pageNumber === null) {
-        dispatch(scrollLoadingQuestions(1));
+        dispatch(
+          scrollLoadingQuestions(
+            1,
+            searchParams.get("q") || "",
+            searchParams.get("c") || "all"
+          )
+        );
       } else {
-        dispatch(scrollLoadingQuestions(question.pageNumber + 1));
+        dispatch(
+          scrollLoadingQuestions(
+            question.pageNumber + 1,
+            searchParams.get("q") || "",
+            searchParams.get("c") || "all"
+          )
+        );
       }
     }
   };
@@ -79,73 +120,107 @@ const QuestionsPage = () => {
     let ques = question.questions ? [...question.questions] : [];
     if (currentFilter === "unanswered") {
       setQuestions(ques.filter((q) => q.answers.length === 0));
-    } 
-    else if (currentFilter === "answered") {
-      setQuestions(ques.filter((q)=>q.answers.length > 0 ) );
-    }
-    else if (currentFilter === "newest") {
+    } else if (currentFilter === "answered") {
+      setQuestions(ques.filter((q) => q.answers.length > 0));
+    } else if (currentFilter === "newest") {
       setQuestions(
         ques.sort((a, b) => {
           return new Date(b.createdAt) - new Date(a.createdAt);
         })
       );
-    }
-    else {
+    } else {
       setQuestions(ques);
     }
   }, [currentFilter, question.questions]);
 
   return (
     <Page title="Questions">
-      <Container maxWidth={themeStretch ? false : "md"}>
-        {/* <Typography variant="h4" sx={{ mb: 2 }}>
-          Question
-        </Typography>
-        <InputStyle
-          stretchStart={240}
-          onChange={onFindQuestion}
-          placeholder="Find Question..."
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Iconify
-                  icon={"eva:search-fill"}
-                  sx={{ color: "text.disabled", width: 30, height: 20 }}
-                />
-              </InputAdornment>
-            ),
-          }}
-        /> */}
-        
-        {/* start question filter */}
-        <FilterQuestion 
-          currentFilter={currentFilter}
-          handleFilterChange = {handleFilterChange}
-        />
-        {/* end question filter */}
-        <Grid item>
-          {questions &&
-            questions.map((q) => <QuestionPostCard key={q._id} question={q} />)}
+      <Grid container spacing={2}>
+        {/* start left */}
+        <Grid
+          item
+          xs={2}
+          md={4}
+          lg={3}
+          order={{ xs: 3, md: 1 }}
+          sx={{ display: { xs: "none", xl: "block" } }}
+        >
+
         </Grid>
-        {question.scrollLoading && <CircularProgress size={30} />}
-        {question.allLoaded && (
-          <Typography
-            variant="body2"
-            sx={{
-              textAlign: "center",
-              mt: 3,
-            }}
-          >
-            All questions are loaded
-          </Typography>
-        )}
-        {!question.isLoading && question.questions.length > 0 && (
-          <ViewportBlock
-            onEnterViewport={() => onViewPortEnter()}
-            onLeaveViewport={() => console.log("leave")}
-          />
-        )}
-      </Container>
+        {/* end left */}
+
+        {/* center question body */}
+        <Grid item xs={12} mb={3} lg={6} order={{ xs: 2, md: 1 }}>
+          <Item sx={{ mt: 2 }}>
+            {/* start question filter */}
+
+            {/* <FilterQuestion
+                  currentFilter={currentFilter}
+                  handleFilterChange={handleFilterChange}
+                /> */}
+
+            <SearchQuestion
+              onSearchSubmit={onSearchSubmit}
+              setSearchParams={setSearchParams}
+              searchParams={searchParams}
+            />
+            {/* end question filter */}
+            <Grid item>
+              {questions &&
+                questions.map((q) => (
+                  <QuestionPostCard key={q._id} question={q} />
+                ))}
+            </Grid>
+            {question.scrollLoading && <CircularProgress size={30} />}
+            {question.allLoaded && (
+              <Typography
+                variant="body2"
+                sx={{
+                  textAlign: "center",
+                  mt: 3,
+                }}
+              >
+                All questions are loaded
+              </Typography>
+            )}
+            {question.questions.length === 0 &&
+              !question.scrollLoading &&
+              !question.allLoaded && (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    textAlign: "center",
+                    mt: 3,
+                  }}
+                >
+                  No questions found
+                </Typography>
+              )}
+
+            {!question.isLoading && question.questions.length > 0 && (
+              <ViewportBlock
+                onEnterViewport={() => onViewPortEnter()}
+                onLeaveViewport={() => console.log("leave")}
+              />
+            )}
+          </Item>
+        </Grid>
+
+        {/*  end question body */}
+
+        {/* start left */}
+        <Grid
+          item
+          xs={2}
+          md={4}
+          lg={3}
+          sx={{ mb: 2, display: { xs: "none", xl: "block" } }}
+          order={{ xs: 1, md: 1 }}
+        >
+
+        </Grid>
+        {/* end left */}
+      </Grid>
     </Page>
   );
 };

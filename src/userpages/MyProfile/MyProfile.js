@@ -199,7 +199,7 @@ export default function MyProfile() {
           }}
         >
           <ProfileCover myProfile={_userAbout} profile={auth.me} />
-
+         
           <TabsWrapperStyle>
             <Tabs
               value={currentTab}

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 // @mui
 import {
   Box,
@@ -10,6 +11,7 @@ import {
   Divider,
   Typography,
   CardHeader,
+  Skeleton,
 } from "@mui/material";
 // utils
 import { fToNow } from "../../../utils/formatTime";
@@ -19,63 +21,71 @@ import { _analyticPost } from "../../../_mock";
 import Image from "../../../components/Image";
 import Iconify from "../../../components/Iconify";
 import Scrollbar from "../../../components/Scrollbar";
+import { BACKEND_API_URL } from "../../../constants";
+import axios from "axios";
 
 // ----------------------------------------------------------------------
 
 export default function HotQuestions() {
+  const [hotQuestions, setHotQuestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const res = await axios.get(`${BACKEND_API_URL}/question/hot`);
+      if (res.data.success) {
+        setHotQuestions(res.data.questions);
+        setLoading(false);
+      } else {
+        setHotQuestions([]);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <Card>
       <CardHeader title="Hot Questions" />
 
-      <Stack spacing={2} sx={{ p: 3, pr: 3 }} textAlign='justify'>
+      <Stack spacing={2} sx={{ p: 3, pr: 3 }} textAlign="justify">
         {/*  start first question */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Box sx={{ minWidth: 240 }}>
-            <Link href="#" color="inherit">
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              How do I connect a JavaScript front-end to an SQL server through a Java backend?
-              </Typography>
-            </Link>
-          </Box>
-        </Stack>
-        {/* end first question */}
+        {loading ? (
+          <>
+            <Skeleton variant="rect" animation="wave" height={40} />
+            <Skeleton variant="rect" animation="wave" height={40} />
+            <Skeleton variant="rect" animation="wave" height={40} />
+          </>
+        ) : (
+          hotQuestions.map((question) => {
+            return (
+              <Stack
+                direction="row"
+                alignItems="center"
+                spacing={1}
+                key={question._id}
+              >
+                <Box sx={{ minWidth: 240 }}>
+                  <Link
+                    to={`/question/${question.slug}`}
+                    color="inherit"
+                    component={RouterLink}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{ color: "text.secondary" }}
+                    >
+                      {question.title}
+                    </Typography>
+                  </Link>
+                </Box>
+              </Stack>
+            );
+          })
+        )}
 
-        {/*  second first question */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Box sx={{ minWidth: 240 }}>
-            <Link href="#" color="inherit">
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              How do PHD students feel when their research doesn't have the impact they were expecting?
-              </Typography>
-            </Link>
-          </Box>
-        </Stack>
-        {/* end second question */}
-
-        {/*  start third question */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Box sx={{ minWidth: 240 }}>
-            <Link href="#" color="inherit">
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                How to make a license?How to explain to a 6 years old why a
-                smart-phone is not good for her?
-              </Typography>
-            </Link>
-          </Box>
-        </Stack>
-        {/* end third question */}
-
-        {/*  start fourth question */}
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Box sx={{ minWidth: 240 }}>
-            <Link href="#" color="inherit">
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                How to make a license?How to explain to a 6 years old why a
-                smart-phone is not good for her?
-              </Typography>
-            </Link>
-          </Box>
-        </Stack>
         {/* end foutrh question */}
       </Stack>
 
@@ -83,7 +93,9 @@ export default function HotQuestions() {
 
       <Box sx={{ p: 1, textAlign: "right" }}>
         <Button
-          to="#"
+          onClick={() => {
+            navigate("/questions");
+          }}
           size="small"
           endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
         >

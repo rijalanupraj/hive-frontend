@@ -183,6 +183,7 @@ CategoryCard.propTypes = {
 
 function CategoryCard({ category }) {
   // const { name, country, avatarUrl, isFollowed } = category;
+  const navigate = useNavigate();
 
   return (
     <Card sx={{ display: "flex", alignItems: "center", p: 3 }}>
@@ -210,7 +211,14 @@ function CategoryCard({ category }) {
           </Typography>
         </Box>
       </Box>
-      <Button size="small" variant={"outlined"} color={"primary"}>
+      <Button
+        size="small"
+        variant={"outlined"}
+        color={"primary"}
+        onClick={() => {
+          navigate(`/questions?c=${category.title}`);
+        }}
+      >
         Explore
       </Button>
     </Card>

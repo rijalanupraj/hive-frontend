@@ -3,13 +3,12 @@ import PropTypes from "prop-types";
 import { Grid, Stack } from "@mui/material";
 //
 import ProfileAbout from "./ProfileAbout";
-import ProfilePostCard from "./ProfilePostCard";
-import ProfilePostInput from "./ProfilePostInput";
 import ProfileFollowInfo from "./ProfileFollowInfo";
-import ProfileSocialInfo from "./ProfileSocialInfo";
 import SolutionPostCard from "../../cards/SolutionPostCard";
 import QuestionPostCard from "../../cards/QuestionPostCard";
 import ProfileContribution from "./ProfileContribution";
+import UserXpLevel from "./UserXpLevel";
+import UserBadges from "./UserBadges";
 
 // ----------------------------------------------------------------------
 
@@ -25,8 +24,10 @@ export default function Profile({ myProfile, posts, profile }) {
         <Stack spacing={3}>
           <ProfileFollowInfo profile={profile} />
           <ProfileAbout profile={profile} />
+          <UserXpLevel profile={profile} />
           <ProfileContribution profile={profile} />
-          <ProfileSocialInfo profile={profile} />
+          <UserBadges profile={profile} />
+          
         </Stack>
       </Grid>
 

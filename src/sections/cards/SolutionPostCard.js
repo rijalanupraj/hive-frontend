@@ -40,7 +40,6 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 export default function SolutionPostCard({ solution }) {
   const auth = useSelector((state) => state.auth);
 
-  const [comment, setComment] = useState(false);
 
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
@@ -48,15 +47,7 @@ export default function SolutionPostCard({ solution }) {
   const [downVoteCount, setDownVoteCount] = useState(solution.downVotes.length);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const commentInputRef = useRef(null);
 
-  const fileInputRef = useRef(null);
-
-  const [isComment, setIsComment] = useState("");
-
-  const handleComment = () => {
-    setComment((prev) => !prev);
-  };
 
   useEffect(() => {
     if (auth.me) {
@@ -120,17 +111,6 @@ export default function SolutionPostCard({ solution }) {
     }
   }, [auth.me]);
 
-  const handleIsMessage = (value) => {
-    setIsComment(value);
-  };
-
-  const handleClickAttach = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleClickComment = () => {
-    commentInputRef.current?.focus();
-  };
 
   return (
     <Card
@@ -181,11 +161,7 @@ export default function SolutionPostCard({ solution }) {
             {fDate(solution?.createdAt)}
           </Typography>
         }
-        action={
-          <IconButton>
-            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
-          </IconButton>
-        }
+        
         // action={
         //   <LoadingButton
         //     fullWidth
@@ -224,6 +200,12 @@ export default function SolutionPostCard({ solution }) {
         </Typography>
         <Typography align="justify" sx={{ mt: 2 }} color="black">
           <Stack direction="row" spacing={1}>
+            <Chip
+              label={solution?.question?.category}
+              avatar={<Avatar>C</Avatar>}
+              size="small"
+              sx={{ text: "success" }}
+            ></Chip>
             {solution?.tags.map((tag) => (
               <Chip
                 label={tag}
@@ -291,12 +273,12 @@ export default function SolutionPostCard({ solution }) {
           <Typography variant="caption">{downVoteCount}</Typography>
           {/* comment */}
           <Tooltip title="Comment">
-            <IconButton onClick={handleComment}>
+            <IconButton>
               <Iconify icon={"fa-regular:comment"} width={20} height={20} />
             </IconButton>
           </Tooltip>
 
-          <Typography variant="caption">5</Typography>
+          <Typography variant="caption">{solution.comments.length}</Typography>
 
           <Box sx={{ flexGrow: 1 }} />
 
@@ -368,7 +350,7 @@ export default function SolutionPostCard({ solution }) {
         </Stack>
         {/* comment */}
 
-        {comment && CommentCard()}
+      
       </Stack>
     </Card>
   );

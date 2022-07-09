@@ -24,6 +24,7 @@ import {
   AnotherQuestionSolutions,
   ViewTags,
   OpenTicket,
+  ViewNotification,
 } from "../userpages";
 
 import Messenger from "../chats/Messenger.jsx";
@@ -56,7 +57,8 @@ const UserRoute = () => {
         <Route exact path="/forgot-password" element={<ForgotPassword />} />
         <Route exact path="/reset-password" element={<ResetPassword />} />
         <Route exact path="/category" element={<ViewCategory />} />
-        <Route exact path="/tags" element={<ViewTags />} />
+        <Route exact path="/tag/:tag" element={<ViewTags />} />
+
         <Route exact path="/users" element={<SearchUser />} />
 
         {/* Normal Routes Ends */}
@@ -122,6 +124,14 @@ const UserRoute = () => {
         </Route>
         <Route exact path="/ticket" element={<PrivateRoute auth={auth} />}>
           <Route exact path="/ticket" element={<OpenTicket />} />
+        </Route>
+
+        <Route
+          exact
+          path="/allNotification"
+          element={<PrivateRoute auth={auth} />}
+        >
+          <Route exact path="/allNotification" element={<ViewNotification />} />
         </Route>
 
         <Route

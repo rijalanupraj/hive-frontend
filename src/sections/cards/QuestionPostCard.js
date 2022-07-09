@@ -173,20 +173,12 @@ export default function QuestionPostCard({ question }) {
             {fDate(question?.createdAt)}
           </Typography>
         }
-        action={
-          <IconButton>
-            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
-          </IconButton>
-        }
       />
 
       <Stack spacing={0.5} sx={{ p: 3 }}>
         {/* Question */}
         <Link
           to={"/question/" + question?.slug}
-          style={{
-            textDecoration: "none",
-          }}
           component={RouterLink}
         >
           <Typography variant="h6" align="justify" sx={{ mb: 0.5 }}>
@@ -200,6 +192,13 @@ export default function QuestionPostCard({ question }) {
 
         <Typography variant="body1" align="justify">
           <Stack direction="row" spacing={1}>
+            <Chip
+              label={question?.category}
+              avatar={<Avatar>C</Avatar>}
+              
+              size="small"
+              sx={{ text: "success" }}
+            ></Chip>
             {question?.tags.map((tag) => (
               <Chip label={tag} variant="outlined" size="small" clickable />
             ))}

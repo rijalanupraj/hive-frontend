@@ -8,8 +8,13 @@ const initialState = {
   me: null,
   error: null,
   appLoaded: false,
-  feed: [],
   notifications: [],
+  // Feed
+  feed: [],
+  feedPageNumber: null,
+  feedAllLoaded: false,
+  feedScrollLoading: false,
+  feedTotalPage: null,
 };
 
 export default function AuthReducer(state = initialState, { type, payload }) {
@@ -252,12 +257,27 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         },
       };
 
-    case TYPES.GET_PERSONAL_FEED_SUCCESS:
+    case TYPES.GET_PERSONAL_FEED_LOADING:
       return {
         ...state,
-        feed: payload.feed,
-        isLoading: false,
+        feedScrollLoading: true,
+      };
+
+    case TYPES.GET_PERSONAL_FEED_SUCCESS:
+      let newFeed;
+      if (payload.page === 1) {
+        newFeed = payload.feed;
+      } else {
+        newFeed = [...state.feed, ...payload.feed];
+      }
+      return {
+        ...state,
+        feed: newFeed,
         error: null,
+        feedScrollLoading: false,
+        feedTotalPage: payload.pages,
+        feedPageNumber: payload.page,
+        feedAllLoaded: payload.pages === payload.page,
       };
 
     //==============================================Notifications====================================================
@@ -273,6 +293,27 @@ export default function AuthReducer(state = initialState, { type, payload }) {
         ...state,
         notifications: payload.notifications,
       };
+
+    case TYPES.EDIT_USER_SUCCESS:
+      if (payload.profilePicture) {
+        return {
+          ...state,
+          isLoading: false,
+          me: {
+            ...state.me,
+            profilePhoto: {
+              url: payload.imageUrl,
+              hasPhoto: true,
+            },
+          },
+          error: null,
+        };
+      } else {
+        return {
+          ...state,
+          error: null,
+        };
+      }
 
     //==============================================Notifications Ends====================================================
 

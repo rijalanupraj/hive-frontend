@@ -12,6 +12,7 @@ import {
   Stack,
   Divider,
   Button,
+  Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 // routes
@@ -59,35 +60,70 @@ export default function SidebarTags() {
   };
 
   return (
-    <Card>
-      <CardHeader title="Tags" />
+    // <Card>
+    //   <CardHeader title="Tags" />
 
-      <Stack spacing={2} sx={{ p: 3, pr: 3 }} textAlign="justify">
-        {/*  start first question */}
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <Box sx={{ minWidth: 240 }}>
-            <ChipTag
-              tags={tagsList}
-              findTags={findTags}
-              onFindTags={handleFindTags}
-            />
-          </Box>
-        </Stack>
-        {/* end first question */}
-      </Stack>
+    // <Stack spacing={2} sx={{ p: 3, pr: 3 }} textAlign="justify">
+    //   {/*  start first question */}
+    //   <Stack direction="row" alignItems="center" spacing={1}>
+    //     <Box sx={{ minWidth: 240 }}>
+    //       <ChipTag
+    //         tags={tagsList}
+    //         findTags={findTags}
+    //         onFindTags={handleFindTags}
+    //       />
+    //     </Box>
+    //   </Stack>
+    //   {/* end first question */}
+    // </Stack>
 
-      <Divider />
+    // <Divider />
 
-      <Box sx={{ p: 1, textAlign: "right" }}>
-        <Button
-          component={Link}
-          to="/tags"
-          size="small"
-          endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
-        >
-          View all
-        </Button>
-      </Box>
-    </Card>
+    // <Box sx={{ p: 1, textAlign: "right" }}>
+    //   <Button
+    //     component={Link}
+    //     to="/tags"
+    //     size="small"
+    //     endIcon={<Iconify icon={"eva:arrow-ios-forward-fill"} />}
+    //   >
+    //     View all
+    //   </Button>
+    // </Box>
+    // </Card>
+
+    <>
+      <Typography variant="h6" sx={{ mb: 2, ml: 3, mt: 2 }}>
+        Related Tags
+      </Typography>
+
+      {/* {question?.tags.map((tag) => (
+                  <Chip label={tag} variant="outlined" size="small" clickable />
+                ))} */}
+
+      {/* main body */}
+      {tagsList.map((tag) => (
+        <>
+          <Button
+            size="small"
+            sx={{ mb: 2, ml: 3 }}
+            style={{
+              backgroundColor: "#EDEFF2",
+              color: "#101014",
+            }}
+          >
+            {tag}
+          </Button>
+          <Button disabled sx={{ mb: 2 }}>
+            <Typography variant="caption" sx={{ ml: 1, mt: 0.5 }}>
+              x
+            </Typography>
+            <Typography variant="subtitle1" sx={{ ml: 1 }}>
+              22
+            </Typography>
+          </Button>
+          <br />
+        </>
+      ))}
+    </>
   );
 }

@@ -6,7 +6,6 @@ export { default as ProfilePostCard } from "./ProfilePostCard";
 export { default as ProfileAbout } from "./ProfileAbout";
 export { default as ProfileFollowers } from "./ProfileFollowers";
 export { default as ProfileFollowInfo } from "./ProfileFollowInfo";
-export { default as ProfileSocialInfo } from "./ProfileSocialInfo";
 export { default as ProfilePostProfileInput } from "./ProfilePostInput";
 export { default as MyProfileFollowings } from "./MyProfileFollowings";
 export { default as AnswerLater } from "./AnswerLater";
