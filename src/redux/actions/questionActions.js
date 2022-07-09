@@ -45,12 +45,12 @@ export const getAllQuestion = () => async (dispatch, getState) => {
 };
 
 export const scrollLoadingQuestions =
-  (pageNumber) => async (dispatch, getState) => {
+  (pageNumber, searchTerm, selectedCategory) => async (dispatch, getState) => {
     try {
       dispatch({ type: TYPES.QUESTIONS_SCROLL_LOADING });
 
       const { data } = await axios.get(
-        `${API_URL}/question?page=${pageNumber}`
+        `${API_URL}/question?page=${pageNumber}&q=${searchTerm}&category=${selectedCategory}`
       );
       dispatch({
         type: TYPES.QUESTIONS_SCROLL_SUCCESS,
