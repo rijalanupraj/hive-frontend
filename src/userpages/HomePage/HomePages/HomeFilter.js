@@ -25,24 +25,13 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
           onChange={handleFilterChange}
           border="none"
         >
-          {auth.isAuthenticated && (
-            <ToggleButton value="preference">
-              <Iconify
-                icon="gis:poi-favorite-o"
-                width={20}
-                height={20}
-                
-              />
-              Preference
-            </ToggleButton>
-          )}
 
           <ToggleButton value="best">
             <Iconify
               icon="icon-park-twotone:good-two"
               width={20}
               height={20}
-             
+              sx={{ mr:1}} 
             />
             Best
           </ToggleButton>
@@ -51,27 +40,19 @@ const HomeFilter = ({ currentFilter, handleFilterChange, auth }) => {
               icon="carbon:recently-viewed"
               width={20}
               height={20}
-            
+              sx={{ mr:1}}
             />
             Recent
           </ToggleButton>
-          <ToggleButton value="hot">
-            <Iconify
-              icon="ant-design:fire-twotone"
-              width={20}
-              height={20}
-             
-            />
-            Hot
-          </ToggleButton>
+          
           <ToggleButton value="oldest">
             <Iconify
-              icon="emojione:old-man"
+              icon="carbon:result-old"
               width={20}
               height={20}
-             
+              sx={{ mr:1}}
             />
-            Oldest
+            oldest
           </ToggleButton>
         </ToggleButtonGroup>
       </Card>
