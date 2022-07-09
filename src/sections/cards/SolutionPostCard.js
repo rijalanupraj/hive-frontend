@@ -137,6 +137,7 @@ export default function SolutionPostCard({ solution }) {
             color="text.primary"
             sx={{ display: "flex" }}
             component={RouterLink}
+            id="profileTest"
           >
             {solution?.user?.username}
             {solution?.user?.isVerified && (
@@ -179,6 +180,7 @@ export default function SolutionPostCard({ solution }) {
         <Link
           to={`/question/${solution?.question?.slug}`}
           component={RouterLink}
+          id="questionsTest"
         >
           <Typography variant="h6" align="justify" sx={{ mb: -1 }}>
             {solution?.question?.title}
