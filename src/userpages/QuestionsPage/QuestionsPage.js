@@ -31,6 +31,7 @@ import FilterQuestion from "./components/FilterQuestion";
 
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
+import SearchQuestion from "./components/SearchQuestion";
 
 const Block = (props: { inViewport: boolean }) => {
   const { inViewport, forwardedRef } = props;
@@ -119,10 +120,14 @@ const QuestionsPage = () => {
             <Grid item xs={7}>
               <Item sx={{ mt: -3 }}>
                 {/* start question filter */}
-                <FilterQuestion
+
+                {/* <FilterQuestion
                   currentFilter={currentFilter}
                   handleFilterChange={handleFilterChange}
-                />
+                /> */}
+
+                <SearchQuestion />
+
                 {/* end question filter */}
                 <Grid item>
                   {questions &&
