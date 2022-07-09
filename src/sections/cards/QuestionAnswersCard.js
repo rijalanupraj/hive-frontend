@@ -18,7 +18,7 @@ import { fDate } from "../../utils/formatTime";
 import Markdown from "../../components/Markdown";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import ReportSolution from "../reports/ReportSolution";
 import {
   upVoteAnySolution,
@@ -230,12 +230,20 @@ export default function QuestionAnswersCard({ solution, auth, hideAnswer }) {
           <Typography variant="caption">{downVoteCount}</Typography>
           {/* comment */}
           <Tooltip title="comment">
+          <Link
+            to={"/solution/" + solution?._id}
+            variant="body1"
+            component={RouterLink}
+          >
             <IconButton>
               <Iconify icon={"fa-regular:comment"} width={20} height={20} />
             </IconButton>
+          </Link>
+            
           </Tooltip>
           <Typography variant="caption" sx={{ color: "black" }}>
             {solution?.comments.length}
+            
           </Typography>
 
           <Box sx={{ flexGrow: 1 }} />
