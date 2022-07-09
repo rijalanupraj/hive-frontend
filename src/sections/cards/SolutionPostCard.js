@@ -161,11 +161,7 @@ export default function SolutionPostCard({ solution }) {
             {fDate(solution?.createdAt)}
           </Typography>
         }
-        action={
-          <IconButton>
-            <Iconify icon={"eva:more-vertical-fill"} width={20} height={20} />
-          </IconButton>
-        }
+        
         // action={
         //   <LoadingButton
         //     fullWidth
