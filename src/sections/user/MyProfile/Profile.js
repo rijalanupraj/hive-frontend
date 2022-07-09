@@ -11,6 +11,7 @@ import SolutionPostCard from "../../cards/SolutionPostCard";
 import QuestionPostCard from "../../cards/QuestionPostCard";
 import ProfileContribution from "./ProfileContribution";
 import UserXpLevel from "./UserXpLevel";
+import UserBadges from "./UserBadges";
 
 // ----------------------------------------------------------------------
 
@@ -28,6 +29,7 @@ export default function Profile({ myProfile, posts, profile }) {
           <ProfileAbout profile={profile} />
           <UserXpLevel profile={profile} />
           <ProfileContribution profile={profile} />
+          <UserBadges profile={profile} />
           <ProfileSocialInfo profile={profile} />
         </Stack>
       </Grid>
