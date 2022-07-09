@@ -121,7 +121,7 @@ export default function AnotherQuestionSolutions() {
     <Page title="Question Solutions">
       <Container>
         <Grid container spacing={3}>
-          <Grid item xs={12} lg={8} order={{ xs: 2, md: 1 }}>
+          <Grid item xs={12} lg={12} order={{ xs: 2, md: 1 }}>
             {/*  seleceted question card */}
             <SelectedQuestionCard question={question?.question} auth={auth} />
 
@@ -169,16 +169,15 @@ export default function AnotherQuestionSolutions() {
           </Grid>
 
           {/* start related questions */}
-          <Grid
+          {/* <Grid
             item
             xs={12}
             md={4}
             lg={4}
-            // sx={{ display: { xs: "none", xl: "block" } }}
             order={{ xs: 1, md: 1 }}
           >
             <RelatedQuestionsCard />
-          </Grid>
+          </Grid> */}
           {/* end related questions */}
         </Grid>
       </Container>
