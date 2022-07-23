@@ -108,12 +108,18 @@ export default function SolutionView() {
                     {solution?.solution?.description}
                   </Typography>
 
-                  <Markdown
-                    children={solution?.solution?.answer || ""}
-                    align="justify"
-                  />
+                  {solution?.solution?.answer && (
+                    <Markdown
+                      children={solution?.solution?.answer || ""}
+                      align="justify"
+                    />
+                  )}
                 </Stack>
                 {/* end body description */}
+
+                {auth.me?._id === solution?.solution?.user?._id && (
+                  <EditDeleteButon solution={solution?.solution} />
+                )}
 
                 <Stack direction="row" spacing={1} sx={{ pt: 1, pb: 1 }}>
                   {solution?.solution?.tags.map((tag) => (

@@ -212,11 +212,6 @@ export default function ViewSolution() {
                 )}
               </Item>
 
-              {auth.me.id === solution?.solution?.user?.id && (
-                <Item sx={{ mt: 2 }}>
-                  <EditDeleteButoon solution={solution} />
-                </Item>
-              )}
               <Item>
                 <Button variant="outlined" onClick={handleClickOpen}>
                   Share
@@ -235,7 +230,7 @@ export default function ViewSolution() {
               </Item>
               {auth.me._id !== solution?.solution?.user?._id && (
                 <Item>
-                  <ReportSolution solution={solution?.solution}  />
+                  <ReportSolution solution={solution?.solution} />
                 </Item>
               )}
             </Grid>

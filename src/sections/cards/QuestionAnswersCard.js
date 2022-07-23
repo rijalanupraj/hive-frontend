@@ -25,6 +25,7 @@ import {
   downVoteAnySolution,
 } from "../../redux/actions/solutionActions";
 import { toggleBookmark } from "../../redux/actions/authActions";
+import EditDeleteButon from "../../userpages/ViewSolution/components/EditDeleteButton";
 
 import Image from "../../components/Image";
 
@@ -175,7 +176,11 @@ export default function QuestionAnswersCard({ solution, auth, hideAnswer }) {
         </Typography>
 
         {/* Answer */}
-        <Markdown children={solution?.answer || ""} />
+        {solution.answer && <Markdown children={solution?.answer || ""} />}
+
+        {auth.me?._id === solution?.user?._id && (
+          <EditDeleteButon solution={solution} />
+        )}
 
         {/* image optional */}
 

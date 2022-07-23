@@ -195,16 +195,6 @@ export default function UpdateSolution() {
                         <LabelStyle>Introduction</LabelStyle>
                         <RHFEditor name="answer" />
                       </div>
-
-                      <div>
-                        <LabelStyle>Cover</LabelStyle>
-                        <RHFUploadSingleFile
-                          name="cover"
-                          accept="image/*"
-                          maxSize={3145728}
-                          onDrop={handleDrop}
-                        />
-                      </div>
                     </Stack>
                   </Card>
                 </Grid>

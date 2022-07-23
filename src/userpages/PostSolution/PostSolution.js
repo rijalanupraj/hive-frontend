@@ -175,16 +175,6 @@ export default function AskQuestion1() {
                         <LabelStyle>Content</LabelStyle>
                         <RHFEditor name="answer" />
                       </div>
-
-                      <div>
-                        <LabelStyle>Cover</LabelStyle>
-                        <RHFUploadSingleFile
-                          name="cover"
-                          accept="image/*"
-                          maxSize={3145728}
-                          onDrop={handleDrop}
-                        />
-                      </div>
                     </Stack>
                   </Card>
                 </Grid>
