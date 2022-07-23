@@ -15,11 +15,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function EditDeleteButton() {
+export default function EditDeleteButton({ solution }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [openDelete, setOpenDelete] = React.useState(false);
-  const solution = useSelector((state) => state.viewSolutions);
 
   const handleDeleteOpen = () => {
     setOpenDelete(true);
@@ -42,7 +41,7 @@ export default function EditDeleteButton() {
         <Button
           variant="text"
           onClick={() => {
-            navigate(`/update-solution/${solution?.solution?._id}`);
+            navigate(`/update-solution/${solution?._id}`);
           }}
         >
           Edit
@@ -73,8 +72,8 @@ export default function EditDeleteButton() {
               variant="contained"
               color="error"
               onClick={() => {
-                console.log(solution?.solution?._id);
-                dispatch(deleteSolution(solution?.solution?._id, navigate));
+                console.log(solution?._id);
+                dispatch(deleteSolution(solution?._id, navigate));
               }}
             >
               Confirm
